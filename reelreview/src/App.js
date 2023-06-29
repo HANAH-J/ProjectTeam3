@@ -1,16 +1,18 @@
+import MainPage from "./pages/MainPage";
+import "./App.css";
 
 import './App.css';
 import { Route,Routes } from "react-router-dom";
 import Detail from './component/details/Detail';
-
 function App() {
   return (
     <div className="App">
-      <Detail></Detail>
+        <MainPage/>
       <Routes>
         <Route path='/details' Component={<Detail></Detail>}/>
       </Routes>
     </div>
+
   );
 }
 
