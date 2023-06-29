@@ -1,13 +1,11 @@
-import MainPage from "./pages/MainPage";
+import MainPage from "./pages/Main/MainPage";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
         <MainPage/>
-        <Details/>
     </div>
-
   );
 }
 
