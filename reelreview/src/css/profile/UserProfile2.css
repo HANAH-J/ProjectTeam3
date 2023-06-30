@@ -26,7 +26,7 @@ body{
     position: relative;
     width: 638px;
     height: 204px;
-    background-image: url("C:\reactStudy\watchaprofile\public\images\userProfile/userprofile_bg.jpg");
+    background-image: url("../../img/profile/userProfile/userprofile_bg.jpg");
     background-size: 25%;
     background-position: 50% 45%;
     background-repeat: repeat;

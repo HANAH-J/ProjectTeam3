@@ -21,6 +21,7 @@ export default function MainPage(){
                 {boxofficeList.results.map((item) => {
           return (
             <BoxOffice
+              movieCd={item.id}
               title={item.title}
               poster_path={item.poster_path}
               vote_average={item.vote_average}

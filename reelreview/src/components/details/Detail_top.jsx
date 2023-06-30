@@ -1,11 +1,18 @@
 import "../../css/details/Detail.css";
+import Header_Dark from "../../components/Header/Header";
 
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/w1280/";
 
-function Detail() {
+function Detail_top(props) {
+
     return(
         <div>
-           <div id="nav"></div>
+            <p>{props.movieCd}</p>
+           <div id="nav">
+            <Header_Dark/>  
+           </div>
             <div id="detail_first">
+                <img src="" alt="" />
                 <div id="detail_movie_back">
                     
                     <div id="detail_movie_top">
@@ -57,4 +64,4 @@ function Detail() {
 
 
 
-export default Detail;
+export default Detail_top;

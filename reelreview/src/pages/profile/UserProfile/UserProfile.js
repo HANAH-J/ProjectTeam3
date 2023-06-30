@@ -5,6 +5,8 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import "../../../css/profile/UserProfile2.css";
 import PFPModal from "../Modal/PFPModal";
+import img from '../../../img/profile/userProfile/empty_user.svg';
+import img2 from "../../../img/profile/userProfile/rate.svg";
 
 function UserProfile() {
 
@@ -49,17 +51,17 @@ function UserProfile() {
       }
 
     return (
-    
+
     <div className="UserProfile">
         <div className="profileContainer">
 
             <div className="profileBg">
                 <div className="profileShadow" />
             </div>
-
+            
             <div className="userInfo">
                 <button className="profilePic" onClick={openPFPModal}> 
-                    <img alt="profile" src="../../images/userProfile/empty_user.svg" />
+                    <img alt="profile" src= {img}/>
                 </button>
                 <ul>
                     <li>
@@ -73,7 +75,7 @@ function UserProfile() {
                     <div className="movieListText">
                         <div className="topHR"> <hr /> </div>
                         <h4>
-                        <img alt="" src="../../images/userProfile/rate.svg" />
+                        <img alt="" src= {img2}/>
                         [NAME]님이 평가한 영화
                         </h4>
                         <div className="bottomHR"> <hr /> </div>
