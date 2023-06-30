@@ -2,6 +2,7 @@ import React from 'react'
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import BoxOffice from "../../components/Main_Body/BoxOffice";
+import Upcomming from "../../components/Main_Body/Upcomming"
 import { boxofficeList } from '../../api/Movies/BoxOffice';
 import "../../css/Main_BoxOffice/BoxOffice.css";
 
@@ -27,6 +28,9 @@ export default function MainPage(){
             />
           );
         })}
+        </div>
+        <div>
+          <Upcomming/>
         </div>
         </div>
           <Footer/>
