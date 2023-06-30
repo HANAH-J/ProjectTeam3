@@ -1,18 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Roboto&display=swap');
 
-*{margin: 0;
-padding:0; }
-
-body{
-    width: 100%;
-    height: 100%;
-    background-color: #F8F8F8;
-    font-family: 'Noto Sans KR', sans-serif;
-    letter-spacing: -0.8px;
-}
-
 .UserProfile {
-    margin: 128px 0 38px;
+    margin: auto 0;
+    padding-top: 150px;
+    padding-bottom: 50px;
+    width: 100%;
+    height: 100vh;
+    background-color: #F8F8F8;
+    display: flex;
+    flex-direction: column;
 }
 
 .UserProfile .profileContainer {
@@ -20,6 +16,11 @@ body{
     border: 1px solid #e3e3e3;
     border-radius: 5px;
     margin: 0 auto;
+    flex-grow: 1;
+    margin-bottom: 100px;
+    font-family: 'Noto Sans KR', sans-serif;
+    letter-spacing: -0.8px;
+    text-align: center;
 }
 
 .UserProfile .profileContainer .profileBg {
@@ -156,4 +157,8 @@ hr {
 
 .movieToWatch, .movieCollection {
     cursor: pointer;
+}
+
+.PFPFooter {
+    margin-bottom: 0;
 }

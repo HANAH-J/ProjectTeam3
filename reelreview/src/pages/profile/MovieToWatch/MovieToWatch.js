@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../../css/profile/MovieToWatch.css";
+import styles from '../../../css/profile/MovieToWatch.module.css'
 
 function MovieToWatch() {
   console.log('보고싶어요');

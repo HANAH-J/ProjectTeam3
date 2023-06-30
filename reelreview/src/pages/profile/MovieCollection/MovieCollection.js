@@ -1,5 +1,6 @@
 import React from 'react';
-import "../../../css/profile/MovieCollection.css";
+import styles from '../../../css/profile/MovieCollection.module.css'
+
 function MovieCollection() {
   console.log('유저 무비컬렉션');
   
