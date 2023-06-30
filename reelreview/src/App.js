@@ -9,14 +9,15 @@ import MovieCollection from './pages/profile/MovieCollection/MovieCollection';
 function App() {
   return (
     <div className="App">
+      
       <Routes>
         <Route path="/" Component={MainPage}/>
         <Route path='/details/:movieCd' Component={Details}/>
-          <Route path="/userProfile" Component={UserProfile} />
-          <Route path="/userScoreCollection" element={<UserScoreCollection/>} />
-          <Route path="/movieToWatch" element={<MovieToWatch/>} />
-          <Route path="/movieCollection" element={<MovieCollection/>} />
-        </Routes>
+        <Route path="/userProfile" Component={UserProfile} />
+        <Route path="/userScoreCollection" element={<UserScoreCollection/>} />
+        <Route path="/movieToWatch" element={<MovieToWatch/>} />
+        <Route path="/movieCollection" element={<MovieCollection/>} />
+      </Routes>
     </div>
   );
 }
