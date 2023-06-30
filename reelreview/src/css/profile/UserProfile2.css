@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Roboto&display=swap');
+
+*{margin: 0;
+padding:0; }
+
+body{
+    width: 100%;
+    height: 100%;
+    background-color: #F8F8F8;
+    font-family: 'Noto Sans KR', sans-serif;
+    letter-spacing: -0.8px;
+}
+
+.UserProfile {
+    margin: 128px 0 38px;
+}
+
+.UserProfile .profileContainer {
+    width: 638px;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+    margin: 0 auto;
+}
+
+.UserProfile .profileContainer .profileBg {
+    position: relative;
+    width: 638px;
+    height: 204px;
+    background-image: url("C:\reactStudy\watchaprofile\public\images\userProfile/userprofile_bg.jpg");
+    background-size: 25%;
+    background-position: 50% 45%;
+    background-repeat: repeat;
+    border-radius: 5px 5px 0 0;
+  }
+
+.UserProfile .profileContainer .profileBg .profileShadow {
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    height: 44px;
+    background-image: linear-gradient(-180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+    border-radius: 5px;
+}
+
+.userInfo {
+    position: relative;
+    top: -20px;
+    width: 640px;
+    height: 560px;
+    margin: 0 auto;
+}
+
+.userInfo .profilePic {
+    display: flex;
+    align-items: center;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    border: none;
+}
+
+.userInfo .profilePic img {
+    width: 58px;
+    height: 58px;
+    /* border: 1px solid black; */
+    border-radius: 50%;
+    margin-left: 30px;
+}
+
+.userInfo ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.UserProfile .userInfo .name {
+    text-align: left;
+    padding-left: 30px;
+    padding-bottom: 5px;
+}
+
+.UserProfile .userInfo .msg {
+    text-align: left;
+    padding-left: 30px;
+}
+
+.movieListText {
+    width:100%;
+    height: 50px;
+}
+
+hr {
+    height: 1px;
+    background: #e3e3e3;
+    border: 0;
+    width: 90%;
+}
+
+.UserProfile .userInfo .topHR hr {
+    margin: 20px auto 5px; 
+}
+
+.UserProfile .userInfo .bottomHR hr {
+    margin: 5px auto 0; 
+}
+
+.movieListText img {
+    vertical-align: middle;
+}
+
+.movieListText h4 {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px; 
+}
+
+.movieList .card {
+    max-width: 320px;
+    margin: auto 1rem;
+    text-align: center;
+}
+
+.movieList .card h5, .movieList .card h6 {
+    text-align: left;
+    margin-left: 10px;
+}
+
+.movieList .card h6 {
+    color: #ffa136;
+}
+
+.movieList .movieListPoster {
+    width: 155px;
+    height: 210px;
+    object-fit: cover;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+  }
+
+.movieListMore p {
+    color: #FF0558;
+    font-size: 0.9em;
+    text-align: right;
+    padding-right: 24px;
+    margin-top: 10px;
+    cursor: pointer;
+    width: 60px;
+    margin-left: 550px;
+}
+
+.UserProfile .userInfo .movieCollection h4 {
+    margin-top: 5px;
+}
+
+.movieToWatch, .movieCollection {
+    cursor: pointer;
+}
