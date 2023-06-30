@@ -42,11 +42,11 @@
 
 .boxoffice_box_poster img {
     max-width: 100%;
+    height: 400px;
 }
 
 .boxoffice_box_2 {
     width: 100%;
-    background-color: yellow;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -57,6 +57,7 @@
 .boxoffice_box_info {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
 }
 
 .boxoffice_box_info_detail {
