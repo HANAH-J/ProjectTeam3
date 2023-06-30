@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/Body.css";
-import { boxofficeList } from '../../api/Movies/boxOffice';
+import { boxofficeList } from '../../api/Movies/BoxOffice';
 import BoxOffice from "./Main_Body/BoxOffice";
 
 
