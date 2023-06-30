@@ -3,7 +3,7 @@
 
 
 
-#detail_first{
+.detail_first{
     background: url("../../img/Detail/example.jpg");
     background-position: center;
     background-repeat: no-repeat;
@@ -13,70 +13,90 @@
 
     
 }
-#detail_movie_back{
+.detail_movie_back{
+    margin-top: 0;
     width: 100%;
     height: 100%;
     background: rgb(0,0,0);
     background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(255,255,255,0) 37%, rgba(0,0,0,0.7) 100%);
 
 }
-#detail_movie_top{
+.detail_movie_top{
     width: 1320px;
     padding-top: 340px;
     margin :  auto;
     color: white;
 }
-#detail_movie_top h1{
+.detail_movie_top h1{
     margin-bottom: 0;
     margin-top: 0;
     font-size: 36px;
     font-weight: 800;
     line-height: 36px;
 }
-#detail_movie_top_inEn{
+.detail_movie_top_inEn{
 
     margin-top: 18px;
     font-size: 14px;
     font-weight: 700;
 }
-#openDate_genre_country{
+.openDate_genre_country{
     width: 100%;
     margin-top: 13px;
     display: block;
     font-size: 14px;
     height: 16px;
 }
-#openDate{
+.openDate{
     float: left;
     margin-right: 10px;
 }
-#genre{
+.genre{
     float : left;
     margin-right: 10px;
 }
-#genre ::before{
+.genre ::before{
     content: "·";
     color: white;
 }
-#country {
+.country {
     float: left;
 }
-#country ::before{
+.country ::before{
     float : left;
 }
 
 
-#playTime_ageRating{
+.playTime_ageRating{
     width: 100%;
     margin-top: 13px;
     display: block;
     font-size: 14px;
     height: 16px;
 }
-#playTime{
+.playTime{
     float: left;
     margin-right: 10px;
 }
-#ageRating{
+.ageRating{
+    float: left;
+}
+.boxOfficeData{
+    width: 100%;
+    margin-top: 13px;
+    display: block;
+    font-size: 14px;
+    height: 16px;
+}
+.boxOfficePercent{
+    float: left;
+    margin-right: 10px;
+}
+.timeSinceOpen{
+    float: left;
+    margin-right: 10px;
+}
+
+.totalAudience{
     float: left;
 }
