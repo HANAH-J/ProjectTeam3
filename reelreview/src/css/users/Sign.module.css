@@ -106,6 +106,9 @@ letter-spacing: -0.8px; */
   .user_login_hr {
     margin: 30px;
   }
+  .user_login_hr_2 {
+    margin: 20px;
+  }
   .user_login_naver, .user_login_kakao {
     width: 350px;
     height: 45px;

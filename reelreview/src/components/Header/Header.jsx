@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../css/Header/Nav.css";
-import "../../css/users/SignIn.module.css";
+import "../../css/users/Sign.module.css";
 import SignIn from "../../components/users/SignIn";
 import SignUp from "../../components/users/SignUp";
 
@@ -49,7 +49,7 @@ export default function Header() {
                     <li className="askReel"> 문의하기 </li>
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
-                        
+                        // 로그인 모달창 화면 출력 여부 삼항연산
                         signInModalState ? <SignIn setSignInModalState={setSignInModalState} /> : null
                     }
                     <li><button className="signUpBtn" onClick={signUpOnOffModal}>회원가입</button></li>
@@ -63,6 +63,5 @@ export default function Header() {
         </nav>
 
     );
-
 
 }

@@ -1,9 +1,9 @@
-import SignIn from './SignIn';
-
 function Sign() {
   
   return (
-    <SignIn/>
+    <div>
+      
+    </div>
   );
 }
 
