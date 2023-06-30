@@ -1,4 +1,4 @@
-import MainPage from "./pages/MainPage";
+import MainPage from "./pages/Main/MainPage";
 import "./App.css";
 
 import './App.css';
@@ -12,7 +12,6 @@ function App() {
         <Route path='/details' Component={<Detail></Detail>}/>
       </Routes>
     </div>
-
   );
 }
 
