@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Roboto&display=swap');
+
 .MainPage_box{
-    height: 5000px;
+    height: 2000px;
     width: 100%;
     background-color: beige;
     margin-top: 62px;
@@ -13,6 +15,7 @@
     width: 80%;
     margin-left: 10%;
     justify-content: flex-start;
+    border: 3px solid red;
 }
 
 .boxoffice_box_header {
@@ -22,6 +25,7 @@
     width: 100%;
     height: 60px;
     margin-top: 50px;
+    border: 1px solid purple;
 }
 
 .boxoffice_box_header h3 {
@@ -29,9 +33,8 @@
 }
 
 .boxoffice_box_poster {
-    width: 260px;
+    width: 250px;
     margin: 16px;
-    height: 500px;
     border-radius: 5px;
     justify-content: center;
     border: 1px solid red;
@@ -39,11 +42,11 @@
 
 .boxoffice_box_poster img {
     max-width: 100%;
-    height: 400px;
 }
 
 .boxoffice_box_2 {
     width: 100%;
+    background-color: yellow;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -54,13 +57,17 @@
 .boxoffice_box_info {
     display: flex;
     justify-content: space-between;
-    flex-direction: column;
 }
+
+.boxoffice_box_info_detail {
+    flex: 1;
+    border-color: red;
+}
+
+
 
 .boxoffice_container {
-    border: 1px solid purple;
+    border: 1px solid red;
     
 }
-
-
 

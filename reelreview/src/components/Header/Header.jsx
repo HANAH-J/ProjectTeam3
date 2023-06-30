@@ -3,6 +3,7 @@ import "../../css/Header/Nav.css";
 import "../../css/users/Sign.module.css";
 import SignIn from "../../components/users/SignIn";
 import SignUp from "../../components/users/SignUp";
+import { Link } from "react-router-dom";
 
 export default function Header() {
 
@@ -35,9 +36,7 @@ export default function Header() {
         <nav className="topNav">
             <div className="navWrapper">
                 <ul className="leftNav">
-                    <li className="logoSection">
-                        로고들어가는곳
-                    </li>
+                    <Link to="/mainpage"><li className="logoSection"/></Link>
                 </ul>
 
                 <ul className="rightNav">
@@ -46,7 +45,9 @@ export default function Header() {
                             <input type="search" name="search" placeholder="영화를 검색해보세요." />
                         </div>
                     </li>
-                    <li className="askReel"> 문의하기 </li>
+                    <Link to="/csMain" className="askReel_box">
+                        <li className="askReel"> 문의하기 </li>
+                    </Link>
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
                         // 로그인 모달창 화면 출력 여부 삼항연산

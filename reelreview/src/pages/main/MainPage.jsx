@@ -4,20 +4,19 @@ import Footer from "../../components/Footer/Footer";
 import BoxOffice from "../../components/Main_Body/BoxOffice";
 import Upcomming from "../../components/Main_Body/Upcomming"
 import { boxofficeList } from '../../api/Movies/BoxOffice';
-import "../../css/Main_BoxOffice/BoxOffice.css";
-import { Link } from 'react-router-dom';
+import styles from '../../css/main/BoxOffice.module.css';
 
 export default function MainPage(){
 
     return(
 
-        <div className='MainPage_box'>
+        <div className={styles.MainPage_box}>
             <Header/>
-            <div className="boxoffice_box">
-                <div className="boxoffice_box_header">
+            <div className={styles.boxoffice_box}>
+                <div className={styles.boxoffice_box_header}>
                     <h3>박스오피스 순위</h3>
                 </div>
-                <div className="boxoffice_box_2">
+                <div className={styles.boxoffice_box_2}>
                 {boxofficeList.results.map((item) => {
           return (
             <BoxOffice
@@ -30,9 +29,6 @@ export default function MainPage(){
             />
           );
         })}
-        </div>
-        <div>
-        
         </div>
         </div>
           <Footer/>
