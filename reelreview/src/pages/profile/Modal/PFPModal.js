@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../../css/profile/PFPModal.css";
+import styles from '../../../css/profile/PFPModal.module.css'
 
 function PFPModal({setOpenModal}) {
   console.log('모달오픈');
@@ -15,13 +15,13 @@ function PFPModal({setOpenModal}) {
   };
 
   return (
-    <div className="PFPModal_BG" onClick={closePFPModal}>
-        <div className="PFPModal_Wrapper"> 
-            <div className="PFPModal_Title">
+    <div className={styles.PFPModal_BG} onClick={closePFPModal}>
+        <div className={styles.PFPModal_Wrapper}> 
+            <div className={styles.PFPModal_Title}>
                 <h2>설정</h2>
                 <hr/>
             </div> 
-            <div className="PFPModal_Content"> 
+            <div className={styles.PFPModal_Content}> 
                 <p>프로필 사진 변경</p>
                 <p>배경 사진 변경</p>
                 <p>프로필 문구 변경</p>
@@ -29,7 +29,7 @@ function PFPModal({setOpenModal}) {
                 <p>로그아웃</p>
                 <p>탈퇴하기</p>
             </div>
-            <div className="PFPModal_Logo"> 
+            <div className={styles.PFPModal_Logo}> 
                 <p>로고</p>
             </div>
         </div>
