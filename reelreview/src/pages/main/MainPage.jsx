@@ -2,8 +2,10 @@ import React from 'react'
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import BoxOffice from "../../components/Main_Body/BoxOffice";
+import Upcomming from "../../components/Main_Body/Upcomming"
 import { boxofficeList } from '../../api/Movies/BoxOffice';
 import "../../css/Main_BoxOffice/BoxOffice.css";
+import { Link } from 'react-router-dom';
 
 export default function MainPage(){
 
@@ -28,6 +30,9 @@ export default function MainPage(){
             />
           );
         })}
+        </div>
+        <div>
+        
         </div>
         </div>
           <Footer/>

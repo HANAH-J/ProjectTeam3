@@ -4,3 +4,4 @@ npm install slick-carousel / 2023-06-28 / 문영민
 npm install react-router-dom / 2023-06-28 / 문영민
 npm install axios / 2023-06-28 / 문영민
 npm install styled-components / 2023-06-28 / 문영민
+npm install react-multi-carousel / 2023-06-30 / 문영민
