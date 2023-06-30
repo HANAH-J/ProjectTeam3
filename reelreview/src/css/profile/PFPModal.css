@@ -61,7 +61,7 @@ hr {
     width: 375px;
     height: 40px;
     font-size: 0;
-    background-image: url("C:\reactStudy\watchaprofile\public\images\nav\logo.png");
+    background-image: url(../../img/profile/nav/logo.png);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
