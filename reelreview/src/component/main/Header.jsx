@@ -4,7 +4,6 @@ import "../css/Nav.css";
 export default function Header() {
 
     return (
-
         <nav className="topNav">
             <div className="navWrapper">
                 <ul className="leftNav">
@@ -16,7 +15,7 @@ export default function Header() {
                 <ul className="rightNav">
                     <li className="findMovies">
                         <div className="findWrapper">
-                            <input type="serach" name="search" placeholder="영화를 검색해보세요."/>
+                            <input type="serach" name="search" placeholder="영화를 검색해보세요." />
                         </div>
                     </li>
                     <li className="askReel"> 문의하기 </li>
@@ -26,8 +25,6 @@ export default function Header() {
                 </ul>
             </div>
         </nav>
-
     );
-
-
+    
 }

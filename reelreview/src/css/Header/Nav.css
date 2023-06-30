@@ -86,7 +86,7 @@
     font-size: 14px;
 }
 
-.topNav .navWrapper .rightNav .loginBtn {
+.topNav .navWrapper .rightNav .signInBtn {
     color: #4C4C4C;
     margin-right: 25px;
     cursor: pointer;
@@ -94,7 +94,7 @@
     font-size: 14px;
 }
 
-.topNav .navWrapper .rightNav .regBtn {
+.topNav .navWrapper .rightNav .signUpBtn {
     line-height: 20px;
     box-sizing: border-box;
     width: auto;
