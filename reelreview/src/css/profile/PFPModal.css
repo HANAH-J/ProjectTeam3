@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Roboto&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    letter-spacing: -0.8px;
+}
+
+hr {
+    height: 1px;
+    background: #e3e3e3;
+    border: 0;
+    width: 100%;
+}
+
+.PFPModal_BG {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+.PFPModal_Wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    width: 375px;
+    height: 250px;
+    padding: 20px 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.PFPModal_BG .PFPModal_Wrapper .PFPModal_Title hr {
+    margin-top: 15px;
+}
+
+.PFPModal_BG .PFPModal_Wrapper .PFPModal_Content p {
+    width: 150px;
+    text-align: center;
+    font-size: 1.1em;
+    margin-top: 10px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.PFPModal_BG .PFPModal_Wrapper .PFPModal_Content hr {
+    margin-top: 15px;
+}
+
+.PFPModal_Wrapper .PFPModal_Logo p {
+    margin-top: 5px;
+    width: 375px;
+    height: 40px;
+    font-size: 0;
+    background-image: url("C:\reactStudy\watchaprofile\public\images\nav\logo.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+}

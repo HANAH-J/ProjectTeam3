@@ -5,6 +5,7 @@ import BoxOffice from "../../components/Main_Body/BoxOffice";
 import Upcomming from "../../components/Main_Body/Upcomming"
 import { boxofficeList } from '../../api/Movies/BoxOffice';
 import "../../css/Main_BoxOffice/BoxOffice.css";
+import { Link } from 'react-router-dom';
 
 export default function MainPage(){
 
@@ -30,7 +31,7 @@ export default function MainPage(){
         })}
         </div>
         <div>
-          <Upcomming/>
+        
         </div>
         </div>
           <Footer/>
