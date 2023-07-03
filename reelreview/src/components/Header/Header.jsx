@@ -7,10 +7,9 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
 
-    // 로그인, 회원가입, 약관 동의 모달창 초기화면 출력 여부 : false
+    // 로그인, 회원가입 모달창 초기화면 출력 여부 : false
     const [signInModalState, setSignInModalState] = useState(false);
     const [signUpModalState, setSignUpModalState] = useState(false);
-    const [termsModalState, setTermsModalState] = useState(false);
 
     // 로그인 모달창 상태 변경 함수
     const signInOnOffModal = () => {
@@ -22,20 +21,15 @@ export default function Header() {
         setSignUpModalState(!signUpModalState);
     };
 
-    // 약관동의 모달창 상태 변경 함수
-    const termsOnOffModal = () => {
-        setTermsModalState(!termsModalState);
-    };
-
     useEffect(() => {
-        if (signInModalState || signUpModalState || termsModalState) {
+        if (signInModalState || signUpModalState) {
           document.body.style.overflow = "hidden";  // 스크롤 비활성화
           document.body.style.position = "fixed";   // 위치 고정
         } else {
           document.body.style.overflow = "auto";    // 스크롤 활성화
           document.body.style.position = "static";  // 위치 원래대로
         }
-      }, [signInModalState, signUpModalState, termsModalState]);
+      }, [signInModalState, signUpModalState]);
 
     return (
 
@@ -57,27 +51,23 @@ export default function Header() {
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
                         // 로그인 모달창 화면 출력 여부 삼항연산
-                        signInModalState ? <SignIn setSignInModalState={setSignInModalState} /> : null
+                        signInModalState ? <SignIn setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState}/> : null
                     }
                     <li><button className="signUpBtn" onClick={signUpOnOffModal}>회원가입</button></li>
                     {
                         /* 로그인시 유저 프로필 이미지 출력 */
                         // 회원가입 모달창 화면 출력 여부 삼항연산
-                        signUpModalState ? <SignUp setSignUpModalState={setSignUpModalState} /> : null
+                        signUpModalState ? <SignUp setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState}/> : null
                     }
                 </ul>
             </div>
 
             {signInModalState && (
-                <div className={styles.modalBackground} style={{ backgroundColor: "black" }}>
+                <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}>
                 </div>
             )}
             {signUpModalState && (
-                <div className={styles.modalBackground} style={{ backgroundColor: "black" }}>
-                </div>
-            )}
-            {termsModalState && (
-                <div className={styles.modalBackground} style={{ backgroundColor: "black" }}>
+                <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}>
                 </div>
             )}
         </nav>

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import styles from './Terms.module.css';
+import styles from '../../css/users/Terms.module.css';
+import TermsContents1 from './TermsContents1';
+// import TermsContents2 from './TermsContents2';
 
 function Terms() {
     
-    // 체크박스 useState
+    // 체크박스, 가입하기 useState
     const [checkItems, setCheckItems] = useState([]);
-
-    // 가입하기 버튼 useState
     const [submitButtonColor, setSubmitButtonColor] = useState('lightgray');
+    const [termsCt1State, setTermsCt1State] = useState(false);
+    // const [termsCt2State, setTermsCt2State] = useState([]);
 
     // '전체 약관 동의' 체크 시 전체 약관 체크 함수
     const allCheckHandler = (isChecked) => {
@@ -44,6 +46,16 @@ function Terms() {
         updateSubmitButtonColor();
     }, [checkItems]);
 
+    // 서비스 이용약관 모달창 상태 변경 함수
+    const termsCt1OnOffModal = () => {
+        setTermsCt1State(!termsCt1State);
+    };
+
+    // 개인정보 처리방침 모달창 상태 변경 함수
+    // const termsCt2OnOffModal = () => {
+    //     setTermsCt2State(!termsCt1State);
+    // };
+
     return(
 
         <div className={styles.user_terms_modal}>
@@ -61,6 +73,7 @@ function Terms() {
                         <span className={styles.user_terms_text}>전체 약관 동의</span>
                     </label>
                 </li>
+                <hr className={styles.user_terms_hr}></hr>
                 {/* 서비스 이용약관 체크박스 */}
                 <li className={styles.user_terms_check}>
                     <label className={styles.user_terms_specific}>
@@ -73,7 +86,11 @@ function Terms() {
                         />
                         <label htmlFor='check_1'></label>
                         <span className={styles.user_terms_text}>서비스 이용약관</span>
-                        <span className={styles.user_terms_check_detail}>보기</span>
+                        <span className={styles.user_terms_check_detail} onClick={termsCt1OnOffModal}>보기</span>
+                        {
+                            // 서비스 이용약관 출력 코드
+                            termsCt1State ? <TermsContents1 setTermsCt1State={setTermsCt1State}/> : null
+                        }
                     </label>
                 </li>
                 {/* 개인정보 처리방침 체크박스 */}
@@ -89,6 +106,9 @@ function Terms() {
                         <label htmlFor='check_2'></label>
                         <span className={styles.user_terms_text}>개인정보 처리방침</span>
                         <span className={styles.user_terms_check_detail}>보기</span>
+                        {
+                            // 개인정보 처리방침 출력 코드
+                        }
                     </label>
                 </li>
             </ul>
