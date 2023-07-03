@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../css/Header/Nav.css";
-import styles from "../../css/users/Sign.module.css";
+import "../../css/users/Sign.module.css";
 import SignIn from "../../components/users/SignIn";
 import SignUp from "../../components/users/SignUp";
 import { Link } from "react-router-dom";
 
 export default function Header() {
 
-    // 로그인, 회원가입 모달창 초기화면 출력 여부 : false
+    // 로그인 모달창 초기화면 노출 여부 : false
     const [signInModalState, setSignInModalState] = useState(false);
+
+    // 회원가입 모달창 초기화면 노출 여부 : false
     const [signUpModalState, setSignUpModalState] = useState(false);
 
     // 로그인 모달창 상태 변경 함수
-    const signInOnOffModal = () => {
-        setSignInModalState(!signInModalState);
-    };
+    function signInOnOffModal() {
+        if (signInModalState === true) {
+            setSignInModalState(false);
+        } else {
+            setSignInModalState(true);
+        }
+    }
 
     // 회원가입 모달창 상태 변경 함수
-    const signUpOnOffModal = () => {
-        setSignUpModalState(!signUpModalState);
-    };
-
-    useEffect(() => {
-        if (signInModalState || signUpModalState) {
-          document.body.style.overflow = "hidden";  // 스크롤 비활성화
-          document.body.style.position = "fixed";   // 위치 고정
+    function signUpOnOffModal() {
+        if (signUpModalState === true) {
+            setSignUpModalState(false);
         } else {
-          document.body.style.overflow = "auto";    // 스크롤 활성화
-          document.body.style.position = "static";  // 위치 원래대로
+            setSignUpModalState(true);
         }
-      }, [signInModalState, signUpModalState]);
+    }
 
     return (
 
         <nav className="topNav">
             <div className="navWrapper">
                 <ul className="leftNav">
-                    <Link to="/mainpage"><li className="logoSection" /></Link>
+                    <Link to="/mainpage"><li className="logoSection"/></Link>
                 </ul>
 
                 <ul className="rightNav">
@@ -51,25 +51,16 @@ export default function Header() {
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
                         // 로그인 모달창 화면 출력 여부 삼항연산
-                        signInModalState ? <SignIn setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState}/> : null
+                        signInModalState ? <SignIn setSignInModalState={setSignInModalState} /> : null
                     }
                     <li><button className="signUpBtn" onClick={signUpOnOffModal}>회원가입</button></li>
                     {
                         /* 로그인시 유저 프로필 이미지 출력 */
                         // 회원가입 모달창 화면 출력 여부 삼항연산
-                        signUpModalState ? <SignUp setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState}/> : null
+                        signUpModalState ? <SignUp setSignUpModalState={setSignUpModalState} /> : null
                     }
                 </ul>
             </div>
-
-            {signInModalState && (
-                <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}>
-                </div>
-            )}
-            {signUpModalState && (
-                <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}>
-                </div>
-            )}
         </nav>
 
     );

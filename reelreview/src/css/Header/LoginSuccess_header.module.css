@@ -1,0 +1,109 @@
+.topNav {
+    height: 62px;
+    width: 100%;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+}
+
+.topNav .navWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+
+.topNav .navWrapper .leftNav, .topNav .navWrapper .rightNav {
+    display: flex;
+    align-items: center;
+}
+
+.topNav .navWrapper .leftNav li, .topNav .navWrapper .rightNav li {
+    list-style-type: none;
+    text-decoration: none;
+}
+
+.topNav .navWrapper .leftNav .logoSection {
+    width: 160px;
+    height: 40px;
+    font-size: 0;
+    background-image: url("../../img/Header/Reel_Review_logo.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 50px;
+    cursor: pointer;
+}
+
+.topNav .navWrapper .rightNav {
+    margin-right: 50px;
+}
+
+.topNav .navWrapper .rightNav .findMovies {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 60px;
+    margin-right: 25px;
+}
+
+.topNav .navWrapper .rightNav .findMovies .findWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 40px;
+    background-size: 16px;
+    background-image: url("../../img/Header/search_icon.svg");
+    background-repeat: no-repeat;
+    background-color: #F5F5F7;
+    background-position: 3% 50%;
+}
+
+.topNav .navWrapper .rightNav .findMovies .findWrapper input {
+    width: 80%;
+    height: 25px;
+    border: none;
+    background: none;
+}
+
+.topNav .navWrapper .rightNav .findMovies .findWrapper input:focus {
+    outline: none;
+}
+
+
+.csMainPage li {
+    text-decoration: none;
+}
+  
+
+.userProfile_box {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin-left: 30px;
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
+    color: black;
+    border: solid 1px rgba(0,0,0,0.08);
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  .nameLi {
+    color: black;
+  }
+
+  
+
