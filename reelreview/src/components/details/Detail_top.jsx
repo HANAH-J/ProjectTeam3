@@ -4,7 +4,7 @@ import styles from '../../css/details/Detail_top.module.css';
 
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/w1280/";
 
-function Detail_top(props) {
+function Detailtop(props) {
 
     return(
         <div>
@@ -43,4 +43,4 @@ function Detail_top(props) {
 
 
 
-export default Detail_top;
+export default Detailtop;
