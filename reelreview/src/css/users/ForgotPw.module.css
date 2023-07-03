@@ -4,7 +4,6 @@ font-family: 'Roboto', sans-serif;
 letter-spacing: -0.8px; */
 
 .user_forgotPw_modal {
-    border: 1px solid red;
     border-radius: 12px;
     width: 360px;
     height: 390px;
@@ -22,7 +21,7 @@ letter-spacing: -0.8px; */
     width: 24px;
     height: 24px;
     position: relative;
-    background-image: url('../images/buttonClose.png');
+    background-image: url('../../img/users/buttonClose.png');
     font-weight: bold;
     cursor: pointer;
 }
@@ -30,29 +29,31 @@ letter-spacing: -0.8px; */
 .user_forgotPw_title {
     position: relative;
     top: 15px;
+    left: 5px;
     bottom: 15px;
     font-size: 22px;
     font-weight: bold;
 }
 
 .user_forgotPw_hr {
-    border: 1px solid lightgray;
     width: 390px;
     position: relative;
-    top: 20px;
+    top: 25px;
     margin-left: -15px;
+    background: lightgray;
 }
 
 .user_forgotPw_h2 {
     position: relative;
-    top: 35px;
+    top: 45px;
+    left: 5px;
     font-size: 17px;
 }
 
 .user_forgotPw_p {
     position: relative;
-    top: 50px;
-    margin-top: -15px;
+    top: 55px;
+    left: 5px;
     font-size: 15px;
 }
 
@@ -62,7 +63,7 @@ letter-spacing: -0.8px; */
     border-radius: 5px;
     width: 330px;
     height: 25px;
-    margin-top: 70px;
+    margin-top: 90px;
     margin-left: 5px;
     padding: 10px;
     position: relative;

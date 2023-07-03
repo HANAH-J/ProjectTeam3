@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import styles from './ForgotPw.module.css';
+import styles from '../../css/users/ForgotPw.module.css';
 
-// 회원가입 모달창
-function ForgotPw() {
+// 비밀번호 재설정 모달창
+function ForgotPw({setForgotPwModalState}) {
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
 
@@ -24,9 +24,29 @@ function ForgotPw() {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 
+    // 모달창 외부 클릭 시 닫기
+    useEffect(() => {
+        document.addEventListener('mousedown', clickOutsideHandler);
+        return () => {
+          document.removeEventListener('mousedown', clickOutsideHandler);
+        };
+      });
+
+      const clickOutsideHandler = (e) => {
+        const modal = document.querySelector(`.${styles.user_forgotPw_modal}`);
+        if (modal && !modal.contains(e.target)) {
+          setForgotPwModalState(false);
+        }
+      };
+
+      // 비밀번호 재설정 모달창 X버튼
+      const closeForgotPwModal = () => {
+        setForgotPwModalState(false);
+      };
+
     return (
         <div className={styles.user_forgotPw_modal}>
-            <div className={styles.user_forgotPw_buttonX}></div>
+            <div className={styles.user_forgotPw_buttonX} onClick={closeForgotPwModal}></div>
             <div className={styles.user_forgotPw_title}>비밀번호 재설정</div>
             <hr className={styles.user_forgotPw_hr}></hr>
             <div>
