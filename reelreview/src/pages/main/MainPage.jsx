@@ -2,7 +2,7 @@ import React from 'react'
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import BoxOffice from "../../components/Main_Body/BoxOffice";
-import Upcomming from "../../components/Main_Body/Upcomming"
+import Upcomming from "../../components/Main_Body/Upcomming";
 import { boxofficeList } from '../../api/Movies/BoxOffice';
 import styles from '../../css/main/BoxOffice.module.css';
 

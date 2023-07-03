@@ -1,16 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../../css/Header/Nav.css";
-import "../../css/users/Sign.module.css";
+import styles from '../../css/users/Sign.module.css';
 import SignIn from "../../components/users/SignIn";
 import SignUp from "../../components/users/SignUp";
-import { Link } from "react-router-dom";
 
 export default function Header() {
 
-    // 로그인 모달창 초기화면 노출 여부 : false
+    // 로그인, 회원가입 모달창 초기화면 출력 여부 : false
     const [signInModalState, setSignInModalState] = useState(false);
-
-    // 회원가입 모달창 초기화면 노출 여부 : false
     const [signUpModalState, setSignUpModalState] = useState(false);
 
     // 로그인 모달창 상태 변경 함수
@@ -50,17 +48,25 @@ export default function Header() {
                     </Link>
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
-                        // 로그인 모달창 화면 출력 여부 삼항연산
-                        signInModalState ? <SignIn setSignInModalState={setSignInModalState} /> : null
+                        // 로그인 모달창 화면 출력 여부
+                        signInModalState ? <SignIn setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState}/> : null
                     }
                     <li><button className="signUpBtn" onClick={signUpOnOffModal}>회원가입</button></li>
                     {
                         /* 로그인시 유저 프로필 이미지 출력 */
-                        // 회원가입 모달창 화면 출력 여부 삼항연산
-                        signUpModalState ? <SignUp setSignUpModalState={setSignUpModalState} /> : null
+                        // 회원가입 모달창 화면 출력 여부
+                        signUpModalState ? <SignUp setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState}/> : null
                     }
                 </ul>
             </div>
+            {signInModalState && (
+                <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}>
+                </div>
+            )}
+            {signUpModalState && (
+                <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}>
+                </div>
+            )}
         </nav>
 
     );
