@@ -15,11 +15,9 @@
 
   }
 
-  .footer-span em {
+  .footer-span strong {
     color: red;
   }
-
-
 
  .footer-info {
   height: 180px;
