@@ -3,6 +3,17 @@
 font-family: 'Roboto', sans-serif;
 letter-spacing: -0.8px; */
 
+/* 모달창 활성화 시 배경 */
+.modalBackground {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 50% ;
+  z-index: 999;
+}
+
 /* 모달창 : 화면 중앙. 최상단 노출 */
 .user_login_modal {
     /* 모달창 크기 */
@@ -10,17 +21,15 @@ letter-spacing: -0.8px; */
     height: 500px;
     padding: 30px;
 
+    /* 최상단 위치 */
+    z-index: 1000;
+
     /* 중앙 배치 */
-    /* top, bottom, left, right 는 브라우저 기준으로 작동 */
-    /* translate는 본인의 크기 기준으로 작동 */
     position: absolute;
     left: 50%;
     margin-top: 1000px;
     margin-left: -165px;
     /* transform: translate(-50%, -50%); */
-  
-    /* 최상단 위치 */
-    z-index: 999;
     
     /* 모달창 디자인 */
     background-color: #ffffff;
@@ -34,19 +43,21 @@ letter-spacing: -0.8px; */
     left: 50%;
     margin-left: -100px;
   }
+  
   .user_login_h2 {
-    margin: 20px 0 ;
+    margin: 20px 0;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 17px;
     text-align: center;
   }
+  
   .user_login_input {
     outline: 0;
     border: none;
     border-radius: 5px;
     width: 330px;
     height: 25px;
-    margin: 3px 0 ;
+    margin: 3px 0;
     padding: 10px;
     position: relative;
     margin-left: -10px;
@@ -54,11 +65,13 @@ letter-spacing: -0.8px; */
     font-size: 15px;
     cursor: text;
   }
+  
   .user_login_input::placeholder {
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 15px;
     font-weight: bold;
   }
+  
   .user_login_btn {
     border: none;
     border-radius: 5px;
@@ -74,7 +87,9 @@ letter-spacing: -0.8px; */
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 15px;
     font-weight: bold;
+    cursor: pointer;
   }
+  
   .user_login_forgotPw {
     display: block;
     margin: 10px;
@@ -85,6 +100,7 @@ letter-spacing: -0.8px; */
     font-weight: bold;
     cursor: pointer;
   }
+  
   .user_login_helpMessage {
     position: relative;
     left: 50%;
@@ -95,6 +111,7 @@ letter-spacing: -0.8px; */
     font-weight: bold;
     cursor: text;
   }
+  
   .user_login_signUp {
     color: #ff2f6e;
     font-family: 'Noto Sans KR', sans-serif;
@@ -103,13 +120,23 @@ letter-spacing: -0.8px; */
     font-weight: bold;
     cursor: pointer;
   }
+  
   .user_login_hr {
+    border: 0px;
+    height: 1px;
     margin: 30px;
+    background: lightgray;
   }
+  
   .user_login_hr_2 {
+    border: 0px;
+    height: 1px;
     margin: 20px;
+    background: lightgray;
   }
-  .user_login_naver, .user_login_kakao {
+  
+  .user_login_naver,
+  .user_login_kakao {
     width: 350px;
     height: 45px;
     position: relative;
@@ -118,25 +145,40 @@ letter-spacing: -0.8px; */
     font-size: 0.9em;
     cursor: pointer;
   }
+  
   .user_login_naver {
     position: relative;
     margin-bottom: 10px;
     background-color: #1fc202;
     color: #ffffff;
   }
+  
   .user_login_kakao {
     background-color: #fee500;
     color: #181600;
   }
-  .user_login_naver_logo, .user_login_kakao_logo {
+  
+  .user_login_naver_logo,
+  .user_login_kakao_logo {
     width: 35px;
     height: 35px;
     position: relative;
     top: 5px;
     left: 10px;
   }
+  
   .user_login_logo_btn {
     position: relative;
     top: -7px;
     left: 75px;
+  }
+  
+  .user_login_error {
+    margin: 5px;
+    color: red;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.8em;
+  
+    /* 리액트 개행 */
+    white-space: pre-line;
   }
