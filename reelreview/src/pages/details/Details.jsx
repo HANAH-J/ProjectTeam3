@@ -1,9 +1,10 @@
 import { useLocation } from "react-router-dom";
-import Detail_top from "../../components/details/Detail_top";
-import Detail_num2 from "../../components/details/Detail_num2";
+import Detailtop from "../../components/details/Detail_top";
+import Detailnum2 from "../../components/details/Detail_num2";
 import Header from "../../components/Header/Header";
 import styles from '../../css/details/Detail.module.css';
-
+import Detailnum3 from "../../components/details/Detail_num3";
+import Detailnum4 from "../../components/details/Detail_num4";
 
 function Details() {
     const location = useLocation();
@@ -11,8 +12,10 @@ function Details() {
     return(
     <div className={styles.Detail_box}>
         <Header/>   
-        <Detail_top movieCd={movieCd.movieCd}/>
-        <Detail_num2/>
+        <Detailtop movieCd={movieCd.movieCd}/>
+        <Detailnum2/>
+        <Detailnum3/>
+        <Detailnum4/>
     </div>
     );
 }
