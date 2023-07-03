@@ -23,7 +23,7 @@ function UserScoreCollection() {
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
 
@@ -31,7 +31,7 @@ function UserScoreCollection() {
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   
@@ -39,83 +39,96 @@ function UserScoreCollection() {
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
                       <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h6 className={styles.userScoreCollection_Rating}>평가함 ★ </h6> {/* {el.rating} 들어가야함 */}
+                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
         {/*
                  );
         })} 
         */}
+
+
+                          {/* 담긴 작품이 없을 때 */}
+
+{/* 
+                  <div className={styles.userScoreCollection_noContent}>
+                    <span className={styles.userScoreCollection_noContent_image}></span>
+                    <div className={styles.userScoreCollection_noContent_text}> 담긴 작품이 없어요. </div>
+                  </div>
+*/}
+
+
+
       </div>
         
     </div>
