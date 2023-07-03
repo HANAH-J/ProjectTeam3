@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../../../css/profile/PFPModal.module.css'
 
 function PFPModal({setOpenModal}) {
   console.log('모달오픈');
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  const [showEditTextModal, setShowEditTextModal] = useState(false);
+  const [showEditPFPModal, setShowEditPFPModal] = useState(false);
+  const [showEditPFBModal, setShowEditPFBModal] = useState(false);
   
   const closePFPModal = (e) => {
     if (e.target !== e.currentTarget) return;
@@ -14,6 +18,35 @@ function PFPModal({setOpenModal}) {
     setOpenModal(false);
   };
 
+  const openWithdrawModal = () => {
+    setShowWithdrawModal(true);
+  };
+  const closeWithdrawModal = () => {
+    setShowWithdrawModal(false);
+  };
+
+  const openEditTextModal = () => {
+    setShowEditTextModal(true);
+  }
+  const closeEditTextModal = () => {
+    setShowEditTextModal(false);
+  }
+
+  const openEditPFPModal = () => {
+    setShowEditPFPModal(true);
+  }
+  const closeEditPFPModal = () => {
+    setShowEditPFPModal(false);
+  }
+
+  const openEditPFBModal = () => {
+    setShowEditPFBModal(true);
+  }
+  const closeEditPFBModal = () => {
+    setShowEditPFBModal(false);
+  }
+
+
   return (
     <div className={styles.PFPModal_BG} onClick={closePFPModal}>
         <div className={styles.PFPModal_Wrapper}> 
@@ -22,17 +55,59 @@ function PFPModal({setOpenModal}) {
                 <hr/>
             </div> 
             <div className={styles.PFPModal_Content}> 
-                <p>프로필 사진 변경</p>
-                <p>배경 사진 변경</p>
-                <p>프로필 문구 변경</p>
+                <p onClick={openEditPFPModal}>프로필 사진 변경</p>
+                <p onClick={openEditPFBModal}>배경 사진 변경</p>
+                <p onClick={openEditTextModal}>프로필 문구 변경</p>
                 <hr/>
                 <p>로그아웃</p>
-                <p>탈퇴하기</p>
+                <p onClick={openWithdrawModal}>탈퇴하기</p>
             </div>
             <div className={styles.PFPModal_Logo}> 
                 <p>로고</p>
             </div>
         </div>
+
+      {showWithdrawModal && ( 
+        <div className={styles.WithdrawModal}>
+          <h2>탈퇴 확인</h2>
+          <p>정말로 탈퇴하시겠습니까?</p>
+          <button onClick={closeWithdrawModal}>취소</button>
+          <button>탈퇴하기</button>
+        </div>
+      )}
+
+      {showEditTextModal && ( 
+        <div className={styles.EditTextModal}>
+          <h2>프로필 문구 변경</h2>
+          <input type="text" id="profileText" placeholder="텍스트를 입력하세요." maxLength={30} />
+          <br></br>
+          <button>저장</button>
+          <button onClick={closeEditTextModal}>취소</button>
+        </div>
+      )}
+
+
+      {showEditPFPModal && ( 
+        <div className={styles.EditPFPModal}>
+          <h2>프로필 사진 변경</h2>
+          <input type="file" id="pictureForProfile" />
+          <br></br>
+          <button>변경</button>
+          <button onClick={closeEditPFPModal}>취소</button>
+        </div>
+      )}
+
+      {showEditPFBModal && ( 
+        <div className={styles.EditPFBModal}>
+          <h2>배경 사진 변경</h2>
+          <input type="file" id="pictureForBG" />
+          <br></br>
+          <button>변경</button>
+          <button onClick={closeEditPFBModal}>취소</button>
+        </div>
+      )}
+
+
     </div>
   );
 }

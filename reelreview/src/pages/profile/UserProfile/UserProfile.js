@@ -90,28 +90,28 @@ function UserProfile() {
                     <Carousel responsive={responsive}>
                         <div className={styles.card}> 
                             <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h5> [영화제목] </h5>
-                            <h6> 평가함 ★ [점수] </h6>
+                            <h4> [영화제목] </h4>
+                            <h5> 평가함 ★ [점수] </h5>
                         </div>
                         <div className={styles.card}> 
                             <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h5> [영화제목] </h5>
-                            <h6> 평가함 ★ [점수] </h6>
+                            <h4> [영화제목] </h4>
+                            <h5> 평가함 ★ [점수] </h5>
                         </div>
                         <div className={styles.card}> 
                             <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h5> [영화제목] </h5>
-                            <h6> 평가함 ★ [점수] </h6>
+                            <h4> [영화제목] </h4>
+                            <h5> 평가함 ★ [점수] </h5>
                         </div>
                         <div className={styles.card}> 
                             <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h5> [영화제목] </h5>
-                            <h6> 평가함 ★ [점수] </h6>
+                            <h4> [영화제목] </h4>
+                            <h5> 평가함 ★ [점수] </h5>
                         </div>
                         <div className={styles.card}> 
                             <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h5> [영화제목] </h5>
-                            <h6> 평가함 ★ [점수] </h6>
+                            <h4> [영화제목] </h4>
+                            <h5> 평가함 ★ [점수] </h5>
                         </div>
                     </Carousel>
                     <div className={styles.movieListMore} onClick={userScoreCollection}> 
