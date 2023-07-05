@@ -16,6 +16,7 @@ import ActorMovie from "./components/Main_Body/ActorMovie";
 import Genre from "./components/Main_Body/Genre";
 import DirectorMovie from "./components/Main_Body/DirectorMovie";
 import BoxOffice from "./components/Main_Body/BoxOffice";
+import CsBoardDetail from "./pages/cs/csBoardDetail/CsBoardDetail";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/mainPage_loginSuccess" element={<MainPage_loginSuccess/>} />
         <Route path="/userScoreCollection" element={<UserScoreCollection/>} />
         <Route path="/movieToWatch" element={<MovieToWatch/>} />
+        <Route path="/csBoardDetail" element={<CsBoardDetail/>} />
         <Route path="/csBoard" element={<CsBoard/>} />
         <Route path="/movieCollection" element={<MovieCollection/>} />
       </Routes>

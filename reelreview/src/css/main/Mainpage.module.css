@@ -19,9 +19,9 @@
     margin-left: 10%;
     justify-content: flex-start;
     margin-top: 50px;
-}
-
-.BoxOffice_box {
+  }
+  
+  .BoxOffice_box {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
@@ -29,33 +29,34 @@
     justify-content: flex-start;
     height: 500px;
     flex-direction: column;
-}
-
-.BoxOffice_box_header {
+  }
+  
+  .BoxOffice_box_header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 100%;
     flex: 1;
-}
-
-.BoxOffice_box_info {
+  }
+  
+  .BoxOffice_box_info {
     width: 100%;
     flex: 9;
     margin-top: 10px;
-}
-
-.BoxOffice_box_header h3 {
+  }
+  
+  .BoxOffice_box_header h3 {
     margin-left: 20px;
     color: black;
-}
-
-.BoxOffice_poster {
+  }
+  
+  .BoxOffice_poster {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 400px;
+    cursor: pointer;
 }
 
 .BoxOffice_poster > img{
@@ -81,11 +82,30 @@
 }
 
 .BoxOffice_mainBox {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
+
+.BoxOffice_number {
+    display: flex;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.77);;
+    border-radius: 25%;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    font-size: small;
+    z-index: 9999;
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
+  }
 
 /* 박스 오피스 끝 */
 
@@ -137,6 +157,7 @@
     justify-content: center;
     width: 100%;
     height: 400px;
+    cursor: pointer;
 }
 
 .Upcomming_poster > img{
@@ -162,10 +183,29 @@
 }
 
 .Upcomming_mainBox {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.Upcomming_number {
+    display: flex;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.77);;
+    border-radius: 25%;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    font-size: small;
+    z-index: 9999;
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 개봉예정작 끝 */
@@ -219,6 +259,7 @@
     justify-content: center;
     width: 100%;
     height: 400px;
+    cursor: pointer;
 }
 
 .DirectorMovie_poster > img{
@@ -236,11 +277,32 @@
 }
 
 .DirectorMovie_mainBox {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
+
+.DirectorMovie_number {
+    display: flex;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.77);;
+    border-radius: 25%;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    font-size: small;
+    z-index: 9999;
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+
 
 
 /* 감독 모음작 끝 */
@@ -293,6 +355,7 @@
     justify-content: center;
     width: 100%;
     height: 400px;
+    cursor: pointer;
 }
 
 .ActorMovie_poster > img{
@@ -310,10 +373,29 @@
 }
 
 .ActorMovie_mainBox {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.ActorMovie_number {
+    display: flex;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.77);;
+    border-radius: 25%;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    font-size: small;
+    z-index: 9999;
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 배우 모음작 끝 */
@@ -366,6 +448,7 @@
     justify-content: center;
     width: 100%;
     height: 400px;
+    cursor: pointer;
 }
 
 .Genre_poster > img{
@@ -391,10 +474,29 @@
 }
 
 .Genre_mainBox {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.Genre_number {
+    display: flex;
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    background-color: rgba(0, 0, 0, 0.77);;
+    border-radius: 25%;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    font-size: small;
+    z-index: 9999;
+    opacity: 1;
+    width: 10px;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 장르 끝 */

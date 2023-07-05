@@ -72,11 +72,14 @@ export default function Upcomming() {
     ],
   };
 
+  const index = 0;
+
   return (
     <Slider {...settings}>
-      {upcommingList.results.map((item) => (
+      {upcommingList.results.map((item, index) => (
         <div className={styles.Upcomming_mainBox}>
           <div className={styles.Upcomming_poster}>
+          <span className={styles.ActorMovie_number}>{index + 1}</span>
             <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
           </div>
           <div className={styles.Upcomming_poster_title}>
