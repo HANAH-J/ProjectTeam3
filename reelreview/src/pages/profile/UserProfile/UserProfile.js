@@ -11,6 +11,13 @@ import img2 from "../../../img/profile/userProfile/rate.svg";
 
 
 function UserProfile() {
+    //유저 고유번호 userCd
+    //유저 이름 name
+    //유저 이메일 email
+    //유저 비밀번호 password
+    //유저 배경사진 bg_image
+    //유저 프로필사진 pf_image
+    //유저 상태메시지 status
 
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();

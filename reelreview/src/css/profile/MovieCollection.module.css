@@ -8,6 +8,7 @@
   margin-top: 62px;
   font-family: 'Noto Sans KR', sans-serif;
   letter-spacing: -0.8px;
+  font-size: 10px;
   margin-bottom: 30px;
 }
 
@@ -22,6 +23,7 @@
 .movieCollection_Wrapper .movieCollection_Wrapper_Title {
   text-align: center;
   padding-bottom: 10px;
+  font-size: initial;
 }
 
 .movieCollection_Wrapper .movieCollection_Header .movieCollection_Header_Arrow {
@@ -41,6 +43,8 @@
   overflow: hidden;
   margin: 30px auto 0 auto;
   background-color: #ffffff;
+  margin-top: 50px;
+  margin-bottom: 100px;
 }
 
 .movieCollection_Wrapper .collection_container .collection_header {
@@ -208,7 +212,7 @@
 
 .collection_More p {
   color: #FF0558;
-  font-size: 0.9em;
+  font-size: 15px;
   text-align: right;
   padding-right: 24px;
   margin-top: 10px;
