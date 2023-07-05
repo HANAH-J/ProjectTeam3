@@ -1,7 +1,5 @@
-import Col from 'react-bootstrap/Col';
-import styles from '../../css/details/Detail_num4.module.css';
-import { Image } from 'react-bootstrap';
-import imgs from '../../img/Detail/people.jpg';
+import styles from '../../../css/details/Detail_num4.module.css';
+import imgs from '../../../img/Detail/people.jpg';
 import { RiStarSFill } from "react-icons/ri";
 import { FaThumbsUp } from "react-icons/fa";
 import { ImBubble } from "react-icons/im";
@@ -10,12 +8,12 @@ import { ImBubble } from "react-icons/im";
 
 function CommentsCol() {
     return(
-        <Col>
+        <div className={styles.col}>
             <div className={styles.card}>
                 <div className={styles.cardTop}>
                     <div className={styles.cardTopInner}>
                         <div className={styles.cardTopLeft}>
-                            <Image src={imgs} className={styles.cardImg} roundedCircle/>
+                            <img src={imgs} className={styles.cardImg}/>
                                 <p>아이디?픞로필</p>
                         </div>
                         <div className={styles.cardTopRight}>
@@ -42,7 +40,7 @@ function CommentsCol() {
                     <p>50</p>
                 </div>
             </div>
-        </Col>
+        </div>
     )
 }
 
