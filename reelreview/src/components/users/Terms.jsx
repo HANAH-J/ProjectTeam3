@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../../css/users/Terms.module.css';
 import TermsContents1 from './TermsContents1';
-// import TermsContents2 from './TermsContents2';
+import TermsContents2 from './TermsContents2';
 
-function Terms() {
+export default function Terms() {
     
-    // 체크박스, 가입하기 useState
     const [checkItems, setCheckItems] = useState([]);
     const [submitButtonColor, setSubmitButtonColor] = useState('lightgray');
     const [termsCt1State, setTermsCt1State] = useState(false);
-    // const [termsCt2State, setTermsCt2State] = useState([]);
+    const [termsCt2State, setTermsCt2State] = useState(false);
 
     // '전체 약관 동의' 체크 시 전체 약관 체크 함수
     const allCheckHandler = (isChecked) => {
@@ -33,18 +32,18 @@ function Terms() {
     };
 
     // 가입하기 버튼 색상 변경 함수
-    const updateSubmitButtonColor = () => {
+    const updateSubmitButtonColor = useCallback(() => {
         if (checkItems.length === 2) {
-            setSubmitButtonColor('#ff2f6e'); // 모든 체크박스가 선택된 경우 버튼 색상을 빨간색으로 변경
+            setSubmitButtonColor('#ff2f6e'); // 모든 체크박스가 선택된 경우 버튼 색상 변경
         } else {
-            setSubmitButtonColor('lightgray'); // 하나 이상의 체크박스가 선택되지 않은 경우 버튼 색상을 검은색으로 변경
+            setSubmitButtonColor('lightgray');
         }
-    };
+    }, [checkItems]);
 
     // checkItems 상태가 변경될 때마다 '가입하기' 버튼 색상 변경
     useEffect(() => {
         updateSubmitButtonColor();
-    }, [checkItems]);
+    }, [checkItems, updateSubmitButtonColor]);
 
     // 서비스 이용약관 모달창 상태 변경 함수
     const termsCt1OnOffModal = () => {
@@ -52,12 +51,11 @@ function Terms() {
     };
 
     // 개인정보 처리방침 모달창 상태 변경 함수
-    // const termsCt2OnOffModal = () => {
-    //     setTermsCt2State(!termsCt1State);
-    // };
+    const termsCt2OnOffModal = () => {
+        setTermsCt2State(!termsCt2State);
+    };
 
     return(
-
         <div className={styles.user_terms_modal}>
             <div className={styles.user_terms_modal_color}>
                 <span className={styles.user_terms_message}>약관에 동의하시면<br></br>가입이 완료됩니다.</span>
@@ -88,7 +86,7 @@ function Terms() {
                         <span className={styles.user_terms_text}>서비스 이용약관</span>
                         <span className={styles.user_terms_check_detail} onClick={termsCt1OnOffModal}>보기</span>
                         {
-                            // 서비스 이용약관 출력 코드
+                            // 서비스 이용약관 출력
                             termsCt1State ? <TermsContents1 setTermsCt1State={setTermsCt1State}/> : null
                         }
                     </label>
@@ -105,9 +103,10 @@ function Terms() {
                         />
                         <label htmlFor='check_2'></label>
                         <span className={styles.user_terms_text}>개인정보 처리방침</span>
-                        <span className={styles.user_terms_check_detail}>보기</span>
+                        <span className={styles.user_terms_check_detail} onClick={termsCt2OnOffModal}>보기</span>
                         {
-                            // 개인정보 처리방침 출력 코드
+                            // 개인정보 처리방침 출력
+                            termsCt2State ? <TermsContents2 setTermsCt2State={setTermsCt2State}/> : null
                         }
                     </label>
                 </li>
@@ -121,5 +120,3 @@ function Terms() {
         </div>
     )
 }
-
-export default Terms;

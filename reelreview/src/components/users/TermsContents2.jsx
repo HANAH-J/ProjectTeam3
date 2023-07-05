@@ -2,15 +2,21 @@ import React from 'react';
 import styles from '../../css/users/Terms.module.css';
 
 // 개인정보 처리방침 모달창
-function TermsContens2() {
+export default function TermsContens2({setTermsCt2State}) {
+
+    // ⓧ버튼 클릭 시 닫기
+    const closeTermsContentsModal = () => {
+        setTermsCt2State(false);
+    };
 
     return(
         <div className={styles.user_terms_modal_2}>
-            <div className={styles.user_terms_buttonX}></div>
+            <div className={styles.user_terms_buttonX} onClick={closeTermsContentsModal}></div>
             <div className={styles.user_terms_title}>개인정보 처리방침</div>
-            <hr className={styles.user_terms_hr}></hr>
+            <hr className={styles.user_terms_contents_hr}></hr>
             <div className={styles.user_terms_contents}>
-                {`개인정보처리방침
+                {`
+                개인정보처리방침
 
                 본 방침은 2023년 7월 27일부터 적용됩니다.
 
@@ -327,10 +333,10 @@ function TermsContens2() {
                 나. 대금결제 및 재화의 공급에 관한 기록: 5년
                 다. 소비자의 불만 또는 분쟁처리에 관한 기록: 3년
                 라. 표시, 광고에 관한 기록: 6개월
-                마. 웹사이트 방문기록: 3개월`}
+                마. 웹사이트 방문기록: 3개월
+                
+                `}
             </div>
         </div>
     )
 }
-
-export default TermsContens2;

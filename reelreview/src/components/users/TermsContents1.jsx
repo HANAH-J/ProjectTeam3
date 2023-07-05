@@ -2,15 +2,21 @@ import React from 'react';
 import styles from '../../css/users/Terms.module.css';
 
 // 서비스 이용약관 모달창
-function TermsContens1() {
+export default function TermsContens1({setTermsCt1State}) {
+
+    // ⓧ버튼 클릭 시 닫기
+    const closeTermsContentsModal = () => {
+        setTermsCt1State(false);
+    };
 
     return(
         <div className={styles.user_terms_modal_2}>
-            <div className={styles.user_terms_buttonX}></div>
+            <div className={styles.user_terms_buttonX} onClick={closeTermsContentsModal}></div>
             <div className={styles.user_terms_title}>서비스 이용약관</div>
-            <hr className={styles.user_terms_hr}></hr>
+            <hr className={styles.user_terms_contents_hr}></hr>
             <div className={styles.user_terms_contents}>
-                {`릴리뷰 이용약관
+                {`
+                릴리뷰 이용약관
 
                 본 약관은 2023년 07월 27일부터 적용됩니다.
 
@@ -159,10 +165,10 @@ function TermsContens1() {
 
                 제18조 준거법 및 재판관할
                 ① 회사와 회원 간 제기된 소송에는 대한민국법을 준거법으로 합니다.
-                ② 회사와 회원간 발생한 분쟁에 관한 소송은 민사소송법 상의 관할법원에 제소합니다.`}
+                ② 회사와 회원간 발생한 분쟁에 관한 소송은 민사소송법 상의 관할법원에 제소합니다.
+                
+                `}
             </div>
         </div>
     )
 }
-
-export default TermsContens1;

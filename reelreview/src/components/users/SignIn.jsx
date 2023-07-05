@@ -6,19 +6,27 @@ import kakao_icon from '../../img/users/kakao_icon.png';
 import ForgotPw from './ForgotPw';
 
 // 로그인 모달창
-function SignIn({setSignInModalState, setSignUpModalState}) {
+export default function SignIn({ setSignInModalState, setSignUpModalState }) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const [modalHeight, setModalHeight] = useState(500); // 초기 모달창 높이 : 500px
     const [forgotPwModalState, setForgotPwModalState] = useState(false);
 
-    // 비밀번호 재설정 모달창 상태 변경 함수
-    const forgotPwOnOffModal = () => {
-        setForgotPwModalState(!forgotPwModalState);
+    // 이메일 유효성 검사 로직
+    // 이메일 : ex) 'hana@gmail.com' 형식
+    const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 
+    // 실시간 이메일 입력 값
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
+
+    // 이메일 에러 메시지 출력 여부
     useEffect(() => {
         if (email && !validateEmail(email)) {
             setEmailError('정확하지 않은 이메일입니다.');
@@ -27,23 +35,49 @@ function SignIn({setSignInModalState, setSignUpModalState}) {
         }
     }, [email]);
 
-    useEffect(() => {
-        if (forgotPwModalState) {
-          document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = 'auto';
-        }
-      }, [forgotPwModalState]);
-
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
+    // 비밀번호 유효성 검사 로직
+    // 비밀번호 : 최소 6자리 이상
+    const validatePassword = (password) => {
+        return /^(?=.{6,})/.test(password);
     };
 
+    // 실시간 비밀번호 입력 값
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
 
-    // X버튼 클릭 시 초기화
+    // 비밀번호 에러 메시지 출력 여부
+    useEffect(() => {
+        if (password && !validatePassword(password)) {
+            setPasswordError('비밀번호는 최소 6자리 이상이어야 합니다.');
+        } else {
+            setPasswordError('');
+        }
+    }, [password]);
+
+    // 이메일, 비밀번호 유효성 검사 통과 시 패스 마크 출력
+    useEffect(() => {
+        const inputEmail = document.getElementById('userEmail');
+        const inputPassword = document.getElementById('userPassword');
+        
+        if (inputEmail) {
+            if (validateEmail(email)) {
+                inputEmail.classList.add(styles.user_sign_inputPass);
+            } else {
+                inputEmail.classList.remove(styles.user_sign_inputPass);
+            }
+        }
+
+        if (inputPassword) {
+            if (validatePassword(password)) {
+                inputPassword.classList.add(styles.user_sign_inputPass);
+            } else {
+                inputPassword.classList.remove(styles.user_sign_inputPass);
+            }
+          }
+    }, [email, password]);
+
+    // ⓧ버튼 클릭 시 작성 내용 비우기
     const handleClearEmail = () => {
         setEmail('');
     }
@@ -51,77 +85,90 @@ function SignIn({setSignInModalState, setSignUpModalState}) {
         setPassword('');
     }
 
-    const validateEmail = (email) => {
-        // 이메일 유효성 검사 로직
-        // 이메일 : ex) 'hana@gmail.com' 형식
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
-
+    // 에러 메시지에 따른 모달창 높이 변경
     useEffect(() => {
         let errorHeight = 510;
-        if (emailError) {
-            errorHeight = 540;  // 이메일 에러 메시지 출력 시
+        if (emailError && passwordError) {
+            errorHeight = 570;  // 전체 에러 메시지 출력 시
+        } else if (emailError || passwordError) {
+            errorHeight = 540;  // 이메일 or 비밀번호 에러 메시지 출력 시
         }
         setModalHeight(errorHeight);
-    }, [emailError]);
+    }, [emailError, passwordError]);
+
+    // '비밀번호 재설정' 모달창 상태 변경 함수
+    const forgotPwOnOffModal = () => {
+        setForgotPwModalState(!forgotPwModalState);
+    };
+
+    // '비밀번호 재설정' 모달창 배경색 and 스크롤 제어
+    useEffect(() => {
+        if (forgotPwModalState) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [forgotPwModalState]);
 
     // 모달창 외부 클릭 시 닫기
     useEffect(() => {
         document.addEventListener('mousedown', clickOutsideHandler);
         return () => {
-          document.removeEventListener('mousedown', clickOutsideHandler);
+            document.removeEventListener('mousedown', clickOutsideHandler);
         };
-      });
+    });
 
-      const clickOutsideHandler = (e) => {
+    const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
         if (modal && !modal.contains(e.target)) {
-          if (e.target.classList.contains(styles.user_login_signUp)) {
-            setSignInModalState(false);
-            setSignUpModalState(true);
-          } else {
-            setSignInModalState(false);
-          }
+            if (e.target.classList.contains(styles.user_login_signUp)) {
+                setSignInModalState(false);
+                setSignUpModalState(true);
+            } else {
+                setSignInModalState(false);
+            }
         }
-      };
+    };
 
     return (
-        <div className={styles.user_login_modal} style={{height: `${modalHeight}px`}}>
+        <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
             <form method='post'>
                 <div><img src={reel_review_logo} className={styles.user_login_logo} alt='reel_review_logo'></img></div>
                 <h2 className={styles.user_login_h2}>로그인</h2>
-                <input 
-                    type='text' 
-                    id='userEmail' 
-                    required 
-                    placeholder='이메일' 
-                    className={styles.user_login_input}
+                <input
+                    type='text'
+                    id='userEmail'
+                    required
+                    placeholder='이메일'
+                    className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
-                    onChange={handleEmailChange}/>
+                    onChange={handleEmailChange} />
                 <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
-                <br/>
+                <br />
                 {emailError && <p className={styles.user_login_error}>{emailError}</p>}
-                <input 
-                    type='password' 
-                    id='userPassword' 
-                    required 
-                    placeholder='비밀번호' 
-                    className={styles.user_login_input}
+                <input
+                    type='password'
+                    id='userPassword'
+                    required
+                    placeholder='비밀번호'
+                    className={passwordError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={password}
-                    onChange={handlePasswordChange}/>
+                    onChange={handlePasswordChange} />
                 <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
-                <br/>
+                <br />
+                {passwordError && <p className={styles.user_login_error}>{passwordError}</p>}
                 <button id='button' type='button' className={styles.user_login_btn}>로그인</button>
             </form>
-            <div>
+            <div className={styles.user_sign_messageContainer}>
                 <span className={styles.user_login_forgotPw} onClick={forgotPwOnOffModal}>비밀번호를 잊어버리셨나요?</span>
                 {
-                    forgotPwModalState ? <ForgotPw setForgotPwModalState={setForgotPwModalState}/> : null
+                    forgotPwModalState ? <ForgotPw setForgotPwModalState={setForgotPwModalState} /> : null
                 }
                 <span className={styles.user_login_helpMessage}>계정이 없으신가요?
                     <span className={styles.user_login_signUp} onClick={() => {
                         setSignInModalState(false);
-                        setSignUpModalState(true);}}>회원가입
+                        setSignUpModalState(true);
+                    }}>회원가입
                     </span>
                 </span>
             </div>
@@ -143,5 +190,3 @@ function SignIn({setSignInModalState, setSignUpModalState}) {
         </div>
     )
 }
-
-export default SignIn;

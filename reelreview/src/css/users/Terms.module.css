@@ -4,6 +4,7 @@ font-family: 'Roboto', sans-serif;
 letter-spacing: -0.8px; */
 
 .user_terms_modal {
+    border: 1px solid red;
     width: 290px;
     height: 270px;
     position: absolute;
@@ -186,4 +187,66 @@ letter-spacing: -0.8px; */
     font-size: 1.1em;
     font-weight: bold;
     cursor: pointer;
+}
+
+/* 서비스 이용약관 */
+.user_terms_modal_2 {
+    border: 1px solid red;
+    border-radius: 12px;
+    width: 650px;
+    height: 800px;
+    position: absolute;
+    top: -450px;
+    left: 50%;
+    margin-left: -325px;
+    padding: 15px;
+    background-color: #ffffff;
+    z-index: 1001;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.user_terms_modal_2::-webkit-scrollbar {
+    width: 10px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+.user_terms_modal_2::-webkit-scrollbar-thumb {
+    height: 100px;
+    background-color: #a0a0a0;
+    border-radius: 12px;
+}
+
+.user_terms_buttonX {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    background-image: url('../../img/users/buttonClose.png');
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.user_terms_title {
+    position: relative;
+    top: 15px;
+    bottom: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.user_terms_contents_hr {
+    border: 1px solid lightgray;
+    width: 665px;
+    position: relative;
+    top: 20px;
+    margin-left: -15px;
+}
+
+.user_terms_contents {
+    position: relative;
+    top: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    white-space: pre-line;
 }

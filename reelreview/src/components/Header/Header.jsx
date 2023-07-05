@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../../css/Header/Nav.css";
 import styles from '../../css/users/Sign.module.css';
@@ -11,24 +11,34 @@ export default function Header() {
     const [signInModalState, setSignInModalState] = useState(false);
     const [signUpModalState, setSignUpModalState] = useState(false);
 
-    // 로그인 모달창 상태 변경 함수
+    // 로그인, 로그아웃 모달창 상태 변경 함수
     function signInOnOffModal() {
-        if (signInModalState === true) {
-            setSignInModalState(false);
-        } else {
-            setSignInModalState(true);
-        }
+        setSignInModalState(prevState => !prevState);
     }
-
-    // 회원가입 모달창 상태 변경 함수
     function signUpOnOffModal() {
-        if (signUpModalState === true) {
-            setSignUpModalState(false);
-        } else {
-            setSignUpModalState(true);
-        }
+        setSignUpModalState(prevState => !prevState);
     }
 
+    useEffect(() => {
+        const handleScroll = () => {
+          const body = document.body;
+          if (signInModalState || signUpModalState) {
+            body.style.overflow = "hidden";
+            body.style.position = "fixed";  // 모달이 열려 있을 때 스크롤 고정
+          } else {
+            body.style.overflow = "auto";
+            body.style.position = "static"; // 모달이 닫혔을 때 스크롤 복원
+          }
+        };
+    
+        handleScroll(); // 페이지 로드 시 스크롤 상태 초기화
+        window.addEventListener("scroll", handleScroll);
+    
+        return () => {
+          window.removeEventListener("scroll", handleScroll);
+        };
+      }, [signInModalState, signUpModalState]);
+      
     return (
 
         <nav className="topNav">
@@ -59,11 +69,7 @@ export default function Header() {
                     }
                 </ul>
             </div>
-            {signInModalState && (
-                <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}>
-                </div>
-            )}
-            {signUpModalState && (
+            {(signInModalState || signUpModalState) && (
                 <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}>
                 </div>
             )}
