@@ -210,7 +210,7 @@ export const animationList = {
             "popularity": 310.582,
             "poster_path": "/rBLtRrK0927raJsWZu4Ip3wQuaH.jpg",
             "release_date": "2022-11-10",
-            "title": "소드 아트 온라인 -프로그레시브- 짙은 어둠의 스케르초",
+            "title": "소드 아트 온라인-짙은 어둠의 스케르초",
             "video": false,
             "vote_average": 7.6,
             "vote_count": 92

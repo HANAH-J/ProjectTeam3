@@ -17,7 +17,7 @@
     border-radius: 5px;
     margin: 0 auto;
     flex-grow: 1;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
     font-family: 'Noto Sans KR', sans-serif;
     letter-spacing: -0.8px;
     text-align: center;
@@ -49,7 +49,7 @@
     position: relative;
     top: -20px;
     width: 640px;
-    height: 590px;
+    height: 580px;
     margin: 0 auto;
 }
 
@@ -70,6 +70,20 @@
     margin-left: 30px;
 }
 
+.userInfo .profilePic:hover .profilePicHover {
+    opacity: 0.5;
+}
+
+.userInfo .profilePic .profilePicHover {
+    position: absolute;
+    margin-left: 30px;
+    opacity: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    transition: opacity 0.5s;
+}
+
 .userInfo ul {
     list-style-type: none;
     margin: 0;
@@ -85,6 +99,8 @@
 .UserProfile .userInfo .msg {
     text-align: left;
     padding-left: 30px;
+    font-size: 14px;
+    margin-top: -5px;
 }
 
 .movieListText {
@@ -92,11 +108,11 @@
     height: 50px;
 }
 
-hr {
+.userProfile_HR {
     height: 1px;
     background: #e3e3e3;
     border: 0;
-    width: 90%;
+    width: 100%;
 }
 
 .UserProfile .userInfo .topHR hr {
@@ -126,6 +142,7 @@ hr {
 .movieList .card h5, .movieList .card h4 {
     text-align: left;
     margin-left: 10px;
+    cursor: pointer;
 }
 
 .movieList .card h5 {
@@ -139,7 +156,15 @@ hr {
     object-fit: cover;
     border: 1px solid #e3e3e3;
     border-radius: 5px;
-  }
+    cursor: pointer;
+}
+
+.movieList .movieListTitle {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .movieListMore p {
     color: #FF0558;
@@ -152,11 +177,11 @@ hr {
     margin-left: 550px;
 }
 
-.UserProfile .userInfo .movieCollection h4 {
-    margin-top: 5px;
+.UserProfile .userInfo .movieCollection h4, .UserProfile .userInfo .userComment h4 {
+    margin-top: 4px;
 }
 
-.movieToWatch, .movieCollection {
+.movieToWatch, .movieCollection, .userComment {
     cursor: pointer;
 }
 

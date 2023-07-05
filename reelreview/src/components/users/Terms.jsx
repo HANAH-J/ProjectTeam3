@@ -3,7 +3,7 @@ import styles from '../../css/users/Terms.module.css';
 import TermsContents1 from './TermsContents1';
 import TermsContents2 from './TermsContents2';
 
-export default function Terms() {
+export default function Terms({setTermsModalState}) {
     
     const [checkItems, setCheckItems] = useState([]);
     const [submitButtonColor, setSubmitButtonColor] = useState('lightgray');
@@ -54,6 +54,21 @@ export default function Terms() {
     const termsCt2OnOffModal = () => {
         setTermsCt2State(!termsCt2State);
     };
+
+    // 모달창 외부 클릭 시 닫기
+    useEffect(() => {
+        document.addEventListener('mousedown', clickOutsideHandler);
+        return () => {
+          document.removeEventListener('mousedown', clickOutsideHandler);
+        };
+      });
+
+      const clickOutsideHandler = (e) => {
+        const modal = document.querySelector(`.${styles.user_terms_modal}`);
+        if (modal && !modal.contains(e.target)) {
+            setTermsModalState(false);
+        }
+      };
 
     return(
         <div className={styles.user_terms_modal}>

@@ -6,7 +6,7 @@ import kakao_icon from '../../img/users/kakao_icon.png';
 import Terms from './Terms';
 
 // 회원가입 모달창
-export default function SignUp({setSignInModalState, setSignUpModalState }) {
+export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -85,25 +85,25 @@ export default function SignUp({setSignInModalState, setSignUpModalState }) {
 
         if (inputName) {
             if (validateName(name)) {
-                inputName.classList.add(styles.inputPass);
+                inputName.classList.add(styles.user_sign_inputPass);
             } else {
-                inputName.classList.remove(styles.inputPass);
+                inputName.classList.remove(styles.user_sign_inputPass);
             }
         }
         
         if (inputEmail) {
             if (validateEmail(email)) {
-                inputEmail.classList.add(styles.inputPass);
+                inputEmail.classList.add(styles.user_sign_inputPass);
             } else {
-                inputEmail.classList.remove(styles.inputPass);
+                inputEmail.classList.remove(styles.user_sign_inputPass);
             }
         }
 
         if (inputPassword) {
             if (validatePassword(password)) {
-                inputPassword.classList.add(styles.inputPass);
+                inputPassword.classList.add(styles.user_sign_inputPass);
             } else {
-                inputPassword.classList.remove(styles.inputPass);
+                inputPassword.classList.remove(styles.user_sign_inputPass);
             }
           }
     }, [name, email, password]);
@@ -119,12 +119,15 @@ export default function SignUp({setSignInModalState, setSignUpModalState }) {
         setPassword('');
     }
 
-    // 약관 모달창 배경색 and 스크롤 제어
+    // 약관동의 모달창 상태 변경 함수
+    const termsOnOffModal = () => {
+        setTermsModalState(!termsModalState);
+    };
+
+    // 약관동의 모달창 배경색 and 스크롤 제어
     useEffect(() => {
         if (termsModalState) {
           document.body.style.overflow = 'hidden';
-        } else {
-          document.body.style.overflow = 'auto';
         }
       }, [termsModalState]);
 
@@ -145,11 +148,6 @@ export default function SignUp({setSignInModalState, setSignUpModalState }) {
         }
         setModalHeight(errorHeight);
     }, [nameError, emailError, passwordError]);
-
-    // 약관동의 모달창 상태 변경 함수
-    const termsOnOffModal = () => {
-        setTermsModalState(!termsModalState);
-    };
 
     // 모달창 외부 클릭 시 닫기
     useEffect(() => {
@@ -234,6 +232,10 @@ export default function SignUp({setSignInModalState, setSignUpModalState }) {
                     <span className={styles.user_login_logo_btn}>카카오 아이디로 로그인</span>
                 </div>
             </div>
+            {termsModalState && (
+                <div className={styles.modalBackground_3} style={{ backgroundColor: "black" }}>
+                </div>
+            )}
         </div>
     )
 }

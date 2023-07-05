@@ -70,11 +70,14 @@ export default function DirectorMovie() {
         ],
     };
 
+    const index = 0;
+
     return (
         <Slider {...settings}>
-            {directormovieList.peopleInfoResult.peopleInfo.filmos.map((item) => (
+            {directormovieList.peopleInfoResult.peopleInfo.filmos.map((item, index) => (
                 <div className={styles.DirectorMovie_mainBox}>
                     <div className={styles.DirectorMovie_poster}>
+                    <span className={styles.ActorMovie_number}>{index + 1}</span>
                         <img src={item.moviePoster} alt="poster" />
                     </div>
                     <div className={styles.DirectorMovie_poster_title}>

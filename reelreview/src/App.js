@@ -4,6 +4,8 @@ import { Route,Routes } from "react-router-dom";
 import Details from "./pages/details/Details";
 import UserProfile from './pages/profile/UserProfile/UserProfile';
 import UserScoreCollection from './pages/profile/UserScoreCollection/UserScoreCollection';
+import CollectionDetail from './pages/profile/MovieCollection/CollectionDetail';
+import UserComment from './pages/profile/UserComment/UserComment';
 import Upcomming from "./components/Main_Body/Upcomming";
 import MovieToWatch from './pages/profile/MovieToWatch/MovieToWatch';
 import CsMain from "./pages/cs/CsMain";
@@ -16,6 +18,7 @@ import ActorMovie from "./components/Main_Body/ActorMovie";
 import Genre from "./components/Main_Body/Genre";
 import DirectorMovie from "./components/Main_Body/DirectorMovie";
 import BoxOffice from "./components/Main_Body/BoxOffice";
+import CsBoardDetail from "./pages/cs/csBoardDetail/CsBoardDetail";
 
 
 function App() {
@@ -38,6 +41,8 @@ function App() {
         <Route path="/mainPage_loginSuccess" element={<MainPage_loginSuccess/>} />
         <Route path="/userScoreCollection" element={<UserScoreCollection/>} />
         <Route path="/movieToWatch" element={<MovieToWatch/>} />
+        <Route path="/collection/:collectionCd" element={<CollectionDetail/>}/>
+        <Route path="/userComment" element={<UserComment/>}/>
         <Route path="/csBoard" element={<CsBoard/>} />
         <Route path="/movieCollection" element={<MovieCollection/>} />
       </Routes>
