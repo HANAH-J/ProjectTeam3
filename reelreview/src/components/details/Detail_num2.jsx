@@ -2,7 +2,7 @@ import styles from '../../css/details/Detail_num2.module.css';
 import React, { useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 import poster from '../../img/Detail/poster.jpg'
-import Charts from './charts';
+import Charts from './smallComponents/charts';
 import { AiOutlinePlus,AiFillEye } from "react-icons/ai";
 import { BiSolidPencil,BiDotsHorizontalRounded } from "react-icons/bi";
 

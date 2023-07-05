@@ -11,3 +11,4 @@ npm install react-simple-star-rating / 2023-07-03 / 문영민
 npm install recharts / 2023-07-03 / 문영민
 npm install react-bootstrap bootstrap / 2023-07-03 / 문영민
 npm install react-icons / 2023-07-03 / 문영민
+npm install patch-package / 2023-07-05 / 문영민
