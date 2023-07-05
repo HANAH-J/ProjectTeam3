@@ -6,6 +6,7 @@ import Upcomming from "../../components/Main_Body/Upcomming"
 import ActorMovie from '../../components/Main_Body/ActorMovie';
 import DirectorMovie from '../../components/Main_Body/DirectorMovie';
 import Genre from '../../components/Main_Body/Genre';
+import styles from '../../css/main/Mainpage.module.css';
 
 
 export default function MainPage() {
