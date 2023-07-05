@@ -49,6 +49,7 @@ function PFPModal({setOpenModal}) {
 
   return (
     <div className={styles.PFPModal_BG} onClick={closePFPModal}>
+      
         <div className={styles.PFPModal_Wrapper}> 
             <div className={styles.PFPModal_Title}>
                 <h2>설정</h2>
@@ -65,11 +66,12 @@ function PFPModal({setOpenModal}) {
             <div className={styles.PFPModal_Logo}> 
                 <p>로고</p>
             </div>
+            
         </div>
 
       {showWithdrawModal && ( 
         <div className={styles.WithdrawModal}>
-          <h2>탈퇴 확인</h2>
+          <h3>탈퇴 확인</h3>
           <p>정말로 탈퇴하시겠습니까?</p>
           <button onClick={closeWithdrawModal}>취소</button>
           <button>탈퇴하기</button>
@@ -78,8 +80,8 @@ function PFPModal({setOpenModal}) {
 
       {showEditTextModal && ( 
         <div className={styles.EditTextModal}>
-          <h2>프로필 문구 변경</h2>
-          <input type="text" id="profileText" placeholder="텍스트를 입력하세요." maxLength={30} />
+          <h3>프로필 문구 변경</h3>
+          <input type="text" id="profileText" placeholder="프로필 문구를 입력해주세요." maxLength={100} />
           <br></br>
           <button>저장</button>
           <button onClick={closeEditTextModal}>취소</button>
@@ -89,7 +91,7 @@ function PFPModal({setOpenModal}) {
 
       {showEditPFPModal && ( 
         <div className={styles.EditPFPModal}>
-          <h2>프로필 사진 변경</h2>
+          <h3>프로필 사진 변경</h3>
           <input type="file" id="pictureForProfile" />
           <br></br>
           <button>변경</button>
@@ -99,7 +101,7 @@ function PFPModal({setOpenModal}) {
 
       {showEditPFBModal && ( 
         <div className={styles.EditPFBModal}>
-          <h2>배경 사진 변경</h2>
+          <h3>배경 사진 변경</h3>
           <input type="file" id="pictureForBG" />
           <br></br>
           <button>변경</button>
@@ -107,7 +109,7 @@ function PFPModal({setOpenModal}) {
         </div>
       )}
 
-
+      
     </div>
   );
 }

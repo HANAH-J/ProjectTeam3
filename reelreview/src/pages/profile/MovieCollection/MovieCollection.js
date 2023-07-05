@@ -10,7 +10,8 @@ function MovieCollection() {
   console.log('유저 무비컬렉션');
 
   const collection_num_More = () => {
-    navigate('/collection_num_More');
+    navigate('/collection:collectionCd');
+    //컬렉션번호 collectionCd
   }
   
   return (
