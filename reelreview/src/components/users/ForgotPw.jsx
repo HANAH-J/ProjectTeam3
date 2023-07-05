@@ -27,7 +27,7 @@ export default function ForgotPw({setForgotPwModalState}) {
 
     // 이메일 유효성 검사 통과 시 패스 마크 출력
     useEffect(() => {
-        const inputEmail = document.getElementById('userEmail');
+        const inputEmail = document.getElementById('forgotEmail');
         
         if (inputEmail) {
             if (validateEmail(email)) {
@@ -36,6 +36,7 @@ export default function ForgotPw({setForgotPwModalState}) {
                 inputEmail.classList.remove(styles.user_forgotPw_inputPass);
             }
         }
+
     }, [email]);
 
     // ⓧ버튼 클릭 시 작성 내용 비우기
@@ -76,9 +77,10 @@ export default function ForgotPw({setForgotPwModalState}) {
             <form>
                 <input
                     type="text"
-                    id="userEmail"
+                    id="forgotEmail"
                     required
                     placeholder="이메일"
+                    
                     className={emailError ? `${styles.user_forgotPw_input} ${styles.user_forgotPw_inputError}` : styles.user_forgotPw_input}
                     value={email}
                     onChange={handleEmailChange} />

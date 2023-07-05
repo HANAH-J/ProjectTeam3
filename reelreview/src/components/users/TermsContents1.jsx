@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from '../../css/users/Terms.module.css';
 
 // 서비스 이용약관 모달창
 export default function TermsContens1({setTermsCt1State}) {
+
+    // 모달창 외부 클릭 시 닫기
+    useEffect(() => {
+        document.addEventListener('mousedown', clickOutsideHandler);
+        return () => {
+          document.removeEventListener('mousedown', clickOutsideHandler);
+        };
+      });
+
+      const clickOutsideHandler = (e) => {
+        const modal = document.querySelector(`.${styles.user_terms_modal_2}`);
+        if (modal && !modal.contains(e.target)) {
+            setTermsCt1State(false);
+        }
+      };
 
     // ⓧ버튼 클릭 시 닫기
     const closeTermsContentsModal = () => {

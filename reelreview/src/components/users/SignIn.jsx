@@ -105,8 +105,6 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     useEffect(() => {
         if (forgotPwModalState) {
             document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
         }
     }, [forgotPwModalState]);
 
@@ -121,14 +119,9 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
         if (modal && !modal.contains(e.target)) {
-            if (e.target.classList.contains(styles.user_login_signUp)) {
-                setSignInModalState(false);
-                setSignUpModalState(true);
-            } else {
-                setSignInModalState(false);
-            }
+          setSignInModalState(false);
         }
-    };
+      };
 
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
@@ -183,10 +176,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     <span className={styles.user_login_logo_btn}>카카오 아이디로 로그인</span>
                 </div>
             </div>
-            {forgotPwModalState && (
-                <div className={styles.modalBackground_2} style={{ backgroundColor: "black" }}>
-                </div>
-            )}
+            {forgotPwModalState && <div className={styles.modalBackground_2} style={{ backgroundColor: "black" }}/>}
         </div>
     )
 }

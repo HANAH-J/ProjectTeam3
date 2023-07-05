@@ -3,8 +3,13 @@
 font-family: 'Roboto', sans-serif;
 letter-spacing: -0.8px; */
 
-.user_terms_modal {
+.modalBackground_3 {
     border: 1px solid red;
+    border-radius: 7px;
+    z-index: 9999;
+  }
+
+.user_terms_modal {
     width: 290px;
     height: 270px;
     position: absolute;
@@ -12,7 +17,6 @@ letter-spacing: -0.8px; */
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #ffffff;
-    border: 1px solid black;
     border-radius: 12px;
     box-sizing: border-box;
     z-index: 1000;
@@ -191,7 +195,6 @@ letter-spacing: -0.8px; */
 
 /* 서비스 이용약관 */
 .user_terms_modal_2 {
-    border: 1px solid red;
     border-radius: 12px;
     width: 650px;
     height: 800px;
