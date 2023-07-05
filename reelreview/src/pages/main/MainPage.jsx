@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from '../../css/main/Mainpage.module.css';
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import BoxOffice from "../../components/Main_Body/BoxOffice";

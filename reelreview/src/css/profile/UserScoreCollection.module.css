@@ -68,7 +68,12 @@
 }
 
 .userScoreCollection_MovieList .userScoreCollection_MovieTitle {
+    width: 140px;
     text-align: left;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .userScoreCollection_MovieList .userScoreCollection_Rating {

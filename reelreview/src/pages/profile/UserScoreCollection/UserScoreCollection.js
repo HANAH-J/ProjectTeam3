@@ -22,7 +22,7 @@ function UserScoreCollection() {
                   <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
+                      <h4 className={styles.userScoreCollection_MovieTitle}> 엄청나게엄청나게긴영화제목 </h4> {/* {el.title} 들어가야함 */}
                       <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
