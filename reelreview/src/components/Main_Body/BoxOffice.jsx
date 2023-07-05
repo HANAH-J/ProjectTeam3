@@ -4,6 +4,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
 import { boxofficeList } from '../../api/Movies/BoxOffice';
+import { useNavigate } from 'react-router-dom';
+import Details from '../../pages/details/Details';
 
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
@@ -71,11 +73,20 @@ export default function BoxOffice() {
     ],
   };
 
+  const index = 0;
+
+  const navigate = useNavigate();
+
+  const onClickDetailPage = () =>{
+    navigate('Details')
+  }
+
   return (
     <Slider {...settings}>
-      {boxofficeList.results.map((item) => (
+      {boxofficeList.results.map((item, index) => (
         <div className={styles.BoxOffice_mainBox}>
-          <div className={styles.BoxOffice_poster}>
+          <div className={styles.BoxOffice_poster} onClick={onClickDetailPage}>
+            <span className={styles.BoxOffice_number}>{index + 1}</span>
             <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
           </div>
           <div className={styles.BoxOffice_poster_title}>
@@ -83,7 +94,7 @@ export default function BoxOffice() {
           </div>
           <div className={styles.BoxOffice_bottom}>
             <h3>평점 : {item.vote_average}</h3>
-            <h3>인기 : {item.popularity}</h3>
+            <h3>인기점수 : {item.popularity}</h3>
           </div>
         </div>
       ))}

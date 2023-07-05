@@ -5,6 +5,7 @@ import styles from '../../css/users/Sign.module.css';
 import SignIn from "../../components/users/SignIn";
 import SignUp from "../../components/users/SignUp";
 
+
 export default function Header() {
 
     // 로그인, 회원가입 모달창 초기화면 출력 여부 : false
@@ -21,36 +22,38 @@ export default function Header() {
 
     useEffect(() => {
         const handleScroll = () => {
-          const body = document.body;
-          if (signInModalState || signUpModalState) {
-            body.style.overflow = "hidden";
-            body.style.position = "fixed";  // 모달이 열려 있을 때 스크롤 고정
-          } else {
-            body.style.overflow = "auto";
-            body.style.position = "static"; // 모달이 닫혔을 때 스크롤 복원
-          }
+            const body = document.body;
+            if (signInModalState || signUpModalState) {
+                body.style.overflow = "hidden";
+                body.style.position = "fixed";  // 모달이 열려 있을 때 스크롤 고정
+            } else {
+                body.style.overflow = "auto";
+                body.style.position = "static"; // 모달이 닫혔을 때 스크롤 복원
+            }
         };
-    
+
         handleScroll(); // 페이지 로드 시 스크롤 상태 초기화
         window.addEventListener("scroll", handleScroll);
-    
+
         return () => {
-          window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("scroll", handleScroll);
         };
-      }, [signInModalState, signUpModalState]);
-      
+    }, [signInModalState, signUpModalState]);
+
     return (
 
         <nav className="topNav">
             <div className="navWrapper">
                 <ul className="leftNav">
-                    <Link to="/mainpage"><li className="logoSection"/></Link>
+                    <Link to="/mainpage"><li className="logoSection" /></Link>
                 </ul>
 
                 <ul className="rightNav">
                     <li className="findMovies">
                         <div className="findWrapper">
-                            <input type="search" name="search" placeholder="영화를 검색해보세요." />
+                            <div className="findWrapper">
+                                <input type="search" name="search" placeholder="영화를 검색해보세요." />
+                            </div>
                         </div>
                     </li>
                     <Link to="/csMain" className="askReel_box">
@@ -59,13 +62,13 @@ export default function Header() {
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
                         // 로그인 모달창 화면 출력 여부
-                        signInModalState ? <SignIn setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState}/> : null
+                        signInModalState ? <SignIn setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState} /> : null
                     }
                     <li><button className="signUpBtn" onClick={signUpOnOffModal}>회원가입</button></li>
                     {
                         /* 로그인시 유저 프로필 이미지 출력 */
                         // 회원가입 모달창 화면 출력 여부
-                        signUpModalState ? <SignUp setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState}/> : null
+                        signUpModalState ? <SignUp setSignInModalState={setSignInModalState} setSignUpModalState={setSignUpModalState} /> : null
                     }
                 </ul>
             </div>

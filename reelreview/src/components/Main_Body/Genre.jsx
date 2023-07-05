@@ -72,11 +72,14 @@ export default function Genre() {
         ],
     };
 
+    const index = 0;
+
     return (
         <Slider {...settings}>
-          {animationList.results.map((item) => (
+          {animationList.results.map((item, index) => (
             <div className={styles.Genre_mainBox}>
               <div className={styles.Genre_poster}>
+              <span className={styles.ActorMovie_number}>{index + 1}</span>
                 <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
               </div>
               <div className={styles.Genre_poster_title}>

@@ -18,6 +18,7 @@ import ActorMovie from "./components/Main_Body/ActorMovie";
 import Genre from "./components/Main_Body/Genre";
 import DirectorMovie from "./components/Main_Body/DirectorMovie";
 import BoxOffice from "./components/Main_Body/BoxOffice";
+import CsBoardDetail from "./pages/cs/csBoardDetail/CsBoardDetail";
 
 
 function App() {
