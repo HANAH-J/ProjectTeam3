@@ -13,10 +13,11 @@ function Detailnum3(){
         <div className={styles.wrapper}>
             <div className={styles.people}>
 
-                <Container className={styles.topHead}>
+                <div className={styles.topHead}>
                     <h2>출연/제작</h2>
-                </Container>
-                <Container className={styles.cont}>
+                </div>
+
+                <div className={styles.cont}>
                     <Row className={styles.people1}>
                         <Col className={styles.people1_1}>
                             <a href='#' className={styles.people_link}>
@@ -155,7 +156,7 @@ function Detailnum3(){
                             </a>
                         </Col>
                     </Row>
-                </Container>
+                </div>
                 
             </div>
         </div>
