@@ -7,7 +7,7 @@
     letter-spacing: -0.8px;
 }
 
-hr {
+.PFPModal_HR {
     height: 1px;
     background: #e3e3e3;
     border: 0;
@@ -16,14 +16,6 @@ hr {
 
 .PFPModal_BG {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
-}
-
-.PFPModalinModal_BG {
     top: 0;
     left: 0;
     width: 100%;
@@ -68,7 +60,7 @@ hr {
     width: 375px;
     height: 40px;
     font-size: 0;
-    background-image: url(../../img/profile/nav/logo.png);
+    background-image: url(../../img/profile/logo.png);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
