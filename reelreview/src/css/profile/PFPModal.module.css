@@ -7,7 +7,7 @@
     letter-spacing: -0.8px;
 }
 
-hr {
+.PFPModal_HR {
     height: 1px;
     background: #e3e3e3;
     border: 0;
@@ -68,7 +68,7 @@ hr {
     width: 375px;
     height: 40px;
     font-size: 0;
-    background-image: url(../../img/profile/nav/logo.png);
+    background-image: url(../../img/profile/logo.png);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

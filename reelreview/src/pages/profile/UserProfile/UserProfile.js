@@ -6,8 +6,9 @@ import styles from '../../../css/profile/UserProfile.module.css'
 import PFPModal from "../Modal/PFPModal";
 import Header from "../../../components/Header/Header";
 import Footer from "../../../components/Footer/Footer";
-import img from '../../../img/profile/userProfile/empty_user.svg';
-import img2 from "../../../img/profile/userProfile/rate.svg";
+import userPFP from '../../../img/profile/userProfile/empty_user.svg';
+import userPFPHover from '../../../img/profile/userProfile/userGear2.png'
+import rateImg from "../../../img/profile/userProfile/rate.svg";
 
 
 function UserProfile() {
@@ -22,24 +23,11 @@ function UserProfile() {
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
 
-    const responsive = {    //캐러셀
-        superLargeDesktop: {
-          // the naming can be any, depends on you.
-          breakpoint: { max: 4000, min: 3000 },
-          items: 5
-        },
-        desktop: {
-          breakpoint: { max: 3000, min: 1024 },
-          items: 3
-        },
-        tablet: {
-          breakpoint: { max: 1024, min: 464 },
-          items: 2
-        },
-        mobile: {
-          breakpoint: { max: 464, min: 0 },
-          items: 1
-        }
+    const responsive = {    //캐러셀 반응형 코드
+        superLargeDesktop: {breakpoint: { max: 4000, min: 3000 }, items: 5},
+        desktop: {breakpoint: { max: 3000, min: 1024 }, items: 3},
+        tablet: {breakpoint: { max: 1024, min: 464 }, items: 2},
+        mobile: {breakpoint: { max: 464, min: 0 },items: 1}
       };
 
       const openPFPModal = () => {
@@ -59,6 +47,14 @@ function UserProfile() {
         navigate('/MovieCollection');
       }
 
+      const goToMovie = (e) => {
+        console.log('goToMovies');
+      }
+
+      const userComment = () => {
+        navigate('/userComment');
+      }
+
     return (
 
 
@@ -72,7 +68,8 @@ function UserProfile() {
             
             <div className={styles.userInfo}>
                 <button className={styles.profilePic} onClick={openPFPModal}> 
-                    <img alt="profile" src= {img}/>
+                    <img alt="profile" src={userPFP} />
+                    <img alt="profile" src={userPFPHover} className={styles.profilePicHover} />
                 </button>
                 <ul>
                     <li>
@@ -84,41 +81,40 @@ function UserProfile() {
                 </ul>
 
                     <div className={styles.movieListText}>
-                        <div className={styles.topHR}> <hr /> </div>
+                        <div className={styles.topHR}> <hr className={styles.userProfile_HR} /> </div>
                         <h4>
-                        <img alt="" src= {img2}/>
-                        [NAME]님이 평가한 영화
+                        <img alt="" src= {rateImg}/>
+                        [NAME]님이 평가한 영화 (n개)
                         </h4>
-                        <div className={styles.bottomHR}> <hr /> </div>
+                        <div className={styles.bottomHR}> <hr className={styles.userProfile_HR}/> </div>
                     </div>
 
                 <div className={styles.movieList}>
-                    {/* <h3>영화 리스트 출력</h3> */}
                     <Carousel responsive={responsive}>
                         <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h4> [영화제목] </h4>
-                            <h5> 평가함 ★ [점수] </h5>
+                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
+                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [엄~~~~~~청나게긴영화제목] </h4>
+                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
                         </div>
                         <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h4> [영화제목] </h4>
-                            <h5> 평가함 ★ [점수] </h5>
+                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
+                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [영화제목] </h4>
+                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
                         </div>
                         <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h4> [영화제목] </h4>
-                            <h5> 평가함 ★ [점수] </h5>
+                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
+                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [영화제목] </h4>
+                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
                         </div>
                         <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h4> [영화제목] </h4>
-                            <h5> 평가함 ★ [점수] </h5>
+                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
+                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [영화제목] </h4>
+                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
                         </div>
                         <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" />
-                            <h4> [영화제목] </h4>
-                            <h5> 평가함 ★ [점수] </h5>
+                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
+                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [영화제목] </h4>
+                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
                         </div>
                     </Carousel>
                     <div className={styles.movieListMore} onClick={userScoreCollection}> 
@@ -127,18 +123,22 @@ function UserProfile() {
                 </div>
 
                 <div className={styles.movieToWatch} onClick={userMovieToWatch}>
-                        <div className={styles.topHR}> <hr /> </div>
+                        <div className={styles.topHR}> <hr className={styles.userProfile_HR}/> </div>
                         <h4>
                         보고싶어요
                         </h4>
-                        <div className={styles.bottomHR}> <hr /> </div>
+                        <div className={styles.bottomHR}> <hr className={styles.userProfile_HR}/> </div>
                 </div>
 
                 <div className={styles.movieCollection} onClick={movieCollection}>
                         <h4>
                         [NAME]님의 컬렉션
                         </h4>
-                        <div className={styles.bottomHR}> <hr /> </div>
+                        <div className={styles.bottomHR}> <hr className={styles.userProfile_HR}/> </div>
+                </div>
+
+                <div className={styles.userComment} onClick={userComment}>
+                        <h4>코멘트</h4>
                 </div>
 
            </div>

@@ -9,8 +9,8 @@ function MovieCollection() {
   const navigate = useNavigate();
   console.log('유저 무비컬렉션');
 
-  const collection_num_More = () => {
-    navigate('/collection:collectionCd');
+  const collection_Detail = () => {
+    navigate('/collection/:collectionCd');
     //컬렉션번호 collectionCd
   }
   
@@ -86,161 +86,11 @@ function MovieCollection() {
 
             </div>
         </section>
-        <div className={styles.collection_More}> 
+        <div className={styles.collection_More} onClick={collection_Detail}> 
           <p>더보기</p>
         </div>
       </div>
-
-
-
-
-
-
-
-      <div className={styles.collection_container}>
-        <header className={styles.collection_header}>
-          <div className={styles.collection_h_container}>
-            <div className={styles.collection_h_poster1}>
-              <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster2}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster3}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster4}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster5}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster6}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-          </div>
-        </header>
-        <section className={styles.collection_title_container}>
-            <div className={styles.collection_title}>
-              <h1>Collection Title</h1>
-            </div>
-        </section>
-        <section>
-            <div className={styles.collection_movies}>
-              <h1>작품들</h1>
-            </div>
-            <div className={styles.collection_movies_grid}>
               
-                  <ul className={styles.collection_ul}>   
-                    <li> 
-                      <img className={styles.collection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.collection_MovieTitle}> Title </h4> 
-                    </li>
-                  </ul>
-
-                  <ul className={styles.collection_ul}>   
-                    <li> 
-                      <img className={styles.collection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.collection_MovieTitle}> Title </h4> 
-                    </li>
-                  </ul>
-
-                  <ul className={styles.collection_ul}>   
-                    <li> 
-                      <img className={styles.collection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.collection_MovieTitle}> Title </h4> 
-                    </li>
-                  </ul>
-
-                  <ul className={styles.collection_ul}>   
-                    <li> 
-                      <img className={styles.collection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.collection_MovieTitle}> Title </h4> 
-                    </li>
-                  </ul>
-
-            </div>
-        </section>
-        <div className={styles.collection_More}> 
-          <p>더보기</p>
-        </div>
-      </div>
-
-
-
-
-
-
-
-      <div className={styles.collection_container}>
-        <header className={styles.collection_header}>
-          <div className={styles.collection_h_container}>
-            <div className={styles.collection_h_poster1}>
-              <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster2}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster3}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster4}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster5}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-            <div className={styles.collection_h_poster6}>
-            <img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="movie"></img>
-            </div>
-          </div>
-        </header>
-        <section className={styles.collection_title_container}>
-            <div className={styles.collection_title}>
-              <h1>Collection Title</h1>
-            </div>
-        </section>
-        <section>
-            <div className={styles.collection_movies}>
-              <h1>작품들</h1>
-            </div>
-            <div className={styles.collection_movies_grid}>
-              
-                  <ul className={styles.collection_ul}>   
-                    <li> 
-                      <img className={styles.collection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.collection_MovieTitle}> Title </h4> 
-                    </li>
-                  </ul>
-
-                  <ul className={styles.collection_ul}>   
-                    <li> 
-                      <img className={styles.collection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.collection_MovieTitle}> Title </h4> 
-                    </li>
-                  </ul>
-
-                  <ul className={styles.collection_ul}>   
-                    <li> 
-                      <img className={styles.collection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.collection_MovieTitle}> Title </h4> 
-                    </li>
-                  </ul>
-
-                  <ul className={styles.collection_ul}>   
-                    <li> 
-                      <img className={styles.collection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.collection_MovieTitle}> Title </h4> 
-                    </li>
-                  </ul>
-
-            </div>
-        </section>
-        <div className={styles.collection_More}> 
-          <p onClick={collection_num_More}>더보기</p>
-        </div>
-      </div>
-        
     </div>
   );
 }

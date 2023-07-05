@@ -1,5 +1,4 @@
 import React from 'react'
-import styles from '../../css/main/Mainpage.module.css';
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import BoxOffice from "../../components/Main_Body/BoxOffice";
@@ -7,6 +6,7 @@ import Upcomming from "../../components/Main_Body/Upcomming"
 import ActorMovie from '../../components/Main_Body/ActorMovie';
 import DirectorMovie from '../../components/Main_Body/DirectorMovie';
 import Genre from '../../components/Main_Body/Genre';
+
 
 export default function MainPage() {
 

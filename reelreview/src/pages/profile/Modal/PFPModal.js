@@ -53,13 +53,13 @@ function PFPModal({setOpenModal}) {
         <div className={styles.PFPModal_Wrapper}> 
             <div className={styles.PFPModal_Title}>
                 <h2>설정</h2>
-                <hr/>
+                <hr className={styles.PFPModal_HR}/>
             </div> 
             <div className={styles.PFPModal_Content}> 
                 <p onClick={openEditPFPModal}>프로필 사진 변경</p>
                 <p onClick={openEditPFBModal}>배경 사진 변경</p>
                 <p onClick={openEditTextModal}>프로필 문구 변경</p>
-                <hr/>
+                <hr className={styles.PFPModal_HR}/>
                 <p>로그아웃</p>
                 <p onClick={openWithdrawModal}>탈퇴하기</p>
             </div>

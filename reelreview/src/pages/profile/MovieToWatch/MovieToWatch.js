@@ -21,7 +21,7 @@ function MovieToWatch() {
                   <ul className={styles.movieToWatch_MovieList}>   {/* key={el.title} */}
                     <li> {/* onClick={() => this.goToContens(el.film_id)} */}
                       <img className={styles.movieToWatch_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.movieToWatch_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
+                      <h4 className={styles.movieToWatch_MovieTitle}> 엄청나게 긴 제목입니다!!! </h4> {/* {el.title} 들어가야함 */}
                       <h5 className={styles.movieToWatch_Rating}>평균 ★ </h5> {/* {el.rating} 들어가야함 */}
                     </li>
                   </ul>
