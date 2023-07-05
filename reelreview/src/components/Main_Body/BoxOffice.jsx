@@ -1,28 +1,92 @@
 import React from 'react';
-import styles from "../../css/main/BoxOffice.module.css";
-import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import styles from '../../css/main/Mainpage.module.css';
+import { boxofficeList } from '../../api/Movies/BoxOffice';
 
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
-const IMG_BASE_URL = "https://image.tmdb.org/t/p/w1280/";
-
-export default function BoxOffice({movieCd,title, poster_path, vote_average, release_date, popularity }) {
-
-    return (
-        
-        <div className={styles.boxoffice_container}>
-            <div className={styles.boxoffice_box_poster}>
-                <Link to={'/details/' + movieCd} state={{ movieCd: movieCd }}>
-                    <img src={IMG_BASE_URL + poster_path} alt="영화포스터" />
-                </Link>
-                    <div className={styles.boxoffice_box_info}>
-                    <div className={styles.boxoffice_box_info_detail}>{title}</div>
-                    <div className={styles.boxoffice_box_info_detail}>개봉일 : {release_date}</div>
-                    <div className={styles.boxoffice_box_info_detail}>평점 : {vote_average}</div>
-                    <div className={styles.boxoffice_box_info_detail}>인기 : {popularity}</div>
-                </div>
-            </div>
-        </div>
-    );
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "#ddd", borderRadius: "50%", color: "white", transform: "scale(1.5)" }}
+      onClick={onClick}
+    >
+      <i className="fa fa-angle-right" style={{ color: "black" }}></i>
+    </div>
+  );
 }
 
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", background: "#ddd", borderRadius: "50%", color: "white", transform: "scale(1.5)"}}
+      onClick={onClick}
+    >
+      <i className="fa fa-angle-left" style={{ color: "black" }}></i>
+    </div>
+  );
+}
 
+export default function BoxOffice() {
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    initialSlide: 0,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
+  return (
+    <Slider {...settings}>
+      {boxofficeList.results.map((item) => (
+        <div className={styles.BoxOffice_mainBox}>
+          <div className={styles.BoxOffice_poster}>
+            <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
+          </div>
+          <div className={styles.BoxOffice_poster_title}>
+            <h3>{item.title}</h3>
+          </div>
+          <div className={styles.BoxOffice_bottom}>
+            <h3>평점 : {item.vote_average}</h3>
+            <h3>인기 : {item.popularity}</h3>
+          </div>
+        </div>
+      ))}
+    </Slider>
+  );
+}
