@@ -7,6 +7,7 @@ import Detailnum3 from "../../components/details/Detail_num3";
 import Detailnum4 from "../../components/details/Detail_num4";
 import Detailnum5 from "../../components/details/Detail_num5";
 import Detailnum6 from "../../components/details/Detail_num6";
+import Footer from "../../components/Footer/Footer";
 
 function Details() {
     const location = useLocation();
@@ -21,6 +22,7 @@ function Details() {
         <Detailnum4/>
         <Detailnum5/>
         <Detailnum6/>
+        <Footer></Footer>
     </div>
     );
 }

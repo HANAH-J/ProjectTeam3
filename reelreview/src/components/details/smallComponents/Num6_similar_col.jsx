@@ -5,7 +5,7 @@ import styles from '../../../css/details/Detail_num6.module.css';
 export default function Num6_similar_col() {
     return (
         <div className={styles.similar_col}>
-            <a>
+            <a href='#'>
                 <div className={styles.similar_col_img}>
                     <img src={imgs}></img>
                 </div>

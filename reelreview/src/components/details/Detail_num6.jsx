@@ -3,9 +3,9 @@ import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useState } from 'react';
-import CollectionBoxes from './smallComponents/colBoxes';
-import imgs from '../../img/Detail/poster.jpg';
-import Num6_similar_col from './smallComponents/num6_similar_col';
+import CollectionBoxes from './smallComponents/CollectionBoxes';
+
+import Num6_similar_col from './smallComponents/Num6_similar_col';
 
 function Detailnum6(){
     const [isOver,setIsOver] = useState(false);
@@ -24,7 +24,7 @@ function Detailnum6(){
         return (
             <div
                 className={className}
-                style={{ ...style, display: isOver? "block" : "block" , borderRadius: "50%", transform: "scale(1.5)", right: '25px',zIndex:"9999",top:"132px"}}
+                style={{ ...style, display: isOver? "block" : "none" , borderRadius: "50%", transform: "scale(1.5)", right: '25px',zIndex:"9999",top:"132px"}}
                 onClick={onClick} 
             >
             </div>
@@ -108,6 +108,14 @@ function Detailnum6(){
                 </div>
             </div>
             <div className={styles.similar}>
+                <div className={styles.similar_row}>
+                    <Num6_similar_col/>
+                    <Num6_similar_col/>
+                    <Num6_similar_col/>
+                    <Num6_similar_col/>
+                    <Num6_similar_col/>
+                    <Num6_similar_col/>
+                </div>
                 <div className={styles.similar_row}>
                     <Num6_similar_col/>
                     <Num6_similar_col/>

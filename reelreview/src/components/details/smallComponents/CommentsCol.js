@@ -9,6 +9,7 @@ import { ImBubble } from "react-icons/im";
 function CommentsCol() {
     return(
         <div className={styles.col}>
+
             <div className={styles.card}>
                 <div className={styles.cardTop}>
                     <div className={styles.cardTopInner}>
@@ -25,13 +26,15 @@ function CommentsCol() {
                     </div>
                 </div>
                 <div className={styles.cardMiddle}>
-                    <div className={styles.comment}>
-                        <p>
-                            수채화 같기도 하면서 살아 숨쉬는 동화.
-                            <br/><br/>
-                            가슴 따뜻한 이야기, 완성도 높은 비주얼과 의미 있는 메시지, 남녀노소를 사로잡는 유머가 존재한다. 때문에 영화의 전반적인 분위기와 성격이 굉장히 차분하면서도 아기자기하며, 어린이의 눈높이에 맞춰져 있는 듯 하지만 분명한 건 이 작품 역시 어른들을 위한 동화라는 것.
-                        </p>
-                    </div>  
+                    <a href='./commentDetail'>
+                        <div className={styles.comment}>
+                            <p>
+                                수채화 같기도 하면서 살아 숨쉬는 동화.
+                                <br/><br/>
+                                가슴 따뜻한 이야기, 완성도 높은 비주얼과 의미 있는 메시지, 남녀노소를 사로잡는 유머가 존재한다. 때문에 영화의 전반적인 분위기와 성격이 굉장히 차분하면서도 아기자기하며, 어린이의 눈높이에 맞춰져 있는 듯 하지만 분명한 건 이 작품 역시 어른들을 위한 동화라는 것.
+                            </p>
+                        </div>
+                    </a>
                 </div>
                 <div className={styles.cardBottom}>
                     <span><FaThumbsUp size={14}/></span>
