@@ -4,11 +4,17 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import imgs from '../../img/Detail/slide.jpg';
 import { useState } from 'react';
+import ImageModal from "./smallComponents/ImageModal";
 
 function Detailnum5(){
-    const [isOver,setIsOver] = useState(false);
 
-    
+    const [modalOpen,setModalOpen] = useState(false);
+    const showModal = () => {
+        setModalOpen(true);
+    }
+
+
+    const [isOver,setIsOver] = useState(false);
     const mouseOver = () => {
         setIsOver(true);
     }
@@ -22,7 +28,7 @@ function Detailnum5(){
         return (
             <div
                 className={className}
-                style={{ ...style, display: isOver? "block" : "block" , borderRadius: "50%", transform: "scale(1.5)", right: '25px',zIndex:"9999",top:"132px"}}
+                style={{ ...style, display: isOver? "block" : "none" , borderRadius: "50%", transform: "scale(1.5)", right: '25px',zIndex:"9999",top:"132px"}}
                 onClick={onClick} 
             >
             </div>
@@ -86,35 +92,35 @@ function Detailnum5(){
             <div className={styles.gallery} onMouseEnter={mouseOver} onMouseLeave={mouseOut}>
                 <Slider {...settings}>
                     <div className={styles.imgBox}>
-                        <img src={imgs}></img>
+                        <img src={imgs} onClick={showModal}></img>
                     </div>
                     <div className={styles.imgBox}>
-                        <img src={imgs}></img>
+                        <img src={imgs} onClick={showModal}></img>
                     </div>
                     <div className={styles.imgBox}>
-                      <img src={imgs}></img>
+                      <img src={imgs} onClick={showModal}></img>
                     </div>
                     <div className={styles.imgBox}>
-                        <img src={imgs}></img>
+                        <img src={imgs} onClick={showModal}></img>
                     </div>
                     <div className={styles.imgBox}>
-                        <img src={imgs}></img>
+                        <img src={imgs} onClick={showModal}></img>
                     </div>
                     <div className={styles.imgBox}>
-                        <img src={imgs}></img>
+                        <img src={imgs} onClick={showModal}></img>
                     </div>
                     <div className={styles.imgBox}>
-                        <img src={imgs}></img>
+                        <img src={imgs} onClick={showModal}></img>
                     </div>
                     <div className={styles.imgBox}>
-                        <img src={imgs}></img>
+                        <img src={imgs} onClick={showModal}></img>
                     </div>
                     <div className={styles.imgBox}>
-                        <img src={imgs}></img>
+                        <img src={imgs} onClick={showModal}></img>
                     </div>
                 </Slider>
             </div>
-
+            {modalOpen && <ImageModal setModalOpen={setModalOpen}/>}
             <div className={styles.topHead}>
                 <div>
                     <h2>동영상</h2>

@@ -1,5 +1,5 @@
 import styles from '../../css/details/Detail_num4.module.css';
-import CommentsCol from './smallComponents/detailnum4Col';
+import CommentsCol from './smallComponents/CommentsCol';
 
 function Detailnum4() {
     return(

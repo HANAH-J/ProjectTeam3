@@ -19,6 +19,8 @@ import Genre from "./components/Main_Body/Genre";
 import DirectorMovie from "./components/Main_Body/DirectorMovie";
 import BoxOffice from "./components/Main_Body/BoxOffice";
 import CsBoardDetail from "./pages/cs/csBoardDetail/CsBoardDetail";
+import ColDetail from "./pages/details/ColDetail";
+import CommentDetail from "./pages/details/CommentDetail";
 
 
 function App() {
@@ -46,6 +48,8 @@ function App() {
         <Route path="/userComment" element={<UserComment/>}/>
         <Route path="/csBoard" element={<CsBoard/>} />
         <Route path="/movieCollection" element={<MovieCollection/>} />
+        <Route path='/colDetail' Component={ColDetail}/>
+        <Route path='/commentDetail' Component={CommentDetail}/>
       </Routes>
 
     </div>
