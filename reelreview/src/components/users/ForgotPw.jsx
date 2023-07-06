@@ -84,7 +84,11 @@ export default function ForgotPw({setForgotPwModalState}) {
                     className={emailError ? `${styles.user_forgotPw_input} ${styles.user_forgotPw_inputError}` : styles.user_forgotPw_input}
                     value={email}
                     onChange={handleEmailChange} />
-                <div className={styles.user_forgotPw_buttonX} onClick={handleClearEmail}></div>
+                {email ? (
+                    <div className={styles.user_forgotPw_buttonX} onClick={handleClearEmail}></div>
+                ) : (
+                    <div></div>
+                )}
                 <br />
                 {emailError && <p className={styles.user_forgotPw_error}>{emailError}</p>}
                 <button id='button' type='button' className={styles.user_forgotPw_btn}>이메일 보내기</button>

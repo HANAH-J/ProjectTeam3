@@ -74,7 +74,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             } else {
                 inputPassword.classList.remove(styles.user_sign_inputPass);
             }
-          }
+        }
     }, [email, password]);
 
     // ⓧ버튼 클릭 시 작성 내용 비우기
@@ -119,9 +119,9 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
         if (modal && !modal.contains(e.target)) {
-          setSignInModalState(false);
+            setSignInModalState(false);
         }
-      };
+    };
 
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
@@ -136,7 +136,11 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
                     onChange={handleEmailChange} />
-                <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
+                {email ? (
+                    <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
+                ) : (
+                    <div></div>
+                )}
                 <br />
                 {emailError && <p className={styles.user_login_error}>{emailError}</p>}
                 <input
@@ -147,7 +151,11 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     className={passwordError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={password}
                     onChange={handlePasswordChange} />
-                <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
+                {password ? (
+                    <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
+                ) : (
+                    <div></div>
+                )}
                 <br />
                 {passwordError && <p className={styles.user_login_error}>{passwordError}</p>}
                 <button id='button' type='button' className={styles.user_login_btn}>로그인</button>
@@ -176,7 +184,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     <span className={styles.user_login_logo_btn}>카카오 아이디로 로그인</span>
                 </div>
             </div>
-            {forgotPwModalState && <div className={styles.modalBackground_2} style={{ backgroundColor: "black" }}/>}
+            {forgotPwModalState && <div className={styles.modalBackground_2} style={{ backgroundColor: "black" }} />}
         </div>
     )
 }

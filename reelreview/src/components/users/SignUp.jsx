@@ -182,7 +182,11 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     className={nameError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={name}
                     onChange={handleNameChange}/>
-                <div className={styles.user_login_buttonX} onClick={handleClearName}></div>
+                {name ? (
+                    <div className={styles.user_login_buttonX} onClick={handleClearName}></div>
+                ) : (
+                    <div></div>
+                )}
                 <div className={styles.user_login_buttonCheck}></div>
                 <br />
                 {nameError && <p className={styles.user_login_error}>{nameError}</p>}
@@ -194,7 +198,11 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
                     onChange={handleEmailChange}/>
-                <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
+                {email ? (
+                    <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
+                ) : (
+                    <div></div>
+                )}
                 <br />
                 {emailError && <p className={styles.user_login_error}>{emailError}</p>}
                 <input
@@ -205,7 +213,11 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     className={passwordError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={password}
                     onChange={handlePasswordChange}/>
-                <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
+                {password ? (
+                    <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
+                ) : (
+                    <div></div>
+                )}
                 <br />
                 {passwordError && <p className={styles.user_login_error}>{passwordError}</p>}
                 <button id='button' type='button' className={styles.user_login_btn} onClick={termsOnOffModal}>회원가입</button>
