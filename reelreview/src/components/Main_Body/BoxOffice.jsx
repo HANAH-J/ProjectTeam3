@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
-import { boxofficeList } from '../../api/Movies/BoxOffice';
+import { boxOfficeList } from '../../api/Movies/BoxOffice';
 import { useNavigate } from 'react-router-dom';
-import Details from '../../pages/details/Details';
+import axios from 'axios';
 
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
@@ -34,6 +34,9 @@ function SamplePrevArrow(props) {
     </div>
   );
 }
+
+
+
 
 export default function BoxOffice() {
   const settings = {
@@ -73,28 +76,47 @@ export default function BoxOffice() {
     ],
   };
 
-  const index = 0;
+  
 
   const navigate = useNavigate();
 
   const onClickDetailPage = () =>{
     navigate('Details')
   }
+  
+  
+  let [boxofficeList,setBoxofficeList] = useState([]);
+  
+useEffect(()=>{
+  
+  axios.get("/api/popular_movielist").then((response)=>
+  {
+    boxofficeList =response.data;
+    console.log(response.data);
+    console.log(boxofficeList);
+    setBoxofficeList(boxofficeList);
+  }).catch((error)=>{console.log(error)})
+   console.log(boxofficeList);
+   
+},[]);
 
+  
   return (
     <Slider {...settings}>
-      {boxofficeList.results.map((item, index) => (
+      
+      {boxofficeList.map((item, index) => (
         <div className={styles.BoxOffice_mainBox}>
           <div className={styles.BoxOffice_poster} onClick={onClickDetailPage}>
-            <span className={styles.BoxOffice_number}>{index + 1}</span>
+            <span className={styles.BoxOffice_number}>{item.rank}</span>
             <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
           </div>
           <div className={styles.BoxOffice_poster_title}>
             <h3>{item.title}</h3>
           </div>
           <div className={styles.BoxOffice_bottom}>
-            <h3>평점 : {item.vote_average}</h3>
-            <h3>인기점수 : {item.popularity}</h3>
+            <h3>평균 ★ : {item.vote_average}</h3>
+            <h3>예매율 : {item.salesShare}% 누적관객 : {item.audiAcc} 만명</h3>
+            <h3></h3>
           </div>
         </div>
       ))}

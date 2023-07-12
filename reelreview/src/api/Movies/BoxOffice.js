@@ -1,6 +1,6 @@
 // https://api.themoviedb.org/3/movie/now_playing?api_key=5ffaa55476e4ca7c727788f9f930d644&language=ko&page=1&region=KR 박스오피스 순위 영화
 
-export const boxofficeList = {
+export const boxOfficeList = {
   "dates": {
     "maximum": "2023-07-03",
     "minimum": "2023-05-16"
