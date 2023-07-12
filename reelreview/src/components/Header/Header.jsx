@@ -4,9 +4,16 @@ import "../../css/Header/Nav.css";
 import styles from '../../css/users/Sign.module.css';
 import SignIn from "../../components/users/SignIn";
 import SignUp from "../../components/users/SignUp";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 
 export default function Header() {
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
     // // 로그인, 회원가입 모달창 초기화면 출력 여부 : false
     // const [signInModalState, setSignInModalState] = useState(false);
@@ -99,10 +106,12 @@ export default function Header() {
                                 <input type="search" name="search" placeholder="영화를 검색해보세요." />
                             </div>
                         </div>
+                        <div className="hamburger">
+                            <button onClick={handleClick}>
+                            <GiHamburgerMenu style={{ width: '100%', height: '100%' }} />
+                            </button>
+                        </div>
                     </li>
-                    <Link to="/csMain" className="askReel_box">
-                        <li className="askReel"> 문의하기 </li>
-                    </Link>
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
                         // 로그인 모달창 화면 출력 여부

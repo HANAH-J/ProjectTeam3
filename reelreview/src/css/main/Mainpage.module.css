@@ -44,6 +44,15 @@
     flex: 9;
     margin-top: 10px;
   }
+
+  .BoxOffice_mainBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
   
   .BoxOffice_box_header h3 {
     margin-left: 20px;
@@ -55,15 +64,24 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 400px;
+    height: 100%;
     cursor: pointer;
-}
+    position: relative;
+  }
 
-.BoxOffice_poster > img{
-    width: 95%;
-    height: 400px;
-    object-fit: contain;
-}
+  .BoxOffice_content {
+    width: 100%;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.BoxOffice_content > img {
+    width: 90%;
+    height: 100%;
+  }
+
 
 .BoxOffice_bottom {
     display: flex;
@@ -73,36 +91,19 @@
     padding-left: 20px;
 }
 
-.BoxOffice_poster_title {
-    display: flex;
-    color: black;
-    font-size: small;
-    height: 20px;
-    padding-left: 20px;
-}
-
-.BoxOffice_mainBox {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
 .BoxOffice_number {
     display: flex;
     position: absolute;
-    top: 5px;
     left: 20px;
-    background-color: rgba(0, 0, 0, 0.77);;
-    border-radius: 25%;
+    top: 5px;
+    background-color: rgba(0, 0, 0, 0.77);
+    border-radius: 25%; 
     color: rgb(255, 255, 255);
-    padding: 10px;
+    padding: 6px; 
     font-size: small;
     z-index: 9999;
-    opacity: 1;
-    width: 10px;
-    height: 10px;
+    width: 20px; 
+    height: 20px; 
     align-items: center;
     justify-content: center;
   }
@@ -119,10 +120,9 @@
     margin-left: 10%;
     justify-content: flex-start;
     margin-top: 50px;
-    
-}
-
-.Upcomming_box {
+  }
+  
+  .Upcomming_box {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
@@ -130,41 +130,59 @@
     justify-content: flex-start;
     height: 500px;
     flex-direction: column;
-}
-
-.Upcomming_box_header {
+  }
+  
+  .Upcomming_box_header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 100%;
     flex: 1;
-}
-
-.Upcomming_box_info {
+  }
+  
+  .Upcomming_box_info {
     width: 100%;
     flex: 9;
     margin-top: 10px;
-}
+  }
 
-.Upcomming_box_header h3 {
+  .Upcomming_mainBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+  
+  .Upcomming_box_header h3 {
     margin-left: 20px;
     color: black;
-}
-
-.Upcomming_poster {
+  }
+  
+  .Upcomming_poster {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 400px;
+    height: 100%;
     cursor: pointer;
-}
+    position: relative;
+  }
 
-.Upcomming_poster > img{
-    width: 95%;
-    height: 400px;
-    object-fit: contain;
-}
+  .Upcomming_content {
+    width: 100%;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.Upcomming_content > img {
+    width: 90%;
+    height: 100%;
+  }
+
 
 .Upcomming_bottom {
     display: flex;
@@ -174,39 +192,22 @@
     padding-left: 20px;
 }
 
-.Upcomming_poster_title {
-    display: flex;
-    color: black;
-    font-size: small;
-    height: 20px;
-    padding-left: 20px;
-}
-
-.Upcomming_mainBox {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
 .Upcomming_number {
     display: flex;
     position: absolute;
-    top: 5px;
     left: 20px;
-    background-color: rgba(0, 0, 0, 0.77);;
-    border-radius: 25%;
+    top: 5px;
+    background-color: rgba(0, 0, 0, 0.77);
+    border-radius: 25%; 
     color: rgb(255, 255, 255);
-    padding: 10px;
+    padding: 6px; 
     font-size: small;
     z-index: 9999;
-    opacity: 1;
-    width: 10px;
-    height: 10px;
+    width: 20px; 
+    height: 20px; 
     align-items: center;
     justify-content: center;
-}
+  }
 
 /* 개봉예정작 끝 */
 
@@ -221,10 +222,9 @@
     margin-left: 10%;
     justify-content: flex-start;
     margin-top: 50px;
-    
-}
-
-.DirectorMovie_box {
+  }
+  
+  .DirectorMovie_box {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
@@ -232,77 +232,84 @@
     justify-content: flex-start;
     height: 500px;
     flex-direction: column;
-}
-
-.DirectorMovie_box_header {
+  }
+  
+  .DirectorMovie_box_header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 100%;
     flex: 1;
-}
-
-.DirectorMovie_box_info {
+  }
+  
+  .DirectorMovie_box_info {
     width: 100%;
     flex: 9;
     margin-top: 10px;
-}
+  }
 
-.DirectorMovie_box_header h3 {
-    margin-left: 20px;
-    color: black;
-}
-
-.DirectorMovie_poster {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 400px;
-    cursor: pointer;
-}
-
-.DirectorMovie_poster > img{
-    width: 95%;
-    height: 400px;
-    object-fit: contain;
-}
-
-.DirectorMovie_poster_title {
-    display: flex;
-    color: black;
-    font-size: small;
-    height: 20px;
-    padding-left: 20px;
-}
-
-.DirectorMovie_mainBox {
+  .DirectorMovie_mainBox {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
+}
+  
+  .DirectorMovie_box_header h3 {
+    margin-left: 20px;
+    color: black;
+  }
+  
+  .DirectorMovie_poster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .DirectorMovie_content {
+    width: 100%;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.DirectorMovie_content > img {
+    width: 90%;
+    height: 100%;
+  }
+
+
+.DirectorMovie_bottom {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    font-size: small;
+    padding-left: 20px;
 }
 
 .DirectorMovie_number {
     display: flex;
     position: absolute;
-    top: 5px;
     left: 20px;
-    background-color: rgba(0, 0, 0, 0.77);;
-    border-radius: 25%;
+    top: 5px;
+    background-color: rgba(0, 0, 0, 0.77);
+    border-radius: 25%; 
     color: rgb(255, 255, 255);
-    padding: 10px;
+    padding: 6px; 
     font-size: small;
     z-index: 9999;
-    opacity: 1;
-    width: 10px;
-    height: 10px;
+    width: 20px; 
+    height: 20px; 
     align-items: center;
     justify-content: center;
-}
-
-
+  }
 
 
 /* 감독 모음작 끝 */
@@ -317,10 +324,9 @@
     margin-left: 10%;
     justify-content: flex-start;
     margin-top: 50px;
-    
-}
-
-.ActorMovie_box {
+  }
+  
+  .ActorMovie_box {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
@@ -328,75 +334,84 @@
     justify-content: flex-start;
     height: 500px;
     flex-direction: column;
-}
-
-.ActorMovie_box_header {
+  }
+  
+  .ActorMovie_box_header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 100%;
     flex: 1;
-}
-
-.ActorMovie_box_info {
+  }
+  
+  .ActorMovie_box_info {
     width: 100%;
     flex: 9;
     margin-top: 10px;
-}
+  }
 
-.ActorMovie_box_header h3 {
-    margin-left: 20px;
-    color: black;
-}
-
-.ActorMovie_poster {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 400px;
-    cursor: pointer;
-}
-
-.ActorMovie_poster > img{
-    width: 95%;
-    height: 400px;
-    object-fit: contain;
-}
-
-.ActorMovie_poster_title {
-    display: flex;
-    color: black;
-    font-size: small;
-    height: 20px;
-    padding-left: 20px;
-}
-
-.ActorMovie_mainBox {
+  .ActorMovie_mainBox {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
+}
+  
+  .ActorMovie_box_header h3 {
+    margin-left: 20px;
+    color: black;
+  }
+  
+  .ActorMovie_poster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .ActorMovie_content {
+    width: 100%;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.ActorMovie_content > img {
+    width: 90%;
+    height: 100%;
+  }
+
+
+.ActorMovie_bottom {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    font-size: small;
+    padding-left: 20px;
 }
 
 .ActorMovie_number {
     display: flex;
     position: absolute;
-    top: 5px;
     left: 20px;
-    background-color: rgba(0, 0, 0, 0.77);;
-    border-radius: 25%;
+    top: 5px;
+    background-color: rgba(0, 0, 0, 0.77);
+    border-radius: 25%; 
     color: rgb(255, 255, 255);
-    padding: 10px;
+    padding: 6px; 
     font-size: small;
     z-index: 9999;
-    opacity: 1;
-    width: 10px;
-    height: 10px;
+    width: 20px; 
+    height: 20px; 
     align-items: center;
     justify-content: center;
-}
+  }
 
 /* 배우 모음작 끝 */
 
@@ -410,10 +425,9 @@
     margin-left: 10%;
     justify-content: flex-start;
     margin-top: 50px;
-    
-}
-
-.Genre_box {
+  }
+  
+  .Genre_box {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
@@ -421,41 +435,59 @@
     justify-content: flex-start;
     height: 500px;
     flex-direction: column;
-}
-
-.Genre_box_header {
+  }
+  
+  .Genre_box_header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     width: 100%;
     flex: 1;
-}
-
-.Genre_box_info {
+  }
+  
+  .Genre_box_info {
     width: 100%;
     flex: 9;
     margin-top: 10px;
-}
+  }
 
-.Genre_box_header h3 {
+  .Genre_mainBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+  
+  .Genre_box_header h3 {
     margin-left: 20px;
     color: black;
-}
-
-.Genre_poster {
+  }
+  
+  .Genre_poster {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 400px;
+    height: 100%;
     cursor: pointer;
-}
+    position: relative;
+  }
 
-.Genre_poster > img{
-    width: 95%;
-    height: 400px;
-    object-fit: contain;
-}
+  .Genre_content {
+    width: 100%;
+    height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+.Genre_content > img {
+    width: 90%;
+    height: 100%;
+  }
+
 
 .Genre_bottom {
     display: flex;
@@ -465,39 +497,22 @@
     padding-left: 20px;
 }
 
-.Genre_poster_title {
-    display: flex;
-    color: black;
-    font-size: small;
-    height: 20px;
-    padding-left: 20px;
-}
-
-.Genre_mainBox {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
 .Genre_number {
     display: flex;
     position: absolute;
-    top: 5px;
     left: 20px;
-    background-color: rgba(0, 0, 0, 0.77);;
-    border-radius: 25%;
+    top: 5px;
+    background-color: rgba(0, 0, 0, 0.77);
+    border-radius: 25%; 
     color: rgb(255, 255, 255);
-    padding: 10px;
+    padding: 6px; 
     font-size: small;
     z-index: 9999;
-    opacity: 1;
-    width: 10px;
-    height: 10px;
+    width: 20px; 
+    height: 20px; 
     align-items: center;
     justify-content: center;
-}
+  }
 
 /* 장르 끝 */
 

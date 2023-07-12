@@ -105,5 +105,10 @@
     color: black;
   }
 
+  @media (max-width: 770px) {
+    .topNav .navWrapper .rightNav .findMovies .findWrapper {
+      display: none;
+    }
+  }
   
 

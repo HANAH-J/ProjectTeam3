@@ -46,12 +46,30 @@ export default function Genre() {
         prevArrow: <SamplePrevArrow />,
         responsive: [
             {
+                breakpoint: 1600,
+                settings: {
+                  slidesToShow: 4,
+                  slidesToScroll: 4,
+                  infinite: true,
+                  dots: false,
+                },
+              },
+              {
+                breakpoint: 1280,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                  infinite: true,
+                  dots: false,
+                },
+              },
+            {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2,
                     infinite: true,
-                    dots: true,
+                    dots: false,
                 },
             },
             {
@@ -79,13 +97,13 @@ export default function Genre() {
           {animationList.results.map((item, index) => (
             <div className={styles.Genre_mainBox}>
               <div className={styles.Genre_poster}>
-              <span className={styles.ActorMovie_number}>{index + 1}</span>
-                <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
-              </div>
-              <div className={styles.Genre_poster_title}>
-                <h3>{item.title}</h3>
+                <div className={styles.Genre_content}>
+                    <span className={styles.ActorMovie_number}>{index + 1}</span>
+                    <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
+                </div>
               </div>
               <div className={styles.Genre_bottom}>
+                <h3>{item.title}</h3>
                 <h3>평점 : {item.vote_average}</h3>
               </div>
             </div>
