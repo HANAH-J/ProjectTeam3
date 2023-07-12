@@ -12,7 +12,7 @@ function Detailnum2(){
     const handleRating = (rate) => setRating(rate);
     const tooltipArray = ["0.5","1","1.5","2","2.5","3","3.5","4","4.5","5"];
     const onPointerMove = (value, index) => console.log(value, index)
-
+    
     
 
     return(
