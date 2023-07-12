@@ -3,7 +3,7 @@ import styles from '../../css/users/Terms.module.css';
 import TermsContents1 from './TermsContents1';
 import TermsContents2 from './TermsContents2';
 
-export default function Terms({setTermsModalState}) {
+export default function Terms({setTermsModalState, onSubmitHandler}) {
     
     const [checkItems, setCheckItems] = useState([]);
     const [submitButtonColor, setSubmitButtonColor] = useState('lightgray');
@@ -128,7 +128,7 @@ export default function Terms({setTermsModalState}) {
             </ul>
             {/* 가입하기 버튼 */}
             <div>
-                <button className={styles.user_terms_btn} style={{ color: submitButtonColor }}>
+                <button className={styles.user_terms_btn} style={{ color: submitButtonColor }} onChange={onSubmitHandler}>
                     가입하기
                 </button>
             </div>
