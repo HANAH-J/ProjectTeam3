@@ -157,6 +157,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         };
       });
 
+      // 회원가입 데이터 전달
       const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
         if (modal && !modal.contains(e.target)) {
