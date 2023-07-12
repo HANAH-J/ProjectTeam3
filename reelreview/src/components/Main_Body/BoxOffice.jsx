@@ -7,7 +7,7 @@ import { boxofficeList } from '../../api/Movies/BoxOffice';
 import { useNavigate } from 'react-router-dom';
 import Details from '../../pages/details/Details';
 
-const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/w400/";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -47,19 +47,37 @@ export default function BoxOffice() {
     prevArrow: <SamplePrevArrow />,
     responsive: [
       {
+        breakpoint: 1600,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: 1,
+          slidesToScroll: 1,
           initialSlide: 2,
         },
       },
@@ -86,13 +104,13 @@ export default function BoxOffice() {
       {boxofficeList.results.map((item, index) => (
         <div className={styles.BoxOffice_mainBox}>
           <div className={styles.BoxOffice_poster} onClick={onClickDetailPage}>
+            <div className={styles.BoxOffice_content}>
             <span className={styles.BoxOffice_number}>{index + 1}</span>
-            <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
-          </div>
-          <div className={styles.BoxOffice_poster_title}>
-            <h3>{item.title}</h3>
+             <img src={IMG_BASE_URL + item.poster_path} alt="poster"/>
+            </div>
           </div>
           <div className={styles.BoxOffice_bottom}>
+            <h3>{item.title}</h3>
             <h3>평점 : {item.vote_average}</h3>
             <h3>인기점수 : {item.popularity}</h3>
           </div>

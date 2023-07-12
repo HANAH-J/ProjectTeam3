@@ -116,3 +116,42 @@
     text-decoration: none;
 }
 
+@media (max-width: 1000px) {
+    .topNav .navWrapper .rightNav .findMovies .findWrapper {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 940px) {
+    .topNav .navWrapper .rightNav .signInBtn {
+        width: 50px;
+      }
+
+      .topNav .navWrapper .rightNav .signUpBtn {
+        width: 90px;
+      }
+  }
+
+  @media (max-width: 840px) {
+    .topNav .navWrapper .rightNav .signInBtn {
+        display: none;
+      }
+
+      .topNav .navWrapper .rightNav .signUpBtn {
+        display: none;
+      }
+  }
+
+  .hamburger {
+    display: none;
+  }
+  
+  @media (max-width: 800px) {
+    .hamburger {
+      display: flex;
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+  }
