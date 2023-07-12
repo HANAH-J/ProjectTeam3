@@ -1,4 +1,4 @@
-package com.reelreview.Api;
+package com.reelreview.api;
 
 
 import org.json.simple.JSONArray;

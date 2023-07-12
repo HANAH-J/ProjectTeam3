@@ -1,4 +1,4 @@
-package com.reelreview.Api;
+package com.reelreview.api;
 
 import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
 import org.json.simple.parser.ParseException;
