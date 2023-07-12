@@ -7,7 +7,7 @@ import { boxOfficeList } from '../../api/Movies/BoxOffice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/w400/";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -50,19 +50,37 @@ export default function BoxOffice() {
     prevArrow: <SamplePrevArrow />,
     responsive: [
       {
+        breakpoint: 1600,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
         breakpoint: 1024,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: 1,
+          slidesToScroll: 1,
           initialSlide: 2,
         },
       },
@@ -110,7 +128,7 @@ useEffect(()=>{
             <span className={styles.BoxOffice_number}>{item.rank}</span>
             <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
           </div>
-          <div className={styles.BoxOffice_poster_title}>
+          <div className={styles.BoxOffice_bottom}>
             <h3>{item.title}</h3>
           </div>
           <div className={styles.BoxOffice_bottom}>

@@ -35,9 +35,13 @@ dependencies {
 
     // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+<<<<<<< Updated upstream
     implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
+=======
+//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+>>>>>>> Stashed changes
 
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
