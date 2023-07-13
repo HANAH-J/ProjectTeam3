@@ -1,6 +1,6 @@
 package com.reelreview.service;
 
-import com.reelreview.Repo.Main.BoardRepository;
+import com.reelreview.repo.main.BoardRepository;
 import com.reelreview.domain.board.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
