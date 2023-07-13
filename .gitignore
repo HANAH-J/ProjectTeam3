@@ -1,4 +1,4 @@
 
 reelreview/node_modules.iso
 
-reelReviewBackend/src/main/resources/application.yml
+*.yml
