@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import static com.reelreview.api.ApiDataUnwrap.*;
 
 @RestController
-public class api_popularMovie {
+public class Api_popularMovie {
 
     @RequestMapping("api/popular_movielist")
     public String popularMovie() throws ParseException, UnsupportedEncodingException {
