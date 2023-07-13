@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from '../../css/users/Sign.module.css';
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
 import naver_icon from '../../img/users/naver_icon.png';
@@ -39,7 +40,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
     // 이메일 유효성 검사 로직
     // 이메일 : ex) 'hana@gmail.com' 형식
-    const validateEmail = (email) => { 
+    const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 
@@ -90,7 +91,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                 inputName.classList.remove(styles.user_sign_inputPass);
             }
         }
-        
+
         if (inputEmail) {
             if (validateEmail(email)) {
                 inputEmail.classList.add(styles.user_sign_inputPass);
@@ -105,7 +106,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
             } else {
                 inputPassword.classList.remove(styles.user_sign_inputPass);
             }
-          }
+        }
     }, [name, email, password]);
 
     // ⓧ버튼 클릭 시 작성 내용 비우기
@@ -127,9 +128,9 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
     // 약관동의 모달창 배경색 and 스크롤 제어
     useEffect(() => {
         if (termsModalState) {
-          document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
         }
-      }, [termsModalState]);
+    }, [termsModalState]);
 
     // 에러 메시지에 따른 모달창 높이 변경
     useEffect(() => {
@@ -153,35 +154,60 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
     useEffect(() => {
         document.addEventListener('mousedown', clickOutsideHandler);
         return () => {
-          document.removeEventListener('mousedown', clickOutsideHandler);
+            document.removeEventListener('mousedown', clickOutsideHandler);
         };
-      });
+    });
 
       const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
         if (modal && !modal.contains(e.target)) {
-          if (e.target.classList.contains(styles.user_login_signUp)) {
-            setSignUpModalState(false);
-            setSignInModalState(true);
-          } else {
-            setSignUpModalState(false);
-          }
+            if (e.target.classList.contains(styles.user_login_signUp)) {
+                setSignUpModalState(false);
+                setSignInModalState(true);
+            } else {
+                setSignUpModalState(false);
+            }
         }
-      };
+    };
+
+    // 회원가입 데이터 전달
+    const onSubmitHandler = (e) => {
+        // 버튼 누를 때마다 새로고침 되는 현상 제어
+        e.preventDefault();
+
+        const body = {
+            username: name,
+            email: email,
+            password: password
+        }
+        console.log('username : ' + body.username);
+        console.log('email: ' + body.email);
+        console.log('password : ' + body.password);
+
+        axios.post('/join', body)
+            .then((result) => {
+                console.log('데이터 전송 성공');
+                alert('회원가입 완료!');
+                window.location.replace("/");
+            }).catch(() => {
+                console.log(body);
+                console.log('데이터 전송 실패');
+            })
+    }
 
     return (
-        <div className={styles.user_login_modal} style={{height: `${modalHeight}px`}}>
-            <form method='post'>
+        <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
+            <form method='post' onSubmit={onSubmitHandler}>
                 <div><img src={reel_review_logo} className={styles.user_login_logo} alt='reel_review_logo'></img></div>
                 <h2 className={styles.user_login_h2}>회원가입</h2>
-                <input 
-                    type='text' 
-                    id='userName' 
-                    required 
-                    placeholder='이름' 
+                <input
+                    type='text'
+                    id='userName'
+                    required
+                    placeholder='이름'
                     className={nameError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={name}
-                    onChange={handleNameChange}/>
+                    onChange={handleNameChange} />
                 {name ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearName}></div>
                 ) : (
@@ -197,7 +223,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     placeholder="이메일"
                     className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
-                    onChange={handleEmailChange}/>
+                    onChange={handleEmailChange} />
                 {email ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
                 ) : (
@@ -212,7 +238,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     placeholder="비밀번호"
                     className={passwordError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={password}
-                    onChange={handlePasswordChange}/>
+                    onChange={handlePasswordChange} />
                 {password ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
                 ) : (
@@ -222,14 +248,15 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                 {passwordError && <p className={styles.user_login_error}>{passwordError}</p>}
                 <button id='button' type='button' className={styles.user_login_btn} onClick={termsOnOffModal}>회원가입</button>
                 {
-                    termsModalState ? <Terms setTermsModalState={setTermsModalState}/> : null
+                    termsModalState ? <Terms setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler}/> : null
                 }
             </form>
             <div className={styles.user_sign_messageContainer}>
                 <span className={styles.user_login_helpMessage}>이미 가입하셨나요?
                     <span className={styles.user_login_signUp} onClick={() => {
                         setSignUpModalState(false);
-                        setSignInModalState(true);}}>로그인
+                        setSignInModalState(true);
+                    }}>로그인
                     </span>
                 </span>
             </div>
