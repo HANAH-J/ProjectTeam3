@@ -7,7 +7,7 @@ import { boxOfficeList } from '../../api/Movies/BoxOffice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const IMG_BASE_URL = "https://image.tmdb.org/t/p/w400/";
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
