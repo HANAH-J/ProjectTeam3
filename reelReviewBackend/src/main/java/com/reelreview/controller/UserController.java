@@ -1,4 +1,4 @@
-package com.reelreview.Controller;
+package com.reelreview.controller;
 
 import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.domain.UserDTO;
