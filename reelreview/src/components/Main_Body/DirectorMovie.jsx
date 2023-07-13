@@ -44,12 +44,30 @@ export default function DirectorMovie() {
         prevArrow: <SamplePrevArrow />,
         responsive: [
             {
+                breakpoint: 1600,
+                settings: {
+                  slidesToShow: 4,
+                  slidesToScroll: 4,
+                  infinite: true,
+                  dots: false,
+                },
+              },
+              {
+                breakpoint: 1280,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                  infinite: true,
+                  dots: false,
+                },
+              },
+            {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2,
                     infinite: true,
-                    dots: true,
+                    dots: false,
                 },
             },
             {
@@ -77,10 +95,12 @@ export default function DirectorMovie() {
             {directormovieList.peopleInfoResult.peopleInfo.filmos.map((item, index) => (
                 <div className={styles.DirectorMovie_mainBox}>
                     <div className={styles.DirectorMovie_poster}>
-                    <span className={styles.ActorMovie_number}>{index + 1}</span>
+                        <div className={styles.DirectorMovie_content}>
+                        <span className={styles.ActorMovie_number}>{index + 1}</span>
                         <img src={item.moviePoster} alt="poster" />
+                        </div>
                     </div>
-                    <div className={styles.DirectorMovie_poster_title}>
+                    <div className={styles.DirectorMovie_bottom}>
                         <h3>{item.movieNm}</h3>
                     </div>
                     

@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PrincipalOauth2UserService principalOauth2UserService;
 
-    @Bean // 해당 메서드의 리턴되는 오브젝트를 Ioc로 등록
+    @Bean // 해당 메서드의 리턴되는 오브젝트를 IoC로 등록
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
@@ -37,12 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()
-                .and()
+        .and()
                 .formLogin()
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login") // /login 주소가 호출되면 시큐리티가 가로채서 대신 로그인 진행
                 .defaultSuccessUrl("/")
-                .and()
+        .and()
                 .oauth2Login()
                 .loginPage("/loginForm")
                 .userInfoEndpoint()

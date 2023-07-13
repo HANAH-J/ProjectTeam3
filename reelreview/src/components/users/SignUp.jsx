@@ -158,7 +158,6 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         };
     });
 
-      // 회원가입 데이터 전달
       const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
         if (modal && !modal.contains(e.target)) {
@@ -171,15 +170,19 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         }
     };
 
+    // 회원가입 데이터 전달
     const onSubmitHandler = (e) => {
         // 버튼 누를 때마다 새로고침 되는 현상 제어
         e.preventDefault();
 
         const body = {
-            name: document.getElementById('userName'),
-            email: document.getElementById('userEmail'),
-            password: document.getElementById('password')
+            username: name,
+            email: email,
+            password: password
         }
+        console.log('username : ' + body.username);
+        console.log('email: ' + body.email);
+        console.log('password : ' + body.password);
 
         axios.post('/join', body)
             .then((result) => {

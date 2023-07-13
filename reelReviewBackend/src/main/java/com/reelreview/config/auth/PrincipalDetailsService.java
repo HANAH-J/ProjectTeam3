@@ -1,6 +1,6 @@
 package com.reelreview.config.auth;
 
-import com.reelreview.model.User;
+import com.reelreview.domain.UserDTO;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,10 +17,11 @@ public class PrincipalDetailsService  implements UserDetailsService {
     private UserRepository userRepository;
 
     // Security Session(내부 Authentication(내부 UserDetails))
+    // 함수 종료 시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("username : " + username);
-        User userEntity = userRepository.findByUsername(username);
+        UserDTO userEntity = userRepository.findByUsername(username);
         if(userEntity != null) {
             return new PrincipalDetails(userEntity);
         }

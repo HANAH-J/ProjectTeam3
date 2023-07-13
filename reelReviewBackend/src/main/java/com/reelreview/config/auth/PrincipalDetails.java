@@ -6,21 +6,33 @@ package com.reelreview.config.auth;
 // Authentication 내부에 User 정보가 있어야 된다.
 // User 오브젝트 타입 -> UserDetails 타입 객체
 
-import com.reelreview.model.User;
+import com.reelreview.domain.UserDTO;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 // Security Session -> Authentication -> UserDetails(PrincipalDetails)
 
-public class PrincipalDetails  implements UserDetails {
+@Data
+public class PrincipalDetails  implements UserDetails, OAuth2User {
     
-    private User user; // 컴포지션
+    private UserDTO user; // 컴포지션
+    private  Map<String, Object> attributes;
 
-    public PrincipalDetails(User user) {
+    // 일반 로그인
+    public PrincipalDetails(UserDTO user) {
         this.user = user;
+    }
+
+    // OAuth 로그인
+    public PrincipalDetails(UserDTO user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
     }
 
     // 해당 User의 권한을 리턴하는 곳
@@ -38,7 +50,7 @@ public class PrincipalDetails  implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return user.getUserPassword();
     }
 
     @Override
@@ -66,5 +78,20 @@ public class PrincipalDetails  implements UserDetails {
         // 사이트에서 1년 동안 로그인을 하지 않아 휴먼 계정으로 변환될 때
         // 현재시간 - 로그인시간 = 1년 초과 시 return false;
         return true;
+    }
+
+    @Override
+    public <A> A getAttribute(String name) {
+        return OAuth2User.super.getAttribute(name);
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }
