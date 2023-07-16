@@ -1,4 +1,4 @@
-package com.reelreview.api;
+package com.reelreview.api.service;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,23 +17,23 @@ import java.util.List;
 public class ApiDataUnwrap {
 
     //============================================= TMDB API JSON 분해 ============================================
-    public static List<String> unWrapTmdbImages(String json) throws ParseException {
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(json);
-        JSONObject jsonMain = (JSONObject)obj;
-        JSONArray jArray = (JSONArray)jsonMain.get("results");
-
-        List<String> tmdbImages = new ArrayList<>();
-
-        if (jArray.size() > 0){
-            for(int i=0; i<jArray.size(); i++){
-                JSONObject jsonObj = (JSONObject)jArray.get(i);
-
-                tmdbImages.add((String)jsonObj.get("poster_path"));
-            }
-        }
-        return tmdbImages;
-    }
+//    public static List<String> unWrapTmdbImages(String json) throws ParseException {
+//        JSONParser parser = new JSONParser();
+//        Object obj = parser.parse(json);
+//        JSONObject jsonMain = (JSONObject)obj;
+//        JSONArray jArray = (JSONArray)jsonMain.get("results");
+//
+//        List<String> tmdbImages = new ArrayList<>();
+//
+//        if (jArray.size() > 0){
+//            for(int i=0; i<jArray.size(); i++){
+//                JSONObject jsonObj = (JSONObject)jArray.get(i);
+//
+//                tmdbImages.add((String)jsonObj.get("poster_path"));
+//            }
+//        }
+//        return tmdbImages;
+//    }
 
 
     public static List<String> unWrapTmdbTitles(String json) throws ParseException {
@@ -96,7 +96,7 @@ public class ApiDataUnwrap {
         for(int i = 0 ; i < json.size() ; i++){
             int movieCd = json.get(i);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.themoviedb.org/3/movie/"+movieCd+"?append_to_response=videos%2Cimages&language=ko"))
+                    .uri(URI.create("https://api.themoviedb.org/3/movie/"+movieCd+"?language=ko"))
                     .header("accept", "application/json")
                     .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZmZhYTU1NDc2ZTRjYTdjNzI3Nzg4ZjlmOTMwZDY0NCIsInN1YiI6IjY0OTk0OWQ1NjJmMzM1MDEyNzQ3MzI2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FiFcp5Wrby8LZtoc_h9tQ2v6yOKyKwO2B8pqzavLsW0")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -131,8 +131,6 @@ public class ApiDataUnwrap {
 
             tmdbData.put("vote_average",avgdouble);
             tmdbData.put("vote_count",jsonMain.get("vote_count"));
-            tmdbData.put("videos",jsonMain.get("videos"));
-            tmdbData.put("images",jsonMain.get("images"));
             tmdbData.put("backdrop_path",jsonMain.get("backdrop_path"));
             fullData.add(tmdbData);
 
@@ -142,7 +140,62 @@ public class ApiDataUnwrap {
         return fullData;
     }
 
+    public JSONArray searchFromTMDBImagesWithMovieId(List<Integer> movieId) throws IOException, InterruptedException, ParseException {
+        JSONArray fullData = new JSONArray();
+        for(int i = 0 ; i < movieId.size() ; i++){
+            int movieCd = movieId.get(i);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://api.themoviedb.org/3/movie/"+movieCd+"/images?language=ko"))
+                    .header("accept", "application/json")
+                    .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZmZhYTU1NDc2ZTRjYTdjNzI3Nzg4ZjlmOTMwZDY0NCIsInN1YiI6IjY0OTk0OWQ1NjJmMzM1MDEyNzQ3MzI2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FiFcp5Wrby8LZtoc_h9tQ2v6yOKyKwO2B8pqzavLsW0")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
 
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+
+
+
+
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(response.body());
+            JSONObject jsonMain = (JSONObject)obj;
+            JSONArray jarray = (JSONArray) jsonMain.get("backdrops");
+            JSONArray jarray2 = (JSONArray) jsonMain.get("posters");
+
+            List<String> backdropFiles = new ArrayList<>();
+            for( int j = 0 ; j < jarray.size() ; j++){
+                JSONObject backdrops = new JSONObject();
+                backdrops = (JSONObject) jarray.get(j);
+                String link = null;
+                link = (String) backdrops.get("file_path");
+                backdropFiles.add(link);
+            }
+            JSONObject backdropJSON = new JSONObject();
+            backdropJSON.put("movieCd",movieCd);
+            backdropJSON.put("backdrops",backdropFiles);
+
+            List<String> posterFiles = new ArrayList<>();
+            for(int z = 0 ; z < jarray2.size() ; z++){
+                JSONObject posters = new JSONObject();
+                posters = (JSONObject)jarray2.get(z);
+                String link = null;
+                link = (String) posters.get("file_path");
+                posterFiles.add(link);
+            }
+            backdropJSON.put("images",posterFiles);
+
+            fullData.add(backdropJSON);
+
+        }
+
+
+        return fullData;
+    }
+
+//    public JSONArray searchFromTMDBVideosWithMovieId(List<Integer> movieId) {
+//        return
+//    }
 
 
     //============================================= 한국 영화 진흥회 API JSON 분해 ============================================
@@ -211,5 +264,6 @@ public class ApiDataUnwrap {
 
         return add;
     }
+
 
 }

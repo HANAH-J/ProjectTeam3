@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
-import { upcommingList } from '../../api/Movies/UpComming';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
@@ -92,13 +93,34 @@ export default function Upcomming() {
 
   const index = 0;
 
+  const navigate = useNavigate();
+
+  const onClickDetailPage = () =>{
+    navigate('Details')
+  }
+  
+  
+  let [upcommingList,setUpcommingList] = useState([]);
+  
+useEffect(()=>{
+  
+  axios.get("http://localhost:8085/api/upcoming").then((response)=>
+  {
+    upcommingList = response.data;
+    console.log(response.data);
+    console.log(upcommingList);
+    setUpcommingList(upcommingList);
+  }).catch((error)=>{console.log(error)})
+   console.log(upcommingList);
+   
+},[]);
   return (
     <Slider {...settings}>
-      {upcommingList.results.map((item, index) => (
+      {upcommingList.map((item, index) => (
         <div className={styles.Upcomming_mainBox}>
           <div className={styles.Upcomming_poster}>
           <div className={styles.Upcomming_content}>
-          <span className={styles.Upcomming_number}>{index + 1}</span>
+          <span className={styles.Upcomming_number}>{index+1}</span>
             <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
           </div>
           </div>
