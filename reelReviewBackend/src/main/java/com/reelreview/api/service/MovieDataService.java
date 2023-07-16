@@ -89,7 +89,6 @@ public class MovieDataService{
 
             // 한글로 tmdb 검색해 받아온 영화 목록 제목만 list로
             List<String> titles= unwrap.unWrapTmdbTitles(response.body());
-            System.out.println("검색 결과 : "+titles);
 
 
             // tmdb 검색해 받아온 목록 중 영화 개봉일 매칭 후 영화 ID 값만 불러와 LIST 로 저장
@@ -103,8 +102,6 @@ public class MovieDataService{
         //movieId 리스트 받아서 TMDB에 이미지/유튜브 검색
         JSONArray imageData = unwrap.searchFromTMDBImagesWithMovieId(movieId);
 //        JSONArray videoData = unwrap.searchFromTMDBVideosWithMovieId(movieId);
-
-        System.out.println(imageData);
 
         //KRDB 에서 rank, salesShare,audiAcc 만남기고 제거
         JSONArray KrdbBoxOfficeData = unwrap.unWrapKrdb(todayBoxOffice);
@@ -121,7 +118,6 @@ public class MovieDataService{
             DecimalFormat formatter1 = new DecimalFormat("#,###.0");
             String formattedNumber = formatter1.format(roundedNumber);
 
-            System.out.println(formattedNumber);
             tmdb.put("audiAcc",formattedNumber);
         }
 
@@ -155,7 +151,7 @@ public class MovieDataService{
             //랭크데이터/ 퍼센트 데이터/ 누적관객 데이터
             detailsDTO.setRank((Integer.parseInt((String) jobj.get("rank"))));
             detailsDTO.setSalesShare(Double.parseDouble((String)jobj.get("salesShare")));
-            detailsDTO.setAudiAcc(Double.parseDouble((String)jobj.get("audiAcc")));
+            detailsDTO.setAudiAcc((""+jobj.get("audiAcc")));
 
 
             boxOfficeDetailDTO.add(detailsDTO);
@@ -171,7 +167,6 @@ public class MovieDataService{
 
 
         String fulldata = fullData.toString();
-
 
 
 

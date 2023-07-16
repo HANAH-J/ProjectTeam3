@@ -14,8 +14,6 @@ public class MainController {
     @Autowired
     private MovieDataService MDS;
 
-//    @Autowired
-//    private MainService MS;
 
     @RequestMapping("api/popular_movielist")
     public String popularMovie() throws ParseException, IOException, InterruptedException {

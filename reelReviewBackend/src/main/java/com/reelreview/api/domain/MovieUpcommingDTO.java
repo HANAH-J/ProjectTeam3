@@ -1,14 +1,13 @@
 package com.reelreview.api.domain;
 
 import lombok.Data;
+
 import javax.persistence.*;
 
-
 @Entity
-@Table(name = "tbl_movieDetails" ,uniqueConstraints = @UniqueConstraint(columnNames = "rank"))
+@Table(name = "tbl_movieUpcomming")
 @Data
-public class MovieDetailsDTO {
-
+public class MovieUpcommingDTO {
     @Id
     private Long movieId;
     private String original_language;
@@ -22,8 +21,4 @@ public class MovieDetailsDTO {
     private String title;
     private Double vote_average;
     private Long vote_count;
-    private int rank;
-    private Double salesShare;
-    private String audiAcc;
-
 }

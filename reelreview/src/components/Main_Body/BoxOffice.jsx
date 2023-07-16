@@ -3,7 +3,6 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
-import { boxOfficeList } from '../../api/Movies/BoxOffice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
