@@ -3,7 +3,6 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
-import { boxOfficeList } from '../../api/Movies/BoxOffice';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -107,7 +106,7 @@ export default function BoxOffice() {
   
 useEffect(()=>{
   
-  axios.get("/api/popular_movielist").then((response)=>
+  axios.get("http://localhost:8085/api/popular_movielist").then((response)=>
   {
     boxofficeList =response.data;
     console.log(response.data);
@@ -126,7 +125,7 @@ useEffect(()=>{
         <div className={styles.BoxOffice_mainBox}>
           <div className={styles.BoxOffice_poster} onClick={onClickDetailPage}>
             <span className={styles.BoxOffice_number}>{item.rank}</span>
-            <img src={IMG_BASE_URL + item.poster_path} alt="poster" />
+            <img src={IMG_BASE_URL + item.poster_path} className={styles.BoxOffice_img} alt="poster" />
           </div>
           <div className={styles.BoxOffice_bottom}>
             <h3>{item.title}</h3>

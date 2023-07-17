@@ -5,6 +5,12 @@ import { useUserStore } from "../../../stores/index.ts";
 
 function PFPModal({setOpenModal, removeUser}) {
   console.log('모달오픈');
+
+  const [status, setStatus] = useState(''); //상태메시지
+  const [pfImage, setPfImage] = useState(''); //프로필사진
+  const [bgImage, setBgImage] = useState(''); //배경사진
+
+
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showEditTextModal, setShowEditTextModal] = useState(false);
   const [showEditPFPModal, setShowEditPFPModal] = useState(false);
@@ -89,7 +95,7 @@ function PFPModal({setOpenModal, removeUser}) {
       {showEditTextModal && ( 
         <div className={styles.EditTextModal}>
           <h3>프로필 문구 변경</h3>
-          <input type="text" id="profileText" placeholder="프로필 문구를 입력해주세요." maxLength={100} />
+          <input type="text" id="profileText" placeholder="프로필 문구를 입력해주세요." maxLength={100} onChange={(e) => setStatus(e.target.value)} />
           <br></br>
           <button>저장</button>
           <button onClick={closeEditTextModal}>취소</button>
@@ -99,21 +105,25 @@ function PFPModal({setOpenModal, removeUser}) {
 
       {showEditPFPModal && ( 
         <div className={styles.EditPFPModal}>
-          <h3>프로필 사진 변경</h3>
-          <input type="file" id="pictureForProfile" />
-          <br></br>
-          <button>변경</button>
-          <button onClick={closeEditPFPModal}>취소</button>
+          <form action="#" method="POST" enctype="multipart/form-data">
+            <h3>프로필 사진 변경</h3>
+            <input type="file" id="pictureForProfile" name="pictureForProfile" />
+            <br></br>
+            <button>변경</button>
+            <button onClick={closeEditPFPModal}>취소</button>
+          </form>
         </div>
       )}
 
       {showEditPFBModal && ( 
         <div className={styles.EditPFBModal}>
-          <h3>배경 사진 변경</h3>
-          <input type="file" id="pictureForBG" />
-          <br></br>
-          <button>변경</button>
-          <button onClick={closeEditPFBModal}>취소</button>
+          <form action="#" method="POST" enctype="multipart/form-data">
+            <h3>배경 사진 변경</h3>
+            <input type="file" id="pictureForBG" name="pictureForBG" />
+            <br></br>
+            <button>변경</button>
+            <button onClick={closeEditPFBModal}>취소</button>
+          </form>
         </div>
       )}
 

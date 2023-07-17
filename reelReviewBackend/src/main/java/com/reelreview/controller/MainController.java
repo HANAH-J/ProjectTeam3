@@ -1,16 +1,34 @@
 package com.reelreview.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
+//import com.reelreview.Service.MainService;
+import com.reelreview.api.service.MovieDataService;
+import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 @RestController
-@RequestMapping("/api/main")
 public class MainController {
 
-    @GetMapping("/")
-    public String getMain(@AuthenticationPrincipal String userEmail) {
-        return "로그인된 사용자는 " + userEmail + "입니다.";
-    }
+    @Autowired
+    private MovieDataService MDS;
+
+
+    @RequestMapping("api/popular_movielist")
+    public String popularMovie() throws ParseException, IOException, InterruptedException {
+         String todayBoxOffice = MDS.getBoxOfficeToday();
+
+         if(todayBoxOffice != null){
+             return todayBoxOffice;
+         }else{
+             return "exception";
+         }
+
+     }
+
+
+
+
+
 }
