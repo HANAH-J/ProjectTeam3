@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styles from '../../../css/profile/PFPModal.module.css'
+import { useCookies } from 'react-cookie';
+import { useUserStore } from "../../../stores/index.ts";
 
-function PFPModal({setOpenModal}) {
+function PFPModal({setOpenModal, removeUser}) {
   console.log('모달오픈');
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showEditTextModal, setShowEditTextModal] = useState(false);
@@ -46,6 +48,12 @@ function PFPModal({setOpenModal}) {
     setShowEditPFBModal(false);
   }
 
+  const [cookies, setCookies] = useCookies();
+
+  const logOutHandler = () => {
+    setCookies('token', '', {expires: new Date()});
+    removeUser();
+  }
 
   return (
     <div className={styles.PFPModal_BG} onClick={closePFPModal}>
@@ -60,7 +68,7 @@ function PFPModal({setOpenModal}) {
                 <p onClick={openEditPFBModal}>배경 사진 변경</p>
                 <p onClick={openEditTextModal}>프로필 문구 변경</p>
                 <hr className={styles.PFPModal_HR}/>
-                <p>로그아웃</p>
+                <p onClick={() => logOutHandler()}>로그아웃</p>
                 <p onClick={openWithdrawModal}>탈퇴하기</p>
             </div>
             <div className={styles.PFPModal_Logo}> 

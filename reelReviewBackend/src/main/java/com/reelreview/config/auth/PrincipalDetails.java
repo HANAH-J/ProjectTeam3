@@ -6,7 +6,7 @@ package com.reelreview.config.auth;
 // Authentication 내부에 User 정보가 있어야 된다.
 // User 오브젝트 타입 -> UserDetails 타입 객체
 
-import com.reelreview.domain.UserDTO;
+import com.reelreview.domain.user.UserEntity;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,16 +21,16 @@ import java.util.Map;
 @Data
 public class PrincipalDetails  implements UserDetails, OAuth2User {
     
-    private UserDTO user; // 컴포지션
+    private UserEntity user; // 컴포지션
     private  Map<String, Object> attributes;
 
     // 일반 로그인
-    public PrincipalDetails(UserDTO user) {
+    public PrincipalDetails(UserEntity user) {
         this.user = user;
     }
 
     // OAuth 로그인
-    public PrincipalDetails(UserDTO user, Map<String, Object> attributes) {
+    public PrincipalDetails(UserEntity user, Map<String, Object> attributes) {
         this.user = user;
         this.attributes = attributes;
     }
@@ -58,21 +58,25 @@ public class PrincipalDetails  implements UserDetails, OAuth2User {
         return user.getUsername();
     }
 
+    // 계정 만료 여부
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    // 계정 잠금 여부
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    // 계정 비밀번호 설정 일수
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    // 계정 활성화 여부
     @Override
     public boolean isEnabled() {
         // 사이트에서 1년 동안 로그인을 하지 않아 휴먼 계정으로 변환될 때

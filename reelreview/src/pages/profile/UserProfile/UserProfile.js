@@ -5,10 +5,12 @@ import 'react-multi-carousel/lib/styles.css';
 import styles from '../../../css/profile/UserProfile.module.css'
 import PFPModal from "../Modal/PFPModal";
 import Header from "../../../components/Header/Header";
+import LoginSuccess_header from "../../../components/Header/LoginSuccess_header";
 import Footer from "../../../components/Footer/Footer";
 import userPFP from '../../../img/profile/userProfile/empty_user.svg';
 import userPFPHover from '../../../img/profile/userProfile/userGear2.png'
 import rateImg from "../../../img/profile/userProfile/rate.svg";
+import { useUserStore } from "../../../stores/index.ts";
 
 
 function UserProfile() {
@@ -55,11 +57,13 @@ function UserProfile() {
         navigate('/userComment');
       }
 
+      const { user, removeUser } = useUserStore();
+
     return (
 
 
     <div className={styles.UserProfile}>
-        <Header/>
+        {user ? (<Header/>) : (<LoginSuccess_header/>)}
         <div className={styles.profileContainer}>
 
             <div className={styles.profileBg}>
@@ -144,7 +148,7 @@ function UserProfile() {
            </div>
         </div>
 
-        {openModal === true ? <PFPModal setOpenModal={setOpenModal} /> : null}
+        {openModal === true ? <PFPModal setOpenModal={setOpenModal} removeUser={removeUser}/> : null}
         
         <div className={styles.PFPFooter}>
             <Footer/>

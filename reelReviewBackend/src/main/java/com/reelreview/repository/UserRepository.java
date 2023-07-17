@@ -2,13 +2,24 @@ package com.reelreview.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.reelreview.domain.UserDTO;
+import com.reelreview.domain.user.UserEntity;
 
-// CRUD 함수를 JpaRepository가 들고 있다.
-// @Repository 어노테이션이 없어도 Ioc가 되는데 이유는 JpaRepository를 상속했기 때문
-public interface UserRepository extends JpaRepository<UserDTO, Integer> {
+/*
+ * 회원 가입 기능
+ * 로그인 (회원 조회:아이디)
+ * 비밀번호 재설정(조회:아이디 수정)
+ * 회원 정보 수정 (조회:아이디 수정)
+ * 회원 탈퇴(조회:아이디 수정) 테이블 수정
+ * */
 
+// @Repository 어노테이션이 없어도 Ioc 가능 (JpaRepository(CRUD 함수 포함)를 상속했기 때문)
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+                                                  // <Entity, PRIMARY KEY TYPE>
     // findBy 규칙 -> UserName 문법
     // select * from member where userName = 1?
-    public UserDTO findByUsername(String username);
+    public UserEntity findByUsername(String username);
+
+    public UserEntity findByUserEmail(String userEmail);
+
+    public boolean existsByUserEmail(String userEmail);
 }

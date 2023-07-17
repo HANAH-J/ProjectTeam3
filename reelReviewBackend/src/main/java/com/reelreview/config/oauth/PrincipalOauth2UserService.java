@@ -4,7 +4,7 @@ import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.config.oauth.provider.GoogleUserInfo;
 import com.reelreview.config.oauth.provider.NaverUserInfo;
 import com.reelreview.config.oauth.provider.OAuth2UserInfo;
-import com.reelreview.domain.UserDTO;
+import com.reelreview.domain.user.UserEntity;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -56,23 +56,23 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             System.out.println("우리는 구글과 네이버만 지원합니다!");
         }
         String provider = oAuth2UserInfo.getProvider();
-        String providerId = oAuth2UserInfo.getProviderId();
-        String username = provider + "_" + providerId; // google_sub
+        String providerCd = oAuth2UserInfo.getProviderCd();
+        String username = provider + "_" + providerCd; // google_sub
         String userPassword = bCryptPasswordEncoder.encode("겟인데어");
         String userEmail = oAuth2UserInfo.getUserEmail();
         String role = "ROLE_USER";
 
-        UserDTO userEntity = userRepository.findByUsername(username);
+        UserEntity userEntity = userRepository.findByUsername(username);
 
         if (userEntity == null) {
             System.out.println("OAuth 로그인이 최초입니다.");
-            userEntity = UserDTO.builder()
+            userEntity = UserEntity.builder()
                     .username(username)
                     .userPassword(userPassword)
                     .userEmail(userEmail)
                     .role(role)
                     .provider(provider)
-                    .providerId(providerId)
+                    .providerCd(providerCd)
                     .build();
             userRepository.save(userEntity);
         } else {

@@ -1,6 +1,6 @@
 package com.reelreview.config.auth;
 
-import com.reelreview.domain.UserDTO;
+import com.reelreview.domain.user.UserEntity;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +21,7 @@ public class PrincipalDetailsService  implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("username : " + username);
-        UserDTO userEntity = userRepository.findByUsername(username);
+        UserEntity userEntity = userRepository.findByUsername(username);
         if(userEntity != null) {
             return new PrincipalDetails(userEntity);
         }
