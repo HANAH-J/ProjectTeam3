@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세 페이지</title>
+</head>
+<body>
+
+<h1 th:text="${boardDTO.title}">제목입니다</h1>
+<p th:text="${boardDTO.writer}">작성자</p>
+<p th:text="${boardDTO.content}">내용들어갈 부분</p>
+<img th:if="${boardDTO.filepath}" th:src="@{${boardDTO.filepath}}" alt="첨부 이미지">
+<a th:href="@{/board/delete(boardCd=${boardDTO.boardCd})}">글삭제</a>
+<a th:href="@{/board/modify/{boardCd}(boardCd=${boardDTO.boardCd})}">수정</a>
+</body>
+</html>

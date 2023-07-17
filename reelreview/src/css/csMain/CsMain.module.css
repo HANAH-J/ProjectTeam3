@@ -256,7 +256,7 @@
 .CsQna_box_box_body2 {
   width: 40%;
   height: 500px;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .CsQna_box_box_body2_header {
@@ -303,6 +303,21 @@
   width: 100%;
   outline: none;
   padding: 10px;
+}
+
+.CsQna_box_body5 {
+  padding-top: 10px;
+}
+
+.CsQna_box_body5_file input[type="file"]{
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 14px;
+  height: 50px;
+  width: 650px;
+  border: 1px solid red;
 }
 
 .CsQna_button {

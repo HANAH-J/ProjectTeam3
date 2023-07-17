@@ -26,8 +26,14 @@ function CsQna() {
                             - 내용에 욕설이 포함되어 있는 경우 답변이 어려울 수 있는 점 양해 부탁드립니다. -'></textarea></div>
                         </div>
                         <div className={styles.CsQna_box_body4}>
-                            <div>답변 등록 시 알림을 받으실 수 있는 이메일 주소를 알려주세요.</div>
-                            <div className={styles.CsQna_box_body4_emailInfo}><textarea name="" id="" cols="80" rows="3" placeholder='선택 사항'></textarea></div>
+                            <div>답변 등록 시 알림을 받으실 수 있는 이메일 주소를 알려주세요. (선택사항)</div>
+                            <div className={styles.CsQna_box_body4_emailInfo}><textarea name="" id="" cols="80" rows="3"></textarea></div>
+                        </div>
+                        <div className={styles.CsQna_box_body5}>
+                            <div>첨부파일 (선택사항)</div>
+                            <div className={styles.CsQna_box_body5_file}>
+                                <input type="file" name='file' placeholder='파일추가'/>
+                            </div>
                         </div>
                         <button className={styles.CsQna_button} type='submit'>제출</button>
                     </div>
