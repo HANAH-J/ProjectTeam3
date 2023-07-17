@@ -5,12 +5,13 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "tbl_movieDetails" ,uniqueConstraints = @UniqueConstraint(columnNames = "rank"))
+@Table(name = "tbl_movieDetails")
 @Data
 public class MovieDetailsDTO {
 
     @Id
-    private Long movieId;
+    private Integer movieId;
+
     private String original_language;
     private String original_title;
     @Column(length = 2000)
@@ -22,7 +23,7 @@ public class MovieDetailsDTO {
     private String title;
     private Double vote_average;
     private Long vote_count;
-    private int rank;
+    private Integer rank;
     private Double salesShare;
     private String audiAcc;
 
