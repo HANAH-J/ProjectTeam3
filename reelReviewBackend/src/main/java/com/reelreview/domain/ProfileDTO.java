@@ -27,10 +27,10 @@ public class ProfileDTO implements Serializable {
     @JoinColumn(name = "userCd", referencedColumnName = "userCd")
     private UserEntity userCd;
 
-    @ColumnDefault("프로필이 없습니다.")
+
     private String status;
-    @ColumnDefault("defaultBgImage")
+
     private String bgImage;
-    @ColumnDefault("defaultPfImage")
+
     private String pfImage;
 }
