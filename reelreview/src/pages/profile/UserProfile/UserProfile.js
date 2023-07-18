@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom'; 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -11,6 +11,9 @@ import userPFP from '../../../img/profile/userProfile/empty_user.svg';
 import userPFPHover from '../../../img/profile/userProfile/userGear2.png'
 import rateImg from "../../../img/profile/userProfile/rate.svg";
 import { useUserStore } from "../../../stores/index.ts";
+import axios from "axios";
+import { useCookies } from 'react-cookie';
+
 
 
 function UserProfile() {
@@ -59,6 +62,59 @@ function UserProfile() {
 
       const { user, removeUser } = useUserStore();
 
+
+      const [userData, setUserData] = useState({});
+      const [profileData, setProfileData] = useState({});
+      
+      const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+
+      useEffect(() => {
+
+        console.log('useEffect is running')
+        const token = cookies.token;
+        console.log(token);
+
+        if (token) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    withCredentials: true,
+                },
+                
+            };
+
+            axios.get('http://localhost:8085/userProfiles', config)
+            .then(response => {
+                const userDTO = {
+                    userCd: response.data.userCd,
+                    username: response.data.username,
+                    userEmail: response.data.userEmail,
+                    userPassword: response.data.userPassword,
+                    role: response.data.role,
+                    provider: response.data.provider,
+                    providerCd: response.data.providerCd,
+                    createDate: response.data.createDate
+                };
+                // const profileDTO = {
+                //     profileDetailNum: response.data.profileDetailNum,
+                //     userCd: response.data.userCd,
+                //     status: response.data.status,
+                //     bgImage: response.data.bgImage,
+                //     pfImage: response.data.pfImage
+                // };
+                setUserData(userDTO);
+                //setProfileData(profileDTO);
+            })
+            .catch(error => {
+                console.error('Error fetcihng data:', error);
+            });
+        }
+    }, [cookies.token]);
+
+
+      
+
     return (
 
 
@@ -77,10 +133,10 @@ function UserProfile() {
                 </button>
                 <ul>
                     <li>
-                        <h2 className={styles.name}>NAME</h2>
+                        <h2 className={styles.name}> NAME : {userData.username} </h2>
                     </li>
                     <li>
-                        <div className={styles.msg}>프로필이 없습니다.</div>
+                        <div className={styles.msg}> status </div>
                     </li>
                 </ul>
 

@@ -36,7 +36,7 @@ function App() {
         <Route path="/csQna" Component={CsQna}/>
         <Route path='/details' Component={Details}/>
         {/* /:movieCd */}
-        <Route path="/userProfile" Component={UserProfile} />
+        <Route path="/userProfiles" Component={UserProfile} />
         <Route path="/boxOffice" Component={BoxOffice} />
         <Route path="/upComming" Component={Upcomming} />
         <Route path="/actorMovie" Component={ActorMovie} />
