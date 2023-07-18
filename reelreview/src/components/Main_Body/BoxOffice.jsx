@@ -124,7 +124,7 @@ useEffect(()=>{
       {boxofficeList.map((item, index) => (
         <div className={styles.BoxOffice_mainBox}>
           <div className={styles.BoxOffice_poster} onClick={onClickDetailPage}>
-            <span className={styles.BoxOffice_number}>{item.rank}</span>
+            <span className={styles.BoxOffice_number}>{index+1}</span>
             <img src={IMG_BASE_URL + item.poster_path} className={styles.BoxOffice_img} alt="poster" />
           </div>
           <div className={styles.BoxOffice_bottom}>
