@@ -8,7 +8,6 @@ import Terms from './Terms';
 
 // 회원가입 모달창
 export default function SignUp({ setSignInModalState, setSignUpModalState }) {
-
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,11 +21,6 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
     // 2자 이상 16자 이하, 영어 또는 숫자 또는 한글 (한글 초성 및 모음은 불가)
     const validateName = (name) => {
         return /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/.test(name);
-    };
-
-    // 실시간 이름 입력 값
-    const handleNameChange = (e) => {
-        setName(e.target.value);
     };
 
     // 이름 에러 메시지 출력 여부
@@ -44,29 +38,34 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
 
-    // 실시간 이메일 입력 값
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    };
-
     // 이메일 에러 메시지 출력 여부
     useEffect(() => {
-        if (email && !validateEmail(email)) {
-            setEmailError('정확하지 않은 이메일입니다.');
-        } else {
-            setEmailError('');
-        }
+
+        // 이메일 중복 검사 로직
+        let responseData = true;
+
+        axios.post('http://localhost:8085/api/auth/emailCheck', {
+            userEmail: email,
+        })
+            .then((response) => {
+                responseData = response.data;
+                if (email && !validateEmail(email)) {
+                    setEmailError('정확하지 않은 이메일입니다.');
+                } else if (responseData === false) {
+                    setEmailError('이미 가입된 이메일입니다.');
+                } else {
+                    setEmailError('');
+                }
+            })
+            .catch(function (error) {
+                console.log('React-SignUp-axios : userEmail 데이터 전송 실패');
+            });
     }, [email]);
 
     // 비밀번호 유효성 검사 로직
     // 비밀번호 : 영문, 숫자, 특수문자 중 2개 이상을 조합하여 최소 10자리 이상
     const validatePassword = (password) => {
         return /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,}$/.test(password);
-    };
-
-    // 실시간 비밀번호 입력 값
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
     };
 
     // 비밀번호 에러 메시지 출력 여부
@@ -158,7 +157,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         };
     });
 
-      const clickOutsideHandler = (e) => {
+    const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
         if (modal && !modal.contains(e.target)) {
             if (e.target.classList.contains(styles.user_login_signUp)) {
@@ -170,34 +169,33 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         }
     };
 
-    // 회원가입 데이터 전달
+    // 회원가입 : UserController.java - signUp()
     const onSubmitHandler = (e) => {
         // 버튼 누를 때마다 새로고침 되는 현상 제어
         e.preventDefault();
 
-        const body = {
+        const data = {
             username: name,
-            email: email,
-            password: password
+            userEmail: email,
+            userPassword: password
         }
-        console.log('username : ' + body.username);
-        console.log('email: ' + body.email);
-        console.log('password : ' + body.password);
 
-        axios.post('/join', body)
-            .then((result) => {
-                console.log('데이터 전송 성공');
-                alert('회원가입 완료!');
-                window.location.replace("/");
-            }).catch(() => {
-                console.log(body);
-                console.log('데이터 전송 실패');
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        axios.post('http://localhost:8085/api/auth/signUp', data, config)
+            .then((response) => {
+            }).catch((error) => {
+                console.log('React-SignUp-axios : 데이터 전송 실패');
             })
-    }
+    };
 
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
-            <form method='post' onSubmit={onSubmitHandler}>
+            <form onSubmit={onSubmitHandler}>
                 <div><img src={reel_review_logo} className={styles.user_login_logo} alt='reel_review_logo'></img></div>
                 <h2 className={styles.user_login_h2}>회원가입</h2>
                 <input
@@ -207,7 +205,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     placeholder='이름'
                     className={nameError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={name}
-                    onChange={handleNameChange} />
+                    onChange={(e) => setName(e.target.value)} />
                 {name ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearName}></div>
                 ) : (
@@ -223,7 +221,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     placeholder="이메일"
                     className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
-                    onChange={handleEmailChange} />
+                    onChange={(e) => setEmail(e.target.value)} />
                 {email ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
                 ) : (
@@ -238,7 +236,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     placeholder="비밀번호"
                     className={passwordError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={password}
-                    onChange={handlePasswordChange} />
+                    onChange={(e) => setPassword(e.target.value)} />
                 {password ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
                 ) : (
@@ -248,7 +246,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                 {passwordError && <p className={styles.user_login_error}>{passwordError}</p>}
                 <button id='button' type='button' className={styles.user_login_btn} onClick={termsOnOffModal}>회원가입</button>
                 {
-                    termsModalState ? <Terms setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler}/> : null
+                    termsModalState ? <Terms setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler} /> : null
                 }
             </form>
             <div className={styles.user_sign_messageContainer}>

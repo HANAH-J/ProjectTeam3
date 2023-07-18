@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { useUserStore } from '../../stores/index.ts';
 import styles from '../../css/users/Sign.module.css';
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
 import naver_icon from '../../img/users/naver_icon.png';
@@ -14,16 +17,13 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     const [passwordError, setPasswordError] = useState('');
     const [modalHeight, setModalHeight] = useState(500); // 초기 모달창 높이 : 500px
     const [forgotPwModalState, setForgotPwModalState] = useState(false);
+    const [cookies, setCookies] = useCookies();
+    const { user, setUser } = useUserStore();
 
     // 이메일 유효성 검사 로직
     // 이메일 : ex) 'hana@gmail.com' 형식
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
-
-    // 실시간 이메일 입력 값
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
     };
 
     // 이메일 에러 메시지 출력 여부
@@ -41,11 +41,6 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
         return /^(?=.{6,})/.test(password);
     };
 
-    // 실시간 비밀번호 입력 값
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
     // 비밀번호 에러 메시지 출력 여부
     useEffect(() => {
         if (password && !validatePassword(password)) {
@@ -59,7 +54,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     useEffect(() => {
         const inputEmail = document.getElementById('userEmail');
         const inputPassword = document.getElementById('userPassword');
-        
+
         if (inputEmail) {
             if (validateEmail(email)) {
                 inputEmail.classList.add(styles.user_sign_inputPass);
@@ -123,11 +118,58 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
         }
     };
 
+    // 회원가입 : UserController.java - signIn()
+    const onSubmitHandler = (e) => {
+        // 버튼 누를 때마다 새로고침 되는 현상 제어
+        e.preventDefault();
+
+        const data = {
+            userEmail: email,
+            userPassword: password
+        }
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        axios.post('http://localhost:8085/api/auth/signIn', data, config)
+            .then((response) => {
+                const responseData = response.data;
+                console.log(responseData);
+                if (!responseData.result) {
+                    console.log('로그인 실패');
+                    return;
+                }
+                const { token, exprTime, user } = responseData.data;
+                const expires = new Date();
+                expires.setMilliseconds(expires.getMilliseconds() + exprTime);
+
+                setCookies('token', token, { exprTime });
+                setUser(user);
+            }).catch((error) => {
+                console.log('React-SignUp-axios : 데이터 전송 실패');
+            })
+    };
+
+    // 구글 로그인
+    const onOAuthSignInHandler = async (provider) => {
+        try {
+            const res = await axios.get(`http://localhost:8085/api/auth/oauth2/authorization?provider=${provider}`);
+            const oauth2AuthorizationUrl = res.data.oauth2AuthorizationUrl; // 소셜 로그인 URL 추출
+            window.location.href = oauth2AuthorizationUrl; // 소셜 로그인 페이지로 이동
+        } catch (error) {
+            console.log('소셜 로그인 요청 실패:', error);
+        }
+    };
+
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
-            <form method='post'>
+            <form onSubmit={onSubmitHandler}>
                 <div><img src={reel_review_logo} className={styles.user_login_logo} alt='reel_review_logo'></img></div>
                 <h2 className={styles.user_login_h2}>로그인</h2>
+                {/* { user != null && (<>{user.userEmail}</>)} */}
                 <input
                     type='text'
                     id='userEmail'
@@ -135,7 +177,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     placeholder='이메일'
                     className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
-                    onChange={handleEmailChange} />
+                    onChange={(e) => setEmail(e.target.value)} />
                 {email ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
                 ) : (
@@ -150,7 +192,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     placeholder='비밀번호'
                     className={passwordError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={password}
-                    onChange={handlePasswordChange} />
+                    onChange={(e) => setPassword(e.target.value)} />
                 {password ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
                 ) : (
@@ -158,7 +200,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                 )}
                 <br />
                 {passwordError && <p className={styles.user_login_error}>{passwordError}</p>}
-                <button id='button' type='button' className={styles.user_login_btn}>로그인</button>
+                <button id='button' className={styles.user_login_btn} onClick={onSubmitHandler}>로그인</button>
             </form>
             <div className={styles.user_sign_messageContainer}>
                 <span className={styles.user_login_forgotPw} onClick={forgotPwOnOffModal}>비밀번호를 잊어버리셨나요?</span>
@@ -175,7 +217,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             </div>
             <hr className={styles.user_login_hr}></hr>
             <div>
-                <div className={styles.user_login_naver}>
+                <div className={styles.user_login_naver} onClick={() => onOAuthSignInHandler("google")}>
                     <img src={naver_icon} className={styles.user_login_naver_logo} alt='naver_logo'></img>
                     <span className={styles.user_login_logo_btn}>네이버 아이디로 로그인</span>
                 </div>

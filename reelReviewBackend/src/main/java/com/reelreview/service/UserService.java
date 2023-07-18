@@ -1,0 +1,117 @@
+package com.reelreview.service;
+
+import com.nimbusds.oauth2.sdk.util.StringUtils;
+import com.reelreview.config.oauth.provider.TokenProvider;
+import com.reelreview.domain.user.*;
+import com.reelreview.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TokenProvider tokenProvider;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public ResponseDto<?> signUp(SignUpDto dto) {
+        String username = dto.getUsername();
+        String userEmail = dto.getUserEmail();
+        String userPassword = dto.getUserPassword();
+
+        // Null 검사
+        if (StringUtils.isBlank(username)) {
+            return ResponseDto.setFail("Username cannot be empty");
+        }
+
+        if (StringUtils.isBlank(userEmail)) {
+            return ResponseDto.setFail("Email cannot be empty");
+        }
+
+        if (StringUtils.isBlank(userPassword)) {
+            return ResponseDto.setFail("Password cannot be empty");
+        }
+
+        // 이메일 중복 검사
+        try {
+            if(userRepository.existsByUserEmail(userEmail)) {
+                return ResponseDto.setFail("Existed Email");
+            }
+        } catch (Exception error) {
+            return ResponseDto.setFail("Database Error");
+        }
+
+        // 비밀번호 유효성 검사 로직
+        // 비밀번호 : 영문, 숫자, 특수문자 중 2개 이상을 조합하여 최소 10자리 이상
+        if (!userPassword.matches("^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\\d~!@#$%^&*()_+=]{10,}$")) {
+            return ResponseDto.setFail("Invalid Password");
+        }
+
+        // UserEntity 생성
+        UserEntity userEntity = new UserEntity(dto);
+        
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(userPassword);
+        userEntity.setUserPassword(encodedPassword);
+
+        // UserRepository 이용, 데이터베이스에 UserEntity 저장
+        try {
+            userEntity.setRole("ROLE_USER");
+            userRepository.save(userEntity);
+        } catch (Exception error) {
+            return ResponseDto.setFail("Database Error");
+        }
+        // 성공 시 success response 반환
+        return ResponseDto.setSuccess("SignUp Success", null);
+    }
+
+    public ResponseDto<SignInResponseDto> signIn(SignInDto dto) {
+        String userEmail = dto.getUserEmail();
+        String userPassword = dto.getUserPassword();
+
+        UserEntity userEntity = null;
+        try {
+            userEntity = userRepository.findByUserEmail(userEmail);
+            
+            // 잘못된 이메일
+            if(userEntity == null) {
+                return ResponseDto.setFail("Sign In Failed");
+            }
+            // 잘못된 비밀번호
+            if(!passwordEncoder.matches(userPassword, userEntity.getUserPassword())) {
+                return ResponseDto.setFail("Sign In Failed");
+            }
+        } catch (Exception error) {
+            return ResponseDto.setFail("Database Error");
+        }
+
+        userEntity.setUserPassword("");
+
+        String token = tokenProvider.create(userEmail);
+        int exprTime = 3600000;
+
+        SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
+        return ResponseDto.setSuccess("Sign In Success", signInResponseDto);
+    }
+
+    public boolean emailCheck(EmailCheckDto dto) {
+        String userEmail = dto.getUserEmail();
+        // userEmail 중복 검사
+        try {
+            if(userRepository.existsByUserEmail(userEmail)) {
+                System.out.println("이메일 중복 : 중복");
+                return false;
+            }
+        } catch (Exception error) {
+            ResponseDto.setFail("Database Error");
+        }
+        System.out.println("이메일 중복 : 통과");
+        return true;
+    }
+}

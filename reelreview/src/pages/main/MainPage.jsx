@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import Header from "../../components/Header/Header";
+import LoginSuccess_header from "../../components/Header/LoginSuccess_header";
 import Footer from "../../components/Footer/Footer";
 import BoxOffice from "../../components/Main_Body/BoxOffice";
 import Upcomming from "../../components/Main_Body/Upcomming"
@@ -8,11 +9,35 @@ import DirectorMovie from '../../components/Main_Body/DirectorMovie';
 import Genre from '../../components/Main_Body/Genre';
 import styles from '../../css/main/Mainpage.module.css';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { useUserStore } from '../../stores/index.ts';
+import {SignIn, cookies} from '../../components/users/SignIn';
 
 
 export default function MainPage() {
   const [movieList, setMovieList] = useState([]); // 초기 상태값은 빈 배열로 설정합니다.
   const [name, setName] = useState('');
+
+  const [mainResponse, setMainResponse] = useState('');
+  // const [cookies] = useCookies();
+  // const { user } = useUserStore();
+
+  // const getMain = async(token: string) => {
+  //   const requestData = {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     }
+  //   };
+  //   await axios.post('http://localhost:8085/api/auth/main', requestData).then((response) => {
+  //     setMainResponse(response.data);
+  //   }).catch((error) => '');
+  // }
+
+  // useEffect(() => {
+  //   const token = cookies.token;
+  //   if(token) getMain(token);
+  //   else setMainResponse('');
+  // }, [cookies.token]);
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -44,7 +69,7 @@ export default function MainPage() {
   return (
 
     <div className={styles.MainPage_box}>
-      <Header />
+      {mainResponse ? (<LoginSuccess_header/>) : (<Header/>)}
       <div className={styles.BoxOffice_box_wrapper}>
         <div className={styles.BoxOffice_box}>
           <div className={styles.BoxOffice_box_header}>
