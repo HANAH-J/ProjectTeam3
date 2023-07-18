@@ -1,5 +1,6 @@
 package com.reelreview.service;
-import com.reelreview.repository.PeopleDataRepository;
+import com.reelreview.domain.CastDataDTO;
+import com.reelreview.repository.CastDataRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -19,7 +20,7 @@ import java.net.http.HttpResponse;
 public class PeopleDataService {
 
     @Autowired
-    private PeopleDataRepository peopleDataRepo;
+    private CastDataRepository castDataRepo;
 
     //인물 이름검색을 통해 peopleCd 가져오기
     public Long getPeopleCdFromData(@RequestParam String name) throws IOException, InterruptedException, ParseException {
@@ -49,6 +50,7 @@ public class PeopleDataService {
         Object obj = parser.parse(response.body());
         JSONObject jsonMain = (JSONObject)obj;
         JSONObject jobj = (JSONObject) jsonMain.get("results");
+
         // 여기까지 7.16
         return (Long)jobj.get("id");
     }

@@ -4,7 +4,11 @@ import com.reelreview.api.domain.MovieDetailsDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface ApiMovieDetailRepo extends JpaRepository<MovieDetailsDTO,Long> {
+import java.util.ArrayList;
+import java.util.List;
 
+@Repository
+public interface ApiMovieDetailRepo extends JpaRepository<MovieDetailsDTO,Integer> {
+
+    List<MovieDetailsDTO> findByRankIn(List<Integer> ranks);
 }
