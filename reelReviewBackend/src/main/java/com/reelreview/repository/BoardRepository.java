@@ -12,3 +12,5 @@ public interface BoardRepository extends JpaRepository<BoardDTO, Integer> {
     Page<BoardDTO> findByTitleContainingOrWriterContaining(String titleKeyword, String writerKeyword, Pageable pageable);
 
 }
+
+

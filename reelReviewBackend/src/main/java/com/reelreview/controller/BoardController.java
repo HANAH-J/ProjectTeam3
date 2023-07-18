@@ -1,5 +1,6 @@
 package com.reelreview.controller;
 
+import com.reelreview.domain.board.BoardCommentDTO;
 import com.reelreview.domain.board.BoardDTO;
 import com.reelreview.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,18 @@ public class BoardController {
 
         model.addAttribute("message","수정이 완료되었습니다");
         model.addAttribute("searchUrl","/board/list");
+
+        return "message";
+    }
+
+    @PostMapping("/board/addComment")
+    public String boardWrite(BoardCommentDTO boardCommentDTO, Model model) throws Exception{
+
+        boardService.writeComment(boardCommentDTO);
+
+        model.addAttribute("message", "글 작성이 완료되었습니다.");
+        // model.addAttribute("message", "글 작성이 실패하였습니다.");
+        model.addAttribute("searchUrl", "/board/list");
 
         return "message";
     }

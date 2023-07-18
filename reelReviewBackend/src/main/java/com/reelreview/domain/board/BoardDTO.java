@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,6 +29,9 @@ public class BoardDTO {
 
     @CreationTimestamp
     private Timestamp regdate;
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<BoardCommentDTO> comments;
 
     @Builder
     public BoardDTO(String title, String writer, String content, Timestamp regdate, String filename, String filepath) {

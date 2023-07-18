@@ -1,6 +1,8 @@
 package com.reelreview.service;
 
+import com.reelreview.domain.board.BoardCommentDTO;
 import com.reelreview.domain.board.BoardDTO;
+import com.reelreview.repository.BoardCommentRepository;
 import com.reelreview.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,9 @@ public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private BoardCommentRepository boardCommentRepository;
 
     // 글 작성 처리
     public void write(BoardDTO boardDTO, MultipartFile file) throws Exception{
@@ -59,6 +64,14 @@ public class BoardService {
     public void boardDelete(Integer boardCd) {
 
         boardRepository.deleteById(boardCd);
+    }
+
+
+    // 게시글 댓글
+    public void writeComment(BoardCommentDTO boardCommentDTO) {
+
+        boardCommentRepository.save(boardCommentDTO);
+
     }
 
 

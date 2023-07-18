@@ -16,26 +16,23 @@ function CsBoard() {
                         </div>
                         <div className={styles.CsBoard_table_box}>
                             <table>
-                                <thead>
+                            <thead>
                                 <tr>
+                                    <th>글번호</th>
                                     <th>제목</th>
                                     <th>작성일</th>
-                                    <th>상태</th>
-                                    <th>조회수</th>
                                 </tr>
-                                </thead>
+                            </thead>
                                 <tbody>
                                     <tr>
-                                        <td className={styles.CsBoard_table_box_title}>회원가입문의</td>
-                                        <td>2023.07.01</td>
-                                        <td>답변완료</td>
-                                        <td>0</td>
+                                        <td className={styles.CsBoard_table_box_title}>2</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     <tr>
-                                        <td className={styles.CsBoard_table_box_title}>영화정보수정 요청</td>
-                                        <td>2023.07.03</td>
-                                        <td>답변대기중</td>
-                                        <td>4</td>
+                                        <td className={styles.CsBoard_table_box_title}>1</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
