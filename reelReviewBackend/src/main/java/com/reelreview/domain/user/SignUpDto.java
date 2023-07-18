@@ -3,6 +3,7 @@ package com.reelreview.domain.user;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
@@ -23,6 +24,8 @@ public class SignUpDto {
     // 이메일 : ex) 'hana@gmail.com' 형식
     private String userEmail;
     private String userPassword;
+
+    @Column(columnDefinition = "VARCHAR2(10 CHAR) DEFAULT 'ROLE_USER'")
     private String role; // ROLE_USER, ROLE_ADMIN
     private String provider;
     private String providerCd;

@@ -33,6 +33,8 @@ public class UserEntity {
     private String userEmail;
 
     private String userPassword;
+
+    @Column(columnDefinition = "VARCHAR2(10 CHAR) DEFAULT 'ROLE_USER'")
     private String role; // ROLE_USER, ROLE_ADMIN
     private String provider;
     private String providerCd;
