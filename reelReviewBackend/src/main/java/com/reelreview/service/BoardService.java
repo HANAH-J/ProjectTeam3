@@ -29,15 +29,20 @@ public class BoardService {
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";  //파일 경로지정
 
         UUID uuid = UUID.randomUUID(); // 파일에 붙일 랜덤 이름 생성
+        if(file==null){
 
-        String fileName = uuid+ "_" + file.getOriginalFilename(); // 랜덤이름 + _ + 오리지널네임
+        }else{
+            String fileName = uuid+ "_" + file.getOriginalFilename(); // 랜덤이름 + _ + 오리지널네임
 
-        File saveFile = new File(projectPath, fileName); // 경로지정, 파일이름
+            File saveFile = new File(projectPath, fileName); // 경로지정, 파일이름
 
-        file.transferTo(saveFile);
+            file.transferTo(saveFile);
+            boardDTO.setFilename(fileName);
+            boardDTO.setFilepath("/files/" + fileName);
+        }
 
-        boardDTO.setFilename(fileName);
-        boardDTO.setFilepath("/files/" + fileName);
+
+
 
         boardRepository.save(boardDTO);
     }
@@ -48,6 +53,10 @@ public class BoardService {
         return boardRepository.findAll(pageable);
 
     }
+
+
+
+
     // 게시물 제목, 작성자 검색
     public Page<BoardDTO> boardSearchList(String searchKeyword, Pageable pageable) {
         return boardRepository.findByTitleContainingOrWriterContaining(searchKeyword, searchKeyword, pageable);
@@ -55,8 +64,7 @@ public class BoardService {
 
     // 특정 게시글 불러오기
     public BoardDTO boardView(Integer boardCd) {
-
-        return boardRepository.findById(boardCd).get();
+        return boardRepository.findById(boardCd).orElse(null);
     }
 
     // 특정 게시글 삭제
@@ -73,6 +81,7 @@ public class BoardService {
         boardCommentRepository.save(boardCommentDTO);
 
     }
+
 
 
 }

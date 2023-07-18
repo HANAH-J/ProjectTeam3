@@ -41,7 +41,7 @@ export default function MainPage() {
             <h3>이상용 감독 모음</h3>
           </div>
           <div className={styles.DirectorMovie_box_info}>
-            <DirectorMovie />
+            
           </div>
         </div>
       </div>

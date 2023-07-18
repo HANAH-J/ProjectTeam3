@@ -8,72 +8,94 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@Controller
+@RestController
+@RequestMapping("/api/board")
 public class BoardController {
 
     @Autowired
     private BoardService boardService;
 
-    @GetMapping("/board/write") //localhost8085/board/write
+    @GetMapping("/write") //localhost8085/board/write
     public String boardWriteForm() {
 
         return "boardwrite";
     }
 
-    @PostMapping("/board/writepro")
-    public String boardWritePro(BoardDTO boardDTO, Model model, MultipartFile file) throws Exception{
+    @PostMapping("/writepro")
+    public String boardWritePro(BoardDTO boardDTO, Model model,
+                                @RequestParam(value = "title", required = false) String title,
+                                @RequestParam(value = "content", required = false) String content,
+                                @RequestParam(value = "file", required = false) MultipartFile file) {
+        try {
+            // 파일을 첨부하지 않았을 때도 처리 가능한 로직 작성
+            if (title != null) {
+                boardDTO.setTitle(title);
+            }
+            if (content != null) {
+                boardDTO.setContent(content);
+            }
+            if (file != null && !file.isEmpty()) {
+                boardService.write(boardDTO, file);
+            } else {
+                boardService.write(boardDTO, null); // 파일을 첨부하지 않은 경우 null로 처리
+            }
 
-        boardService.write(boardDTO, file);
-
-        model.addAttribute("message", "글 작성이 완료되었습니다.");
-        // model.addAttribute("message", "글 작성이 실패하였습니다.");
-        model.addAttribute("searchUrl", "/board/list");
-
+            model.addAttribute("message", "글 작성이 완료되었습니다.");
+            model.addAttribute("searchUrl", "/api/board/list");
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("message", "글 작성이 실패하였습니다.");
+        }
         return "message";
     }
 
-    @GetMapping("/board/list")
-    public String boardList(Model model,
-                            @PageableDefault(page=0, size=5, sort="boardCd", direction = Sort.Direction.DESC) Pageable pageable, String searchKeyword) {
-                                       //    페이지   페이지당 글  정렬기준컬럼     정렬순서
+    @GetMapping("/list")
+    public ResponseEntity<Page<BoardDTO>> boardList(
+            @PageableDefault(page=0, size=5, sort="boardCd", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(required = false) String searchKeyword) {
 
         Page<BoardDTO> list = null;
 
-        if (searchKeyword == null) {
+        if (searchKeyword == null||searchKeyword.isEmpty()) {
             list = boardService.boardDTOList(pageable);
-        }else {
+        } else {
             list = boardService.boardSearchList(searchKeyword, pageable);
         }
 
-        int nowPage = list.getPageable().getPageNumber() + 1 ;
-        int startPage = Math.max(nowPage -4, 1);
-        int endPage = Math.min(nowPage +5, list.getTotalPages());
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("totalElements", String.valueOf(list.getTotalElements()));
+        headers.add("totalPages", String.valueOf(list.getTotalPages()));
+        headers.add("currentPage", String.valueOf(list.getNumber()));
 
-        model.addAttribute("list", list);
-        model.addAttribute("nowpage", nowPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-
-        return "boardlist";
+        return new ResponseEntity<>(list, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/board/view")
-    public String boardView(Model model, Integer boardCd) {
-
-        model.addAttribute("boardDTO", boardService.boardView(boardCd));
-
-        return "boardview";
+//    @GetMapping("/view")
+//    public String boardView(Model model, Integer boardCd) {
+//
+//        model.addAttribute("boardDTO", boardService.boardView(boardCd));
+//
+//        return "boardview";
+//
+//    }
+    @GetMapping("/boardList")
+    public BoardDTO boardView(@RequestParam Integer boardCd) {
+        BoardDTO b = new BoardDTO();
+        BoardDTO board= boardService.boardView(boardCd);
+        System.out.println(board);
+        return board;
 
     }
 
-    @GetMapping("/board/delete")
+    @GetMapping("/delete")
     public String boardDelete(Integer boardCd, Model model) {
         boardService.boardDelete(boardCd);
         model.addAttribute("message", "글 삭제가 완료되었습니다.");
@@ -81,7 +103,7 @@ public class BoardController {
         return "message";
     }
 
-    @GetMapping("/board/modify/{boardCd}")
+    @GetMapping("/modify/{boardCd}")
     public String boardModify(@PathVariable("boardCd") Integer boardCd, Model model) {
 
         model.addAttribute("boardDTO", boardService.boardView(boardCd));
@@ -89,7 +111,7 @@ public class BoardController {
         return "boardmodify";
     }
 
-    @PostMapping("/board/update/{boardCd}")
+    @PostMapping("/update/{boardCd}")
     public String boardUpdate(@PathVariable("boardCd") Integer boardCd, BoardDTO boardDTO, Model model, MultipartFile file) throws Exception{
 
         BoardDTO boardTemp = boardService.boardView(boardCd); //기존에 있던 내용
@@ -108,7 +130,7 @@ public class BoardController {
         return "message";
     }
 
-    @PostMapping("/board/addComment")
+    @PostMapping("/addComment")
     public String boardWrite(BoardCommentDTO boardCommentDTO, Model model) throws Exception{
 
         boardService.writeComment(boardCommentDTO);
