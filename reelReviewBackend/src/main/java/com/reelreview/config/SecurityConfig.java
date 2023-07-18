@@ -45,18 +45,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws  Exception {
         http.
-                // cors 정책 : 현재는 Application에서 작업을 해두었으므로 기본 설정 사용
+                // cors 정책 : 현재 Application에서 작업을 해두었으므로 기본 설정 사용
                 cors().and()
-                // csrf 대책 : 현재는 CSRF에 대한 대책을 비활성화
+                // csrf 대책 : 현재 CSRF에 대한 대책을 비활성화
                 .csrf().disable()
-                // Basic 인증 : 현재는 Bearer token 인증방법을 사용하기 때문에 비활성화
+                // Basic 인증 : 현재 Bearer token 인증방법을 사용하기 때문에 비활성화
                 .httpBasic().disable()
-                // 세션 기반 인증 : 현재는 Session 기반 인증을 사용하지 않기 때문에 비활성화
+                // 세션 기반 인증 : 현재 Session 기반 인증을 사용하지 않기 때문에 비활성화
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // '/', '/api/auth' 모듈에 대해서는 모두 허용 : 인증없이 사용가능
                 .authorizeRequests().antMatchers("/", "/api/auth/**").permitAll()
                 // 나머지 Request에 대해서는 모두 인증된 사용자만 사용가능하게 한다.
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

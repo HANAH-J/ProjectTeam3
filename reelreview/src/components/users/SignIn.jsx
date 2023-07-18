@@ -18,7 +18,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     const [modalHeight, setModalHeight] = useState(500); // 초기 모달창 높이 : 500px
     const [forgotPwModalState, setForgotPwModalState] = useState(false);
     const [cookies, setCookies] = useCookies();
-    const {user, setUser} = useUserStore();
+    const { user, setUser } = useUserStore();
 
     // 이메일 유효성 검사 로직
     // 이메일 : ex) 'hana@gmail.com' 형식
@@ -54,7 +54,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     useEffect(() => {
         const inputEmail = document.getElementById('userEmail');
         const inputPassword = document.getElementById('userPassword');
-        
+
         if (inputEmail) {
             if (validateEmail(email)) {
                 inputEmail.classList.add(styles.user_sign_inputPass);
@@ -122,7 +122,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     const onSubmitHandler = (e) => {
         // 버튼 누를 때마다 새로고침 되는 현상 제어
         e.preventDefault();
-        
+
         const data = {
             userEmail: email,
             userPassword: password
@@ -138,7 +138,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             .then((response) => {
                 const responseData = response.data;
                 console.log(responseData);
-                if(!responseData.result) {
+                if (!responseData.result) {
                     console.log('로그인 실패');
                     return;
                 }
@@ -151,6 +151,17 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             }).catch((error) => {
                 console.log('React-SignUp-axios : 데이터 전송 실패');
             })
+    };
+
+    // 구글 로그인
+    const onOAuthSignInHandler = async (provider) => {
+        try {
+            const res = await axios.get(`http://localhost:8085/api/auth/oauth2/authorization?provider=${provider}`);
+            const oauth2AuthorizationUrl = res.data.oauth2AuthorizationUrl; // 소셜 로그인 URL 추출
+            window.location.href = oauth2AuthorizationUrl; // 소셜 로그인 페이지로 이동
+        } catch (error) {
+            console.log('소셜 로그인 요청 실패:', error);
+        }
     };
 
     return (
@@ -206,7 +217,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             </div>
             <hr className={styles.user_login_hr}></hr>
             <div>
-                <div className={styles.user_login_naver}>
+                <div className={styles.user_login_naver} onClick={() => onOAuthSignInHandler("google")}>
                     <img src={naver_icon} className={styles.user_login_naver_logo} alt='naver_logo'></img>
                     <span className={styles.user_login_logo_btn}>네이버 아이디로 로그인</span>
                 </div>

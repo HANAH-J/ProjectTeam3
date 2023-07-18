@@ -40,11 +40,26 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
     // 이메일 에러 메시지 출력 여부
     useEffect(() => {
-        if (email && !validateEmail(email)) {
-            setEmailError('정확하지 않은 이메일입니다.');
-        } else {
-            setEmailError('');
-        }
+
+        // 이메일 중복 검사 로직
+        let responseData = true;
+
+        axios.post('http://localhost:8085/api/auth/emailCheck', {
+            userEmail: email,
+        })
+            .then((response) => {
+                responseData = response.data;
+                if (email && !validateEmail(email)) {
+                    setEmailError('정확하지 않은 이메일입니다.');
+                } else if (responseData === false) {
+                    setEmailError('이미 가입된 이메일입니다.');
+                } else {
+                    setEmailError('');
+                }
+            })
+            .catch(function (error) {
+                console.log('React-SignUp-axios : userEmail 데이터 전송 실패');
+            });
     }, [email]);
 
     // 비밀번호 유효성 검사 로직
@@ -173,8 +188,6 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
         axios.post('http://localhost:8085/api/auth/signUp', data, config)
             .then((response) => {
-                console.log(response.data);
-                alert('회원가입 완료!');
             }).catch((error) => {
                 console.log('React-SignUp-axios : 데이터 전송 실패');
             })
@@ -208,7 +221,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     placeholder="이메일"
                     className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}/>
+                    onChange={(e) => setEmail(e.target.value)} />
                 {email ? (
                     <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
                 ) : (

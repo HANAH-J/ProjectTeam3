@@ -1,18 +1,12 @@
 package com.reelreview.controller;
 
 import com.reelreview.config.auth.PrincipalDetails;
-import com.reelreview.domain.user.ResponseDto;
-import com.reelreview.domain.user.SignInDto;
-import com.reelreview.domain.user.SignInResponseDto;
-import com.reelreview.domain.user.SignUpDto;
-import com.reelreview.repository.UserRepository;
+import com.reelreview.domain.user.*;
 import com.reelreview.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +23,31 @@ public class UserController {
         return result;
     }
 
+    // 이메일 중복 검사
+    @PostMapping("/emailCheck")
+    public boolean emailCheck(@RequestBody EmailCheckDto requestBody) {
+        boolean result = userService.emailCheck(requestBody);
+        System.out.println(result);
+        return result;
+    }
+
+    // 로그인 기능
     @PostMapping("/signIn")
     public ResponseDto<SignInResponseDto> signIn(@RequestBody SignInDto requestBody) {
         ResponseDto<SignInResponseDto> result = userService.signIn(requestBody);
         return result;
+    }
+
+    // 소셜 로그인
+    @PostMapping("/oauth/signIn")
+    public @ResponseBody String oAuthSignIn(
+            Authentication authentication,
+            @AuthenticationPrincipal OAuth2User oauth) { // DI(의존성 주입)
+        System.out.println("/api/oauth/signIn ==============================");
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        System.out.println("authentication : " + oAuth2User.getAttributes());
+        System.out.println("oauth2User : " + oauth.getAttributes());
+        return "OAuth 세션 정보 확인하기";
     }
 
     // 로그인
@@ -46,23 +61,6 @@ public class UserController {
 ////        System.out.println("userDetails : " + userDetails.getUser());
 //        return "세션 정보 확인하기";
 //    }
-
-    // 소셜 로그인
-    @PostMapping("/test/oauth/signIn")
-    public @ResponseBody String oAuthSignIn(
-            Authentication authentication,
-            @AuthenticationPrincipal OAuth2User oauth) { // DI(의존성 주입)
-        System.out.println("/test/oauth/signIn ==============================");
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        System.out.println("authentication : " + oAuth2User.getAttributes());
-        System.out.println("oauth2User : " + oauth.getAttributes());
-        return "OAuth 세션 정보 확인하기";
-    }
-
-    @GetMapping({"", "/"})
-    public String index() {
-        return "index"; // src/main/resources/templates/index
-    }
 
     // OAuth 로그인 : PrincipalDetails
     // 일반 로그인 : PrincipalDetails
@@ -87,11 +85,5 @@ public class UserController {
     @GetMapping("/info")
     public @ResponseBody String info() {
         return "개인정보";
-    }
-
-    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-    @GetMapping("/data")
-    public @ResponseBody String data() {
-        return "데이터정보";
     }
 }

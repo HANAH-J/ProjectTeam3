@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
 @Data
@@ -20,12 +21,22 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     @SequenceGenerator(name = "user_seq", sequenceName = "USER_SEQ", allocationSize = 1)
     private int userCd;
+
+    @Pattern(regexp = "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$")
+    // 이름 유효성 검사 로직
+    // 2자 이상 16자 이하, 영어 또는 숫자 또는 한글 (한글 초성 및 모음은 불가)
     private String username;
+
+    @Pattern(regexp = "^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$")
+    // 이메일 유효성 검사 로직
+    // 이메일 : ex) 'hana@gmail.com' 형식
     private String userEmail;
+
     private String userPassword;
     private String role; // ROLE_USER, ROLE_ADMIN
     private String provider;
     private String providerCd;
+
     @CreationTimestamp
     private Timestamp createDate;
 
