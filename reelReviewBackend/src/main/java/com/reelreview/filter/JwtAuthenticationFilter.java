@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = parseBearerToken(request);
 
             if (token != null && !token.equalsIgnoreCase("null")) {
-                // 토큰 검증하여 payload의 userEmail을 가져온다.
+                // 토큰을 검증하여 payload의 userEmail을 가져온다.
                 String userEmail = tokenProvider.validate(token);
 
                 // SecurityContext에 추가할 객체

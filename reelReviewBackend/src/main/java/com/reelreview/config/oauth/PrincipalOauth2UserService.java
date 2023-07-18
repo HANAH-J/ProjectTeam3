@@ -4,6 +4,7 @@ import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.config.oauth.provider.GoogleUserInfo;
 import com.reelreview.config.oauth.provider.NaverUserInfo;
 import com.reelreview.config.oauth.provider.OAuth2UserInfo;
+import com.reelreview.config.oauth.provider.TokenProvider;
 import com.reelreview.domain.user.UserEntity;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,14 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
     @Lazy
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserRepository userRepository;
 
     @Autowired
     @Lazy
-    private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private TokenProvider tokenProvider;
 
     // 구글로부터 받은 userRequest 데이터에 대한 후처리가 진행되는 함수
     // 함수 종료 시 @AuthenticationPrincipal 어노테이션이 만들어진다.

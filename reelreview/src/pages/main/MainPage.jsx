@@ -11,30 +11,31 @@ import styles from '../../css/main/Mainpage.module.css';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from '../../stores/index.ts';
+import {SignIn, cookies} from '../../components/users/SignIn';
 
 
 export default function MainPage() {
 
   const [mainResponse, setMainResponse] = useState('');
-  const [cookies] = useCookies();
-  const { user } = useUserStore();
+  // const [cookies] = useCookies();
+  // const { user } = useUserStore();
 
-  const getMain = async(token: string) => {
-    const requestOption = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    };
-    await axios.get('http://localhost:8085/api/main/', requestOption).then((response) => {
-      setMainResponse(response.data);
-    }).catch((error) => '');
-  }
+  // const getMain = async(token: string) => {
+  //   const requestData = {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     }
+  //   };
+  //   await axios.post('http://localhost:8085/api/auth/main', requestData).then((response) => {
+  //     setMainResponse(response.data);
+  //   }).catch((error) => '');
+  // }
 
-  useEffect(() => {
-    const token = cookies.token;
-    if(token) getMain(token);
-    else setMainResponse('');
-  }, [cookies.token]);
+  // useEffect(() => {
+  //   const token = cookies.token;
+  //   if(token) getMain(token);
+  //   else setMainResponse('');
+  // }, [cookies.token]);
 
   return (
 
