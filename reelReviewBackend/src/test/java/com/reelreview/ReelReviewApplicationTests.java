@@ -1,6 +1,6 @@
 package com.reelreview;
 
-import com.reelreview.domain.board.Board;
+import com.reelreview.domain.board.BoardDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +20,7 @@ class ReelReviewApplicationTests {
     @Test
     public void testInsert200() {
         for (int i = 1; i <= 200; i++) {
-            Board board = new Board();
+            BoardDTO board = new BoardDTO();
             board.setTitle("제목.." + i);
             board.setContent("내용...." +  i + " 채우기 ");
             board.setWriter("user0" + (i%10) );
