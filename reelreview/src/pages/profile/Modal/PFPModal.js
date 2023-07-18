@@ -105,7 +105,7 @@ function PFPModal({setOpenModal, removeUser}) {
 
       {showEditPFPModal && ( 
         <div className={styles.EditPFPModal}>
-          <form action="#" method="POST" enctype="multipart/form-data">
+          <form action="#" method="POST" encType="multipart/form-data">
             <h3>프로필 사진 변경</h3>
             <input type="file" id="pictureForProfile" name="pictureForProfile" />
             <br></br>
@@ -117,7 +117,7 @@ function PFPModal({setOpenModal, removeUser}) {
 
       {showEditPFBModal && ( 
         <div className={styles.EditPFBModal}>
-          <form action="#" method="POST" enctype="multipart/form-data">
+          <form action="#" method="POST" encType="multipart/form-data">
             <h3>배경 사진 변경</h3>
             <input type="file" id="pictureForBG" name="pictureForBG" />
             <br></br>
