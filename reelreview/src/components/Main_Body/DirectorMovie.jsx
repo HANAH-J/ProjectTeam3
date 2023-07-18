@@ -31,7 +31,7 @@ function SamplePrevArrow(props) {
     );
 }
 
-export default function DirectorMovie() {
+export default function DirectorMovie(props) {
 
     const settings = {
         dots: false,
@@ -92,16 +92,16 @@ export default function DirectorMovie() {
 
     return (
         <Slider {...settings}>
-            {directormovieList.peopleInfoResult.peopleInfo.filmos.map((item, index) => (
+            {props.movieList.map((item, index) => (
                 <div className={styles.DirectorMovie_mainBox}>
                     <div className={styles.DirectorMovie_poster}>
                         <div className={styles.DirectorMovie_content}>
                         <span className={styles.ActorMovie_number}>{index + 1}</span>
-                        <img src={item.moviePoster} alt="poster" />
+                        <img src={item.poster_path} alt="poster" />
                         </div>
                     </div>
                     <div className={styles.DirectorMovie_bottom}>
-                        <h3>{item.movieNm}</h3>
+                        <h3>{item.title}</h3>
                     </div>
                     
                 </div>

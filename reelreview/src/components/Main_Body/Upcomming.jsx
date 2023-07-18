@@ -104,7 +104,7 @@ export default function Upcomming() {
   
 useEffect(()=>{
   
-  axios.get("http://localhost:8085/api/upcoming").then((response)=>
+  axios.get("http://localhost:8085/api/upcomming").then((response)=>
   {
     upcommingList = response.data;
     console.log(response.data);

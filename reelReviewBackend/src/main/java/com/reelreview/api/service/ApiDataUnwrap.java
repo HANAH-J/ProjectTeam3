@@ -96,7 +96,7 @@ public class ApiDataUnwrap {
         for(int i = 0 ; i < json.size() ; i++){
             int movieCd = json.get(i);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.themoviedb.org/3/movie/"+movieCd+"?language=ko"))
+                    .uri(URI.create("https://api.themoviedb.org/3/movie/"+movieCd+"?append_to_response=videos%2Ccredits&language=ko"))
                     .header("accept", "application/json")
                     .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZmZhYTU1NDc2ZTRjYTdjNzI3Nzg4ZjlmOTMwZDY0NCIsInN1YiI6IjY0OTk0OWQ1NjJmMzM1MDEyNzQ3MzI2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FiFcp5Wrby8LZtoc_h9tQ2v6yOKyKwO2B8pqzavLsW0")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -125,13 +125,19 @@ public class ApiDataUnwrap {
             tmdbData.put("runtime",jsonMain.get("runtime"));
             tmdbData.put("tagline",jsonMain.get("tagline"));
             tmdbData.put("title",jsonMain.get("title"));
-
-            Double avg = Double.parseDouble(""+jsonMain.get("vote_average"));
+            Double avg = 0.0;
+            if(jsonMain.get("vote_average")==null){
+                avg = 0.0;
+            }else{
+                avg = Double.parseDouble(""+jsonMain.get("vote_average"));
+            }
             double avgdouble = Math.round(avg*10)/10.0;
 
             tmdbData.put("vote_average",avgdouble);
             tmdbData.put("vote_count",jsonMain.get("vote_count"));
             tmdbData.put("backdrop_path",jsonMain.get("backdrop_path"));
+            tmdbData.put("videos",jsonMain.get("videos"));
+            tmdbData.put("credits",jsonMain.get("credits"));
             fullData.add(tmdbData);
 
         }
@@ -145,7 +151,7 @@ public class ApiDataUnwrap {
         for(int i = 0 ; i < movieId.size() ; i++){
             int movieCd = movieId.get(i);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://api.themoviedb.org/3/movie/"+movieCd+"/images?language=ko"))
+                    .uri(URI.create("https://api.themoviedb.org/3/movie/"+movieCd+"/images"))
                     .header("accept", "application/json")
                     .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZmZhYTU1NDc2ZTRjYTdjNzI3Nzg4ZjlmOTMwZDY0NCIsInN1YiI6IjY0OTk0OWQ1NjJmMzM1MDEyNzQ3MzI2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FiFcp5Wrby8LZtoc_h9tQ2v6yOKyKwO2B8pqzavLsW0")
                     .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -153,39 +159,24 @@ public class ApiDataUnwrap {
 
             HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
-
-
-
-
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(response.body());
             JSONObject jsonMain = (JSONObject)obj;
             JSONArray jarray = (JSONArray) jsonMain.get("backdrops");
-            JSONArray jarray2 = (JSONArray) jsonMain.get("posters");
 
-            List<String> backdropFiles = new ArrayList<>();
-            for( int j = 0 ; j < jarray.size() ; j++){
-                JSONObject backdrops = new JSONObject();
-                backdrops = (JSONObject) jarray.get(j);
-                String link = null;
-                link = (String) backdrops.get("file_path");
-                backdropFiles.add(link);
+
+            if(jarray != null){
+                for( int j = 0 ; j < jarray.size() ; j++){
+                    JSONObject backdropFiles = new JSONObject();
+                    JSONObject backdrops = (JSONObject) jarray.get(j);
+                    String link = (String) backdrops.get("file_path");
+                    backdropFiles.put("backdropPath",link);
+                    backdropFiles.put("movieCd",movieCd);
+                    fullData.add(backdropFiles);
+                }
             }
-            JSONObject backdropJSON = new JSONObject();
-            backdropJSON.put("movieCd",movieCd);
-            backdropJSON.put("backdrops",backdropFiles);
 
-            List<String> posterFiles = new ArrayList<>();
-            for(int z = 0 ; z < jarray2.size() ; z++){
-                JSONObject posters = new JSONObject();
-                posters = (JSONObject)jarray2.get(z);
-                String link = null;
-                link = (String) posters.get("file_path");
-                posterFiles.add(link);
-            }
-            backdropJSON.put("images",posterFiles);
 
-            fullData.add(backdropJSON);
 
         }
 

@@ -15,6 +15,8 @@ import {SignIn, cookies} from '../../components/users/SignIn';
 
 
 export default function MainPage() {
+  const [movieList, setMovieList] = useState([]); // 초기 상태값은 빈 배열로 설정합니다.
+  const [name, setName] = useState('');
 
   const [mainResponse, setMainResponse] = useState('');
   // const [cookies] = useCookies();
@@ -36,6 +38,33 @@ export default function MainPage() {
   //   if(token) getMain(token);
   //   else setMainResponse('');
   // }, [cookies.token]);
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setName(value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // 서버로 보낼 데이터 준비
+    const formData = new FormData();
+    formData.append('name', name);
+
+    // 데이터 전송
+    axios.post("http://localhost:8085/api/directorSearch", formData)
+      .then((response) => {
+        // 요청에 대한 성공 처리
+        console.log(response.data);
+        setMovieList(response.data);
+        // 받은 데이터에 대한 추가 처리
+      })
+      .catch((error) => {
+        // 요청에 대한 실패 처리
+        console.error(error);
+      });
+  };
+
 
   return (
 
@@ -67,7 +96,11 @@ export default function MainPage() {
             <h3>이상용 감독 모음</h3>
           </div>
           <div className={styles.DirectorMovie_box_info}>
-            <DirectorMovie />
+            <form onSubmit={handleSubmit}>
+              <input type="text" name='name' onChange={handleChange} />
+              <button type='submit'>감독</button>
+            </form>
+            <DirectorMovie movieList={movieList}/>
           </div>
         </div>
       </div>

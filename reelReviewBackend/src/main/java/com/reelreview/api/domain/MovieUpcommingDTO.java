@@ -21,4 +21,5 @@ public class MovieUpcommingDTO {
     private String title;
     private Double vote_average;
     private Long vote_count;
+    private String upcommingDownloadDate;
 }
