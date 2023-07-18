@@ -1,21 +1,19 @@
 package com.reelreview.domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
-@Data
 @Builder
+@Data
+@Entity
 @AllArgsConstructor
-@NoArgsConstructor
-@Entity                     // 해당 클래스를 Entity 클래스로 사용
-@Table(name = "tbl_user")   // 데이터베이스에 해당 테이블과 현재 클래스를 매핑
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "tbl_user")
 public class UserEntity {
     @Id // PRIMARY KEY
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
@@ -31,24 +29,30 @@ public class UserEntity {
     // 이메일 유효성 검사 로직
     // 이메일 : ex) 'hana@gmail.com' 형식
     private String userEmail;
-
     private String userPassword;
+
+//    @Enumerated(EnumType.STRING)
     private String role; // ROLE_USER, ROLE_ADMIN
+
+//    @Enumerated(EnumType.STRING)
     private String provider;
     private String providerCd;
 
     @CreationTimestamp
     private Timestamp createDate;
-
-//    @Builder
-//    public UserDomain(String username, String userPassword, String userEmail, String role, String provider, String providerCd, Timestamp createDate) {
-//        this.username = username;
-//        this.userPassword = userPassword;
-//        this.userEmail = userEmail;
-//        this.role = role;
-//        this.provider = provider;
-//        this.providerCd = providerCd;
-//        this.createDate = createDate;
+//    private String refreshToken;
+//
+//    public void authorizeUser() {
+//        this.role = String.valueOf(Role.USER);
+//    }
+//
+//    // 비밀번호 암호화 메소드
+//    public void passwordEncode(PasswordEncoder passwordEncoder) {
+//        this.userPassword = passwordEncoder.encode(this.userPassword);
+//    }
+//
+//    public void updateRefreshToken(String updateRefreshToken) {
+//        this.refreshToken = updateRefreshToken;
 //    }
 
     public UserEntity(SignUpDto dto) {

@@ -21,28 +21,39 @@ import java.util.Map;
 @Data
 public class PrincipalDetails  implements UserDetails, OAuth2User {
     
-    private UserEntity user; // 컴포지션
+    private UserEntity userEntity;
     private  Map<String, Object> attributes;
+    private String jwtToken;
 
-    // 일반 로그인
-    public PrincipalDetails(UserEntity user) {
-        this.user = user;
+    // JWT 토큰 설정
+    public void setJwtToken(String jwtToken) {
+        this.jwtToken = jwtToken;
     }
 
-    // OAuth 로그인
-    public PrincipalDetails(UserEntity user, Map<String, Object> attributes) {
-        this.user = user;
+    // JWT 토큰 반환
+    public String getJwtToken() {
+        return jwtToken;
+    }
+
+    // 일반 로그인
+    public PrincipalDetails(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    // OAuth2 로그인
+    public PrincipalDetails(UserEntity userEntity, Map<String, Object> attributes) {
+        this.userEntity = userEntity;
         this.attributes = attributes;
     }
 
-    // 해당 User의 권한을 리턴하는 곳
+    // 해당 User의 권한 리턴
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collect = new ArrayList<>();
         collect.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return user.getRole();
+                return userEntity.getRole();
             }
         });
         return collect;
@@ -50,12 +61,12 @@ public class PrincipalDetails  implements UserDetails, OAuth2User {
 
     @Override
     public String getPassword() {
-        return user.getUserPassword();
+        return userEntity.getUserPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return userEntity.getUsername();
     }
 
     // 계정 만료 여부
@@ -97,5 +108,9 @@ public class PrincipalDetails  implements UserDetails, OAuth2User {
     @Override
     public String getName() {
         return null;
+    }
+
+    public String getUserEmail() {
+        return userEntity.getUserEmail();
     }
 }

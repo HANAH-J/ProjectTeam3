@@ -154,14 +154,17 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     };
 
     // 구글 로그인
-    const onOAuthSignInHandler = async (provider) => {
-        try {
-            const res = await axios.get(`http://localhost:8085/api/auth/oauth2/authorization?provider=${provider}`);
-            const oauth2AuthorizationUrl = res.data.oauth2AuthorizationUrl; // 소셜 로그인 URL 추출
-            window.location.href = oauth2AuthorizationUrl; // 소셜 로그인 페이지로 이동
-        } catch (error) {
-            console.log('소셜 로그인 요청 실패:', error);
-        }
+    const oAuthSignInHandler = () => {
+        // try {
+        //     const res = axios.post(`http/oauth2/authorization/google`);
+        //     const jwtToken = res.data; // 서버에서 발급된 JWT 토큰
+        //     // JWT 토큰을 로컬 스토리지 또는 쿠키 등에 저장
+        //     localStorage.setItem('jwtToken', jwtToken); // 예시로 로컬 스토리지에 저장
+        //     // 로그인이 성공하면 사용자 정보를 로딩하거나 다른 리다이렉션 작업 수행
+        // } catch (error) {
+        //     console.log('소셜 로그인 요청 실패:', error);
+        // }
+        window.location.href = 'http://localhost:8085/oauth2/authorization/google';
     };
 
     return (
@@ -169,7 +172,6 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             <form onSubmit={onSubmitHandler}>
                 <div><img src={reel_review_logo} className={styles.user_login_logo} alt='reel_review_logo'></img></div>
                 <h2 className={styles.user_login_h2}>로그인</h2>
-                {/* { user != null && (<>{user.userEmail}</>)} */}
                 <input
                     type='text'
                     id='userEmail'
@@ -217,7 +219,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             </div>
             <hr className={styles.user_login_hr}></hr>
             <div>
-                <div className={styles.user_login_naver} onClick={() => onOAuthSignInHandler("google")}>
+                <div className={styles.user_login_naver} onClick={oAuthSignInHandler}>
                     <img src={naver_icon} className={styles.user_login_naver_logo} alt='naver_logo'></img>
                     <span className={styles.user_login_logo_btn}>네이버 아이디로 로그인</span>
                 </div>

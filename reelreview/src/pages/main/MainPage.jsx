@@ -11,7 +11,6 @@ import styles from '../../css/main/Mainpage.module.css';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from '../../stores/index.ts';
-import {SignIn, cookies} from '../../components/users/SignIn';
 
 
 export default function MainPage() {
@@ -19,25 +18,26 @@ export default function MainPage() {
   const [name, setName] = useState('');
 
   const [mainResponse, setMainResponse] = useState('');
-  // const [cookies] = useCookies();
-  // const { user } = useUserStore();
+  const [cookies] = useCookies(['token']);
+  const { user } = useUserStore();
 
-  // const getMain = async(token: string) => {
-  //   const requestData = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`
-  //     }
-  //   };
-  //   await axios.post('http://localhost:8085/api/auth/main', requestData).then((response) => {
-  //     setMainResponse(response.data);
-  //   }).catch((error) => '');
-  // }
+  // JWT 토큰
+  const getMain = async(token: string) => {
+    const requestData = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    await axios.post('http://localhost:8085/api/auth/main', requestData).then((response) => {
+      setMainResponse(response.data);
+    }).catch((error) => '');
+  }
 
-  // useEffect(() => {
-  //   const token = cookies.token;
-  //   if(token) getMain(token);
-  //   else setMainResponse('');
-  // }, [cookies.token]);
+  useEffect(() => {
+    const token = cookies.token;
+    if(token) getMain(token);
+    else setMainResponse('');
+  }, [cookies.token]);
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -69,14 +69,14 @@ export default function MainPage() {
   return (
 
     <div className={styles.MainPage_box}>
-      {mainResponse ? (<LoginSuccess_header/>) : (<Header/>)}
+      {cookies.token ? <LoginSuccess_header /> : <Header />}
       <div className={styles.BoxOffice_box_wrapper}>
         <div className={styles.BoxOffice_box}>
           <div className={styles.BoxOffice_box_header}>
             <h3>박스오피스 순위</h3>
           </div>
           <div className={styles.BoxOffice_box_info}>
-            <BoxOffice />
+            {/* <BoxOffice /> */}
           </div>
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function MainPage() {
             <h3>개봉예정작</h3>
           </div>
           <div className={styles.Upcomming_box_info}>
-            <Upcomming />
+            {/* <Upcomming /> */}
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import styles from '../../../css/profile/PFPModal.module.css'
 import { useCookies } from 'react-cookie';
 import { useUserStore } from "../../../stores/index.ts";
@@ -56,10 +57,22 @@ function PFPModal({setOpenModal, removeUser}) {
 
   const [cookies, setCookies] = useCookies();
 
+  // 로그아웃
   const logOutHandler = () => {
     setCookies('token', '', {expires: new Date()});
     removeUser();
+    window.location.href = 'http://localhost:3000';
   }
+
+  // 회원탈퇴
+  const userDeleteHandler = () => {
+    axios.post('http://localhost:8085/api/auth/userDelete')
+            .then((response) => {
+                
+            }).catch((error) => {
+                console.log('React-SignUp-axios : 데이터 전송 실패');
+            })
+    };
 
   return (
     <div className={styles.PFPModal_BG} onClick={closePFPModal}>
@@ -88,7 +101,7 @@ function PFPModal({setOpenModal, removeUser}) {
           <h3>탈퇴 확인</h3>
           <p>정말로 탈퇴하시겠습니까?</p>
           <button onClick={closeWithdrawModal}>취소</button>
-          <button>탈퇴하기</button>
+          <button onClick={userDeleteHandler}>탈퇴하기</button>
         </div>
       )}
 

@@ -1,13 +1,10 @@
 package com.reelreview.filter;
 
 import com.reelreview.config.oauth.provider.TokenProvider;
-import com.reelreview.domain.user.UserEntity;
-import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -20,17 +17,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TokenProvider tokenProvider;
+    // Request 수신 시 Request Header의 Authorization 필드의 Bearer Token을 가져온다.
+    // 가져온 Token을 검증하고 검증 결과를 SecurityContext에 추가
+    @Autowired private TokenProvider tokenProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -39,19 +32,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (token != null && !token.equalsIgnoreCase("null")) {
 
+                // 토큰을 검증하여 payload의 userEmail을 가져온다.
                 String userEmail = tokenProvider.validate(token);
 
-                UserEntity userEntity = userRepository.findByUserEmail(userEmail);
-
-                // 추가
-                String role = userEntity.getRole();
-                List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                authorities.add(new SimpleGrantedAuthority(role));
-
+                // SecurityContext에 추가할 객체
                 AbstractAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userEmail, null, authorities);
+                        new UsernamePasswordAuthenticationToken(userEmail, null, AuthorityUtils.NO_AUTHORITIES);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+                // SecurityContext에 AbstractAuthenticationToken 객체를 추가해서
+                // 해당 Thread가 지속적으로 인증 정보를 가질 수 있도록 해준다.
                 SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
                 securityContext.setAuthentication(authentication);
                 SecurityContextHolder.setContext(securityContext);
@@ -59,10 +49,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-
         filterChain.doFilter(request, response);
     }
 
+    // Request Header의 Authorization 필드의 Bearer Token을 가져오는 메서드
     private String parseBearerToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 

@@ -1,8 +1,11 @@
 package com.reelreview.repository;
 
+import com.reelreview.domain.user.Provider;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.reelreview.domain.user.UserEntity;
+
+import java.util.Optional;
 
 /*
  * 회원 가입 기능
@@ -22,4 +25,14 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     public UserEntity findByUserEmail(String userEmail);
 
     public boolean existsByUserEmail(String userEmail);
+
+
+
+//    Optional<UserEntity> findByusername(String username);
+//
+//    Optional<UserEntity> findByuserEmail(String userEmail);
+//
+//    Optional<UserEntity> findByRefreshToken(String refreshToken);
+//
+//    Optional<UserEntity> findBySocialTypeAndSocialId(Provider provider, String providerCd);
 }

@@ -3,10 +3,12 @@ package com.reelreview.domain.user;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
 @Data
+//@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpDto {

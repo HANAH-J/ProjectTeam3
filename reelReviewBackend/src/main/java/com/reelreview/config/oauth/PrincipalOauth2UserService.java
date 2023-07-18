@@ -2,13 +2,14 @@ package com.reelreview.config.oauth;
 
 import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.config.oauth.provider.GoogleUserInfo;
-import com.reelreview.config.oauth.provider.NaverUserInfo;
 import com.reelreview.config.oauth.provider.OAuth2UserInfo;
 import com.reelreview.config.oauth.provider.TokenProvider;
 import com.reelreview.domain.user.UserEntity;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -32,8 +33,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     @Autowired
     private TokenProvider tokenProvider;
 
-    // 구글로부터 받은 userRequest 데이터에 대한 후처리가 진행되는 함수
-    // 함수 종료 시 @AuthenticationPrincipal 어노테이션이 만들어진다.
+    // 구글로부터 받은 userRequest 데이터에 대한 후처리 진행 함수
+    // 함수 종료 시 @AuthenticationPrincipal 어노테이션 생성
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         // registrationId로 어떤 OAuth로 로그인했는지 확인 가능
@@ -50,40 +51,41 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
             System.out.println("구글 로그인 요청");
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
-            System.out.println("네이버 로그인 요청");
-            oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
-//        } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
-//            System.out.println("카카오 로그인 요청");
-//            oAuth2UserInfo = new KakaoUserInfo((Map)oAuth2User.getAttributes().get("kakao_account"));
         } else {
-            System.out.println("우리는 구글과 네이버만 지원합니다!");
+            System.out.println("구글 이외의 소셜 로그인은 현재 처리하지 않습니다.");
         }
-        String provider = oAuth2UserInfo.getProvider();
-        String providerCd = oAuth2UserInfo.getProviderCd();
-        String username = provider + "_" + providerCd; // google_sub
-        String userPassword = bCryptPasswordEncoder.encode("겟인데어");
+
         String userEmail = oAuth2UserInfo.getUserEmail();
-        String role = "ROLE_USER";
+        String username = oAuth2UserInfo.getUserName();
 
         UserEntity userEntity = userRepository.findByUsername(username);
 
+        // 새로운 사용자일 경우, 회원가입 처리
         if (userEntity == null) {
+            String provider = oAuth2UserInfo.getProvider();
+            String providerCd = oAuth2UserInfo.getProviderCd();
+            String role = "ROLE_USER";
             System.out.println("OAuth 로그인이 최초입니다.");
             userEntity = UserEntity.builder()
                     .username(username)
-                    .userPassword(userPassword)
                     .userEmail(userEmail)
                     .role(role)
                     .provider(provider)
                     .providerCd(providerCd)
                     .build();
             userRepository.save(userEntity);
+
+        // 기존에 회원가입한 사용자일 경우, 처리 無
         } else {
             System.out.println("로그인을 이미 한 적이 있습니다. 당신은 자동 회원가입이 되어 있습니다.");
         }
 
-        // 회원가입을 강제로 진행
-        return new PrincipalDetails(userEntity, oAuth2User.getAttributes());
+        // JWT 토큰을 생성하여 사용자 정보와 함께 반환
+        Authentication authentication = new UsernamePasswordAuthenticationToken(new PrincipalDetails(userEntity), null, null);
+        String jwtToken = tokenProvider.create(authentication);
+        PrincipalDetails principalDetails = new PrincipalDetails(userEntity, oAuth2User.getAttributes());
+        principalDetails.setJwtToken(jwtToken);
+
+        return principalDetails;
     }
 }

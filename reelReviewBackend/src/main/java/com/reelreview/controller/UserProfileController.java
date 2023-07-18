@@ -40,7 +40,7 @@ public class UserProfileController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
 
-        UserEntity userEntity = principalDetails.getUser();
+        UserEntity userEntity = principalDetails.getUserEntity();
         //ProfileDTO profileDTO = profileService.getProfileByUserCd(userEntity.getUserCd());
         // 아직 남은 것 : Rating, WantToSee, Comment 가지고 와서 넣어주기
         // List<userRatingDTO> userRating = userRatingService.getMovieRatingsByUserCd(userDTO.getUserCd());
