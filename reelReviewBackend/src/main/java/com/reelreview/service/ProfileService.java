@@ -21,7 +21,7 @@ public class ProfileService {
 
     public PrincipalDetails getCurrentUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("Authentication Object: " + authentication);
+        System.out.println("authentication : " + authentication);
 
         if (authentication == null) {
             System.out.println("Authentication is null");

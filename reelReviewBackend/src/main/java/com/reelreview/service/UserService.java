@@ -1,10 +1,13 @@
 package com.reelreview.service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
+import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.config.oauth.provider.TokenProvider;
 import com.reelreview.domain.user.*;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,28 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    // 회원가입
+//    public void signUp(SignUpDto signUpDto) throws Exception {
+//
+//        if (userRepository.findByuserEmail(signUpDto.getUserEmail()).isPresent()) {
+//            throw new Exception("이미 존재하는 이메일입니다.");
+//        }
+//
+//        if (userRepository.findByusername(signUpDto.getUsername()).isPresent()) {
+//            throw new Exception("이미 존재하는 닉네임입니다.");
+//        }
+//
+//        UserEntity userEntity = UserEntity.builder()
+//                .username(signUpDto.getUsername())
+//                .userEmail(signUpDto.getUserEmail())
+//                .userPassword(signUpDto.getUserPassword())
+//                .role(String.valueOf(Role.USER))
+//                .build();
+//
+//        userEntity.passwordEncode(passwordEncoder);
+//        userRepository.save(userEntity);
+//    }
 
     public ResponseDto<?> signUp(SignUpDto dto) {
         String username = dto.getUsername();
@@ -55,14 +80,13 @@ public class UserService {
 
         // UserEntity 생성
         UserEntity userEntity = new UserEntity(dto);
-        
+
         // 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(userPassword);
         userEntity.setUserPassword(encodedPassword);
 
         // UserRepository 이용, 데이터베이스에 UserEntity 저장
         try {
-            userEntity.setRole("ROLE_USER");
             userRepository.save(userEntity);
         } catch (Exception error) {
             return ResponseDto.setFail("Database Error");
@@ -71,6 +95,7 @@ public class UserService {
         return ResponseDto.setSuccess("SignUp Success", null);
     }
 
+    // 로그인
     public ResponseDto<SignInResponseDto> signIn(SignInDto dto) {
         String userEmail = dto.getUserEmail();
         String userPassword = dto.getUserPassword();
@@ -78,7 +103,7 @@ public class UserService {
         UserEntity userEntity = null;
         try {
             userEntity = userRepository.findByUserEmail(userEmail);
-            
+
             // 잘못된 이메일
             if(userEntity == null) {
                 return ResponseDto.setFail("Sign In Failed");
@@ -93,16 +118,18 @@ public class UserService {
 
         userEntity.setUserPassword("");
 
-        String token = tokenProvider.create(userEmail);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(new PrincipalDetails(userEntity), null, null);
+
+        String token = tokenProvider.create(authentication);
         int exprTime = 3600000;
 
         SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
         return ResponseDto.setSuccess("Sign In Success", signInResponseDto);
     }
 
+    // 이메일 중복 검사
     public boolean emailCheck(EmailCheckDto dto) {
         String userEmail = dto.getUserEmail();
-        // userEmail 중복 검사
         try {
             if(userRepository.existsByUserEmail(userEmail)) {
                 System.out.println("이메일 중복 : 중복");
