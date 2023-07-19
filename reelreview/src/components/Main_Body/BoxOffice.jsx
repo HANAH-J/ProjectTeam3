@@ -92,38 +92,33 @@ export default function BoxOffice() {
       },
     ],
   };
-
-  
-
-  const navigate = useNavigate();
-
-  const onClickDetailPage = () =>{
-    navigate('Details')
-  }
-  
   
   let [boxofficeList,setBoxofficeList] = useState([]);
   
-useEffect(()=>{
+  useEffect(()=>{
   
-  axios.get("http://localhost:8085/api/popular_movielist").then((response)=>
-  {
-    boxofficeList =response.data;
-    console.log(response.data);
-    console.log(boxofficeList);
-    setBoxofficeList(boxofficeList);
-  }).catch((error)=>{console.log(error)})
-   console.log(boxofficeList);
-   
-},[]);
+    axios.get("http://localhost:8085/api/popular_movielist").then((response)=>
+    {
+      setBoxofficeList(response.data);
+    }).catch((error)=>{console.log(error)})
+     
+  },[]);
+  
+
+  const navigate = useNavigate();
+      
+      const onClickDetailPage = (item) =>{
+        console.log(item);
+        navigate('details', {state:{item}});
+      }
 
   
   return (
     <Slider {...settings}>
       
       {boxofficeList.map((item, index) => (
-        <div className={styles.BoxOffice_mainBox}>
-          <div className={styles.BoxOffice_poster} onClick={onClickDetailPage}>
+        <div className={styles.BoxOffice_mainBox} key={item.movieId}>
+          <div className={styles.BoxOffice_poster} onClick={()=>onClickDetailPage(item)}>
             <span className={styles.BoxOffice_number}>{index+1}</span>
             <img src={IMG_BASE_URL + item.poster_path} className={styles.BoxOffice_img} alt="poster" />
           </div>

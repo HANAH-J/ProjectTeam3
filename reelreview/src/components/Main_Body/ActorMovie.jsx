@@ -4,6 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
 import { actormovieList } from '../../api/Movies/ActorMovie';
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
@@ -31,7 +32,7 @@ function SamplePrevArrow(props) {
     );
 }
 
-export default function ActorMovie() {
+export default function ActorMovie(props) {
 
     const settings = {
         dots: false,
@@ -92,16 +93,16 @@ export default function ActorMovie() {
 
     return (
         <Slider {...settings}>
-            {actormovieList.peopleInfoResult.peopleInfo.filmos.map((item, index) => (
+            {props.movieListActor.map((item, index) => (
                 <div className={styles.ActorMovie_mainBox}>
                     <div className={styles.ActorMovie_poster}>
                         <div className={styles.ActorMovie_content}> 
                         <span className={styles.ActorMovie_number}>{index + 1}</span>
-                        <img src={item.moviePoster} alt="poster" />
+                        <img src={IMG_BASE_URL+item.poster_path} alt="poster" />
                         </div>
                     </div>
                     <div className={styles.ActorMovie_bottom}>
-                        <h3>{item.movieNm}</h3>
+                        <h3>{item.title}</h3>
                     </div>
                     
                 </div>

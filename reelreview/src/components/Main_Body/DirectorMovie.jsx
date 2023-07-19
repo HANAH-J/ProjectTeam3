@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import styles from '../../css/main/Mainpage.module.css';
-import { directormovieList } from '../../api/Movies/DirectorMovie'; 
+import styles from '../../css/main/Mainpage.module.css'; 
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
@@ -97,7 +97,7 @@ export default function DirectorMovie(props) {
                     <div className={styles.DirectorMovie_poster}>
                         <div className={styles.DirectorMovie_content}>
                         <span className={styles.ActorMovie_number}>{index + 1}</span>
-                        <img src={item.poster_path} alt="poster" />
+                        <img src={IMG_BASE_URL+item.poster_path} alt="poster" />
                         </div>
                     </div>
                     <div className={styles.DirectorMovie_bottom}>

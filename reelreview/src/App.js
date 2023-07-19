@@ -35,7 +35,6 @@ function App() {
         <Route path="/csFaq" Component={CsFaq}/>
         <Route path="/csQna" Component={CsQna}/>
         <Route path='/details' Component={Details}/>
-        {/* /:movieCd */}
         <Route path="/userProfiles" Component={UserProfile} />
         <Route path="/boxOffice" Component={BoxOffice} />
         <Route path="/upComming" Component={Upcomming} />

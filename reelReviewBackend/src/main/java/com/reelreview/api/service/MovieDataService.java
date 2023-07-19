@@ -21,6 +21,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.DecimalFormat;
 import org.json.simple.parser.ParseException;
+import org.springframework.transaction.annotation.Transactional;
+
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -335,5 +338,21 @@ public class MovieDataService{
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return currentDate.format(formatter);
+    }
+
+    @Transactional
+    public List<MovieDetailsDTO> changeRanktoNull() {
+        List<Integer> rank = new ArrayList<>();
+        for(int i = 1; i < 11 ; i++) {
+            rank.add(i);
+        }
+        List<MovieDetailsDTO> inRank = movieDetailRepo.findByRankIn(rank);
+
+        for(int i = 0 ; i < inRank.size() ; i++) {
+            inRank.get(i).setRank(null);
+
+        }
+
+        return inRank;
     }
 }
