@@ -19,9 +19,7 @@ public class BoardCommentDTO {
     @SequenceGenerator(name = "boardComment_seq", sequenceName = "BOARDCOMMENT_SEQ", allocationSize = 1)
     private Integer commentCd;
 
-    @ManyToOne(fetch = FetchType.LAZY) //boardCd 외래키 받아오기
-    @JoinColumn(name = "boardCd")
-    private BoardDTO board;
+    private int boardcd;
 
     private String commentTitle;
     private String commentWriter;

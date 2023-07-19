@@ -84,9 +84,9 @@ public class BoardService {
         this.boardCommentRepository = boardCommentRepository;
     }
 
-    public List<BoardCommentDTO> getComments() {
+    public List<BoardCommentDTO> getComments(Integer boardcd) {
         // JPA Repository를 사용하여 댓글 데이터를 가져옴
-        return boardCommentRepository.findAll();
+        return boardCommentRepository.findByBoardcd(boardcd);
     }
 }
 

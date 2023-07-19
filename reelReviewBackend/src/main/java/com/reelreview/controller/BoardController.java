@@ -2,6 +2,7 @@ package com.reelreview.controller;
 
 import com.reelreview.domain.board.BoardCommentDTO;
 import com.reelreview.domain.board.BoardDTO;
+import com.reelreview.repository.BoardRepository;
 import com.reelreview.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/board")
@@ -92,7 +94,7 @@ public class BoardController {
     public BoardDTO boardView(@RequestParam Integer boardCd) {
         BoardDTO b = new BoardDTO();
         BoardDTO board= boardService.boardView(boardCd);
-        System.out.println(board);
+
         return board;
 
     }
@@ -133,9 +135,15 @@ public class BoardController {
     }
 
     @PostMapping("/addComment")
-    public String boardWrite(BoardCommentDTO boardCommentDTO, Model model,
-                             @RequestParam(value = "commentContent",
-                                     required = false) String commentContent) {
+    public String boardWrite( Model model,
+                             @RequestParam(value = "commentValue",
+                                     required = false) String commentValue,
+                            @RequestParam(value = "boardcd",
+                                    required = false) Integer boardcd) {
+        BoardCommentDTO boardCommentDTO = new BoardCommentDTO();
+        boardCommentDTO.setCommentContent(commentValue);
+
+        boardCommentDTO.setBoardcd(boardcd);
 
         boardService.writeComment(boardCommentDTO);
 
@@ -147,8 +155,10 @@ public class BoardController {
     }
 
     @GetMapping("/commentList")
-    public List<BoardCommentDTO> commentLists() {
-        return boardService.getComments();
+    public List<BoardCommentDTO> commentLists(@RequestParam(value = "boardCd",
+            required = false) Integer boardCd) {
+        System.out.println(boardService.getComments(boardCd));
+        return boardService.getComments(boardCd);
     }
 
 

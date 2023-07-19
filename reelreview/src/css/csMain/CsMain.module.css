@@ -512,6 +512,13 @@ td {
   display: flex;
 }
 
+.CsBoardDetail_commentBox {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  border-bottom: 1px solid rgba(66, 65, 65, 1);
+}
+
 .CsBoardDetail_qnaBox_delete,
 .CsBoardDetail_qnaBox_update {
   width: 100px;
