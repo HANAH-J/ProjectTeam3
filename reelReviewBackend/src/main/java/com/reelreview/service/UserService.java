@@ -2,7 +2,7 @@ package com.reelreview.service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.reelreview.config.auth.PrincipalDetails;
-import com.reelreview.config.oauth.provider.TokenProvider;
+import com.reelreview.config.jwt.JwtTokenProvider;
 import com.reelreview.domain.user.*;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,32 +18,10 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private TokenProvider tokenProvider;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-    // 회원가입
-//    public void signUp(SignUpDto signUpDto) throws Exception {
-//
-//        if (userRepository.findByuserEmail(signUpDto.getUserEmail()).isPresent()) {
-//            throw new Exception("이미 존재하는 이메일입니다.");
-//        }
-//
-//        if (userRepository.findByusername(signUpDto.getUsername()).isPresent()) {
-//            throw new Exception("이미 존재하는 닉네임입니다.");
-//        }
-//
-//        UserEntity userEntity = UserEntity.builder()
-//                .username(signUpDto.getUsername())
-//                .userEmail(signUpDto.getUserEmail())
-//                .userPassword(signUpDto.getUserPassword())
-//                .role(String.valueOf(Role.USER))
-//                .build();
-//
-//        userEntity.passwordEncode(passwordEncoder);
-//        userRepository.save(userEntity);
-//    }
 
     public ResponseDto<?> signUp(SignUpDto dto) {
         String username = dto.getUsername();
@@ -79,6 +57,7 @@ public class UserService {
         }
 
         // UserEntity 생성
+        dto.setRole("ROLE_USER");
         UserEntity userEntity = new UserEntity(dto);
 
         // 비밀번호 암호화
@@ -120,7 +99,7 @@ public class UserService {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(new PrincipalDetails(userEntity), null, null);
 
-        String token = tokenProvider.create(authentication);
+        String token = jwtTokenProvider.create(authentication);
         int exprTime = 3600000;
 
         SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);

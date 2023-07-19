@@ -118,7 +118,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
         }
     };
 
-    // 회원가입 : UserController.java - signIn()
+    // 로그인 : UserController.java - signIn()
     const onSubmitHandler = (e) => {
         // 버튼 누를 때마다 새로고침 되는 현상 제어
         e.preventDefault();
@@ -149,23 +149,17 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                 setCookies('token', token, { exprTime });
                 setUser(user);
             }).catch((error) => {
-                console.log('React-SignUp-axios : 데이터 전송 실패');
+                console.log('일반 로그인 요청 실패: ', error);
             })
     };
 
-    // 구글 로그인
-    const oAuthSignInHandler = () => {
-        // try {
-        //     const res = axios.post(`http/oauth2/authorization/google`);
-        //     const jwtToken = res.data; // 서버에서 발급된 JWT 토큰
-        //     // JWT 토큰을 로컬 스토리지 또는 쿠키 등에 저장
-        //     localStorage.setItem('jwtToken', jwtToken); // 예시로 로컬 스토리지에 저장
-        //     // 로그인이 성공하면 사용자 정보를 로딩하거나 다른 리다이렉션 작업 수행
-        // } catch (error) {
-        //     console.log('소셜 로그인 요청 실패:', error);
-        // }
-        window.location.href = 'http://localhost:8085/oauth2/authorization/google';
-    };
+    const oAuthSignInHandler = (provider) => {
+        if (provider === 'google') {
+            window.location.href = 'http://localhost:8085/oauth2/authorization/google';
+          } else if (provider === 'naver') {
+            window.location.href = 'http://localhost:8085/login/oauth2/code/naver';
+          }
+      };
 
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
@@ -219,11 +213,11 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             </div>
             <hr className={styles.user_login_hr}></hr>
             <div>
-                <div className={styles.user_login_naver} onClick={oAuthSignInHandler}>
+                <div className={styles.user_login_naver} onClick={() => oAuthSignInHandler('google')}>
                     <img src={naver_icon} className={styles.user_login_naver_logo} alt='naver_logo'></img>
                     <span className={styles.user_login_logo_btn}>네이버 아이디로 로그인</span>
                 </div>
-                <div className={styles.user_login_kakao}>
+                <div className={styles.user_login_kakao} onClick={() => oAuthSignInHandler('naver')}>
                     <img src={kakao_icon} className={styles.user_login_kakao_logo} alt='kakao_logo'></img>
                     <span className={styles.user_login_logo_btn}>카카오 아이디로 로그인</span>
                 </div>

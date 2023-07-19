@@ -1,4 +1,4 @@
-package com.reelreview.config.oauth.provider;
+package com.reelreview.config.jwt;
 
 import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.domain.user.UserEntity;
@@ -16,14 +16,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-// JWT : 전자 서명이 된 JSON 형태 토큰
-// (header).(payload).(signature)
-
+// JWT : 전자 서명이 된 JSON 형태 토큰 (header).(payload).(signature)
 // header: typ(해당 토큰의 타입), alg(토큰 서명을 위해 사용된 해시 알고리즘)
 // payload: sub(해당 토큰의 주인), iat(토큰 발행시간), exp(토큰 만료시간)
 
 @Service
-public class TokenProvider {
+public class JwtTokenProvider {
 
     @Autowired
     private UserRepository userRepository;
@@ -36,15 +34,16 @@ public class TokenProvider {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         String userEmail = principalDetails.getUserEntity().getUserEmail();
-
-        // 만료날짜 : 현재 날짜 + 1시간
-        Date exprTime = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
+        System.out.println("토큰 userEntity" + principalDetails.getUserEntity());
 
         UserEntity userInfo = userRepository.findByUserEmail(userEmail);
         
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", userInfo.getUsername());
         claims.put("role", userInfo.getRole());
+
+        // 만료날짜 : 현재 날짜 + 1시간
+        Date exprTime = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
 
         return Jwts.builder()
                 // 암호화에 사용될 알고리즘, 키
@@ -60,10 +59,10 @@ public class TokenProvider {
 
     // JWT 검증
     public String validate(String token) {
-        // 매개변수로 받은 token을 키를 사용하여 복호화(디코딩)
+        // 매개변수로 받은 토큰을 키를 사용하여 복호화(디코딩)
         Claims claims = Jwts.parser().setSigningKey(SECURITY_KEY).parseClaimsJws(token).getBody();
 
-        // 복호화된 token의 payload에서 제목 수신
+        // 복호화된 토큰의 payload에서 제목 수신
         return claims.getSubject();
     }
 }

@@ -35,19 +35,19 @@ public class UserProfileController {
 
         System.out.println("userProfilePage 메서드 실행중");
 
-        PrincipalDetails principalDetails = profileService.getCurrentUserDetails();
+        UserEntity userEntity = profileService.getCurrentUserDetails();
 
-        if(principalDetails == null) {
+        if(userEntity == null) {
             Map<String, Object> errorResponse = new HashMap<>();
             System.out.println("principalDetails is null");
             errorResponse.put("error", "사용자 인증 필요");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
 
-        UserEntity userEntity = principalDetails.getUserEntity();
-        //ProfileDTO profileDTO = profileService.getProfileByUserCd(userEntity.getUserCd());
-        // 아직 남은 것 : Rating, WantToSee, Comment 가지고 와서 넣어주기
-        // List<userRatingDTO> userRating = userRatingService.getMovieRatingsByUserCd(userDTO.getUserCd());
+//        UserEntity userEntity = userEntity.getUserEntity();
+//        //ProfileDTO profileDTO = profileService.getProfileByUserCd(userEntity.getUserCd());
+//        // 아직 남은 것 : Rating, WantToSee, Comment 가지고 와서 넣어주기
+//        // List<userRatingDTO> userRating = userRatingService.getMovieRatingsByUserCd(userDTO.getUserCd());
 
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("userDTO", userEntity);
@@ -74,6 +74,5 @@ public class UserProfileController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정실패");
         }
     }
-
 
 }

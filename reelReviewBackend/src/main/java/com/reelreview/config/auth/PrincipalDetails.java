@@ -60,13 +60,13 @@ public class PrincipalDetails  implements UserDetails, OAuth2User {
     }
 
     @Override
-    public String getPassword() {
-        return userEntity.getUserPassword();
+    public String getUsername() {
+        return userEntity.getUsername();
     }
 
     @Override
-    public String getUsername() {
-        return userEntity.getUsername();
+    public String getPassword() {
+        return userEntity.getUserPassword();
     }
 
     // 계정 만료 여부
