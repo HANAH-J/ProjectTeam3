@@ -8,6 +8,7 @@ import com.reelreview.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserProfileController {
 
     @Autowired
@@ -27,16 +29,18 @@ public class UserProfileController {
     private ProfileService profileService;
 
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/userProfiles", method = RequestMethod.GET)
     public ResponseEntity<Map<String, Object>> userProfilePage () {
-        // @AuthenticationPrincipal = Spring Security에서 제공하는 어노테이션
-        // 컨트롤러나 서비스 등에서 현재 인증된 사용자의 Principal객체를 주입받을 수 있게 해줌 (=현재 사용자의 정보를 쉽게 가져올 수 있음)
+
+        System.out.println("userProfilePage 메서드 실행중");
 
         PrincipalDetails principalDetails = profileService.getCurrentUserDetails();
 
         if(principalDetails == null) {
             Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "사용자 인증이 필요합니다.");
+            System.out.println("principalDetails is null");
+            errorResponse.put("error", "사용자 인증 필요");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
 
@@ -50,12 +54,9 @@ public class UserProfileController {
         //responseData.put("profileDTO", profileDTO);
 
         System.out.println(userEntity);
+        System.out.println("Just for checking userEntity");
 
         return ResponseEntity.ok(responseData);
-
-
-
-
 
     }
 

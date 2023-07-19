@@ -256,7 +256,7 @@
 .CsQna_box_box_body2 {
   width: 40%;
   height: 500px;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .CsQna_box_box_body2_header {
@@ -290,23 +290,59 @@
 
 .CsQna_box_body4 {
   margin-top: 20px;
+  height: 100px;
 }
 
-.CsQna_box_body4_emailInfo {
+.CsQna_box_body4_title {
+  width: 100%;
+  height: 50px;
   padding-top: 10px;
 }
 
-.CsQna_box_body4_emailInfo textarea {
+.CsQna_box_body4_title input[type="text"] {
+  width: 100%; 
   border: 1px solid #ddd;
-  border-radius: 2px;
-  resize: vertical;
-  width: 100%;
-  outline: none;
+  height: 30px;
   padding: 10px;
 }
 
+.CsQna_box_body5 {
+  height: 100px;
+  margin-top: 20px;
+}
+
+.CsQna_box_body5_file {
+  position: relative; /* 부모 요소를 relative로 설정 */
+  overflow: hidden; /* 내부 요소의 내용이 넘치지 않도록 숨김 처리 */
+  width: 100%;
+  height: 30px;
+  border: 1px solid #ddd;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.CsQna_box_body5_file input[type="file"] {
+  position: absolute; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; 
+  cursor: pointer; 
+  border: 1px solid #ddd;
+}
+
+.CsQna_box_body5_file a {
+  align-items: center;
+  display: flex;
+  color: red;
+}
+
 .CsQna_button {
-  margin-top: 50px;
+  margin-top: 20px;
   cursor: pointer;
   background-color: rgba(248, 47, 98, 1);
   border-radius: 4px;
@@ -380,6 +416,23 @@ td {
   color: #f82f62;
 }
 
+.CsBoard_pageBox {
+  position: sticky;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.CsBoard_page_right {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 5px;
+}
+
 /* CsBoard_box finish */
 
 /* CsBoardDetail start */
@@ -392,27 +445,33 @@ td {
 .CsBoardDetail_box {
   padding-top: 30px;
   width: 80%;
-  height: 700px;
+  height: 550px;
   margin-left: 10%;
 }
 
 .CsBoardDetail_qnaBox {
   width: 100%;
-  height: 400px;
+  height: 300px;
+}
+
+.CsBoardDetail_qnaBox_writer {
+  width: 100%;
+  height: 50px;
+  border-top: 1px solid rgba(66, 65, 65, 1);
+  display: flex;
+  align-items: center;
 }
 
 .CsBoardDetail_qnaBox_title {
   width: 100%;
-  height: 100px;
-  border-bottom: 1px solid rgba(66, 65, 65, 1);
-  border-top: 1px solid rgba(66, 65, 65, 1);
+  height: 50px;
   display: flex;
   align-items: center;
 }
 
 .CsBoardDetail_qnaBox_content {
   width: 100%;
-  height: 300px;
+  height: 200px;
   border-bottom: 1px solid rgba(66, 65, 65, 1);
   display: flex;
   align-items: center;
@@ -420,10 +479,68 @@ td {
 
 .CsBoardDetail_answer {
   width: 100%;
-  height: 200px;
+  height: 250px;
   border-bottom: 1px solid rgba(66, 65, 65, 1);
   display: flex;
   align-items: center;
+  flex-direction: column;
+}
+
+.CsBoardDetail_answer_bottom {
+  flex-direction: column;
+  display: flex;
+}
+
+.CsBoardDetail_answer_writer {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.CsBoardDetail_answer_content {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.CsBoardDetail_comment {
+  width: 100%;
+  height: 50px;
+  display: flex;
+}
+
+.CsBoardDetail_comment textarea {
+  margin-top: 15px;
+  width: 80%;
+  min-height: 50px;
+  margin-left: 10%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical; 
+  font-size: 16px;
+  display: flex;
+  padding-top: 25px;
+  padding-left: 10px;
+}
+
+.CsBoardDetail_comment_button {
+  display: flex;
+  margin-top: 50px;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.CsBoardDetail_comment_button button {
+  margin-right: auto;
+  background-color: #ddd;
+  border: 1px solid #ddd;
+  height: 30px;
+  width: 100px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 90%;
 }
 
 /* CsBoardDetail finish */

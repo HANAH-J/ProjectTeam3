@@ -18,7 +18,7 @@ import ActorMovie from "./components/Main_Body/ActorMovie";
 import Genre from "./components/Main_Body/Genre";
 import DirectorMovie from "./components/Main_Body/DirectorMovie";
 import BoxOffice from "./components/Main_Body/BoxOffice";
-import CsBoardDetail from "./pages/cs/csBoardDetail/CsBoardDetail";
+import CsBoardDetail from './pages/cs/csBoardDetail/CsBoardDetail';
 import ColDetail from "./pages/details/ColDetail";
 import CommentDetail from "./pages/details/CommentDetail";
 
@@ -42,6 +42,7 @@ function App() {
         <Route path="/actorMovie" Component={ActorMovie} />
         <Route path="/genre" Component={Genre} />
         <Route path="/directorMovie" Component={DirectorMovie} />
+        <Route path='/csBoardDetail/:boardCd' element={<CsBoardDetail/>}/>
         <Route path="/mainPage_loginSuccess" element={<MainPage_loginSuccess/>} />
         <Route path="/userScoreCollection" element={<UserScoreCollection/>} />
         <Route path="/movieToWatch" element={<MovieToWatch/>} />
