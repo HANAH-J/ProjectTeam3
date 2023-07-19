@@ -6,6 +6,7 @@ import com.reelreview.repository.BoardCommentRepository;
 import com.reelreview.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,9 +55,6 @@ public class BoardService {
 
     }
 
-
-
-
     // 게시물 제목, 작성자 검색
     public Page<BoardDTO> boardSearchList(String searchKeyword, Pageable pageable) {
         return boardRepository.findByTitleContainingOrWriterContaining(searchKeyword, searchKeyword, pageable);
@@ -74,14 +72,22 @@ public class BoardService {
         boardRepository.deleteById(boardCd);
     }
 
-
     // 게시글 댓글
     public void writeComment(BoardCommentDTO boardCommentDTO) {
 
         boardCommentRepository.save(boardCommentDTO);
-
     }
 
+    // 게시글 댓글 가져오기
+    @Autowired
+    public BoardService(BoardCommentRepository boardCommentRepository) {
+        this.boardCommentRepository = boardCommentRepository;
+    }
 
-
+    public List<BoardCommentDTO> getComments() {
+        // JPA Repository를 사용하여 댓글 데이터를 가져옴
+        return boardCommentRepository.findAll();
+    }
 }
+
+
