@@ -79,7 +79,7 @@ export default function MainPage() {
     formData.append('name', name1);
 
     // 데이터 전송
-    axios.post("http://localhost:8085/api/directorSearch", formData)
+    axios.post("http://localhost:8085/api/actorSearch", formData)
       .then((response) => {
         // 요청에 대한 성공 처리
         console.log(response.data);

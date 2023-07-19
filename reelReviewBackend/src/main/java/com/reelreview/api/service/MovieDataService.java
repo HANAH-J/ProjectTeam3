@@ -106,7 +106,7 @@ public class MovieDataService{
             //response.body() = tmdb에서 영화 제목 검색 후 받아온 영화 데이터
 
             // tmdb 검색해 받아온 목록 중 영화 개봉일 매칭 후 영화 ID 값만 불러와 LIST 로 저장
-            id = unwrap.matchReleaseDateWithTMDBKRDB(response.body(),date);
+            id = unwrap.matchReleaseDateWithTMDBKRDB(response.body(),date,name);
 
             movieId.add(id);
         }
@@ -114,17 +114,9 @@ public class MovieDataService{
         //movieId 리스트 받아서 TMDB에 검색
         JSONArray fullData = unwrap.searchFromTMDBWithMovieId(movieId);
 
-        //데이터에서 비디오 정보만 추리기
-        JSONArray videoData = new JSONArray();
-        //데이터에서 장르 정보만 추리기
-        JSONArray genreData = new JSONArray();
-        //데이터에서 배우 정보만 추리기
-        JSONArray castData = new JSONArray();
-        //데이터에서 관계자 정보만 추리기
-        JSONArray crewData = new JSONArray();
 
 
-        //movieId 리스트 받아서 TMDB에 이미지/유튜브 검색
+        //movieId 리스트 받아서 TMDB에 이미지검색
         JSONArray imageData = unwrap.searchFromTMDBImagesWithMovieId(movieId);
 
         //KRDB 에서 rank, salesShare,audiAcc 만남기고 제거
@@ -137,94 +129,45 @@ public class MovieDataService{
             tmdb.put("rank",krdb.get("rank"));
             tmdb.put("salesShare",krdb.get("salesShare"));
 
+            // KRDB 관객수 만단위로 쪼개서 데이터에 추가
             int audi = Integer.parseInt(""+krdb.get("audiAcc"));
             double roundedNumber = Math.round(audi / 100) / 100.0;
             DecimalFormat formatter1 = new DecimalFormat("#,###.0");
             String formattedNumber = formatter1.format(roundedNumber);
 
             tmdb.put("audiAcc",formattedNumber);
+            TMDBMovieDataManager tdm = new TMDBMovieDataManager();
 
-            // 비디오 데이터만 추려서 videoData에 추가하기
-
-            JSONObject jobj = (JSONObject) tmdb.get("videos");
-            JSONArray videos = (JSONArray)jobj.get("results");
-            for(int j = 0 ; j < videos.size() ; j++){
-                JSONObject data = new JSONObject();
-                JSONObject job = (JSONObject)videos.get(j);
-                data.put("videoName",job.get("name"));
-                data.put("videoKey",job.get("key"));
-                data.put("videoId",job.get("id"));
-                data.put("movieCd",tmdb.get("id"));
-                videoData.add(data);
+            // 비디오 데이터만 추려서 DTO 저장
+            List<MovieVideosDTO> videoData = tdm.getVideoData(tmdb);
+            for(MovieVideosDTO m : videoData) {
+                movieVideosRepo.save(m);
             }
-            // 영화 참가 배우데이터만 추려서 castData에 추가하기
-            JSONObject people = (JSONObject) tmdb.get("credits");
-            JSONArray cast = (JSONArray) people.get("cast");
-            JSONArray crew = (JSONArray) people.get("crew");
-            for(int j = 0 ; j < cast.size() ; j++) {
-                JSONObject data = new JSONObject();
-                JSONObject castPerson = (JSONObject) cast.get(j);
-                data.put("peopleCd", castPerson.get("id"));
-                data.put("peopleName", castPerson.get("name"));
-                data.put("movieCd", tmdb.get("id"));
-                data.put("peopleImage", castPerson.get("profile_path"));
-                data.put("character", castPerson.get("character"));
-                castData.add(data);
+            // 장르 데이터만 추려서 genreData에 추가하기
+
+            List<MovieGenresDTO> genreDTO = tdm.getGenreData(tmdb);
+            for(MovieGenresDTO m : genreDTO){
+                movieGenresRepo.save(m);
+            }
+
+
+            // 영화 참가 배우데이터만 추려서 DTO 저장
+
+            List<CastDataDTO> castDataDTOS = tdm.getCastData(tmdb);
+            for(CastDataDTO m : castDataDTOS){
+                castDataRepo.save(m);
             }
 
             // 영화 참가 관계자 데이터만 추려서 crewData에 추가하기
-            for(int z = 0 ; z < crew.size() ; z++){
-                JSONObject data = new JSONObject();
-                JSONObject crewPerson = (JSONObject) crew.get(z);
-                data.put("peopleCd",crewPerson.get("id"));
-                data.put("peopleName",crewPerson.get("name"));
-                data.put("movieCd",tmdb.get("id"));
-                data.put("peopleImage",crewPerson.get("profile_path"));
-                data.put("department", crewPerson.get("department"));
-                data.put("job", crewPerson.get("job"));
-                crewData.add(data);
-
+            List<CrewDataDTO> crewDataDTOS = tdm.getCrewData(tmdb);
+            for(CrewDataDTO m : crewDataDTOS){
+                crewDataRepo.save(m);
             }
 
-            // 장르 데이터만 추려서 genreData에 추가하기
 
-            JSONArray genres = (JSONArray) tmdb.get("genres");
-
-            for(int x = 0 ; x < genres.size() ; x++){
-                JSONObject data = new JSONObject();
-                JSONObject job = (JSONObject)genres.get(x);
-                data.put("genreId",job.get("id"));
-                data.put("genreName",job.get("name"));
-                data.put("movieCd",tmdb.get("id"));
-                genreData.add(data);
-            }
-        }
-        //crewDTO 저장
-        for(int i = 0 ; i < crewData.size() ; i++){
-            CrewDataDTO crewDto = new CrewDataDTO();
-            JSONObject data = (JSONObject) crewData.get(i);
-            crewDto.setMovieCd((Long) data.get("movieCd"));
-            crewDto.setJob((String) data.get("job"));
-            crewDto.setDepartment((String) data.get("department"));
-            crewDto.setPeopleCd((Long) data.get("peopleCd"));
-            crewDto.setPeopleName((String) data.get("peopleName"));
-            crewDto.setPeopleImage((String) data.get("peopleImage"));
-            crewDto.setCrewId((Long) data.get("peopleCd"),(Long) data.get("movieCd"));
-            crewDataRepo.save(crewDto);
 
         }
-        //castDTO 저장
-        for(int i = 0 ; i < castData.size() ; i++){
-            CastDataDTO castDto = new CastDataDTO();
-            JSONObject data = (JSONObject) castData.get(i);
-            castDto.setMovieCd((Long) data.get("movieCd"));
-            castDto.setCharacter((String) data.get("character"));
-            castDto.setPeopleCd((Long) data.get("peopleCd"));
-            castDto.setPeopleName((String) data.get("peopleName"));
-            castDto.setPeopleImage((String) data.get("peopleImage"));
-            castDto.setCastId((Long) data.get("peopleCd"),(Long) data.get("movieCd"));
-            castDataRepo.save(castDto);
-        }
+
 
         //imageDTO 저장
         for(int i = 0 ; i < imageData.size() ; i++){
@@ -237,27 +180,8 @@ public class MovieDataService{
 
         }
 
-        //movieVideoDTO 저장
-        for(int i = 0 ; i < videoData.size() ; i++){
-            MovieVideosDTO videosDTO = new MovieVideosDTO();
-            JSONObject data = (JSONObject) videoData.get(i);
-            videosDTO.setMovieCd((Long)data.get("movieCd"));
-            videosDTO.setVideoKey((String)data.get("videoKey"));
-            videosDTO.setVideoId((String)data.get("videoId"));
-            videosDTO.setVideoName((String)data.get("videoName"));
 
-            movieVideosRepo.save(videosDTO);
-        }
-        //GenreDto 저장
-            for(int i = 0 ; i < genreData.size(); i++){
-                MovieGenresDTO genresDTO = new MovieGenresDTO();
-                JSONObject data = (JSONObject) genreData.get(i);
-                genresDTO.setGenreId( ((Long)data.get("genreId")).intValue());
-                genresDTO.setMovieCd((Long) data.get("movieCd"));
-                genresDTO.setGenreName((String) data.get("genreName"));
-                genresDTO.setGenreIndexId((Long) data.get("movieCd"),((Long)data.get("genreId")).intValue());
-                movieGenresRepo.save(genresDTO);
-            }
+
 
 
 
@@ -350,8 +274,9 @@ public class MovieDataService{
 
         for(int i = 0 ; i < inRank.size() ; i++) {
             inRank.get(i).setRank(null);
-
+            inRank.get(i).setSalesShare(null);
         }
+
 
         return inRank;
     }
