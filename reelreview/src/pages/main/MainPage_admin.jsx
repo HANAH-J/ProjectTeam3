@@ -129,7 +129,7 @@ export default function MainPage() {
             <h3>박스오피스 순위</h3>
           </div>
           <div className={styles.BoxOffice_box_info}>
-           <BoxOffice />
+            {/* <BoxOffice /> */}
           </div>
         </div>
       </div>
@@ -139,7 +139,7 @@ export default function MainPage() {
             <h3>개봉예정작</h3>
           </div>
           <div className={styles.Upcomming_box_info}>
-            <Upcomming />
+            {/* <Upcomming /> */}
           </div>
         </div>
       </div>
