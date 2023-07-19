@@ -13,6 +13,7 @@ import rateImg from "../../../img/profile/userProfile/rate.svg";
 import { useUserStore } from "../../../stores/index.ts";
 import axios from "axios";
 import { useCookies } from 'react-cookie';
+import base64 from 'base-64';
 
 
 
@@ -54,10 +55,11 @@ function UserProfile() {
       }
 
       const { user, removeUser } = useUserStore();
-
       const [loggedIn, setLoggedIn] = useState(false);
+
       const [userData, setUserData] = useState({});
       const [profileData, setProfileData] = useState({});
+      const [userCd, setUserCd] = useState(null);
       
       const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
@@ -86,17 +88,30 @@ function UserProfile() {
     
         axios.get('http://localhost:8085/userProfiles', config)
           .then(response => {
+
+            const responseData = response.data;
+            setUserCd(responseData.userDTO.userCd); //userCd값 설정 -> Modal에서 사용
+
             const userDTO = {
-              userCd: response.data.userCd,
-              username: response.data.username,
-              userEmail: response.data.userEmail,
-              userPassword: response.data.userPassword,
-              role: response.data.role,
-              provider: response.data.provider,
-              providerCd: response.data.providerCd,
-              createDate: response.data.createDate
+              userCd: responseData.userDTO.userCd,
+              username: responseData.userDTO.username,
+              userEmail: responseData.userDTO.userEmail,
+              userPassword: responseData.userDTO.userPassword,
+              role: responseData.userDTO.role,
+              provider: responseData.userDTO.provider,
+              providerCd: responseData.userDTO.providerCd,
+              createDate: responseData.userDTO.createDate
             };
+
+            const profileDTO = {
+              status: responseData.profileDTO.status,
+              bgImage: responseData.profileDTO.bgImage,
+              pfImage: responseData.profileDTO.pfImage
+            };
+
             setUserData(userDTO);
+            setProfileData(profileDTO);
+            console.log(userDTO.username + ' is logged in');
           })
           .catch(error => {
             console.error('Error fetching data:', error);
@@ -124,10 +139,10 @@ function UserProfile() {
                 </button>
                 <ul>
                     <li>
-                        <h2 className={styles.name}> NAME : {userData.username} </h2>
-                    </li>
+                        <h2 className={styles.name}> {userData.username} </h2>
+                    </li> 
                     <li>
-                        <div className={styles.msg}> status </div>
+                        <div className={styles.msg}> {profileData.status} </div>
                     </li>
                 </ul>
 
@@ -135,7 +150,7 @@ function UserProfile() {
                         <div className={styles.topHR}> <hr className={styles.userProfile_HR} /> </div>
                         <h4>
                         <img alt="" src= {rateImg}/>
-                        [NAME]님이 평가한 영화 (n개)
+                        {userData.username} 님이 평가한 영화
                         </h4>
                         <div className={styles.bottomHR}> <hr className={styles.userProfile_HR}/> </div>
                     </div>
@@ -183,7 +198,7 @@ function UserProfile() {
 
                 <div className={styles.movieCollection} onClick={movieCollection}>
                         <h4>
-                        [NAME]님의 컬렉션
+                        {userData.username} 님의 컬렉션
                         </h4>
                         <div className={styles.bottomHR}> <hr className={styles.userProfile_HR}/> </div>
                 </div>
@@ -195,7 +210,7 @@ function UserProfile() {
            </div>
         </div>
 
-        {openModal === true ? <PFPModal setOpenModal={setOpenModal} removeUser={removeUser}/> : null}
+        {openModal === true ? <PFPModal setOpenModal={setOpenModal} userCd={userCd} removeUser={removeUser}/> : null}
         
         <div className={styles.PFPFooter}>
             <Footer/>

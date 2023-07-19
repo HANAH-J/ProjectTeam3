@@ -4,12 +4,14 @@ import styles from '../../../css/profile/PFPModal.module.css'
 import { useCookies } from 'react-cookie';
 import { useUserStore } from "../../../stores/index.ts";
 
-function PFPModal({setOpenModal, removeUser}) {
-  console.log('모달오픈');
+function PFPModal({setOpenModal, removeUser, userCd}) {
+  console.log('userCd: ' + userCd);
 
   const [status, setStatus] = useState(''); //상태메시지
   const [pfImage, setPfImage] = useState(''); //프로필사진
   const [bgImage, setBgImage] = useState(''); //배경사진
+
+  const [inputValue, setInputValue] = useState(''); //변경할 상태메시지
 
 
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
@@ -57,6 +59,9 @@ function PFPModal({setOpenModal, removeUser}) {
 
   const [cookies, setCookies] = useCookies();
 
+
+
+  
   // 로그아웃
   const logOutHandler = () => {
     setCookies('token', '', {expires: new Date()});
@@ -73,6 +78,28 @@ function PFPModal({setOpenModal, removeUser}) {
                 console.log('React-SignUp-axios : 데이터 전송 실패');
             })
     };
+
+
+
+
+  // 상태 메시지 변경
+  const handleSave = () => {
+    const dataToSend = { 
+      userCd: userCd,
+      status: inputValue
+    };
+    axios.put('http://localhost:8085/userProfiles/updateUserStatus', dataToSend)
+    .then(response => {
+      console.log(dataToSend);
+      console.log("user status updated");
+      setShowEditTextModal(false); //모달닫기
+      setOpenModal(false); //모달닫기
+      window.location.reload(); //새로고침
+    })
+    .catch (error => {
+      console.error('Error updating status:', error);
+    });
+  };
 
   return (
     <div className={styles.PFPModal_BG} onClick={closePFPModal}>
@@ -108,9 +135,13 @@ function PFPModal({setOpenModal, removeUser}) {
       {showEditTextModal && ( 
         <div className={styles.EditTextModal}>
           <h3>프로필 문구 변경</h3>
-          <input type="text" id="profileText" placeholder="프로필 문구를 입력해주세요." maxLength={100} onChange={(e) => setStatus(e.target.value)} />
+          <input type="text" 
+          id="profileText" 
+          placeholder="프로필 문구를 입력해주세요." 
+          maxLength={100} 
+          onChange={(e) => setInputValue(e.target.value)} />
           <br></br>
-          <button>저장</button>
+          <button onClick={handleSave}>저장</button>
           <button onClick={closeEditTextModal}>취소</button>
         </div>
       )}

@@ -1,6 +1,7 @@
 package com.reelreview.repository;
 
 import com.reelreview.domain.ProfileDTO;
+import com.reelreview.domain.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProfileRepository extends JpaRepository<ProfileDTO, Integer> { //제너릭 첫번째는 entity클래스명, 두번째는 entity primary키의 타입
 
-    public ProfileDTO findByUserCd(int userCd);
+    public ProfileDTO findByUserCd(UserEntity userCd);
 
 }
