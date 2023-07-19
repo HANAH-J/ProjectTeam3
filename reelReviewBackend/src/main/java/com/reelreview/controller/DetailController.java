@@ -21,9 +21,9 @@ public class DetailController {
 
     @RequestMapping("api/getMovieImages")
     public List<MovieImagesDTO> getMovieImages(@RequestParam("movieId") int movieId){
-        Long movieCd = Long.valueOf((long)movieId);
+        Long movieCd = Long.valueOf(movieId);
         List<MovieImagesDTO> movieImages = DS.findByMovieCd(movieCd);
-
+        System.out.println("Controller : "+movieImages);
         return movieImages;
     }
 }

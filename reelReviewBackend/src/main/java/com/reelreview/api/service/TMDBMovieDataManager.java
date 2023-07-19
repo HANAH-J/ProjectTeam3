@@ -1,7 +1,15 @@
 package com.reelreview.api.service;
 
 import com.reelreview.api.domain.MovieDetailsDTO;
+import com.reelreview.api.domain.MovieGenresDTO;
+import com.reelreview.api.domain.MovieVideosDTO;
+import com.reelreview.domain.CastDataDTO;
+import com.reelreview.domain.CrewDataDTO;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TMDBMovieDataManager{
@@ -51,4 +59,85 @@ public class TMDBMovieDataManager{
 
         return detailsDTO;
     }
+    //VIDEO DATA 추려서 DTO로 변환
+    public List<MovieVideosDTO> getVideoData(JSONObject movieData){
+        List<MovieVideosDTO> videoDTOS = new ArrayList<>();
+        JSONObject videos = (JSONObject) movieData.get("videos");
+        JSONArray videoList = (JSONArray)videos.get("results");
+
+        for(Object video : videoList){
+            JSONObject singleVideo = (JSONObject) video;
+            MovieVideosDTO videosDTO = new MovieVideosDTO();
+            videosDTO.setMovieCd((Long)movieData.get("id"));
+            videosDTO.setVideoKey((String)singleVideo.get("key"));
+            videosDTO.setVideoId((String)singleVideo.get("id"));
+            videosDTO.setVideoName((String)singleVideo.get("name"));
+            videoDTOS.add(videosDTO);
+
+        }
+        return videoDTOS;
+    }
+    //GENRE DATA 추려서 DTO로 변환
+    public List<MovieGenresDTO> getGenreData(JSONObject movieData){
+        List<MovieGenresDTO> genresDTOS = new ArrayList<>();
+        JSONArray genres = (JSONArray)movieData.get("genres");
+        for(Object genre : genres){
+            MovieGenresDTO genreDTO = new MovieGenresDTO();
+            JSONObject gen = (JSONObject)genre;
+            System.out.println(gen);
+            genreDTO.setGenreId( ((Long)gen.get("id")).intValue());
+            genreDTO.setMovieCd((Long) movieData.get("id"));
+            genreDTO.setGenreName((String) gen.get("name"));
+            genreDTO.setGenreIndexId((Long)movieData.get("id"),((Long)gen.get("id")).intValue());
+
+            genresDTOS.add(genreDTO);
+        }
+
+        return genresDTOS;
+    }
+
+    //CAST DATA 추려서 DTO로 변환
+    public List<CastDataDTO> getCastData(JSONObject movieData){
+        List<CastDataDTO> castDataDTOS = new ArrayList<>();
+        JSONObject people = (JSONObject)movieData.get("credits");
+        JSONArray cast = (JSONArray) people.get("cast");
+
+        for (Object c : cast){
+
+            CastDataDTO castDto = new CastDataDTO();
+            JSONObject castPerson = (JSONObject) c;
+
+            castDto.setMovieCd((Long) movieData.get("id"));
+            castDto.setCharacter((String) castPerson.get("character"));
+            castDto.setPeopleCd((Long) castPerson.get("id"));
+            castDto.setPeopleName((String) castPerson.get("original_name"));
+            castDto.setPeopleImage((String) castPerson.get("profile_path"));
+            castDto.setCastId((Long) castPerson.get("id"),(Long) movieData.get("id"));
+            castDataDTOS.add(castDto);
+        }
+        return castDataDTOS;
+    }
+
+    //CREW DATA 추려서 DTO로 변환
+    public List<CrewDataDTO> getCrewData(JSONObject movieData){
+        List<CrewDataDTO> crewDataDTOS = new ArrayList<>();
+        JSONObject people = (JSONObject)movieData.get("credits");
+        JSONArray crew = (JSONArray) people.get("crew");
+
+        for(Object c : crew){
+            JSONObject crewPerson = (JSONObject) c;
+            CrewDataDTO crewDto = new CrewDataDTO();
+            crewDto.setMovieCd((Long) movieData.get("id"));
+            crewDto.setJob((String) crewPerson.get("job"));
+            crewDto.setDepartment((String) crewPerson.get("department"));
+            crewDto.setPeopleCd((Long) crewPerson.get("id"));
+            crewDto.setPeopleName((String) crewPerson.get("name"));
+            crewDto.setPeopleImage((String) crewPerson.get("profile_path"));
+            crewDto.setCrewId((Long) crewPerson.get("id"),(Long) movieData.get("id"));
+            crewDataDTOS.add(crewDto);
+        }
+
+        return crewDataDTOS;
+    }
+
 }

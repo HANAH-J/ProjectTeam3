@@ -5,13 +5,20 @@ import poster from '../../img/Detail/poster.jpg'
 import Charts from './smallComponents/charts';
 import { AiOutlinePlus,AiFillEye } from "react-icons/ai";
 import { BiSolidPencil,BiDotsHorizontalRounded } from "react-icons/bi";
+import axios from 'axios';
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function Detailnum2(props){
-    const [, setRating] = useState(0);
-    const handleRating = (rate) => setRating(rate);
+    const [rate, setRating] = useState(0);
+    const handleRating = (rate) => {
+        setRating(rate);
+        axios.post("http://localhost:8085/details/setRating", rate).then((response)=>{}).catch((error)=>{console.error(error);});
+    }
     const tooltipArray = ["0.5","1","1.5","2","2.5","3","3.5","4","4.5","5"];
-    const onPointerMove = (value, index) => console.log(value, index)
+    // const onPointerMove = (value) => console.log(value, rate)
+
+
+
     const addLineBreaks = (text) => {
         const sentences = text.split('.');
         let result = [];
@@ -76,7 +83,8 @@ function Detailnum2(props){
                             <div className={styles.right_top_left}>
                                 <div className={styles.right_top_left_stars}>
                                     <div className={styles.rating_result}>
-                                      <Rating onClick={handleRating} transition size={50} allowFraction tooltipArray={tooltipArray} onPointerMove={onPointerMove}/>
+                                      <Rating onClick={handleRating} transition size={50} allowFraction tooltipArray={tooltipArray}/>
+                                      {/* onPointerMove={onPointerMove} */}
                                       
                                     </div>
                                 </div>
