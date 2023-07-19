@@ -17,13 +17,6 @@ import { useCookies } from 'react-cookie';
 
 
 function UserProfile() {
-    //유저 고유번호 userCd
-    //유저 이름 name
-    //유저 이메일 email
-    //유저 비밀번호 password
-    //유저 배경사진 bg_image
-    //유저 프로필사진 pf_image
-    //유저 상태메시지 status
 
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
@@ -62,7 +55,7 @@ function UserProfile() {
 
       const { user, removeUser } = useUserStore();
 
-
+      const [loggedIn, setLoggedIn] = useState(false);
       const [userData, setUserData] = useState({});
       const [profileData, setProfileData] = useState({});
       
@@ -70,47 +63,45 @@ function UserProfile() {
 
 
       useEffect(() => {
-
-        console.log('useEffect is running')
+        // 여기에서 사용자의 로그인 상태를 확인하는 로직을 구현한다.
+        // 예를 들어, 로그인된 사용자 정보가 존재하는지, 토큰이 유효한지 등을 확인
         const token = cookies.token;
-        console.log(token);
-
+    
         if (token) {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    withCredentials: true,
-                },
-                
-            };
-
-            axios.get('http://localhost:8085/userProfiles', config)
-            .then(response => {
-                const userDTO = {
-                    userCd: response.data.userCd,
-                    username: response.data.username,
-                    userEmail: response.data.userEmail,
-                    userPassword: response.data.userPassword,
-                    role: response.data.role,
-                    provider: response.data.provider,
-                    providerCd: response.data.providerCd,
-                    createDate: response.data.createDate
-                };
-                // const profileDTO = {
-                //     profileDetailNum: response.data.profileDetailNum,
-                //     userCd: response.data.userCd,
-                //     status: response.data.status,
-                //     bgImage: response.data.bgImage,
-                //     pfImage: response.data.pfImage
-                // };
-                setUserData(userDTO);
-                //setProfileData(profileDTO);
-            })
-            .catch(error => {
-                console.error('Error fetcihng data:', error);
-            });
+          setLoggedIn(true);
+          fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
+          console.log(token);
+        } else {
+          setLoggedIn(false);
         }
-    }, [cookies.token]);
+      }, [cookies.token]);
+    
+      const fetchUserData = (token) => {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            withCredentials: true,
+          },
+        };
+    
+        axios.get('http://localhost:8085/userProfiles', config)
+          .then(response => {
+            const userDTO = {
+              userCd: response.data.userCd,
+              username: response.data.username,
+              userEmail: response.data.userEmail,
+              userPassword: response.data.userPassword,
+              role: response.data.role,
+              provider: response.data.provider,
+              providerCd: response.data.providerCd,
+              createDate: response.data.createDate
+            };
+            setUserData(userDTO);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+      }
 
 
       

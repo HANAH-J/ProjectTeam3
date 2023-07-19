@@ -21,7 +21,7 @@ export default function LoginSuccess_header() {
                     <Link to="/csMain" className={styles.csMainPage} style={{ textDecoration: 'none' }}>
                         <li className={styles.nameLi}> 문의하기 </li>
                     </Link>
-                    <Link to="/userProfile" className={styles.userProfile_box}>
+                    <Link to="/userProfiles" className={styles.userProfile_box}>
                         <li><GoPerson className={styles.icon}/></li>
                     </Link>
                 </ul>

@@ -74,6 +74,7 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     implementation files('src/main/resources/lib/kobis-opcl-rest-v1.0.jar')
     implementation files('src/main/resources/lib/json-simple-1.1.1.jar')
+
 }
 
 tasks.named('test') {

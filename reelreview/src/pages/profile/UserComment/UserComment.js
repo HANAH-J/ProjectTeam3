@@ -11,7 +11,7 @@ function UserComment() {
       <div className={styles.userComment}>
         <Header/>
         <div className={styles.userComment_PageHeader}>
-          <Link to="../UserProfile"><div className={styles.userComment_Header_Arrow}></div></Link>
+          <Link to="/userProfiles"><div className={styles.userComment_Header_Arrow}></div></Link>
           <div className={styles.userComment_Title}> <h2>User Name님의 코멘트</h2> </div>
         </div>
 
