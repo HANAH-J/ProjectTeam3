@@ -360,6 +360,20 @@
   width: 100%;
 }
 
+.CsBoard_table_box table {
+  table-layout: fixed;
+}
+
+.CsBoard_table_box td {
+  white-space: nowrap;
+}
+
+.CsBoard_table_box td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+
 .CsBoard_line {
   width: 100%;
   border-top: 1px solid rgba(66, 65, 65, 1);
@@ -451,7 +465,7 @@ td {
 
 .CsBoardDetail_qnaBox {
   width: 100%;
-  height: 300px;
+  border-top: 1px solid rgba(66, 65, 65, 1);
 }
 
 .CsBoardDetail_qnaBox_writer {
@@ -464,18 +478,67 @@ td {
 
 .CsBoardDetail_qnaBox_title {
   width: 100%;
-  height: 50px;
+  height: 80px;
   display: flex;
   align-items: center;
 }
 
 .CsBoardDetail_qnaBox_content {
   width: 100%;
-  height: 200px;
+  height: 50px;
+  display: flex;
+}
+
+.CsBoardDetail_qnaBox_bottom {
+  width: 100%;
+  height: 50px;
+  display: flex;
   border-bottom: 1px solid rgba(66, 65, 65, 1);
+  flex-direction: column;
+}
+
+.CsBoardDetail_qnaBox_img {
+  width: 100%;
+}
+
+.CsBoardDetail_qnaBox_img a {
+  text-decoration: none;
+  color: #f82f62;
+}
+
+.CsBoardDetail_qnaBox_ud {
+  width: 100%;
+  height: 100px;
+  display: flex;
+}
+
+.CsBoardDetail_qnaBox_delete,
+.CsBoardDetail_qnaBox_update {
+  width: 100px;
+  height: 50px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  border-radius: 10%;
+  border: 1px solid #ddd;
 }
+
+.CsBoardDetail_qnaBox_delete {
+  margin-right: 10px;
+}
+
+.CsBoardDetail_qnaBox_update a,
+.CsBoardDetail_qnaBox_delete a {
+  text-decoration: none; 
+  color: black;
+}
+
+.CsBoardDetail_qnaBox_update a:hover,
+.CsBoardDetail_qnaBox_delete a:hover {
+  color: red;
+}
+
 
 .CsBoardDetail_answer {
   width: 100%;
@@ -489,6 +552,21 @@ td {
 .CsBoardDetail_answer_bottom {
   flex-direction: column;
   display: flex;
+  position: relative;
+  margin-top: 30px;
+}
+
+.CsBoardDetail_answer_bottom textarea {
+  width: 100%;
+  height: 200px;
+}
+
+.CsBoardDetail_answer_bottom button {
+  width: 100px;
+  height: 50px;
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
 }
 
 .CsBoardDetail_answer_writer {
