@@ -38,7 +38,7 @@ public class ProfileService {
             // 로그를 추가하여 인증 정보와 사용자 정보 확인
             System.out.println("Authentication Name: " + principalDetails.getUsername());
             System.out.println("Authentication Authorities: " + principalDetails.getAuthorities());
-            System.out.println("UserEntity: " + principalDetails.getUser());
+            System.out.println("UserEntity: " + principalDetails.getUserEntity());
 
             return principalDetails;
         }
