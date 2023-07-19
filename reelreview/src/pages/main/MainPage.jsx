@@ -14,7 +14,7 @@ import { useUserStore } from '../../stores/index.ts';
 
 
 export default function MainPage() {
-  const [movieList, setMovieList] = useState([]); // 초기 상태값은 빈 배열로 설정합니다.
+  const [movieList, setMovieList] = useState([]); 
   const [name, setName] = useState('');
 
   const [mainResponse, setMainResponse] = useState('');
@@ -64,7 +64,60 @@ export default function MainPage() {
         console.error(error);
       });
   };
+  
+  const [movieListActor,setMovieListActor] = useState([]);
+  const [name1, setName1] = useState('');
+  const handleChange1 = (event) => {
+    const { value } = event.target;
+    setName1(value);
+  };
+  const handleSubmit1 = (event) => {
+    event.preventDefault();
 
+    // 서버로 보낼 데이터 준비
+    const formData = new FormData();
+    formData.append('name', name1);
+
+    // 데이터 전송
+    axios.post("http://localhost:8085/api/directorSearch", formData)
+      .then((response) => {
+        // 요청에 대한 성공 처리
+        console.log(response.data);
+        setMovieListActor(response.data);
+        // 받은 데이터에 대한 추가 처리
+      })
+      .catch((error) => {
+        // 요청에 대한 실패 처리
+        console.error(error);
+      });
+  };
+
+  const [movieListGenre,setMovieListGenre] = useState([]);
+  const [name2, setName2] = useState('');
+  const handleChange2 = (event) => {
+    const { value } = event.target;
+    setName2(value);
+  };
+  const handleSubmit2 = (event) => {
+    event.preventDefault();
+
+    // 서버로 보낼 데이터 준비
+    const formData = new FormData();
+    formData.append('genre', name2);
+
+    // 데이터 전송
+    axios.post("http://localhost:8085/api/genreSearch", formData)
+      .then((response) => {
+        // 요청에 대한 성공 처리
+        console.log(response.data);
+        setMovieListGenre(response.data);
+        // 받은 데이터에 대한 추가 처리
+      })
+      .catch((error) => {
+        // 요청에 대한 실패 처리
+        console.error(error);
+      });
+  };
 
   return (
 
@@ -110,7 +163,11 @@ export default function MainPage() {
             <h3>Margot Robbie 모음</h3>
           </div>
           <div className={styles.ActorMovie_box_info}>
-            <ActorMovie />
+          <form onSubmit={handleSubmit1}>
+              <input type="text" name1='name1' onChange={handleChange1} />
+              <button type='submit'>배우</button>
+            </form>
+            <ActorMovie movieListActor={movieListActor}/>
           </div>
         </div>
       </div>
@@ -120,7 +177,11 @@ export default function MainPage() {
             <h3>요즘 핫한 애니메이션</h3>
           </div>
           <div className={styles.Genre_box_info}>
-            <Genre />
+            <form onSubmit={handleSubmit2}>
+              <input type="text" name2='name2' onChange={handleChange2} />
+              <button type='submit'>장르</button>
+            </form>
+            <Genre movieListGenre={movieListGenre}/>
           </div>
         </div>
       </div>

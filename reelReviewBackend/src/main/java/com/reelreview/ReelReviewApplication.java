@@ -25,6 +25,7 @@ public class ReelReviewApplication {
 //     @Scheduled 어노테이션을 사용하여 주기적으로 실행되도록 스케줄링합니다.
     @Scheduled(fixedRate = 1000*60*60) // 60분(1시간) 간격으로 실행합니다.
     public void runMovieDataService() {
+        movieDataService.changeRanktoNull();
         try {
             movieDataService.getBoxOfficeToday();
         } catch (ParseException | IOException | InterruptedException e) {

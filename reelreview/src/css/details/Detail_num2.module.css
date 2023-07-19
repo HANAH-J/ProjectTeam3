@@ -10,13 +10,37 @@
 }
 .smallSizeWrapper{
     width: 1320px;
-    display: block;
+    display: flex;
     margin: 0 auto;
     
 }
-.left{
-    float: left;
+.leftSide{
+
+    width: 20%;
+    padding-right: 20px;
+    
 }
+.leftTop {
+  position: relative; /* 이미지를 포함한 div를 상대적으로 배치합니다. */
+  overflow: hidden; /* div 내부의 넘치는 이미지 부분을 숨깁니다. */
+  
+  
+}
+
+.leftTop .image {
+  width:100%; /* 이미지를 포함한 div의 가로 폭을 100%로 설정합니다. */
+  padding-bottom: 150%; /* 이미지가 포함된 div의 높이를 이미지 가로 폭의 150%로 설정합니다. */
+  position: relative; /* 이미지를 포함한 div를 상대적으로 배치합니다. */
+}
+
+.leftTop img {
+  position: absolute; /* 이미지를 절대적으로 배치합니다. */
+  top: 0; /* 위에서부터 위치를 조정합니다. */
+  left: 0; /* 왼쪽에서부터 위치를 조정합니다. */
+  width: 100%; /* 이미지의 가로 폭을 100%로 설정하여 div에 맞춥니다. */
+  height: auto; /* 이미지의 높이는 자동으로 조정됩니다. */
+}
+
 .leftBottomTypo{
     font-family: 'Apple SD Gothic Neo';
     font-weight: 700;
@@ -70,9 +94,9 @@
 
 
 /* 오른쪽 별점 보고싶어요등 */
-.right{
-    margin-left: 320px;   
-    /* 왜 안되징 */
+.rightSide{
+    flex-grow:1;
+    margin-left: 20px;   
 }
 .right_top{
     width: 100%;
@@ -110,15 +134,13 @@
     padding-top: 10px;
 }
 .right_top_middle{
-    margin-left: 50px;
-    float: left;
-    width: 33%;
+    flex-grow:1;
 
 }
 .right_top_middle_avg{
     font-size: 36px;
     line-height: 42px;
-    align-content: center;
+    
     font-family: 'Apple SD Gothic Neo';
     color: dimgray;
     letter-spacing: 0px;
@@ -136,7 +158,8 @@
 }
 
 .right_top_right{
-    float: right;
+    display: flex;
+    align-items: center;
     
     margin-left: 33px;
     margin-top: 10px;
@@ -148,7 +171,7 @@
     font-size: 12px;
     font-family: 'Apple SD Gothic Neo';
     color: #8c8c8c;
-    text-align: center;
+ 
     margin-top: 5px;
 }
 .right_top_right_wantToSee{
@@ -188,5 +211,5 @@
     font-weight: 700;
     color: #8c8c8c;
     line-height: 22px;
-    white-space: pre-line;
+    white-space: pre-wrap;
 }

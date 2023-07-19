@@ -5,30 +5,58 @@ import poster from '../../img/Detail/poster.jpg'
 import Charts from './smallComponents/charts';
 import { AiOutlinePlus,AiFillEye } from "react-icons/ai";
 import { BiSolidPencil,BiDotsHorizontalRounded } from "react-icons/bi";
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
-
-function Detailnum2(){
+function Detailnum2(props){
     const [, setRating] = useState(0);
     const handleRating = (rate) => setRating(rate);
     const tooltipArray = ["0.5","1","1.5","2","2.5","3","3.5","4","4.5","5"];
     const onPointerMove = (value, index) => console.log(value, index)
+    const addLineBreaks = (text) => {
+        const sentences = text.split('.');
+        let result = [];
     
+        sentences.forEach((sentence) => {
+          const words = sentence.trim().split(/\s+/);
+          let currentLine = "";
     
+          words.forEach((word) => {
+            if (currentLine.length + word.length + 1 <= 75) {
+              currentLine += (currentLine.length > 0 ? " " : "") + word;
+            } else {
+              result.push(currentLine.trim());
+              currentLine = word;
+            }
+          });
+    
+          if (currentLine !== "") {
+            result.push(currentLine.trim());
+          }
+        });
+    
+        return result.map((sentence, index) => (
+          <React.Fragment key={index}>
+            {index > 0 && <br />}
+            {index > 0 && <br />}
+            {sentence}
+          </React.Fragment>
+        ));
+      };
 
     return(
         
         <div className={styles.wrapper}>
             <div className={styles.smallSizeWrapper}>
-                <div className={styles.left}>
+                <div className={styles.leftSide}>
                     <div className={styles.leftTop}>
                         <div className={styles.image}>
-                            <img src={poster} alt="poster" />
+                            <img src={IMG_BASE_URL+props.item.poster_path} alt="poster" />
                         </div>
                     </div>
                     <div className={styles.leftBottom}>
                         <div className={styles.leftBottomTypo}>
                             <p>별점 그래프</p>
-                            <span>평균 ★3.9</span><div className={styles.numPeople}>(2만명)</div>
+                            <span>평균 ★{props.item.vote_average}</span><div className={styles.numPeople}>({props.item.vote_count}명)</div>
                         </div>
                         <div className={styles.leftBottom_chart}>
                             <Charts></Charts>
@@ -42,7 +70,7 @@ function Detailnum2(){
                         </div>
                     </div>
                 </div>
-                <div className={styles.right}>
+                <div className={styles.rightSide}>
                     <div className={styles.rightData}>
                         <div className={styles.right_top}>
                             <div className={styles.right_top_left}>
@@ -56,10 +84,10 @@ function Detailnum2(){
                             </div>
                             <div className={styles.right_top_middle}>
                                 <div className={styles.right_top_middle_avg}>
-                                    3.9
+                                    {props.item.vote_average}
                                 </div>
                                 <div className={styles.right_top_middle_avg_typo}>
-                                    평균 별점 (2만명)
+                                    평균 별점 ({props.item.vote_count}명)
                                 </div>
                                 
                             </div>
@@ -91,17 +119,7 @@ function Detailnum2(){
                             </div>
                         </div>
                         <div className={styles.right_bottom}> 
-                            <p>
-                            디즈니·픽사의 놀라운 상상력!<br/>
-                            올여름, 세상이 살아 숨 쉰다<br/>
-                            <br/>
-                            불, 물, 공기, 흙 4개의 원소들이 살고 있는 ‘엘리멘트 시티’. 재치 있고 불처럼 열정 넘치는 ‘앰버'는 어느 날 우연히 유쾌하고 감성적이며 물 흐르듯 사는 '웨이드'를 만나 특별한 우정을 쌓으며, 지금껏 믿어온 모든 것들이 흔들리는 새로운 경험을 하게 되는데...
-                            <br/><br/>
-                            제 76회 칸 영화제 폐막작 선정!<br/>
-                            <br/>
-                            6월 14일 극장 대개봉,<br/>
-                            웰컴 투 ‘엘리멘트 시티’!<br/>
-                            </p>
+                            <p>{addLineBreaks(props.item.overview)}</p>
                         </div>
                         <div className={styles.right_bottom_ad}></div>
                     </div>

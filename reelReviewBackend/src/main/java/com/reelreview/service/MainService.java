@@ -1,8 +1,10 @@
 package com.reelreview.service;
 
 import com.reelreview.api.domain.MovieDetailsDTO;
+import com.reelreview.api.domain.MovieGenresDTO;
 import com.reelreview.api.domain.MovieUpcommingDTO;
 import com.reelreview.api.repo.ApiMovieDetailRepo;
+import com.reelreview.api.repo.ApiMovieGenresRepo;
 import com.reelreview.api.repo.ApiMovieUpcommingRepo;
 import com.reelreview.api.service.TMDBMovieDataManager;
 import org.json.simple.JSONArray;
@@ -23,6 +25,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MainService {
@@ -30,6 +33,8 @@ public class MainService {
     private ApiMovieDetailRepo mdetail;
     @Autowired
     private ApiMovieUpcommingRepo mUpcomming;
+    @Autowired
+    private ApiMovieGenresRepo mGenre;
     public List<MovieDetailsDTO> getBoxOfficeToday() {
         List<Integer> ranky = new ArrayList<>();
         for(int i = 1 ; i < 11 ; i++){
@@ -52,20 +57,25 @@ public class MainService {
 
     public List<MovieDetailsDTO> getMovieListFromDirector(String name) throws IOException, InterruptedException, ParseException {
         String query = URLEncoder.encode(name,"UTF-8");
+        System.out.println(query);
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.themoviedb.org/3/search/person?include_adult=false&language=ko"))
+                .uri(URI.create("https://api.themoviedb.org/3/search/person?query="+query+"&include_adult=false&language=ko"))
                 .header("accept", "application/json")
                 .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1ZmZhYTU1NDc2ZTRjYTdjNzI3Nzg4ZjlmOTMwZDY0NCIsInN1YiI6IjY0OTk0OWQ1NjJmMzM1MDEyNzQ3MzI2YSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.FiFcp5Wrby8LZtoc_h9tQ2v6yOKyKwO2B8pqzavLsW0")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(response.body());
+        System.out.println(obj);
         JSONObject jobj = (JSONObject) obj;
         JSONArray jary = (JSONArray) jobj.get("results");
         //임시로 0번만
         JSONObject data = (JSONObject) jary.get(0);
-        int personId = (int)data.get("id");
+        Long personId = (Long)data.get("id");
+
+        // 인물 아이디로 검색해서 리스트받아오기
 
         HttpRequest request2 = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.themoviedb.org/3/person/"+personId+"/movie_credits?language=ko"))
@@ -83,9 +93,36 @@ public class MainService {
             TMDBMovieDataManager t = new TMDBMovieDataManager();
             JSONObject jData = t.TMDBMovieJsonObjectToNeededDataJsonObject(moviesSearchByDirector);
             MovieDetailsDTO m = t.JSONObjectToMovieDetailsDTO(jData);
-            directorSearchDataList.add(m);
+
+            if(mdetail.findById(m.getMovieId())==null){
+                mdetail.save(m);
+            }
+            boolean isDuplicate = false;
+            for (int j = 0; j < directorSearchDataList.size(); j++) {
+                if (directorSearchDataList.get(j).equals(m)) {
+                    isDuplicate = true;
+                    break;
+                }
+            }
+            if (!isDuplicate) {
+                directorSearchDataList.add(m);
+            }
         }
 
         return directorSearchDataList;
     }
+
+    public List<MovieDetailsDTO> getMovieListFromGenre(String genre) {
+        List<MovieGenresDTO> list = mGenre.findByGenreName(genre);
+        List<MovieDetailsDTO> listMovie = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            Long movieCd = list.get(i).getMovieCd();
+            Optional<MovieDetailsDTO> optionalMovieDetailsDTO = mdetail.findById(movieCd.intValue());
+
+            // Optional의 값이 존재하면 리스트에 추가
+            optionalMovieDetailsDTO.ifPresent(listMovie::add);
+        }
+        return listMovie;
+    }
+
 }

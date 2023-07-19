@@ -8,20 +8,36 @@ import Detailnum4 from "../../components/details/Detail_num4";
 import Detailnum5 from "../../components/details/Detail_num5";
 import Detailnum6 from "../../components/details/Detail_num6";
 import Footer from "../../components/Footer/Footer";
+import { useEffect,useState } from "react";
+import axios from "axios";
+
 
 function Details() {
+    
     const location = useLocation();
-    // const movieCd = location.state.movieCd;
+    const {item} = location.state;
+    let [movieImages, setMovieImages] = useState([]);
+    useEffect(()=>{
+        const movieId = item.movieId;
+        console.log(movieId);
+    axios.get("http://localhost:8085/api/getMovieImages",{params:{movieId:movieId}}).then((response)=>
+    {
+      setMovieImages(response.data);
+      console.log(response.data);
+    }).catch((error)=>{console.log(error)})
+    },[]);
+
+    
+
     return(
     <div className={styles.Detail_box}>
         <Header/>   
-        {/* movieCd={movieCd.movieCd} */}
-        <Detailtop/>  
-        <Detailnum2/>
-        <Detailnum3/>
-        <Detailnum4/>
-        <Detailnum5/>
-        <Detailnum6/>
+        <Detailtop item ={item} movieImages={movieImages}/>  
+        <Detailnum2 item ={item}/>
+        <Detailnum3 item ={item}/>
+        <Detailnum4 item ={item}/>
+        <Detailnum5 item ={item}/>
+        <Detailnum6 item ={item}/>
         <Footer></Footer>
     </div>
     );

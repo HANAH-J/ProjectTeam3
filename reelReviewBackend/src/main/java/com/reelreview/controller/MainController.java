@@ -40,8 +40,11 @@ public class MainController {
         return MS.getMovieListFromDirector(name);
     }
 
+    @RequestMapping("api/genreSearch")
+    public List<MovieDetailsDTO> genreSearch(@RequestParam String genre){
 
-
+        return MS.getMovieListFromGenre(genre);
+    }
 
 
 }

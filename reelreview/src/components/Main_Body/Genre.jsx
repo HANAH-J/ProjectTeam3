@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
- import { animationList } from '../../api/Movies/Genre'; 
+
 
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
@@ -33,7 +33,7 @@ function SamplePrevArrow(props) {
     );
 }
 
-export default function Genre() {
+export default function Genre(props) {
 
     const settings = {
         dots: false,
@@ -94,7 +94,7 @@ export default function Genre() {
 
     return (
         <Slider {...settings}>
-          {animationList.results.map((item, index) => (
+          {props.movieListGenre.map((item, index) => (
             <div className={styles.Genre_mainBox}>
               <div className={styles.Genre_poster}>
                 <div className={styles.Genre_content}>
