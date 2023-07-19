@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/board")
 public class BoardController {
@@ -78,14 +80,14 @@ public class BoardController {
         return new ResponseEntity<>(list, headers, HttpStatus.OK);
     }
 
-//    @GetMapping("/view")
-//    public String boardView(Model model, Integer boardCd) {
-//
-//        model.addAttribute("boardDTO", boardService.boardView(boardCd));
-//
-//        return "boardview";
-//
-//    }
+    @GetMapping("/view")
+    public String boardView(Model model, Integer boardCd) {
+
+        model.addAttribute("boardDTO", boardService.boardView(boardCd));
+
+        return "boardview";
+
+    }
     @GetMapping("/boardList")
     public BoardDTO boardView(@RequestParam Integer boardCd) {
         BoardDTO b = new BoardDTO();
@@ -131,7 +133,9 @@ public class BoardController {
     }
 
     @PostMapping("/addComment")
-    public String boardWrite(BoardCommentDTO boardCommentDTO, Model model) throws Exception{
+    public String boardWrite(BoardCommentDTO boardCommentDTO, Model model,
+                             @RequestParam(value = "commentContent",
+                                     required = false) String commentContent) {
 
         boardService.writeComment(boardCommentDTO);
 
@@ -141,4 +145,21 @@ public class BoardController {
 
         return "message";
     }
+
+    @GetMapping("/commentList")
+    public List<BoardCommentDTO> commentLists() {
+        return boardService.getComments();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

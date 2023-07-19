@@ -149,10 +149,6 @@ export default function MainPage() {
             <h3>이상용 감독 모음</h3>
           </div>
           <div className={styles.DirectorMovie_box_info}>
-            <form onSubmit={handleSubmit}>
-              <input type="text" name='name' onChange={handleChange} />
-              <button type='submit'>감독</button>
-            </form>
             <DirectorMovie movieList={movieList}/>
           </div>
         </div>
@@ -163,10 +159,6 @@ export default function MainPage() {
             <h3>Margot Robbie 모음</h3>
           </div>
           <div className={styles.ActorMovie_box_info}>
-          <form onSubmit={handleSubmit1}>
-              <input type="text" name1='name1' onChange={handleChange1} />
-              <button type='submit'>배우</button>
-            </form>
             <ActorMovie movieListActor={movieListActor}/>
           </div>
         </div>
@@ -177,10 +169,6 @@ export default function MainPage() {
             <h3>요즘 핫한 애니메이션</h3>
           </div>
           <div className={styles.Genre_box_info}>
-            <form onSubmit={handleSubmit2}>
-              <input type="text" name2='name2' onChange={handleChange2} />
-              <button type='submit'>장르</button>
-            </form>
             <Genre movieListGenre={movieListGenre}/>
           </div>
         </div>
