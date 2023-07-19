@@ -21,7 +21,7 @@ import BoxOffice from "./components/Main_Body/BoxOffice";
 import CsBoardDetail from './pages/cs/csBoardDetail/CsBoardDetail';
 import ColDetail from "./pages/details/ColDetail";
 import CommentDetail from "./pages/details/CommentDetail";
-
+import MainPage_admin from "./pages/main/MainPage_admin";
 
 function App() {
 
@@ -44,6 +44,7 @@ function App() {
         <Route path='/csBoardDetail/:boardCd' element={<CsBoardDetail/>}/>
         <Route path="/mainPage_loginSuccess" element={<MainPage_loginSuccess/>} />
         <Route path="/userScoreCollection" element={<UserScoreCollection/>} />
+        <Route path="/mainPage_admin" element={<MainPage_admin/>}/>
         <Route path="/movieToWatch" element={<MovieToWatch/>} />
         <Route path="/collection/:collectionCd" element={<CollectionDetail/>}/>
         <Route path="/userComment" element={<UserComment/>}/>
