@@ -125,7 +125,7 @@ function UserProfile() {
 
 
     <div className={styles.UserProfile}>
-        {user ? (<LoginSuccess_header/>) : (<Header/>)}
+        <LoginSuccess_header/>
         <div className={styles.profileContainer}>
 
             <div className={styles.profileBg}>
