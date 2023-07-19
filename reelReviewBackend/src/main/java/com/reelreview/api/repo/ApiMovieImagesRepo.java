@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ApiMovieImagesRepo extends JpaRepository<MovieImagesDTO,Long> {
+public interface ApiMovieImagesRepo extends JpaRepository<MovieImagesDTO,String> {
     List<MovieImagesDTO> findByMovieCd(Long movieCd);
 }

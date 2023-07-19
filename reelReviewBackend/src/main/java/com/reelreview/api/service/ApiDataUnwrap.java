@@ -1,5 +1,6 @@
 package com.reelreview.api.service;
 
+import com.reelreview.api.domain.MovieDetailsDTO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -36,26 +37,26 @@ public class ApiDataUnwrap {
 //    }
 
 
-    public static List<String> unWrapTmdbTitles(String json) throws ParseException {
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(json);
-        JSONObject jsonMain = (JSONObject)obj;
-        JSONArray jArray = (JSONArray)jsonMain.get("results");
-
-        List<String> tmdbTitle = new ArrayList<>();
-
-        if (jArray.size() > 0){
-            for(int i=0; i<jArray.size(); i++){
-                JSONObject jsonObj = (JSONObject)jArray.get(i);
-
-                tmdbTitle.add((String)jsonObj.get("title"));
-            }
-        }
-        return tmdbTitle;
-    }
+//    public static List<String> unWrapTmdbTitles(String json) throws ParseException {
+//        JSONParser parser = new JSONParser();
+//        Object obj = parser.parse(json);
+//        JSONObject jsonMain = (JSONObject)obj;
+//        JSONArray jArray = (JSONArray)jsonMain.get("results");
+//
+//        List<String> tmdbTitle = new ArrayList<>();
+//
+//        if (jArray.size() > 0){
+//            for(int i=0; i<jArray.size(); i++){
+//                JSONObject jsonObj = (JSONObject)jArray.get(i);
+//
+//                tmdbTitle.add((String)jsonObj.get("title"));
+//            }
+//        }
+//        return tmdbTitle;
+//    }
 
     // TMDB 검색 데이터와 KRDB 날짜 매칭 메서드
-    public static int matchReleaseDateWithTMDBKRDB(String json, String KRDBDate) throws ParseException {
+    public static int matchReleaseDateWithTMDBKRDB(String json, String KRDBDate, String KRDBName) throws ParseException {
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(json);
         JSONObject jsonMain = (JSONObject)obj;
@@ -67,15 +68,21 @@ public class ApiDataUnwrap {
             for(int i=0; i<jArray.size(); i++){
                 JSONObject jsonObj = (JSONObject)jArray.get(i);
                 System.out.println("TMDB 출시일"+jsonObj.get("release_date")+"  KRDB 출시일"+KRDBDate );
+                String TMDBDate = ""+jsonObj.get("release_date");
+                String TMDBDateYear = TMDBDate.substring(0,4);
+                String KRDBDateYear = KRDBDate.substring(0,4);
+                String TMDBName = ""+jsonObj.get("title");
+
+                double similarity = calculateStringSimilarity(KRDBName, TMDBName);
+                int percentage = (int) (similarity * 100);
+                System.out.println(percentage);
+
                 if(jsonObj.get("release_date").equals(KRDBDate)){
                     topTen.add(jsonObj);
                     id=Integer.parseInt(String.valueOf(jsonObj.get("id")) );
                     return id;
-                }else{
-                    String TMDBDate = ""+jsonObj.get("release_date");
-                    TMDBDate = TMDBDate.substring(0,4);
-                    KRDBDate = KRDBDate.substring(0,4);
-                    if(KRDBDate.equals(TMDBDate)){
+                }else if(KRDBDateYear.equals(TMDBDateYear)){
+                    if(percentage>70){
                         return Integer.parseInt(String.valueOf(jsonObj.get("id")) );
                     }
                 }
@@ -110,34 +117,15 @@ public class ApiDataUnwrap {
                 throw new RuntimeException(e);
             }
 
-            JSONObject tmdbData = new JSONObject();
+
             JSONParser parser = new JSONParser();
             Object obj = parser.parse(response.body());
             JSONObject jsonMain = (JSONObject)obj;
 
-            tmdbData.put("genres",jsonMain.get("genres"));
-            tmdbData.put("id",jsonMain.get("id"));
-            tmdbData.put("original_language",jsonMain.get("original_language"));
-            tmdbData.put("original_title",jsonMain.get("original_title"));
-            tmdbData.put("overview",jsonMain.get("overview"));
-            tmdbData.put("poster_path",jsonMain.get("poster_path"));
-            tmdbData.put("release_date",jsonMain.get("release_date"));
-            tmdbData.put("runtime",jsonMain.get("runtime"));
-            tmdbData.put("tagline",jsonMain.get("tagline"));
-            tmdbData.put("title",jsonMain.get("title"));
-            Double avg = 0.0;
-            if(jsonMain.get("vote_average")==null){
-                avg = 0.0;
-            }else{
-                avg = Double.parseDouble(""+jsonMain.get("vote_average"));
-            }
-            double avgdouble = Math.round(avg*10)/10.0;
+            TMDBMovieDataManager tmdbMovieDataManager = new TMDBMovieDataManager();
 
-            tmdbData.put("vote_average",avgdouble);
-            tmdbData.put("vote_count",jsonMain.get("vote_count"));
-            tmdbData.put("backdrop_path",jsonMain.get("backdrop_path"));
-            tmdbData.put("videos",jsonMain.get("videos"));
-            tmdbData.put("credits",jsonMain.get("credits"));
+            JSONObject tmdbData = tmdbMovieDataManager.TMDBMovieJsonObjectToNeededDataJsonObject(jsonMain);
+
             fullData.add(tmdbData);
 
         }
@@ -183,10 +171,6 @@ public class ApiDataUnwrap {
 
         return fullData;
     }
-
-//    public JSONArray searchFromTMDBVideosWithMovieId(List<Integer> movieId) {
-//        return
-//    }
 
 
     //============================================= 한국 영화 진흥회 API JSON 분해 ============================================
@@ -255,6 +239,31 @@ public class ApiDataUnwrap {
 
         return add;
     }
+    public static double calculateStringSimilarity(String str1, String str2) {
+        int maxLength = Math.max(str1.length(), str2.length());
+        int editDistance = calculateEditDistance(str1, str2);
 
+        return 1.0 - (double) editDistance / maxLength;
+    }
+
+    public static int calculateEditDistance(String str1, String str2) {
+        int[][] dp = new int[str1.length() + 1][str2.length() + 1];
+
+        for (int i = 0; i <= str1.length(); i++) {
+            for (int j = 0; j <= str2.length(); j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i][j - 1], dp[i - 1][j]));
+                }
+            }
+        }
+
+        return dp[str1.length()][str2.length()];
+    }
 
 }

@@ -107,11 +107,8 @@ useEffect(()=>{
   axios.get("http://localhost:8085/api/upcomming").then((response)=>
   {
     upcommingList = response.data;
-    console.log(response.data);
-    console.log(upcommingList);
     setUpcommingList(upcommingList);
   }).catch((error)=>{console.log(error)})
-   console.log(upcommingList);
    
 },[]);
   return (

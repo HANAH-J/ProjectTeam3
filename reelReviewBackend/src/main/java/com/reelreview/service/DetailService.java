@@ -13,6 +13,7 @@ public class DetailService {
     private ApiMovieImagesRepo MIR;
     public List<MovieImagesDTO> findByMovieCd(Long movieId) {
         List<MovieImagesDTO> m = MIR.findByMovieCd(movieId);
+        System.out.println("Service : "+m);
         return m;
     }
 }

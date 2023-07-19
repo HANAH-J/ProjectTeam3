@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -38,6 +37,11 @@ public class MainController {
     public List<MovieDetailsDTO> directorSearch(@RequestParam String name) throws IOException, InterruptedException, ParseException {
 
         return MS.getMovieListFromDirector(name);
+    }
+    @RequestMapping("api/actorSearch")
+    public List<MovieDetailsDTO> actorSearch(@RequestParam String name) throws IOException, InterruptedException, ParseException {
+
+        return MS.getMovieListFromActor(name);
     }
 
     @RequestMapping("api/genreSearch")
