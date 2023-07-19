@@ -2,6 +2,7 @@ package com.reelreview.service;
 
 import com.reelreview.domain.ProfileDTO;
 import com.reelreview.domain.user.UserEntity;
+import com.reelreview.repository.Profile;
 import com.reelreview.repository.ProfileRepository;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,19 +36,28 @@ public class ProfileService {
         UserEntity userEntity = userRepository.findByUserEmail(userEmail);
         System.out.println("userEntity : " + userEntity);
 
-            if (userEntity != null) {
+        if (userEntity != null) {
 
-                return userEntity;
-            } else {
-                System.out.println("UserEntity is null");
+            System.out.println("userEntity" + userEntity);
+            System.out.println("UserEmail: " + userEntity.getUserEmail());
+            System.out.println("Username: " + userEntity.getUsername());
+            System.out.println("Role: " + userEntity.getRole());
+
+            return userEntity;
+        } else {
+            System.out.println("UserEntity is null");
 
         }
 
         return null;
     }
 
-    public ProfileDTO getProfileByUserCd(int userCd) {
+    public ProfileDTO getProfileByUserCd(UserEntity userCd) {
         ProfileDTO profileDTO = profileRepository.findByUserCd(userCd);
         return profileDTO;
+    }
+
+    public void saveProfile(ProfileDTO profileDTO) {
+        profileRepository.save(profileDTO);
     }
 }

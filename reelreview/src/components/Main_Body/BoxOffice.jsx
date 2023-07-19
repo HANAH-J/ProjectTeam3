@@ -100,17 +100,28 @@ export default function BoxOffice() {
     axios.get("http://localhost:8085/api/popular_movielist").then((response)=>
     {
       setBoxofficeList(response.data);
+      console.log(response.data);
+      
     }).catch((error)=>{console.log(error)})
      
   },[]);
   
 
   const navigate = useNavigate();
-      
-      const onClickDetailPage = (item) =>{
-        console.log(item);
-        navigate('details', {state:{item}});
-      }
+  let [movieImages, setMovieImages] = useState([]);
+  const onClickDetailPage = (item) =>{
+    console.log(item);
+    
+    const movieId = item.movieId;
+        console.log(movieId);
+    axios.get("http://localhost:8085/api/getMovieImages",{params:{movieId:movieId}}).then((response)=>
+    {
+      setMovieImages(response.data);
+      console.log(response.data);
+      navigate('details', {state:{item:item,movieImages:response.data}});
+    }).catch((error)=>{console.log(error)})
+    
+  }
 
   
   return (

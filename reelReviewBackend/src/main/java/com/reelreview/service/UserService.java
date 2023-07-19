@@ -2,8 +2,10 @@ package com.reelreview.service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.reelreview.config.auth.PrincipalDetails;
-import com.reelreview.config.jwt.JwtTokenProvider;
+import com.reelreview.config.oauth.provider.TokenProvider;
+import com.reelreview.domain.ProfileDTO;
 import com.reelreview.domain.user.*;
+import com.reelreview.repository.ProfileRepository;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +24,33 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+    // (J)
+    @Autowired
+    private ProfileRepository profileRepository;
+
+    // 회원가입
+//    public void signUp(SignUpDto signUpDto) throws Exception {
+//
+//        if (userRepository.findByuserEmail(signUpDto.getUserEmail()).isPresent()) {
+//            throw new Exception("이미 존재하는 이메일입니다.");
+//        }
+//
+//        if (userRepository.findByusername(signUpDto.getUsername()).isPresent()) {
+//            throw new Exception("이미 존재하는 닉네임입니다.");
+//        }
+//
+//        UserEntity userEntity = UserEntity.builder()
+//                .username(signUpDto.getUsername())
+//                .userEmail(signUpDto.getUserEmail())
+//                .userPassword(signUpDto.getUserPassword())
+//                .role(String.valueOf(Role.USER))
+//                .build();
+//
+//        userEntity.passwordEncode(passwordEncoder);
+//        userRepository.save(userEntity);
+//    }
 
     public ResponseDto<?> signUp(SignUpDto dto) {
         String username = dto.getUsername();
@@ -64,12 +93,37 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(userPassword);
         userEntity.setUserPassword(encodedPassword);
 
+
+
+
+
+
+        // ProfileDTO 생성(J)
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setUserCd(userEntity);
+
+
+
+
         // UserRepository 이용, 데이터베이스에 UserEntity 저장
         try {
             userRepository.save(userEntity);
         } catch (Exception error) {
             return ResponseDto.setFail("Database Error");
         }
+
+
+
+
+        // ProfileRepository 이용, 데이터베이스에 ProfileDTO 저장 (J)
+        try {
+            profileRepository.save(profileDTO);
+        } catch (Exception error) {
+            return ResponseDto.setFail("Database Error");
+        }
+
+
+
         // 성공 시 success response 반환
         return ResponseDto.setSuccess("SignUp Success", null);
     }
@@ -120,4 +174,14 @@ public class UserService {
         System.out.println("이메일 중복 : 통과");
         return true;
     }
+
+
+
+
+
+    // userCd를 통해 userEntity 조회 (J)
+    public UserEntity getUserByUserCd(int userCd) {
+        return userRepository.findByUserCd(userCd);
+    }
+
 }

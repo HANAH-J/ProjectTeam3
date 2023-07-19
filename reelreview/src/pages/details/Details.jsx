@@ -15,18 +15,9 @@ import axios from "axios";
 function Details() {
     
     const location = useLocation();
-    const {item} = location.state;
-    let [movieImages, setMovieImages] = useState([]);
-    useEffect(()=>{
-        const movieId = item.movieId;
-        console.log(movieId);
-    axios.get("http://localhost:8085/api/getMovieImages",{params:{movieId:movieId}}).then((response)=>
-    {
-      setMovieImages(response.data);
-      console.log(response.data);
-    }).catch((error)=>{console.log(error)})
-    },[]);
-
+    const {item,movieImages} = location.state;
+    console.log(movieImages);
+    console.log(item);
     
 
     return(
