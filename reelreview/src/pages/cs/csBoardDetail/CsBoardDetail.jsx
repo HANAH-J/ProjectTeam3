@@ -16,12 +16,14 @@ function CsBoardDetail() {
   const [boardData, setBoardData] = useState(null);
   const navigate = useNavigate();
   const [commentContent, setCommentContent] = useState([]); 
+  const [commentValue, setCommentValue] = useState([]); 
 
   const onSubmitHandler = (e) => {  // 댓글 정보 저장하기
     e.preventDefault();
 
     const data = new FormData();
-    data.append('commentContent', commentContent);
+    data.append('commentValue', commentValue);
+    data.append('boardcd',boardCd);
 
     axios
       .post('http://localhost:8085/api/board/addComment', data)
@@ -101,9 +103,9 @@ function CsBoardDetail() {
               <form onSubmit={onSubmitHandler}>
                 {boardData && <input type="hidden" name="boardCd" value={boardData.boardCd} />}
                 <textarea
-                  name="commentContent"
-                  value={commentContent}
-                  onChange={(e) => setCommentContent(e.target.value)}
+                  name="commentValue"
+                  value={commentValue}
+                  onChange={(e) => setCommentValue(e.target.value)}
                   placeholder="댓글을 입력하세요"
                 ></textarea>
                 <button type="submit">댓글 작성</button>
