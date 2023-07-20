@@ -15,22 +15,40 @@ function CsBoardDetail() {
   const { boardCd } = useParams();
   const [boardData, setBoardData] = useState(null);
   const navigate = useNavigate();
-  const [commentContent, setCommentContent] = useState([]); 
-  const [commentValue, setCommentValue] = useState([]); 
+  const [commentContent, setCommentContent] = useState([]);
+  const [commentValue, setCommentValue] = useState([]);
+
+  const onDeleteHandler = () => { // 글 삭제 하기
+    if (boardData) {
+      const boardId = boardData.id;
+      axios
+        .get(`http://localhost:8085/api/board/delete`, { params: { boardCd: boardCd } })
+        .then((response) => {
+          console.log('글 삭제 성공');
+          window.alert('게시글이 삭제되었습니다');
+          // Optionally, you can navigate to a different page after successful deletion
+          navigate('/CsBoard');
+        })
+        .catch((error) => {
+          console.log('글 삭제 실패');
+        });
+    }
+  };
 
   const onSubmitHandler = (e) => {  // 댓글 정보 저장하기
     e.preventDefault();
 
     const data = new FormData();
     data.append('commentValue', commentValue);
-    data.append('boardcd',boardCd);
+    data.append('boardcd', boardCd);
 
     axios
       .post('http://localhost:8085/api/board/addComment', data)
       .then((response) => {
         console.log('댓글 데이터 전송 성공');
         // 전송 성공 시, 받아온 댓글 데이터를 상태에 저장
-        navigate('/csBoardDetail/' + boardCd);
+        fetchData();
+        setCommentValue('');
       })
       .catch((error) => {
         console.log('React-axios: 데이터 전송 실패');
@@ -44,7 +62,7 @@ function CsBoardDetail() {
   const fetchData = () => {   // 게시글 정보 가져오기
     axios
       .get(`http://localhost:8085/api/board/boardList`, { params: { boardCd: boardCd } })
-      .then((response) => { 
+      .then((response) => {
         setBoardData(response.data);
         console.log(response.data);
       })
@@ -52,7 +70,7 @@ function CsBoardDetail() {
         console.log('데이터 가져오기 실패');
       });
 
-      axios
+    axios
       .get(`http://localhost:8085/api/board/commentList`, { params: { boardCd: boardCd } })
       .then((response) => {
         setCommentContent(response.data);
@@ -64,7 +82,7 @@ function CsBoardDetail() {
   };
 
   return (
-    <div>
+    <div className={styles.CsBoardDetail_wrapper}>
       <CsHeader />
       <div className={styles.CsBoardDetail_box_wrapper}>
         <div className={styles.CsBoardDetail_box}>
@@ -81,24 +99,29 @@ function CsBoardDetail() {
                     </a>
                   )}
                 </div>
+                <div className={styles.CsBoardDetail_btn_box}>
+                  <div className={styles.CsBoardDetail_modify_btn}>
+                    <button onClick={() => navigate(`/csBoard_modify/${boardData.boardCd}`)}>글 수정</button>
+                  </div>
+                  <div className={styles.CsBoardDetail_delete_btn}>
+                    <button onClick={onDeleteHandler}>글 삭제</button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
           {Array.isArray(commentContent) && commentContent.length > 0 ? (
             <div className={styles.CsBoardDetail_commentBox}>
-              {/* Loop through the comments and display each comment */}
               {commentContent.map((comment) => (
-                <div key={comment.id}>{comment.commentContent}</div>
+                <div key={comment.id} className={styles.CsBoardDetail_commentItem}>{comment.commentContent}</div>
               ))}
             </div>
           ) : (
             <div className={styles.CsBoardDetail_commentRequest}>
-              {/* Show a message when there are no comments */}
               {commentContent.length === 0 && <div>No comments yet.</div>}
             </div>
           )}
           <div className={styles.CsBoardDetail_answer_bottom}>
-            {/* Show the textarea for adding comments only when there are no comments */}
             {Array.isArray(commentContent) && (
               <form onSubmit={onSubmitHandler}>
                 {boardData && <input type="hidden" name="boardCd" value={boardData.boardCd} />}
@@ -114,7 +137,9 @@ function CsBoardDetail() {
           </div>
         </div>
       </div>
-      <CsFooter />
+      <div className={styles.CsBoardDetail_CsFooter}>
+        <CsFooter />
+      </div>
     </div>
   );
 }
