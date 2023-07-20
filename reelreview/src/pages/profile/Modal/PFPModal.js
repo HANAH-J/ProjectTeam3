@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from '../../../css/profile/PFPModal.module.css'
+import styles from '../../../css/profile/PFPModal.module.css';
+import styles2 from '../../../css/users/Alert.module.css';
 import { useCookies } from 'react-cookie';
-import { useUserStore } from "../../../stores/index.ts";
 
-function PFPModal({setOpenModal, removeUser, userCd}) {
+function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   console.log('userCd: ' + userCd);
 
   const [status, setStatus] = useState(''); //상태메시지
@@ -15,10 +15,11 @@ function PFPModal({setOpenModal, removeUser, userCd}) {
 
 
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  const [showWithdrawCompleteModal, setShowWithdrawCompleteModal] = useState(false);
   const [showEditTextModal, setShowEditTextModal] = useState(false);
   const [showEditPFPModal, setShowEditPFPModal] = useState(false);
   const [showEditPFBModal, setShowEditPFBModal] = useState(false);
-  
+
   const closePFPModal = (e) => {
     if (e.target !== e.currentTarget) return;
     /* e.target = 실제 클릭 이벤트가 발생한 요소
@@ -34,6 +35,12 @@ function PFPModal({setOpenModal, removeUser, userCd}) {
   };
   const closeWithdrawModal = () => {
     setShowWithdrawModal(false);
+  };
+  const openWithdrawCompleteModal = () => {
+    setShowWithdrawCompleteModal(true);
+  };
+  const closeWithdrawCompleteModal = () => {
+    setShowWithdrawCompleteModal(false);
   };
 
   const openEditTextModal = () => {
@@ -61,85 +68,105 @@ function PFPModal({setOpenModal, removeUser, userCd}) {
 
 
 
-  
+
   // 로그아웃
-  const logOutHandler = () => {
-    setCookies('token', '', {expires: new Date()});
+  const signOutHandler = () => {
+    setCookies('token', '', { expires: new Date() });
     removeUser();
     window.location.href = 'http://localhost:3000';
   }
 
   // 회원탈퇴
-  const userDeleteHandler = () => {
-    axios.post('http://localhost:8085/api/auth/userDelete')
-            .then((response) => {
-                
-            }).catch((error) => {
-                console.log('React-SignUp-axios : 데이터 전송 실패');
-            })
-    };
+  const signOutForeverHandler = () => {
+    axios.post('http://localhost:8085/api/auth/signOutForever', {
+      userEmail: userEmail
+    }).then((response) => {
+      setShowWithdrawCompleteModal(true);
+      setCookies('token', '', { expires: new Date() });
+      removeUser();
+    }).catch((error) => {
+      console.log('데이터 전송 실패 : ', error);
+    })
+  };
+
+  const goMain = () => {
+    window.location.href = 'http://localhost:3000';
+  }
 
 
 
 
   // 상태 메시지 변경
   const handleSave = () => {
-    const dataToSend = { 
+    const dataToSend = {
       userCd: userCd,
       status: inputValue
     };
     axios.put('http://localhost:8085/userProfiles/updateUserStatus', dataToSend)
-    .then(response => {
-      console.log(dataToSend);
-      console.log("user status updated");
-      setShowEditTextModal(false); //모달닫기
-      setOpenModal(false); //모달닫기
-      window.location.reload(); //새로고침
-    })
-    .catch (error => {
-      console.error('Error updating status:', error);
-    });
+      .then(response => {
+        console.log(dataToSend);
+        console.log("user status updated");
+        setShowEditTextModal(false); //모달닫기
+        setOpenModal(false); //모달닫기
+        window.location.reload(); //새로고침
+      })
+      .catch(error => {
+        console.error('Error updating status:', error);
+      });
   };
 
   return (
     <div className={styles.PFPModal_BG} onClick={closePFPModal}>
-      
-        <div className={styles.PFPModal_Wrapper}> 
-            <div className={styles.PFPModal_Title}>
-                <h2>설정</h2>
-                <hr className={styles.PFPModal_HR}/>
-            </div> 
-            <div className={styles.PFPModal_Content}> 
-                <p onClick={openEditPFPModal}>프로필 사진 변경</p>
-                <p onClick={openEditPFBModal}>배경 사진 변경</p>
-                <p onClick={openEditTextModal}>프로필 문구 변경</p>
-                <hr className={styles.PFPModal_HR}/>
-                <p onClick={() => logOutHandler()}>로그아웃</p>
-                <p onClick={openWithdrawModal}>탈퇴하기</p>
-            </div>
-            <div className={styles.PFPModal_Logo}> 
-                <p>로고</p>
-            </div>
-            
+
+      <div className={styles.PFPModal_Wrapper}>
+        <div className={styles.PFPModal_Title}>
+          <h2>설정</h2>
+          <hr className={styles.PFPModal_HR} />
+        </div>
+        <div className={styles.PFPModal_Content}>
+          <p onClick={openEditPFPModal}>프로필 사진 변경</p>
+          <p onClick={openEditPFBModal}>배경 사진 변경</p>
+          <p onClick={openEditTextModal}>프로필 문구 변경</p>
+          <hr className={styles.PFPModal_HR} />
+          <p onClick={signOutHandler}>로그아웃</p>
+          <p onClick={openWithdrawModal}>탈퇴하기</p>
+        </div>
+        <div className={styles.PFPModal_Logo}>
+          <p>로고</p>
         </div>
 
-      {showWithdrawModal && ( 
-        <div className={styles.WithdrawModal}>
-          <h3>탈퇴 확인</h3>
-          <p>정말로 탈퇴하시겠습니까?</p>
-          <button onClick={closeWithdrawModal}>취소</button>
-          <button onClick={userDeleteHandler}>탈퇴하기</button>
+      </div>
+
+      {showWithdrawModal && (
+        <div>
+          <div className={styles2.modalBackground} style={{ backgroundColor: "black" }} />
+          <div className={styles2.user_alert_modal}>
+            <h2 className={styles2.user_alert_h2}>알림</h2>
+            <p className={styles2.user_alert_p}>다시 한번 생각해보세요!</p>
+            <hr className={styles2.user_alert_hr} />
+            <button className={styles2.user_alert_dualBtn1} onClick={closeWithdrawModal}>취소</button>
+            <button className={styles2.user_alert_dualBtn2} onClick={signOutForeverHandler}>탈퇴하기</button>
+          </div>
         </div>
       )}
 
-      {showEditTextModal && ( 
+      {showWithdrawCompleteModal && (
+        <div className={styles2.user_alert_modal}>
+          <h2 className={styles2.user_alert_h2}>알림</h2>
+          <p className={styles2.user_alert_p}>계정이 탈퇴되었습니다.</p>
+          <hr className={styles2.user_alert_hr} />
+          <button className={styles2.user_alert_btn} onClick={goMain}>확인</button>
+        </div>
+      )}
+
+      {showEditTextModal && (
         <div className={styles.EditTextModal}>
           <h3>프로필 문구 변경</h3>
-          <input type="text" 
-          id="profileText" 
-          placeholder="프로필 문구를 입력해주세요." 
-          maxLength={100} 
-          onChange={(e) => setInputValue(e.target.value)} />
+          <input type="text"
+            id="profileText"
+            placeholder="프로필 문구를 입력해주세요."
+            maxLength={100}
+            onChange={(e) => setInputValue(e.target.value)} />
           <br></br>
           <button onClick={handleSave}>저장</button>
           <button onClick={closeEditTextModal}>취소</button>
@@ -147,7 +174,7 @@ function PFPModal({setOpenModal, removeUser, userCd}) {
       )}
 
 
-      {showEditPFPModal && ( 
+      {showEditPFPModal && (
         <div className={styles.EditPFPModal}>
           <form action="#" method="POST" encType="multipart/form-data">
             <h3>프로필 사진 변경</h3>
@@ -159,7 +186,7 @@ function PFPModal({setOpenModal, removeUser, userCd}) {
         </div>
       )}
 
-      {showEditPFBModal && ( 
+      {showEditPFBModal && (
         <div className={styles.EditPFBModal}>
           <form action="#" method="POST" encType="multipart/form-data">
             <h3>배경 사진 변경</h3>
@@ -170,8 +197,6 @@ function PFPModal({setOpenModal, removeUser, userCd}) {
           </form>
         </div>
       )}
-
-      
     </div>
   );
 }

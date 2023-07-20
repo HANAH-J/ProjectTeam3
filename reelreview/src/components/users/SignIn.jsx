@@ -91,12 +91,12 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
         setModalHeight(errorHeight);
     }, [emailError, passwordError]);
 
-    // '비밀번호 재설정' 모달창 상태 변경 함수
+    // '임시 비밀번호 발급' 모달창 상태 변경 함수
     const forgotPwOnOffModal = () => {
         setForgotPwModalState(!forgotPwModalState);
     };
 
-    // '비밀번호 재설정' 모달창 배경색 and 스크롤 제어
+    // '임시 비밀번호 발급' 모달창 배경색 and 스크롤 제어
     useEffect(() => {
         if (forgotPwModalState) {
             document.body.style.overflow = 'hidden';
@@ -142,10 +142,12 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     console.log('로그인 실패');
                     return;
                 }
+                document.body.style.overflow = "auto";  // 스크롤 재활성화
+
                 const { token, exprTime, user } = responseData.data;
                 const expires = new Date();
                 expires.setMilliseconds(expires.getMilliseconds() + exprTime);
-
+                
                 setCookies('token', token, { exprTime });
                 setUser(user);
             }).catch((error) => {
@@ -201,7 +203,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             <div className={styles.user_sign_messageContainer}>
                 <span className={styles.user_login_forgotPw} onClick={forgotPwOnOffModal}>비밀번호를 잊어버리셨나요?</span>
                 {
-                    forgotPwModalState ? <ForgotPw setForgotPwModalState={setForgotPwModalState} /> : null
+                    forgotPwModalState ? <ForgotPw setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} /> : null
                 }
                 <span className={styles.user_login_helpMessage}>계정이 없으신가요?
                     <span className={styles.user_login_signUp} onClick={() => {

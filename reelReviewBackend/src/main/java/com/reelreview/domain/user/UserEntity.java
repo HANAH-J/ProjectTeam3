@@ -30,30 +30,13 @@ public class UserEntity {
     // 이메일 : ex) 'hana@gmail.com' 형식
     private String userEmail;
     private String userPassword;
-
-//    @Enumerated(EnumType.STRING)
     private String role; // ROLE_USER, ROLE_ADMIN
-
-//    @Enumerated(EnumType.STRING)
     private String provider;
     private String providerCd;
 
     @CreationTimestamp
     private Timestamp createDate;
-//    private String refreshToken;
-//
-//    public void authorizeUser() {
-//        this.role = String.valueOf(Role.USER);
-//    }
-//
-//    // 비밀번호 암호화 메소드
-//    public void passwordEncode(PasswordEncoder passwordEncoder) {
-//        this.userPassword = passwordEncoder.encode(this.userPassword);
-//    }
-//
-//    public void updateRefreshToken(String updateRefreshToken) {
-//        this.refreshToken = updateRefreshToken;
-//    }
+    private Timestamp deleteDate;
 
     public UserEntity(SignUpDto dto) {
         this.username = dto.getUsername();
@@ -63,5 +46,6 @@ public class UserEntity {
         this.provider = dto.getProvider();
         this.providerCd = dto.getProviderCd();
         this.createDate = dto.getCreateDate();
+        this.deleteDate = dto.getDeleteDate();
     }
 }

@@ -60,6 +60,7 @@ function UserProfile() {
       const [userData, setUserData] = useState({});
       const [profileData, setProfileData] = useState({});
       const [userCd, setUserCd] = useState(null);
+      const [userEmail, setUserEmail] = useState('');
       
       const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
@@ -91,12 +92,12 @@ function UserProfile() {
 
             const responseData = response.data;
             setUserCd(responseData.userDTO.userCd); //userCd값 설정 -> Modal에서 사용
+            setUserEmail(responseData.userDTO.userEmail);
 
             const userDTO = {
               userCd: responseData.userDTO.userCd,
               username: responseData.userDTO.username,
               userEmail: responseData.userDTO.userEmail,
-              userPassword: responseData.userDTO.userPassword,
               role: responseData.userDTO.role,
               provider: responseData.userDTO.provider,
               providerCd: responseData.userDTO.providerCd,
@@ -210,11 +211,10 @@ function UserProfile() {
            </div>
         </div>
 
-        {openModal === true ? <PFPModal setOpenModal={setOpenModal} userCd={userCd} removeUser={removeUser}/> : null}
+        {openModal === true ? <PFPModal setOpenModal={setOpenModal} userCd={userCd} userEmail={userEmail} removeUser={removeUser}/> : null}
         
-        <div className={styles.PFPFooter}>
-            <Footer/>
-        </div>
+        
+    <Footer/>
         
   </div>
 );
