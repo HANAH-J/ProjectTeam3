@@ -4,23 +4,12 @@ import "../../css/Header/Nav.css";
 import styles from '../../css/users/Sign.module.css';
 import SignIn from "../../components/users/SignIn";
 import SignUp from "../../components/users/SignUp";
-import { GiHamburgerMenu } from "react-icons/gi";
 import axios from 'axios';
 
 export default function Header() {
 
-<<<<<<< Updated upstream
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const handleClick = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
-
-=======
     const [movieList, setMovieList] = useState([]); 
     const [name, setName] = useState('');
-
-    
 
     const handleChange = (event) => {
         const { value } = event.target;
@@ -49,7 +38,7 @@ export default function Header() {
     const handleClick = () => {
         setIsMenuOpen(!isMenuOpen);
     };
->>>>>>> Stashed changes
+
     // 로그인, 회원가입, 약관 동의 모달창 초기화면 출력 여부 : false
     const [signInModalState, setSignInModalState] = useState(false);
     const [signUpModalState, setSignUpModalState] = useState(false);
@@ -81,15 +70,6 @@ export default function Header() {
                                     <button type="submit"></button>
                                 </form>
                             </div>
-<<<<<<< Updated upstream
-                        </div>
-                        <div className="hamburger">
-                            <button onClick={handleClick}>
-                                <GiHamburgerMenu style={{ width: '100%', height: '100%' }} />
-                            </button>
-                        </div>
-=======
->>>>>>> Stashed changes
                     </li>
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
