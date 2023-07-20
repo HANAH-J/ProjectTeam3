@@ -38,7 +38,6 @@ export default function Header() {
     const handleClick = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-
     // 로그인, 회원가입, 약관 동의 모달창 초기화면 출력 여부 : false
     const [signInModalState, setSignInModalState] = useState(false);
     const [signUpModalState, setSignUpModalState] = useState(false);
