@@ -3,10 +3,8 @@ package com.reelreview.domain;
 
 import com.reelreview.domain.user.UserEntity;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -30,4 +28,5 @@ public class ProfileDTO implements Serializable {
     private String status = "프로필이 없습니다.";
     private String bgImage = "defaultBgImage";
     private String pfImage = "defaultPfImage";
+
 }
