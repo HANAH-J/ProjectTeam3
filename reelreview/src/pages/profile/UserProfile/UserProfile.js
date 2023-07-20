@@ -4,7 +4,6 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from '../../../css/profile/UserProfile.module.css'
 import PFPModal from "../Modal/PFPModal";
-import Header from "../../../components/Header/Header";
 import LoginSuccess_header from "../../../components/Header/LoginSuccess_header";
 import Footer from "../../../components/Footer/Footer";
 import userPFP from '../../../img/profile/userProfile/empty_user.svg';
@@ -14,7 +13,6 @@ import { useUserStore } from "../../../stores/index.ts";
 import axios from "axios";
 import { useCookies } from 'react-cookie';
 import base64 from 'base-64';
-
 
 
 function UserProfile() {
@@ -29,30 +27,12 @@ function UserProfile() {
         mobile: {breakpoint: { max: 464, min: 0 },items: 1}
       };
 
-      const openPFPModal = () => {
-          setOpenModal(true);
-      }
-
-      const userScoreCollection = () => {
-        /* if(userObj !== null) */
-        navigate('/UserScoreCollection');
-      }
-
-      const userMovieToWatch = () => {
-        navigate('/MovieToWatch');
-      }
-
-      const movieCollection = () => {
-        navigate('/MovieCollection');
-      }
-
-      const goToMovie = (e) => {
-        console.log('goToMovies');
-      }
-
-      const userComment = () => {
-        navigate('/userComment');
-      }
+      const openPFPModal = () => { setOpenModal(true); }
+      const userScoreCollection = () => { navigate('/UserScoreCollection'); }
+      const userMovieToWatch = () => { navigate('/MovieToWatch'); }
+      const movieCollection = () => { navigate('/MovieCollection'); }
+      const goToMovie = (e) => { console.log('goToMovies'); }
+      const userComment = () => { navigate('/userComment'); }
 
       const { user, removeUser } = useUserStore();
       const [loggedIn, setLoggedIn] = useState(false);
@@ -60,10 +40,10 @@ function UserProfile() {
       const [userData, setUserData] = useState({});
       const [profileData, setProfileData] = useState({});
       const [userCd, setUserCd] = useState(null);
+      const [profileImage, setProfileImage] = useState(null);
       const [userEmail, setUserEmail] = useState('');
       
       const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
 
       useEffect(() => {
         // 여기에서 사용자의 로그인 상태를 확인하는 로직을 구현한다.
@@ -92,6 +72,7 @@ function UserProfile() {
 
             const responseData = response.data;
             setUserCd(responseData.userDTO.userCd); //userCd값 설정 -> Modal에서 사용
+            setProfileImage(responseData.profileDTO.pfImage);
             setUserEmail(responseData.userDTO.userEmail);
 
             const userDTO = {
@@ -99,9 +80,9 @@ function UserProfile() {
               username: responseData.userDTO.username,
               userEmail: responseData.userDTO.userEmail,
               role: responseData.userDTO.role,
-              provider: responseData.userDTO.provider,
-              providerCd: responseData.userDTO.providerCd,
-              createDate: responseData.userDTO.createDate
+              //provider: responseData.userDTO.provider,
+              //providerCd: responseData.userDTO.providerCd,
+              //createDate: responseData.userDTO.createDate
             };
 
             const profileDTO = {
@@ -124,19 +105,33 @@ function UserProfile() {
 
     return (
 
-
     <div className={styles.UserProfile}>
-        <LoginSuccess_header/>
+        <LoginSuccess_header profileData={profileData} userData={userData} />
         <div className={styles.profileContainer}>
 
-            <div className={styles.profileBg}>
+            {profileData.bgImage === 'defaultBgImage' ? (
+              <div className={styles.profileBg}>
                 <div className={styles.profileShadow} />
-            </div>
+              </div>
+            ) : (
+              <div className={styles.profileBg} 
+              style={{ backgroundImage: `url(http://localhost:8085/userProfiles/getBackgroundImage?userCd=${userCd})`,
+                       backgroundSize: '100%',
+                       backgroundRepeat: 'no-repeat' }}>
+                <div className={styles.profileShadow} />
+              </div>
+            )}
             
             <div className={styles.userInfo}>
                 <button className={styles.profilePic} onClick={openPFPModal}> 
-                    <img alt="profile" src={userPFP} />
+
+                    {profileData.pfImage === 'defaultPfImage' ? (
+                      <img alt="profile" src={userPFP} />
+                    ) : (
+                      <img alt="profile" src={`http://localhost:8085/userProfiles/getProfilePicture?userCd=${userCd}`} />
+                    )}
                     <img alt="profile" src={userPFPHover} className={styles.profilePicHover} />
+
                 </button>
                 <ul>
                     <li>
