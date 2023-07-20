@@ -1,24 +1,58 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../css/Header/Nav.css";
 import styles from '../../css/users/Sign.module.css';
 import SignIn from "../../components/users/SignIn";
 import SignUp from "../../components/users/SignUp";
 import { GiHamburgerMenu } from "react-icons/gi";
-
+import axios from 'axios';
 
 export default function Header() {
 
+<<<<<<< Updated upstream
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleClick = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+=======
+    const [movieList, setMovieList] = useState([]); 
+    const [name, setName] = useState('');
+
+    
+
+    const handleChange = (event) => {
+        const { value } = event.target;
+        setName(value);
+      };
+    
+      const navigate = useNavigate();
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('name', name);
+      
+        axios.post("http://localhost:8085/api/directorSearch", formData)
+          .then((response) => {
+            console.log(response.data);
+            setMovieList(response.data);
+            navigate('/searchSuccess', { state: { movieList: response.data, searchedName: name } });
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      };
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const handleClick = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+>>>>>>> Stashed changes
     // 로그인, 회원가입, 약관 동의 모달창 초기화면 출력 여부 : false
     const [signInModalState, setSignInModalState] = useState(false);
     const [signUpModalState, setSignUpModalState] = useState(false);
-
     // 로그인, 회원가입 모달창 상태 변경 함수
     const signInOnOffModal = () => {
         setSignInModalState(!signInModalState);
@@ -26,7 +60,6 @@ export default function Header() {
     const signUpOnOffModal = () => {
         setSignUpModalState(!signUpModalState);
     };
-
     useEffect(() => {
         if (signInModalState || signUpModalState) {
             document.body.style.overflow = "hidden";  // 스크롤 비활성화
@@ -34,27 +67,29 @@ export default function Header() {
             document.body.style.overflow = "auto";    // 스크롤 활성화
         }
     }, [signInModalState, signUpModalState]);
-
     return (
-
         <nav className="topNav">
             <div className="navWrapper">
                 <ul className="leftNav">
                     <Link to="/mainpage"><li className="logoSection" /></Link>
                 </ul>
-
                 <ul className="rightNav">
                     <li className="findMovies">
-                        <div className="findWrapper">
                             <div className="findWrapper">
-                                <input type="search" name="search" placeholder="영화를 검색해보세요." />
+                                <form onSubmit={handleSubmit}>
+                                    <input type="text" name="movie" onChange={handleChange} placeholder="영화를 검색해보세요." autocomplete="off" />
+                                    <button type="submit"></button>
+                                </form>
                             </div>
+<<<<<<< Updated upstream
                         </div>
                         <div className="hamburger">
                             <button onClick={handleClick}>
                                 <GiHamburgerMenu style={{ width: '100%', height: '100%' }} />
                             </button>
                         </div>
+=======
+>>>>>>> Stashed changes
                     </li>
                     <li className="signInBtn" onClick={signInOnOffModal}>로그인</li>
                     {
@@ -72,7 +107,5 @@ export default function Header() {
             {signInModalState && <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }} />}
             {signUpModalState && <div className={styles.modalBackground_1} style={{ backgroundColor: "black" }} />}
         </nav>
-
     );
-
 }

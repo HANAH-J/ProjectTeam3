@@ -12,7 +12,9 @@ function CsQna() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [file, setFile] = useState(null);
+    const [fileName, setFileName] = useState("");
     const navigate = useNavigate();
+    
 
    const onSubmitHandler = (e) => {
     e.preventDefault();
