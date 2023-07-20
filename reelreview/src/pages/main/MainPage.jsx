@@ -20,8 +20,6 @@ export default function MainPage() {
   const [cookies] = useCookies(['token']);
   const { user } = useUserStore();
   const [userCd, setUserCd] = useState(null);
-
-  const [userCd, setUserCd] = useState(null);
   const [userData, setUserData] = useState(null);
   const [profileData, setProfileData] = useState(null);
 

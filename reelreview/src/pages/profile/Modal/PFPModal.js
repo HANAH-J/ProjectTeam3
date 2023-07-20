@@ -29,13 +29,6 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
     console.log('모달닫기');
     setOpenModal(false);
   };
-
-  const openWithdrawModal = () => {
-    setShowWithdrawModal(true);
-  };
-  const closeWithdrawModal = () => {
-    setShowWithdrawModal(false);
-  };
   const openWithdrawCompleteModal = () => {
     setShowWithdrawCompleteModal(true);
   };
