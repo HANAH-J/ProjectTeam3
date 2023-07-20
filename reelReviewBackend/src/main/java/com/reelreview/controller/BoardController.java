@@ -100,11 +100,12 @@ public class BoardController {
     }
 
     @GetMapping("/delete")
-    public String boardDelete(Integer boardCd, Model model) {
+    public void boardDelete(@RequestParam Integer boardCd) {
+
         boardService.boardDelete(boardCd);
-        model.addAttribute("message", "글 삭제가 완료되었습니다.");
-        model.addAttribute("searchUrl", "/board/list");
-        return "message";
+
+        System.out.println("삭제 완료");
+
     }
 
     @GetMapping("/modify/{boardCd}")
@@ -115,8 +116,10 @@ public class BoardController {
         return "boardmodify";
     }
 
+
+
     @PostMapping("/update/{boardCd}")
-    public String boardUpdate(@PathVariable("boardCd") Integer boardCd, BoardDTO boardDTO, Model model, MultipartFile file) throws Exception{
+    public void boardUpdate(@PathVariable("boardCd") Integer boardCd, BoardDTO boardDTO, MultipartFile file) throws Exception{
 
         BoardDTO boardTemp = boardService.boardView(boardCd); //기존에 있던 내용
 
@@ -128,10 +131,6 @@ public class BoardController {
 
         boardService.write(boardTemp, file);
 
-        model.addAttribute("message","수정이 완료되었습니다");
-        model.addAttribute("searchUrl","/board/list");
-
-        return "message";
     }
 
     @PostMapping("/addComment")

@@ -11,9 +11,13 @@ import styles from '../../css/main/Mainpage.module.css';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from '../../stores/index.ts';
+<<<<<<< Updated upstream
 
 export default function MainPage() {
 
+=======
+export default function MainPage() {
+>>>>>>> Stashed changes
   const [movieList, setMovieList] = useState([]);
   const [name, setName] = useState('');
   const [mainResponse, setMainResponse] = useState('');
@@ -23,6 +27,10 @@ export default function MainPage() {
   const [userData, setUserData] = useState(null);
   const [profileData, setProfileData] = useState(null);
 
+=======
+  const [userData, setUserData] = useState(null);
+  const [profileData, setProfileData] = useState(null);
+>>>>>>> Stashed changes
   // JWT 토큰
   const getMain = async (token: string) => {
     const requestData = {

@@ -275,7 +275,7 @@
   margin-top: 20px;
 }
 
-.CsQna_box_body3_info{
+.CsQna_box_body3_info {
   padding-top: 10px;
 }
 
@@ -300,7 +300,7 @@
 }
 
 .CsQna_box_body4_title input[type="text"] {
-  width: 100%; 
+  width: 100%;
   border: 1px solid #ddd;
   height: 30px;
   padding: 10px;
@@ -312,26 +312,28 @@
 }
 
 .CsQna_box_body5_file {
-  position: relative; /* 부모 요소를 relative로 설정 */
-  overflow: hidden; /* 내부 요소의 내용이 넘치지 않도록 숨김 처리 */
+  position: relative;
+  /* 부모 요소를 relative로 설정 */
+  overflow: hidden;
+  /* 내부 요소의 내용이 넘치지 않도록 숨김 처리 */
   width: 100%;
   height: 30px;
   border: 1px solid #ddd;
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
   justify-content: center;
   margin-top: 10px;
   padding: 10px;
 }
 
 .CsQna_box_body5_file input[type="file"] {
-  position: absolute; 
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0; 
-  cursor: pointer; 
+  opacity: 0;
+  cursor: pointer;
   border: 1px solid #ddd;
 }
 
@@ -354,6 +356,133 @@
 
 /* CsQna finish */
 
+/* CsBoard_modify_wrapper */
+.CsBoard_modify_wrapper {
+  margin-top: 20px;
+  width: 100%;
+  height: 750px;
+}
+
+.CsBoard_modify_header_wrapper {
+  border-bottom: 1px solid #333;
+}
+
+/* CsBoard_modify_form */
+.CsBoard_modify_form {
+  width: 80%;
+  margin-left: 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+.CsBoard_modify_form_box {
+  width: 50%;
+  height: 400px;
+}
+
+/* CsBoard_modify_title */
+.CsBoard_modify_title {
+  margin-bottom: 20px;
+  height: 100px;
+  width: 100%;
+}
+
+.CsBoard_modify_title h3 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* CsBoard_modify_form_title */
+.CsBoard_modify_form_title {
+  margin-bottom: 20px;
+}
+
+.CsBoard_modify_form_title label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.CsBoard_modify_form_title input[type="text"] {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  height: 50px;
+}
+
+/* CsBoard_modify_form_content */
+.CsBoard_modify_form_content {
+  margin-bottom: 20px;
+}
+
+.CsBoard_modify_form_content label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.CsBoard_modify_form_content textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  resize: vertical;
+  height: 200px;
+}
+
+/* CsBoard_modify_form_file */
+.CsBoard_modify_form_file {
+  margin-bottom: 20px;
+  width: 300px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+
+.CsBoard_modify_form_file label {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  width: 100%;
+  cursor: pointer;
+}
+
+.CsBoard_modify_form_file input[type="file"] {
+  display: none;
+  width: 100%;
+}
+
+/* Style for custom file input button */
+.CsBoard_modify_form_file a {
+  padding: 8px 12px;
+  background-color: #f82f62;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* CsBoard_modify_form_submit */
+.CsBoard_modify_form {
+  margin-top: 20px;
+}
+
+.CsBoard_modify_form button {
+  border: 1px solid #ddd;
+  width: 100px;
+  cursor: pointer;
+  height: 50px;
+  border-radius: 10%;
+}
+
+.CsBoard_modify_form button:hover {
+  color: #f82f62;
+}
+
+
 /* CsBoard start */
 
 .CsBoard_box_wrapper {
@@ -371,7 +500,12 @@
 .CsBoard_table_box td {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
+}
+
+.CsBoard_table_box a {
+  text-decoration: none; 
+  color: #333;
 }
 
 .CsBoard_line {
@@ -451,9 +585,14 @@ td {
 
 /* CsBoardDetail start */
 
+.CsBoardDetail_wrapper {
+  width: 100%;
+  height: auto;
+}
+
 .CsBoardDetail_box_wrapper {
   width: 100%;
-  height: 780px;
+  height: 1000px;
 }
 
 .CsBoardDetail_box {
@@ -491,7 +630,7 @@ td {
 
 .CsBoardDetail_qnaBox_bottom {
   width: 100%;
-  height: 50px;
+  height: 100px;
   display: flex;
   border-bottom: 1px solid rgba(66, 65, 65, 1);
   flex-direction: column;
@@ -514,9 +653,20 @@ td {
 
 .CsBoardDetail_commentBox {
   width: 100%;
-  height: 100px;
   display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: flex-start; 
+  text-align: left; 
+}
+
+.CsBoardDetail_commentItem {
+  width: 100%;
+  height: 50px; /* Set the desired height for each comment box */
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid rgba(66, 65, 65, 1);
+  padding: 10px;
 }
 
 .CsBoardDetail_qnaBox_delete,
@@ -537,7 +687,7 @@ td {
 
 .CsBoardDetail_qnaBox_update a,
 .CsBoardDetail_qnaBox_delete a {
-  text-decoration: none; 
+  text-decoration: none;
   color: black;
 }
 
@@ -576,6 +726,34 @@ td {
   margin-top: 10px;
 }
 
+.CsBoardDetail_btn_box {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.CsBoardDetail_modify_btn button,
+.CsBoardDetail_delete_btn button {
+  height: 40px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  margin-top: 13px;
+  border: 1px solid #d8d8d8;
+  justify-content: center;
+  border-radius: 10%;
+}
+
+.CsBoardDetail_modify_btn button:hover,
+.CsBoardDetail_delete_btn button:hover {
+  color: #f82f62;
+}
+
+.CsBoardDetail_modify_btn button {
+  margin-right: 10px;
+}
+
 .CsBoardDetail_answer_writer {
   width: 100%;
   height: 50px;
@@ -603,7 +781,7 @@ td {
   margin-left: 10%;
   border: 1px solid #ddd;
   border-radius: 4px;
-  resize: vertical; 
+  resize: vertical;
   font-size: 16px;
   display: flex;
   padding-top: 25px;
@@ -628,7 +806,18 @@ td {
   margin-left: 90%;
 }
 
+.CsBoardDetail_CsFooter {
+  position: relative;
+  display: flex;
+}
+
 /* CsBoardDetail finish */
+
+/* CsBoard_modify start */
+
+
+
+/* CsBoard_modify finish */
 
 /* CsHeader_menu start */
 
@@ -654,7 +843,7 @@ td {
 }
 
 .CsHeader_menu_write {
-  width: 100px; 
+  width: 100px;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -677,10 +866,3 @@ td {
 
 
 /* CsHeader_menu finish */
-
-
-
-
-
-
-

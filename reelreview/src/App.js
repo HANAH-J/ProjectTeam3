@@ -22,6 +22,8 @@ import CsBoardDetail from './pages/cs/csBoardDetail/CsBoardDetail';
 import ColDetail from "./pages/details/ColDetail";
 import CommentDetail from "./pages/details/CommentDetail";
 import MainPage_admin from "./pages/main/MainPage_admin";
+import ModifyBtn from "./components/csBoard/CsBoard_modify";
+import SearchSuccess from "./pages/main/SearchSuccess";
 
 function App() {
 
@@ -39,8 +41,10 @@ function App() {
         <Route path="/boxOffice" Component={BoxOffice} />
         <Route path="/upComming" Component={Upcomming} />
         <Route path="/actorMovie" Component={ActorMovie} />
+        <Route path="/csBoard_modify/:boardCd" Component={ModifyBtn}/>
         <Route path="/genre" Component={Genre} />
         <Route path="/directorMovie" Component={DirectorMovie} />
+        <Route path="/searchSuccess" element={<SearchSuccess/>}/>
         <Route path='/csBoardDetail/:boardCd' element={<CsBoardDetail/>}/>
         <Route path="/mainPage_loginSuccess" element={<MainPage_loginSuccess/>} />
         <Route path="/userScoreCollection" element={<UserScoreCollection/>} />
