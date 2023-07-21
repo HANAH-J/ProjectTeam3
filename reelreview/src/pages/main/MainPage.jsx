@@ -12,45 +12,62 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from '../../stores/index.ts';
 
-
 export default function MainPage() {
-  const [movieList, setMovieList] = useState([]); 
+  const [movieList, setMovieList] = useState([]);
   const [name, setName] = useState('');
-
   const [mainResponse, setMainResponse] = useState('');
   const [cookies] = useCookies(['token']);
   const { user } = useUserStore();
-
+  const [userCd, setUserCd] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [profileData, setProfileData] = useState(null);
+  
   // JWT 토큰
-  const getMain = async(token: string) => {
+  const getMain = async (token: string) => {
     const requestData = {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        withCredentials: true,
       }
     };
-    await axios.post('http://localhost:8085/api/auth/main', requestData).then((response) => {
-      setMainResponse(response.data);
-    }).catch((error) => '');
+    await axios.get('http://localhost:8085/userProfiles', requestData)
+    .then((response) => {
+      const responseData = response.data;
+            setUserCd(responseData.userDTO.userCd); //userCd값 설정 -> Modal에서 사용
+            const userDTO = {
+              userCd: responseData.userDTO.userCd,
+              username: responseData.userDTO.username,
+              userEmail: responseData.userDTO.userEmail,
+              role: responseData.userDTO.role,
+              provider: responseData.userDTO.provider,
+              providerCd: responseData.userDTO.providerCd,
+              createDate: responseData.userDTO.createDate
+            };
+            const profileDTO = {
+              status: responseData.profileDTO.status,
+              bgImage: responseData.profileDTO.bgImage,
+              pfImage: responseData.profileDTO.pfImage
+            };
+            setUserData(userDTO);
+            setProfileData(profileDTO);
+            console.log(userDTO.username + ' is logged in');
+    })
+    .catch((error) => '');
   }
-
   useEffect(() => {
     const token = cookies.token;
-    if(token) getMain(token);
+    if (token) getMain(token);
     else setMainResponse('');
   }, [cookies.token]);
-
   const handleChange = (event) => {
     const { value } = event.target;
     setName(value);
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
-
     // 서버로 보낼 데이터 준비
     const formData = new FormData();
     formData.append('name', name);
-
     // 데이터 전송
     axios.post("http://localhost:8085/api/directorSearch", formData)
       .then((response) => {
@@ -64,7 +81,6 @@ export default function MainPage() {
         console.error(error);
       });
   };
-  
   const [movieListActor,setMovieListActor] = useState([]);
   const [name1, setName1] = useState('');
   const handleChange1 = (event) => {
@@ -73,11 +89,9 @@ export default function MainPage() {
   };
   const handleSubmit1 = (event) => {
     event.preventDefault();
-
     // 서버로 보낼 데이터 준비
     const formData = new FormData();
     formData.append('name', name1);
-
     // 데이터 전송
     axios.post("http://localhost:8085/api/actorSearch", formData)
       .then((response) => {
@@ -91,7 +105,6 @@ export default function MainPage() {
         console.error(error);
       });
   };
-
   const [movieListGenre,setMovieListGenre] = useState([]);
   const [name2, setName2] = useState('');
   const handleChange2 = (event) => {
@@ -100,11 +113,9 @@ export default function MainPage() {
   };
   const handleSubmit2 = (event) => {
     event.preventDefault();
-
     // 서버로 보낼 데이터 준비
     const formData = new FormData();
     formData.append('genre', name2);
-
     // 데이터 전송
     axios.post("http://localhost:8085/api/genreSearch", formData)
       .then((response) => {
@@ -118,18 +129,16 @@ export default function MainPage() {
         console.error(error);
       });
   };
-
   return (
-
     <div className={styles.MainPage_box}>
-      {cookies.token ? <LoginSuccess_header /> : <Header />}
+      {cookies.token ? <LoginSuccess_header profileData={profileData} userData={userData} /> : <Header />}
       <div className={styles.BoxOffice_box_wrapper}>
         <div className={styles.BoxOffice_box}>
           <div className={styles.BoxOffice_box_header}>
             <h3>박스오피스 순위</h3>
           </div>
           <div className={styles.BoxOffice_box_info}>
-           <BoxOffice />
+            <BoxOffice />
           </div>
         </div>
       </div>
@@ -149,7 +158,7 @@ export default function MainPage() {
             <h3>이상용 감독 모음</h3>
           </div>
           <div className={styles.DirectorMovie_box_info}>
-            <DirectorMovie movieList={movieList}/>
+            <DirectorMovie movieList={movieList} />
           </div>
         </div>
       </div>
@@ -159,7 +168,7 @@ export default function MainPage() {
             <h3>Margot Robbie 모음</h3>
           </div>
           <div className={styles.ActorMovie_box_info}>
-            <ActorMovie movieListActor={movieListActor}/>
+            <ActorMovie movieListActor={movieListActor} />
           </div>
         </div>
       </div>
@@ -169,7 +178,7 @@ export default function MainPage() {
             <h3>요즘 핫한 애니메이션</h3>
           </div>
           <div className={styles.Genre_box_info}>
-            <Genre movieListGenre={movieListGenre}/>
+            <Genre movieListGenre={movieListGenre} />
           </div>
         </div>
       </div>

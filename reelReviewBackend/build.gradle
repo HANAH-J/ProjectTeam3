@@ -34,9 +34,6 @@ dependencies {
     // testImplementation : 테스트 코드를 수행할 때만 적용
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    testImplementation 'junit:junit:4.13.1'
-    testImplementation 'junit:junit:4.13.1'
     testImplementation 'junit:junit:4.13.1'
 
     // lombok
@@ -45,7 +42,6 @@ dependencies {
 
     // thymeleaf
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
     // jpa
@@ -68,6 +64,12 @@ dependencies {
     // jwt
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     implementation 'com.auth0:java-jwt:4.2.1'
+
+    // validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // SMTP
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
     
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

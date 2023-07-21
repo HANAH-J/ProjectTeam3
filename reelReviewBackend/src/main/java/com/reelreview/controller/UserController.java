@@ -21,20 +21,14 @@ public class UserController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    // 회원가입 기능
+    // [회원가입]
     @PostMapping("/signUp")
     public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody) {
         ResponseDto<?> result = userService.signUp(requestBody);
         return result;
     }
 
-//    @PostMapping("/signUp")
-//    public String signUp(@RequestBody SignUpDto signUpDto) throws Exception {
-//        userService.signUp(signUpDto);
-//        return "회원가입 성공";
-//    }
-
-    // 이메일 중복 검사
+    // [이메일 중복 검사]
     @PostMapping("/emailCheck")
     public boolean emailCheck(@RequestBody EmailCheckDto requestBody) {
         boolean result = userService.emailCheck(requestBody);
@@ -42,14 +36,14 @@ public class UserController {
         return result;
     }
 
-    // 일반 로그인 기능
+    // [일반 로그인]
     @PostMapping("/signIn")
     public ResponseDto<SignInResponseDto> signIn(@RequestBody SignInDto requestBody) {
         ResponseDto<SignInResponseDto> result = userService.signIn(requestBody);
         return result;
     }
     
-    // 소셜 로그인 기능
+    // [소셜 로그인]
 //    @GetMapping("/oauth/signIn")
 //    public String oAuthSignIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        // 구글 로그인 요청을 처리하기 위해 리다이렉트
@@ -67,4 +61,21 @@ public class UserController {
 //        // 여기서는 단순히 "OAuth 세션 정보 확인하기"라는 문자열을 반환하도록 하겠습니다.
 //        return jwtToken;
 //    }
+
+    // [임시 비밀번호]
+    @PostMapping("/resetPw/sendEmail")
+    public String sendEmail(@RequestBody EmailCheckDto requestBody) {
+        MailDto dto = userService.createTempPassword(requestBody.getUserEmail());
+        userService.sendMail(dto);
+        return "";
+    }
+    
+    // [회원탈퇴]
+    @PostMapping("/signOutForever")
+    public String signOutForever(@RequestBody EmailCheckDto requestBody) {
+        String userEmail = String.valueOf(requestBody.getUserEmail());
+        System.out.println("탈퇴 메일 : " + userEmail);
+        userService.updateDeleteDate(userEmail);
+        return "";
+    }
 }

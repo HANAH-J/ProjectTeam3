@@ -65,10 +65,14 @@
 }
 
 .topNav .navWrapper .rightNav .findMovies .findWrapper input {
-    width: 80%;
+    width: 100%;
     height: 25px;
     border: none;
     background: none;
+}
+
+.topNav .navWrapper .rightNav .findMovies .findWrapper button {
+    display: none;
 }
 
 .topNav .navWrapper .rightNav .findMovies .findWrapper input:focus {

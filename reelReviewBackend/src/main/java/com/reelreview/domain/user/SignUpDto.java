@@ -8,7 +8,6 @@ import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 
 @Data
-//@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpDto {
@@ -33,8 +32,9 @@ public class SignUpDto {
 
     @CreationTimestamp
     private Timestamp createDate;
+    private Timestamp deleteDate;
 
-    public SignUpDto(String userEmail, String username, String userPassword, String role, String provider, String providerCd, Timestamp createDate) {
+    public SignUpDto(String userEmail, String username, String userPassword, String role, String provider, String providerCd, Timestamp createDate, Timestamp deleteDate) {
         this.username = username;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
@@ -42,5 +42,6 @@ public class SignUpDto {
         this.provider = provider;
         this.providerCd = providerCd;
         this.createDate = createDate;
+        this.deleteDate = deleteDate;
     }
 }
