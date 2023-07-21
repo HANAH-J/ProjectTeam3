@@ -4,8 +4,13 @@ import styles from '../../../css/csMain/CsMain.module.css';
 import CsFooter from '../../../components/Footer/CsFooter';
 import CsHeader from '../../../components/Header/CsHeader';
 import axios from 'axios';
+import Imagefileshow from '../../../components/csBoard/Imagefileshow';
 
 function CsBoardDetail() {
+
+  function getModifiedFilePath(filepath) {
+    return `http://localhost:8085`+filepath;
+  }
 
   function getFileNameFromPath(filepath) {
     const parts = filepath.split('/');
@@ -80,6 +85,7 @@ function CsBoardDetail() {
         console.log('댓글 데이터 가져오기 실패');
       });
   };
+  
 
   return (
     <div className={styles.CsBoardDetail_wrapper}>
@@ -88,28 +94,28 @@ function CsBoardDetail() {
         <div className={styles.CsBoardDetail_box}>
           <div className={styles.CsBoardDetail_line}></div>
           {boardData && (
-            <div className={styles.CsBoardDetail_qnaBox}>
-              <div className={styles.CsBoardDetail_qnaBox_title}>{boardData.title}</div>
-              <div className={styles.CsBoardDetail_qnaBox_content}>{boardData.content}</div>
-              <div className={styles.CsBoardDetail_qnaBox_bottom}>
-                <div className={styles.CsBoardDetail_qnaBox_img}>
-                  {boardData.filepath && (
-                    <a href={boardData.filepath} target="_blank" rel="noopener noreferrer">
-                      첨부 파일 : {getFileNameFromPath(boardData.filepath)}
-                    </a>
-                  )}
-                </div>
-                <div className={styles.CsBoardDetail_btn_box}>
-                  <div className={styles.CsBoardDetail_modify_btn}>
-                    <button onClick={() => navigate(`/csBoard_modify/${boardData.boardCd}`)}>글 수정</button>
-                  </div>
-                  <div className={styles.CsBoardDetail_delete_btn}>
-                    <button onClick={onDeleteHandler}>글 삭제</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+  <div className={styles.CsBoardDetail_qnaBox}>
+    <div className={styles.CsBoardDetail_qnaBox_title}>{boardData.title}</div>
+    <div className={styles.CsBoardDetail_qnaBox_content}>{boardData.content}</div>
+    <div className={styles.CsBoardDetail_qnaBox_bottom}>
+      <div className={styles.CsBoardDetail_qnaBox_img}>
+        {boardData.filepath && (
+          <a href={boardData.filepath} target="_blank" rel="noopener noreferrer" >
+            첨부 파일 : {getFileNameFromPath(boardData.filepath)}
+          </a>
+        )}
+      </div>
+      <div className={styles.CsBoardDetail_btn_box}>
+        <div className={styles.CsBoardDetail_modify_btn}>
+          <button onClick={() => navigate(`/csBoard_modify/${boardData.boardCd}`)}>글 수정</button>
+        </div>
+        <div className={styles.CsBoardDetail_delete_btn}>
+          <button onClick={onDeleteHandler}>글 삭제</button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
           {Array.isArray(commentContent) && commentContent.length > 0 ? (
             <div className={styles.CsBoardDetail_commentBox}>
               {commentContent.map((comment) => (

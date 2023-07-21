@@ -7,6 +7,8 @@ import com.reelreview.api.service.MovieDataService;
 import com.reelreview.service.MainService;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +51,17 @@ public class MainController {
 
         return MS.getMovieListFromGenre(genre);
     }
+
+    @RequestMapping("api/movieSearch")
+    public List<MovieDetailsDTO> search(@RequestParam String name) {
+        List<MovieDetailsDTO> searchList = MS.getMovieListFromTitle(name);
+        System.out.println(searchList);
+        return searchList;
+    }
+
+
+
+
 
 
 }

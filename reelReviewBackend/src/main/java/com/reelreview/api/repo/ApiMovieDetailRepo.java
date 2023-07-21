@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -15,6 +14,6 @@ public interface ApiMovieDetailRepo extends JpaRepository<MovieDetailsDTO,Intege
     @Query("SELECT m FROM MovieDetailsDTO m WHERE m.rank IN :ranks ORDER BY m.rank ASC")
     List<MovieDetailsDTO> findByRankIn(@Param("ranks") List<Integer> ranks);
 
-    @Query("SELECT m FROM MovieDetailsDTO m WHERE m.movieId IN :simularMovieCd")
-    List<MovieDetailsDTO> findByMovieIdIn(@Param("simularMovieCd") List<Integer> simularMovieCd);
+
+    List<MovieDetailsDTO> findByTitleContaining(String title);
 }

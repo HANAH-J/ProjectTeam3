@@ -38,12 +38,12 @@
   margin-right: 10px;
   display: flex;
   justify-content: right;
- font-weight: 200;
+  
 }
 
 .CsMain_header_menuBar button {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   margin-right: 10px;
   border: 1px solid rgba(255, 255, 255, 1);
   background-color: rgba(255, 255, 255, 1);
@@ -358,23 +358,22 @@
 
 /* CsQna finish */
 
-/* CsBoard_modify_wrapper */
 .CsBoard_modify_wrapper {
   margin-top: 20px;
   width: 100%;
-  height: 750px;
+  height: 661px;
 }
 
 .CsBoard_modify_header_wrapper {
   border-bottom: 1px solid #333;
 }
 
-/* CsBoard_modify_form */
 .CsBoard_modify_form {
   width: 80%;
   margin-left: 10%;
   display: flex;
   flex-direction: column;
+  height: 600px;
 }
 
 .CsBoard_modify_form_box {
@@ -382,10 +381,9 @@
   height: 400px;
 }
 
-/* CsBoard_modify_title */
 .CsBoard_modify_title {
   margin-bottom: 20px;
-  height: 100px;
+  height: 50px;
   width: 100%;
 }
 
@@ -394,9 +392,9 @@
   color: #333;
 }
 
-/* CsBoard_modify_form_title */
 .CsBoard_modify_form_title {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  height: 80px;
 }
 
 .CsBoard_modify_form_title label {
@@ -411,11 +409,11 @@
   border-radius: 4px;
   font-size: 1rem;
   height: 50px;
+  margin-top: 10px;
 }
 
-/* CsBoard_modify_form_content */
 .CsBoard_modify_form_content {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .CsBoard_modify_form_content label {
@@ -431,9 +429,9 @@
   font-size: 1rem;
   resize: vertical;
   height: 200px;
+  margin-top: 10px;
 }
 
-/* CsBoard_modify_form_file */
 .CsBoard_modify_form_file {
   margin-bottom: 20px;
   width: 300px;
@@ -441,7 +439,6 @@
   display: flex;
   justify-content: center;
 }
-
 
 .CsBoard_modify_form_file label {
   font-size: 1.1rem;
@@ -456,7 +453,6 @@
   width: 100%;
 }
 
-/* Style for custom file input button */
 .CsBoard_modify_form_file a {
   padding: 8px 12px;
   background-color: #f82f62;
@@ -467,7 +463,6 @@
   cursor: pointer;
 }
 
-/* CsBoard_modify_form_submit */
 .CsBoard_modify_form {
   margin-top: 20px;
 }
@@ -478,6 +473,7 @@
   cursor: pointer;
   height: 50px;
   border-radius: 10%;
+  margin-top: 50px;
 }
 
 .CsBoard_modify_form button:hover {
@@ -825,7 +821,7 @@ td {
 
 .CsHeader_menu_modal {
   width: 100px;
-  height: 100px;
+  height: 120px;
   margin-top: 150px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   border: 1px solid #d8d8d8;
@@ -835,21 +831,14 @@ td {
   flex-direction: column;
 }
 
-.CsHeader_menu_qustion {
+.CsHeader_menu_qustion,
+.CsHeader_menu_write,
+.CsHeader_menu_home {
   width: 100px;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-}
-
-.CsHeader_menu_write {
-  width: 100px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: white;
 }
 
@@ -858,11 +847,10 @@ td {
   color: black;
 }
 
-.CsHeader_menu_qustion a:hover {
-  color: #f82f62;
-}
-
-.CsHeader_menu_write a:hover {
+.CsHeader_menu_qustion a:hover,
+.CsHeader_menu_write a:hover,
+.CsHeader_menu_home a:hover
+ {
   color: #f82f62;
 }
 

@@ -12,6 +12,9 @@ export default function CsHeader_menu() {
             <div className={styles.CsHeader_menu_write}>
                 <Link to="/CsQna">문의 등록</Link>
             </div>
+            <div className={styles.CsHeader_menu_home}>
+                <Link to="/csMain">문의 센터</Link>
+            </div>
         </div>
     )
 }

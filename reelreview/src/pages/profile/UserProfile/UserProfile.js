@@ -14,7 +14,7 @@ import axios from "axios";
 import { useCookies } from 'react-cookie';
 
 function UserProfile() {
-
+    const guestCd = useParams();
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
 
@@ -51,6 +51,7 @@ function UserProfile() {
           setLoggedIn(true);
           fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
           console.log(token);
+          
         } else {
           setLoggedIn(false);
           console.log('not logged in');
