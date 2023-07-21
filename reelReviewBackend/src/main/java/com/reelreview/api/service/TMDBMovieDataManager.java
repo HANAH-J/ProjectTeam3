@@ -62,7 +62,9 @@ public class TMDBMovieDataManager{
     //VIDEO DATA 추려서 DTO로 변환
     public List<MovieVideosDTO> getVideoData(JSONObject movieData){
         List<MovieVideosDTO> videoDTOS = new ArrayList<>();
+
         JSONObject videos = (JSONObject) movieData.get("videos");
+        System.out.println(videos);
         JSONArray videoList = (JSONArray)videos.get("results");
 
         for(Object video : videoList){
@@ -80,6 +82,7 @@ public class TMDBMovieDataManager{
     //GENRE DATA 추려서 DTO로 변환
     public List<MovieGenresDTO> getGenreData(JSONObject movieData){
         List<MovieGenresDTO> genresDTOS = new ArrayList<>();
+
         JSONArray genres = (JSONArray)movieData.get("genres");
         for(Object genre : genres){
             MovieGenresDTO genreDTO = new MovieGenresDTO();
@@ -99,6 +102,7 @@ public class TMDBMovieDataManager{
     //CAST DATA 추려서 DTO로 변환
     public List<CastDataDTO> getCastData(JSONObject movieData){
         List<CastDataDTO> castDataDTOS = new ArrayList<>();
+
         JSONObject people = (JSONObject)movieData.get("credits");
         JSONArray cast = (JSONArray) people.get("cast");
 
