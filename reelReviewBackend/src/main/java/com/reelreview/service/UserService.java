@@ -2,6 +2,7 @@ package com.reelreview.service;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.reelreview.config.auth.PrincipalDetails;
+import com.reelreview.config.oauth.provider.TokenProvider;
 import com.reelreview.config.jwt.JwtTokenProvider;
 import com.reelreview.domain.ProfileDTO;
 import com.reelreview.domain.user.*;
