@@ -5,7 +5,7 @@ import styles from '../../css/Header/LoginSuccess_header.module.css';
 
 export default function LoginSuccess_header({ profileData, userData }) {
     const userCd = userData ? userData.userCd : null;
-  
+    
     return (
       <nav className={styles.topNav}>
         <div className={styles.navWrapper}>
