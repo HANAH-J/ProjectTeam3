@@ -13,24 +13,36 @@ import axios from "axios";
 
 
 function Details() {
-    
+    let [movieData, setMovieData] = useState(null);
     const location = useLocation();
-    const {item,movieImages} = location.state;
-    console.log(movieImages);
+    const {item} = location.state;
     console.log(item);
+    useEffect(()=>{
+        const movieId = item.movieId;
+        console.log(movieId);
+        axios.get("http://localhost:8085/api/getMovieFulldata",{params:{movieId:movieId}}).then((response)=>
+        {
+            setMovieData(response.data);
+            console.log(movieData);
+        }).catch((error)=>{console.log(error)})
+    },[item.movieId]);
     
 
     return(
+    
     <div className={styles.Detail_box}>
         <Header/>   
-        <Detailtop item ={item} movieImages={movieImages}/>  
-        <Detailnum2 item ={item}/>
-        <Detailnum3 item ={item}/>
-        <Detailnum4 item ={item}/>
-        <Detailnum5 item ={item}/>
-        <Detailnum6 item ={item}/>
+        {movieData?(<>
+        <Detailtop item ={item} movieData={movieData}/>  
+        <Detailnum2 item ={item} movieData={movieData}/>
+        <Detailnum3 item ={item} movieData={movieData}/>
+        <Detailnum4 item ={item} movieData={movieData}/>
+        <Detailnum5 item ={item} movieData={movieData}/>
+        <Detailnum6 item ={item} movieData={movieData}/>
+        </>):(<></>)}
         <Footer></Footer>
     </div>
+   
     );
 }
 
