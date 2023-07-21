@@ -106,6 +106,7 @@ public class UserService {
         String userPassword = dto.getUserPassword();
 
         UserEntity userEntity = null;
+
         try {
             userEntity = userRepository.findByUserEmail(userEmail);
 

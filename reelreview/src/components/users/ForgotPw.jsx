@@ -8,7 +8,7 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [alertModalState, setAlertModalState] = useState(false);
-    let tempPsaswordResult = '';
+    const [tempPsaswordResult, setTempPasswordResult] = useState('');
 
     // 이메일 유효성 검사 로직
     const validateEmail = (email) => {
@@ -63,11 +63,6 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
         setForgotPwModalState(false);
     };
 
-    // '알림' 모달창 상태 변경 함수
-    const alertOnOffModal = () => {
-        setAlertModalState(!alertModalState);
-    };
-
     // '알림' 모달창 배경색 and 스크롤 제어
     useEffect(() => {
         if (alertModalState) {
@@ -82,18 +77,18 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
         axios.post('http://localhost:8085/api/auth/emailCheck', {
             userEmail: email,
         }).then((response) => {
-            tempPsaswordResult = response;
+            console.log('임시 비밀번호 결과 : ' + response.data);
             if (response.data === false) { // 임시 비밀번호 발급
                 axios.post('http://localhost:8085/api/auth/resetPw/sendEmail', {
                     userEmail: email,
                 }).then(() => {
-                    setAlertModalState(true);
+                    setTempPasswordResult(false);
                 })
             } else {
-                alertOnOffModal(true);
+                setTempPasswordResult(true);
             }
-        }).catch(function (error) {
-            console.log('React-SignUp-axios : userEmail 데이터 전송 실패');
+        }).catch((error) => {
+            console.log('데이터 전송 실패', error);
         });
     };
 
@@ -131,7 +126,7 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
                     tempPsaswordResult === true && <Alert resultMessage="가입되지 않은 이메일입니다." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState}/>
                 }
             </form>
-            {alertModalState && <div className={styles.modalBackground} style={{ backgroundColor: "black" }} />}
+            {(tempPsaswordResult === false || tempPsaswordResult === true) && <div className={styles.modalBackground} style={{ backgroundColor: "black" }} />}
         </div>
     )
 }

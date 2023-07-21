@@ -47,7 +47,7 @@ public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
         // userRequest 정보 -> loadUser 함수 호출 -> 구글로부터 회원 프로필 수신
         System.out.println("getAttributes : " + oAuth2User.getAttributes());
 
-        // 회원가입 강제 진행
+        // [소셜 회원가입]
         OAuth2UserInfo oAuth2UserInfo = null;
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
             System.out.println("구글 로그인 요청");
@@ -55,21 +55,23 @@ public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
             System.out.println("네이버 로그인 요청");
             oAuth2UserInfo = new NaverUserInfo((Map) oAuth2User.getAttributes().get("response"));
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+            System.out.println("카카오 로그인 요청");
         } else {
-            System.out.println("현재 구글, 네이버 소셜 로그인만 가능");
+            System.out.println("현재 구글, 카카오 소셜 로그인만 가능");
         }
 
         String userEmail = oAuth2UserInfo.getUserEmail();
         String username = oAuth2UserInfo.getUserName();
 
-        UserEntity userEntity = userRepository.findByUsername(username);
+        UserEntity userEntity = userRepository.findByUserEmail(userEmail);
 
         // 새로운 사용자일 경우, 회원가입 처리
         if (userEntity == null) {
             String provider = oAuth2UserInfo.getProvider();
             String providerCd = oAuth2UserInfo.getProviderCd();
             String role = "ROLE_USER";
-            System.out.println("OAuth 로그인이 최초입니다.");
+            System.out.println("OAuth2 로그인이 최초입니다.");
             userEntity = UserEntity.builder()
                     .username(username)
                     .userEmail(userEmail)
@@ -79,9 +81,9 @@ public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
                     .build();
             userRepository.save(userEntity);
 
-        // 기존에 회원가입한 사용자일 경우, 처리 無
+        // 기존 사용자일 경우, 회원가입 처리 無
         } else {
-            System.out.println("로그인을 이미 한 적이 있습니다. 당신은 자동 회원가입이 되어 있습니다.");
+            System.out.println("로그인을 이미 한 적이 있습니다. 당신은 회원가입이 되어 있습니다.");
         }
 
         // JWT 토큰을 생성하여 사용자 정보와 함께 반환
