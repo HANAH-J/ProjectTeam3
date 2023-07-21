@@ -147,7 +147,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                 const { token, exprTime, user } = responseData.data;
                 const expires = new Date();
                 expires.setMilliseconds(expires.getMilliseconds() + exprTime);
-                
+
                 setCookies('token', token, { exprTime });
                 setUser(user);
             }).catch((error) => {
@@ -155,13 +155,14 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             })
     };
 
+    // 소셜 로그인
     const oAuthSignInHandler = (provider) => {
         if (provider === 'google') {
             window.location.href = 'http://localhost:8085/oauth2/authorization/google';
-          } else if (provider === 'naver') {
-            window.location.href = 'http://localhost:8085/login/oauth2/code/naver';
-          }
-      };
+        } else if (provider === 'naver') {
+            window.location.href = 'http://localhost:8085/oauth2/authorization/naver';
+        }
+    };
 
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
