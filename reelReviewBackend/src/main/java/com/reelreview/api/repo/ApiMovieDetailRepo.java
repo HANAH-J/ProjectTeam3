@@ -16,4 +16,6 @@ public interface ApiMovieDetailRepo extends JpaRepository<MovieDetailsDTO,Intege
 
 
     List<MovieDetailsDTO> findByTitleContaining(String title);
+
+    List<MovieDetailsDTO> findByMovieIdIn(List<Integer> simularMovieCd);
 }
