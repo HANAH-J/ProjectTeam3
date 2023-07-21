@@ -34,9 +34,11 @@
 
 .CsMain_header_name {
   width: 20%;
-  height: 30px;
-  border: 1px solid red;
+  height: 20px;
   margin-right: 10px;
+  display: flex;
+  justify-content: right;
+ font-weight: 200;
 }
 
 .CsMain_header_menuBar button {
