@@ -1,54 +1,37 @@
-import styles from '../../../css/details/Detail_num3.module.css';
-import imgs from '../../../img/Detail/people.jpg';
 
+import React from "react";
+import styles from "../../../css/details/Detail_num3.module.css";
 
-export default function MoviePeople() {
+function MoviePeople(props) {
+    const castData = props.castData || [];
+    const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
+    console.log(castData);
     return (
         <div className={styles.people1}>
-            <div className={styles.people1_1}>
-                <a href='#' className={styles.people_link}>
-                    <div className={styles.people_img}>
-                        <img src={imgs} className={styles.people_img_img} />
-                    </div>
-                    <div className={styles.people_details}>
-                        <h5>마동석</h5>
-                        <p>성우 | 버니 루멘</p>
-                    </div>
-                </a>
-            </div>
-            <div className={styles.people1_1}>
-                <a href='#' className={styles.people_link}>
-                    <div className={styles.people_img}>
-                        <img src={imgs} className={styles.people_img_img} />
-                    </div>
-                    <div className={styles.people_details}>
-                        <h5>마동석</h5>
-                        <p>성우 | 버니 루멘</p>
-                    </div>
-                </a>
-            </div>
-            <div className={styles.people1_1}>
-                <a href='#' className={styles.people_link}>
-                    <div className={styles.people_img}>
-                        <img src={imgs} className={styles.people_img_img} />
-                    </div>
-                    <div className={styles.people_details}>
-                        <h5>마동석</h5>
-                        <p>성우 | 버니 루멘</p>
-                    </div>
-                </a>
-            </div>
-            <div className={styles.people1_1}>
-                <a href='#' className={styles.people_link}>
-                    <div className={styles.people_img}>
-                        <img src={imgs} className={styles.people_img_img} />
-                    </div>
-                    <div className={styles.people_details}>
-                        <h5>마동석</h5>
-                        <p>성우 | 버니 루멘</p>
-                    </div>
-                </a>
-            </div>
+            {castData.map((cast, index) => (
+                <>
+                    {cast && cast.peopleImage ? (
+                        <div key={index} className={styles.people1_1}>
+                            <a href='#' className={styles.people_link}>
+                                {cast.peopleImage && (
+                                    <div className={styles.people_img}>
+                                        <img src={IMG_BASE_URL + cast.peopleImage} alt='#' className={styles.people_img_img} />
+                                    </div>
+                                )}
+                                <div className={styles.people_details}>
+                                    <h5>{cast.peopleName}</h5>
+                                    <p>{cast.character}</p>
+                                </div>
+                            </a>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+
+                </>
+            ))}
         </div>
-    )
+    );
 }
+
+export default MoviePeople;

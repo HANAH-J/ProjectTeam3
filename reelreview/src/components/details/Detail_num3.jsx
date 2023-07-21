@@ -4,7 +4,25 @@ import MoviePeople from './smallComponents/people';
 
 
 
-function Detailnum3(){
+function Detailnum3(props){
+    const castData = props.movieData.movieCasts;
+    const crewData = props.movieData.movieCrews;
+    const first = [];
+    first.push(crewData[0]);
+    first.push(castData[0]);
+    first.push(castData[1]);
+    first.push(castData[2]);
+    const second = [];
+    second.push(castData[3]);
+    second.push(castData[4]);
+    second.push(castData[5]);
+    second.push(castData[6]);
+    const third = [];
+    third.push(castData[7]);
+    third.push(castData[8]);
+    third.push(castData[9]);
+    third.push(castData[10]);
+    
     return(
         <div className={styles.wrapper}>
             <div className={styles.people}>
@@ -14,9 +32,9 @@ function Detailnum3(){
                 </div>
 
                 <div className={styles.cont}>
-                    <MoviePeople></MoviePeople>
-                    <MoviePeople></MoviePeople>
-                    <MoviePeople></MoviePeople>
+                    <MoviePeople castData={first}></MoviePeople>
+                    <MoviePeople castData={second}></MoviePeople>
+                    <MoviePeople castData={third} ></MoviePeople>
                 </div>
                 
             </div>

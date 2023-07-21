@@ -130,15 +130,19 @@ public class TMDBMovieDataManager{
 
         for(Object c : crew){
             JSONObject crewPerson = (JSONObject) c;
-            CrewDataDTO crewDto = new CrewDataDTO();
-            crewDto.setMovieCd((Long) movieData.get("id"));
-            crewDto.setJob((String) crewPerson.get("job"));
-            crewDto.setDepartment((String) crewPerson.get("department"));
-            crewDto.setPeopleCd((Long) crewPerson.get("id"));
-            crewDto.setPeopleName((String) crewPerson.get("name"));
-            crewDto.setPeopleImage((String) crewPerson.get("profile_path"));
-            crewDto.setCrewId((Long) crewPerson.get("id"),(Long) movieData.get("id"));
-            crewDataDTOS.add(crewDto);
+            if(crewPerson.get("job").equals("Director")){
+                CrewDataDTO crewDto = new CrewDataDTO();
+                crewDto.setMovieCd((Long) movieData.get("id"));
+                crewDto.setJob((String) crewPerson.get("job"));
+                crewDto.setDepartment((String) crewPerson.get("department"));
+                crewDto.setPeopleCd((Long) crewPerson.get("id"));
+                crewDto.setPeopleName((String) crewPerson.get("name"));
+                crewDto.setPeopleImage((String) crewPerson.get("profile_path"));
+                crewDto.setCrewId((Long) crewPerson.get("id"),(Long) movieData.get("id"));
+                crewDataDTOS.add(crewDto);
+            }
+
+
         }
 
         return crewDataDTOS;

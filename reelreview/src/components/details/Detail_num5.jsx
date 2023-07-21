@@ -6,15 +6,22 @@ import imgs from '../../img/Detail/slide.jpg';
 import { useState } from 'react';
 import ImageModal from "./smallComponents/ImageModal";
 
-function Detailnum5(){
+function Detailnum5(props) {
 
-    const [modalOpen,setModalOpen] = useState(false);
+    const movieData = props.movieData;
+    const images = movieData.movieImages;
+    const videos = movieData.movieVideos;
+    const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
+    const thumbnailBase = " https://img.youtube.com/vi/";
+    const youtube = "https://www.youtube.com/watch?v="
+
+    const [modalOpen, setModalOpen] = useState(false);
     const showModal = () => {
         setModalOpen(true);
     }
 
 
-    const [isOver,setIsOver] = useState(false);
+    const [isOver, setIsOver] = useState(false);
     const mouseOver = () => {
         setIsOver(true);
     }
@@ -23,32 +30,39 @@ function Detailnum5(){
     }
 
 
-     function SampleNextArrow(props) {
+    function SampleNextArrow(props) {
         const { className, style, onClick } = props;
         return (
             <div
                 className={className}
-                style={{ ...style, display: isOver? "block" : "none" , borderRadius: "50%", transform: "scale(1.5)", right: '25px',zIndex:"9999",top:"132px"}}
-                onClick={onClick} 
-            >
-            </div>
-        );
-    }
-    
-    function SamplePrevArrow(props) {
-        const { className, style, onClick } = props;
-        return (
-            <div
-                className={className}
-                style={{ ...style, display: isOver ? "block":"none", borderRadius: "50%", transform: "scale(1.5)", left: '25px',zIndex:"9999",top:"132px"}}
+                style={{ ...style, display: isOver ? "block" : "none", borderRadius: "50%", transform: "scale(1.5)", right: '25px', zIndex: "9999", top: "132px" }}
                 onClick={onClick}
             >
             </div>
         );
     }
 
+    function SamplePrevArrow(props) {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, display: isOver ? "block" : "none", borderRadius: "50%", transform: "scale(1.5)", left: '25px', zIndex: "9999", top: "132px" }}
+                onClick={onClick}
+            >
+            </div>
+        );
+    }
+    const [clickedBackdropPath, setClickedBackdropPath] = useState("");
+
+    // 클릭 이벤트 핸들러 함수
+    const handleClickBackdrop = (backdropPath) => {
+        setClickedBackdropPath(backdropPath); // 클릭한 backdropPath를 상태 변수에 저장
+        showModal(); // 이미지 모달 열기
+    };
+
     const settings = {
-        dots : false,
+        dots: false,
         infinite: false,
         speed: 500,
         slidesToShow: 3,
@@ -81,8 +95,8 @@ function Detailnum5(){
                 },
             },
         ],
-      };
-    return(
+    };
+    return (
         <div className={styles.wrapper}>
             <div className={styles.topHead}>
                 <div>
@@ -91,36 +105,18 @@ function Detailnum5(){
             </div>
             <div className={styles.gallery} onMouseEnter={mouseOver} onMouseLeave={mouseOut}>
                 <Slider {...settings}>
-                    <div className={styles.imgBox}>
-                        <img src={imgs} onClick={showModal}></img>
-                    </div>
-                    <div className={styles.imgBox}>
-                        <img src={imgs} onClick={showModal}></img>
-                    </div>
-                    <div className={styles.imgBox}>
-                      <img src={imgs} onClick={showModal}></img>
-                    </div>
-                    <div className={styles.imgBox}>
-                        <img src={imgs} onClick={showModal}></img>
-                    </div>
-                    <div className={styles.imgBox}>
-                        <img src={imgs} onClick={showModal}></img>
-                    </div>
-                    <div className={styles.imgBox}>
-                        <img src={imgs} onClick={showModal}></img>
-                    </div>
-                    <div className={styles.imgBox}>
-                        <img src={imgs} onClick={showModal}></img>
-                    </div>
-                    <div className={styles.imgBox}>
-                        <img src={imgs} onClick={showModal}></img>
-                    </div>
-                    <div className={styles.imgBox}>
-                        <img src={imgs} onClick={showModal}></img>
-                    </div>
+                    {images && (
+                        images.map((backdropPath, index) => (
+                            <div className={styles.imgBox} key={index}>
+                                <img src={IMG_BASE_URL + backdropPath.backdropPath} onClick={() => handleClickBackdrop(backdropPath)}></img>
+                            </div>
+                        ))
+
+                    )}
                 </Slider>
             </div>
-            {modalOpen && <ImageModal setModalOpen={setModalOpen}/>}
+            {modalOpen && <ImageModal backdropPath={clickedBackdropPath} setModalOpen={setModalOpen} />}
+
             <div className={styles.topHead}>
                 <div>
                     <h2>동영상</h2>
@@ -128,28 +124,20 @@ function Detailnum5(){
             </div>
             <div className={styles.gallery} onMouseEnter={mouseOver} onMouseLeave={mouseOut}>
                 <Slider {...settings}>
-                    <div className={styles.movieBox}>
-                        <a href='#'>
-                        <div className={styles.thumbNail}>
-                            <div className={styles.playBtn}></div>
-                        </div>
-                        <p>영상 설명</p>
-                        </a>
-                    </div><div className={styles.movieBox}>
-                        <a href='#'>
-                        <div className={styles.thumbNail}>
-                            <div className={styles.playBtn}></div>
-                        </div>
-                        <p>영상 설명</p>
-                        </a>
-                    </div><div className={styles.movieBox}>
-                        <a href='#'>
-                        <div className={styles.thumbNail}>
-                            <div className={styles.playBtn}></div>
-                        </div>
-                        <p>영상 설명</p>
-                        </a>
-                    </div>
+                    {videos && (
+                        videos.map((video, index) => (
+                            <div className={styles.movieBox}>
+                                <a href={youtube+video.videoKey}>
+                                    <div className={styles.thumbNail}>
+                                        <img src={thumbnailBase+video.videoKey+'/maxresdefault.jpg'} alt='#'/>
+                                        <div className={styles.playBtn}></div>
+                                    </div>
+                                    <p>{video.videoName}</p>
+                                </a>
+                            </div>
+                        ))
+                    )}
+
                 </Slider>
             </div>
         </div>

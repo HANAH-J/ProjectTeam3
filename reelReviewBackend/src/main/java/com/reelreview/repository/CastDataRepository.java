@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CastDataRepository extends JpaRepository<CastDataDTO,String> {
-    List<CastDataDTO> findPeopleDataDTOByPeopleName(String name);
+
+    List<CastDataDTO> findByMovieCd(Long movieCd);
 }
