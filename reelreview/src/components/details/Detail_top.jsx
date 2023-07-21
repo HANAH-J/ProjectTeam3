@@ -1,13 +1,19 @@
+import { useEffect } from "react";
 import Header_Dark from "../../components/Header/Header";
 import styles from '../../css/details/Detail_top.module.css';
+import { useNavigate } from "react-router-dom";
 
 function Detailtop(props) {
+ 
   const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
-  const randomIndex = Math.floor(Math.random()*props.movieImages.length);
-  console.log(props);
+  const randomIndex = Math.floor(Math.random()*props.movieData.movieImages.length);
+  const navigate = useNavigate();
 
+ 
+
+  const backdropPath = props.movieData?.movieImages?.[randomIndex]?.backdropPath || '';
   const backgroundStyle = {
-    backgroundImage: `url(${IMG_BASE_URL + props.movieImages[randomIndex].backdropPath})`,
+    backgroundImage: backdropPath ? `url(${IMG_BASE_URL + backdropPath})` : '',
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     width: "100%",

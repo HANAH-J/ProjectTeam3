@@ -108,18 +108,10 @@ export default function BoxOffice() {
   
 
   const navigate = useNavigate();
-  let [movieImages, setMovieImages] = useState([]);
+  
   const onClickDetailPage = (item) =>{
+    navigate('details',{state:{item}})
     console.log(item);
-    
-    const movieId = item.movieId;
-        console.log(movieId);
-    axios.get("http://localhost:8085/api/getMovieImages",{params:{movieId:movieId}}).then((response)=>
-    {
-      setMovieImages(response.data);
-      console.log(response.data);
-      navigate('details', {state:{item:item,movieImages:response.data}});
-    }).catch((error)=>{console.log(error)})
     
   }
 
