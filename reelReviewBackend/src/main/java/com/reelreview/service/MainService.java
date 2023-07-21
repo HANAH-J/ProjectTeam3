@@ -16,6 +16,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -241,12 +242,15 @@ public class MainService {
 
         }
 
-
-
-
-
-
         Collections.sort(actorSearchDataList, Comparator.comparing(MovieDetailsDTO::getRelease_date).reversed());
         return actorSearchDataList;
+    }
+
+
+    @Transactional
+    public List<MovieDetailsDTO> getMovieListFromTitle(String title) {
+        List<MovieDetailsDTO> m = movieDetailRepo.findByTitleContaining(title);
+
+        return m;
     }
 }

@@ -3,6 +3,7 @@ import styles from '../../../css/csMain/CsMain.module.css';
 import CsFooter from '../../../components/Footer/CsFooter';
 import CsHeader from '../../../components/Header/CsHeader';
 import { BiChevronLeft } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 function CsFaq() {
     const [activeItem, setActiveItem] = useState(null);
@@ -36,7 +37,7 @@ function CsFaq() {
             <div className={styles.CsFaq_box_wrapper}>
                 <div className={styles.CsFaq_box_body}>
                     <div className={styles.CsFaq_box_body_header}>
-                        <div><a href="http://localhost:3000/csMain">릴리뷰 문의센터</a></div>
+                        <div><Link to="/csMain">릴리뷰 문의센터</Link></div>
                         <div className={styles.CsFaq_box_body_header_icon}><BiChevronLeft /></div>
                         <div>자주 묻는 질문</div>
                     </div>

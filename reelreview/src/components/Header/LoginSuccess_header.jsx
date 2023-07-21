@@ -22,7 +22,7 @@ export default function LoginSuccess_header({ profileData, userData }) {
     const formData = new FormData();
     formData.append('name', name);
   
-    axios.post("http://localhost:8085/api/directorSearch", formData)
+    axios.post("http://localhost:8085/api/movieSearch", formData)
       .then((response) => {
         console.log(response.data);
         setMovieList(response.data);
@@ -45,7 +45,7 @@ export default function LoginSuccess_header({ profileData, userData }) {
           <li className={styles.findMovies}>
             <div className={styles.findWrapper}>
               <form onSubmit={handleSubmit}>
-                <input type="text" name="movie" onChange={handleChange} placeholder="영화를 검색해보세요." autocomplete="off" />
+                <input type="text" name="title" onChange={handleChange} placeholder="영화를 검색해보세요." autocomplete="off" />
                 <button type="submit"></button>
               </form>
             </div>
@@ -53,7 +53,7 @@ export default function LoginSuccess_header({ profileData, userData }) {
           <Link to="/csMain" className={styles.csMainPage} style={{ textDecoration: 'none' }}>
             <li className={styles.nameLi}> 문의하기 </li>
           </Link>
-          <Link to="/userProfiles" className={styles.userProfile_box}>
+          <Link to={{ pathname: '/userProfiles', search: `userCd=${userCd}` }} className={styles.userProfile_box}>
             <li>
               {profileData && profileData.pfImage !== 'defaultPfImage' ? (
                 <img alt="profile" src={`http://localhost:8085/userProfiles/getProfilePicture?userCd=${userCd}`} className={styles.icon} />

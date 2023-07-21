@@ -24,7 +24,7 @@ import CommentDetail from "./pages/details/CommentDetail";
 import MainPage_admin from "./pages/main/MainPage_admin";
 import ModifyBtn from "./components/csBoard/CsBoard_modify";
 import SearchSuccess from "./pages/main/SearchSuccess";
-
+import Imagefileshow from "./components/csBoard/Imagefileshow";
 function App() {
 
   return (
@@ -56,6 +56,7 @@ function App() {
         <Route path="/movieCollection" element={<MovieCollection/>} />
         <Route path='/colDetail' Component={ColDetail}/>
         <Route path='/commentDetail' Component={CommentDetail}/>
+        <Route path='/files/:filepath' Component={Imagefileshow}/>
       </Routes>
 
     </div>

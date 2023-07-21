@@ -20,15 +20,14 @@ public class ReelReviewApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ReelReviewApplication.class, args);
-    }
-    @Scheduled(fixedRate = 1000*60*60) // 60분(1시간) 간격으로 실행합니다.
-    public void runMovieDataService() {
-        movieDataService.changeRanktoNull();
-        try {
-            movieDataService.getBoxOfficeToday();
-        } catch (ParseException | IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("일일 작업이 실행되었습니다!");
-    }
+    }//@Scheduled(fixedRate = 1000*60*60) // 60분(1시간) 간격으로 실행합니다.
+//    public void runMovieDataService() {
+//        movieDataService.changeRanktoNull();
+//        try {
+//            movieDataService.getBoxOfficeToday();
+//        } catch (ParseException | IOException | InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+//        System.out.println("일일 작업이 실행되었습니다!");
+//    }
 }
