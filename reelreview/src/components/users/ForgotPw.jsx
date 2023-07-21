@@ -8,7 +8,7 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [alertModalState, setAlertModalState] = useState(false);
-    const [responseData, setResponseData] = useState(null);
+    let tempPsaswordResult = '';
 
     // 이메일 유효성 검사 로직
     const validateEmail = (email) => {
@@ -82,9 +82,8 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
         axios.post('http://localhost:8085/api/auth/emailCheck', {
             userEmail: email,
         }).then((response) => {
-            setResponseData(response.data);
-            console.log(responseData);
-            if (responseData === false) { // 임시 비밀번호 발급
+            tempPsaswordResult = response;
+            if (response.data === false) { // 임시 비밀번호 발급
                 axios.post('http://localhost:8085/api/auth/resetPw/sendEmail', {
                     userEmail: email,
                 }).then(() => {
@@ -126,10 +125,10 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
                 {emailError && <p className={styles.user_forgotPw_error}>{emailError}</p>}
                 <button type='submit' className={styles.user_forgotPw_btn}>이메일 보내기</button>
                 {
-                    responseData === false && <Alert resultMessage="임시 비밀번호 발급 이메일을 보냈어요." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState}/>
+                    tempPsaswordResult === false && <Alert resultMessage="임시 비밀번호 발급 이메일을 보냈어요." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState}/>
                 }
                 {
-                    responseData === true && <Alert resultMessage="가입되지 않은 이메일입니다." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState}/>
+                    tempPsaswordResult === true && <Alert resultMessage="가입되지 않은 이메일입니다." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState}/>
                 }
             </form>
             {alertModalState && <div className={styles.modalBackground} style={{ backgroundColor: "black" }} />}

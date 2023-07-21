@@ -104,7 +104,13 @@ public class MovieDataService{
             }
 
             //response.body() = tmdb에서 영화 제목 검색 후 받아온 영화 데이터
-
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(response.body());
+            JSONObject jsonMain = (JSONObject)obj;
+            JSONArray jArray = (JSONArray)jsonMain.get("results");
+            if(jArray.size()==0){
+                continue;
+            }
             // tmdb 검색해 받아온 목록 중 영화 개봉일 매칭 후 영화 ID 값만 불러와 LIST 로 저장
             id = unwrap.matchReleaseDateWithTMDBKRDB(response.body(),date,name);
 
