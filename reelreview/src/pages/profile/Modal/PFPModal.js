@@ -7,19 +7,13 @@ import { useCookies } from 'react-cookie';
 function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   console.log('userCd: ' + userCd);
 
-  const [status, setStatus] = useState(''); //상태메시지
-  const [pfImage, setPfImage] = useState(''); //프로필사진
-  const [bgImage, setBgImage] = useState(''); //배경사진
-
   const [inputValue, setInputValue] = useState(''); //변경할 상태메시지
-
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
   const [showWithdrawCompleteModal, setShowWithdrawCompleteModal] = useState(false);
   const [showEditTextModal, setShowEditTextModal] = useState(false);
   const [showEditPFPModal, setShowEditPFPModal] = useState(false);
   const [showEditPFBModal, setShowEditPFBModal] = useState(false);
   
-
   const closePFPModal = (e) => {
     if (e.target !== e.currentTarget) return;
     /* e.target = 실제 클릭 이벤트가 발생한 요소
@@ -83,10 +77,17 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
 
   // 상태 메시지 변경
   const handleTextSave = () => {
+    let statusToSave = inputValue;
+
+    if(!inputValue) {
+      statusToSave = "프로필이 없습니다.";
+    }
+
     const dataToSend = { 
       userCd: userCd,
-      status: inputValue
+      status: statusToSave
     };
+
     axios.put('http://localhost:8085/userProfiles/updateUserStatus', dataToSend)
       .then(response => {
         console.log(dataToSend);
@@ -131,6 +132,24 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
     });
   };
 
+  // 프로필 사진 삭제
+  const handlePFPDelete = () => {
+    axios.put('http://localhost:8085/userProfiles/updateProfileToDefault', {
+      userCd : userCd,
+      imageType : "pfImage",
+      imageValue : "defaultPfImage",
+    })
+    .then(response => {
+      setShowEditTextModal(false); //모달닫기
+      setOpenModal(false); //모달닫기
+      window.location.reload(); //새로고침
+      console.log("user PFP updated to default image");
+    })
+    .catch(error => {
+      console.error('Error updating PFP:', error);
+    });
+  };
+
   // 배경 사진 변경
   const handlePFBSave = () => {
     const fileInput = document.getElementById("pictureForBG");
@@ -161,6 +180,24 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       console.error('Error updating PFB:', error);
     });
 
+  };
+
+  // 배경 사진 삭제
+  const handlePFBDelete = () => {
+    axios.put('http://localhost:8085/userProfiles/updateProfileToDefault', {
+      userCd : userCd,
+      imageType : "bgImage",
+      imageValue : "defaultBgImage",
+    })
+    .then(response => {
+      setShowEditTextModal(false); //모달닫기
+      setOpenModal(false); //모달닫기
+      window.location.reload(); //새로고침
+      console.log("user PFB updated to default image");
+    })
+    .catch(error => {
+      console.error('Error updating PFB:', error);
+    });
   };
 
 
@@ -217,7 +254,7 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
           <h3>프로필 문구 변경</h3>
           <input type="text"
             id="profileText"
-            placeholder="프로필 문구를 입력해주세요."
+            placeholder="프로필 문구를 입력해주세요. (미입력시 삭제)"
             maxLength={100}
             onChange={(e) => setInputValue(e.target.value)} />
           <br></br>
@@ -226,7 +263,6 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
         </div>
       )}
 
-
       {showEditPFPModal && (
         <div className={styles.EditPFPModal}>
             <h3>프로필 사진 변경(JPG/PNG, 최대 2MB)</h3>
@@ -234,6 +270,7 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
             <br></br>
             <button onClick={handlePFPSave}>변경</button>
             <button onClick={closeEditPFPModal}>취소</button>
+            <button onClick={handlePFPDelete}> 삭제 </button>
         </div>
       )}
 
@@ -244,6 +281,7 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
             <br></br>
             <button onClick={handlePFBSave}>변경</button>
             <button onClick={closeEditPFBModal}>취소</button>
+            <button onClick={handlePFBDelete}> 삭제 </button>
         </div>
       )}
     </div>

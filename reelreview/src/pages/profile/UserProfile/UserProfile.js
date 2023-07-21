@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom'; 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from '../../../css/profile/UserProfile.module.css'
@@ -12,13 +12,13 @@ import rateImg from "../../../img/profile/userProfile/rate.svg";
 import { useUserStore } from "../../../stores/index.ts";
 import axios from "axios";
 import { useCookies } from 'react-cookie';
-import base64 from 'base-64';
-
 
 function UserProfile() {
 
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
+
+    //const { currentUserCd } = useParams();
 
     const responsive = {    //캐러셀 반응형 코드
         superLargeDesktop: {breakpoint: { max: 4000, min: 3000 }, items: 5},
@@ -27,7 +27,6 @@ function UserProfile() {
         mobile: {breakpoint: { max: 464, min: 0 },items: 1}
       };
 
-      const openPFPModal = () => { setOpenModal(true); }
       const userScoreCollection = () => { navigate('/UserScoreCollection'); }
       const userMovieToWatch = () => { navigate('/MovieToWatch'); }
       const movieCollection = () => { navigate('/MovieCollection'); }
@@ -46,8 +45,6 @@ function UserProfile() {
       const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
       useEffect(() => {
-        // 여기에서 사용자의 로그인 상태를 확인하는 로직을 구현한다.
-        // 예를 들어, 로그인된 사용자 정보가 존재하는지, 토큰이 유효한지 등을 확인
         const token = cookies.token;
     
         if (token) {
@@ -56,6 +53,10 @@ function UserProfile() {
           console.log(token);
         } else {
           setLoggedIn(false);
+          console.log('not logged in');
+          console.log('token' + token);
+          //alert('로그인을 해주세요.'); 
+          //navigate('/'); // 토큰이 없을 경우 메인으로 리디렉션
         }
       }, [cookies.token]);
     
@@ -100,8 +101,13 @@ function UserProfile() {
           });
       }
 
-
-      
+      const openPFPModal = () => { 
+        //if (currentUserCd === userData.userCd) {
+          setOpenModal(true);
+        //} else {
+        //  alert('프로필을 수정할 수 있는 권한이 없습니다.');
+        //}
+      }
 
     return (
 

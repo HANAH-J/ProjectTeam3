@@ -85,6 +85,7 @@ public class UserService {
         String userEmail = dto.getUserEmail();
         String userPassword = dto.getUserPassword();
         UserEntity userEntity = null;
+
         try {
             userEntity = userRepository.findByUserEmail(userEmail);
             // [로그인] 잘못된 이메일

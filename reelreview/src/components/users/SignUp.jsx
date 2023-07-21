@@ -187,9 +187,10 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         };
 
         axios.post('http://localhost:8085/api/auth/signUp', data, config)
-            .then((response) => {
+            .then(() => {
+                console.log('회원가입 성공');
             }).catch((error) => {
-                console.log('React-SignUp-axios : 데이터 전송 실패');
+                console.log('데이터 전송 실패 : ', error);
             })
     };
 
@@ -269,10 +270,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     <span className={styles.user_login_logo_btn}>카카오 아이디로 로그인</span>
                 </div>
             </div>
-            {termsModalState && (
-                <div className={styles.modalBackground_3} style={{ backgroundColor: "black" }}>
-                </div>
-            )}
+            {termsModalState && (<div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}/>)}
         </div>
     )
 }

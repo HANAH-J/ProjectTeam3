@@ -23,7 +23,7 @@ export default function MainPage() {
   const [profileData, setProfileData] = useState(null);
   
   // JWT 토큰
-  const getMain = async (token: string) => {
+  const getMain = async (token) => {
     const requestData = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,15 +54,18 @@ export default function MainPage() {
     })
     .catch((error) => '');
   }
+
   useEffect(() => {
     const token = cookies.token;
     if (token) getMain(token);
     else setMainResponse('');
   }, [cookies.token]);
+
   const handleChange = (event) => {
     const { value } = event.target;
     setName(value);
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // 서버로 보낼 데이터 준비
@@ -81,12 +84,15 @@ export default function MainPage() {
         console.error(error);
       });
   };
+
   const [movieListActor,setMovieListActor] = useState([]);
   const [name1, setName1] = useState('');
+
   const handleChange1 = (event) => {
     const { value } = event.target;
     setName1(value);
   };
+
   const handleSubmit1 = (event) => {
     event.preventDefault();
     // 서버로 보낼 데이터 준비
@@ -105,12 +111,15 @@ export default function MainPage() {
         console.error(error);
       });
   };
+
   const [movieListGenre,setMovieListGenre] = useState([]);
   const [name2, setName2] = useState('');
+
   const handleChange2 = (event) => {
     const { value } = event.target;
     setName2(value);
   };
+
   const handleSubmit2 = (event) => {
     event.preventDefault();
     // 서버로 보낼 데이터 준비
@@ -129,6 +138,7 @@ export default function MainPage() {
         console.error(error);
       });
   };
+  
   return (
     <div className={styles.MainPage_box}>
       {cookies.token ? <LoginSuccess_header profileData={profileData} userData={userData} /> : <Header />}

@@ -42,16 +42,19 @@ public class UserController {
         ResponseDto<SignInResponseDto> result = userService.signIn(requestBody);
         return result;
     }
-    
+
     // [소셜 로그인]
 //    @GetMapping("/oauth/signIn")
-//    public String oAuthSignIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        // 구글 로그인 요청을 처리하기 위해 리다이렉트
-//        response.sendRedirect("http://localhost:8085/oauth2/authorization/google");
-//        return null;
+//    public void oAuthSignIn(@RequestParam String provider, HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        System.out.println(provider);
+//        if (provider.equals("google")) {
+//            System.out.println("통과 확인");
+//            // 구글 로그인 요청을 처리하기 위해 리다이렉트
+//            response.sendRedirect("http://localhost:8085/oauth2/authorization/google");
+//        }
 //    }
 
-    // 구글 로그인 이후 리다이렉트되는 엔드포인트
+//    // 구글 로그인 이후 리다이렉트되는 엔드포인트
 //    @GetMapping("/oauth/callback")
 //    public String oAuthCallback(@RequestParam("code") String code, HttpServletRequest request, HttpServletResponse response) throws IOException {
 //        // 인증 코드를 받아와서 JWT 토큰 생성
@@ -69,7 +72,7 @@ public class UserController {
         userService.sendMail(dto);
         return "";
     }
-    
+
     // [회원탈퇴]
     @PostMapping("/signOutForever")
     public String signOutForever(@RequestBody EmailCheckDto requestBody) {

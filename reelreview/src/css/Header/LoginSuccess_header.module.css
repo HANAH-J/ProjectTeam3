@@ -52,27 +52,28 @@
     margin-right: 25px;
 }
 
-.topNav .navWrapper .rightNav .findMovies .findWrapper {
+.findWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 300px;
+    width: 220px;
     height: 40px;
     background-size: 16px;
     background-image: url("../../img/Header/search_icon.svg");
     background-repeat: no-repeat;
     background-color: #F5F5F7;
-    background-position: 3% 50%;
+    background-position: 15px 50%;
 }
 
-.topNav .navWrapper .rightNav .findMovies .findWrapper input {
+.findWrapper input {
     width: 80%;
     height: 25px;
     border: none;
     background: none;
+    margin-left: 30px;
 }
 
-.topNav .navWrapper .rightNav .findMovies .findWrapper input:focus {
+.findWrapper input:focus {
     outline: none;
 }
 
@@ -103,6 +104,7 @@
 
   .nameLi {
     color: black;
+    margin-right: 20px;
   }
 
   @media (max-width: 770px) {
