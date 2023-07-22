@@ -194,6 +194,15 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
             })
     };
 
+    // 소셜 회원가입
+    const oAuth2SignUnHandler = (provider) => {
+        if (provider === 'google') {
+            window.location.href = 'http://localhost:8085/oauth2/authorization/google';
+        } else if (provider === 'naver') {
+            window.location.href = 'http://localhost:8085/oauth2/authorization/naver';
+        }
+    };
+
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
             <form onSubmit={onSubmitHandler}>
@@ -261,11 +270,11 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
             </div>
             <hr className={styles.user_login_hr_2}></hr>
             <div>
-                <div className={styles.user_login_naver_2}>
+                <div className={styles.user_login_naver_2} onClick={() => oAuth2SignUnHandler('google')}>
                     <img src={naver_icon} className={styles.user_login_naver_logo} alt='naver_logo'></img>
                     <span className={styles.user_login_logo_btn}>네이버 아이디로 로그인</span>
                 </div>
-                <div className={styles.user_login_kakao}>
+                <div className={styles.user_login_kakao} onClick={() => oAuth2SignUnHandler('naver')}>
                     <img src={kakao_icon} className={styles.user_login_kakao_logo} alt='kakao_logo'></img>
                     <span className={styles.user_login_logo_btn}>카카오 아이디로 로그인</span>
                 </div>

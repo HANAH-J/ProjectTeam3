@@ -10,27 +10,26 @@
     background-color: #ffffff;
 }
 
-.topNav .navWrapper {
+.navWrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 80%;
 }
 
-.topNav .navWrapper .leftNav, .topNav .navWrapper .rightNav {
+.leftNav, .rightNav {
     display: flex;
     align-items: center;
 }
 
-.topNav .navWrapper .leftNav li, .topNav .navWrapper .rightNav li {
+.findMovies, .signInBtn, .signUp_li {
     list-style-type: none;
 }
 
-.topNav .navWrapper .leftNav .logoSection {
+.logoSection {
     width: 160px;
     height: 40px;
     font-size: 0;
-    background-image: url("../../img/Header/Reel_Review_logo.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
