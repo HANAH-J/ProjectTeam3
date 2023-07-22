@@ -66,6 +66,14 @@
 - 약관 동의 모달창 클릭 이벤트 추가 : 배경색 backgroundColor: black / opacity: 50%
 - 소셜 로그인 로직 추가 : 네이버, 카카오
 
+230722
+- 콘솔창 오류 수정 :
+ ┕ <Header/> 대소문자 오류
+ ┕ <Upcomming/> unique key 오류
+ ┕ Manifest오류
+ ┕ Google Fonts 오류
+ ┕ cdn.jsdelivr.net 오류
+
 
 
 [예정]
