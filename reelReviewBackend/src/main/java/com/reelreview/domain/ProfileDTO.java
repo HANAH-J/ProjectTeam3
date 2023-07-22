@@ -12,9 +12,9 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "profile")
+@Entity
 @Table(name = "profile")
-public class ProfileDTO implements Serializable {
+public class ProfileDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profile_seq")
@@ -22,7 +22,7 @@ public class ProfileDTO implements Serializable {
     private int profileDetailNum;
 
     @OneToOne
-    @JoinColumn(name = "userCd", referencedColumnName = "userCd")
+    @JoinColumn(name = "userCd")
     private UserEntity userCd;
 
     private String status = "프로필이 없습니다.";

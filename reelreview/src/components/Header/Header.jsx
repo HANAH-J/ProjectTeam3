@@ -66,7 +66,7 @@ export default function Header() {
                     <li className="findMovies">
                             <div className="findWrapper">
                                 <form onSubmit={handleSubmit}>
-                                    <input type="text" name="movie" onChange={handleChange} placeholder="영화를 검색해보세요." autocomplete="off" />
+                                    <input type="text" name="movie" onChange={handleChange} placeholder="영화를 검색해보세요." autoComplete="off" />
                                     <button type="submit"></button>
                                 </form>
                             </div>

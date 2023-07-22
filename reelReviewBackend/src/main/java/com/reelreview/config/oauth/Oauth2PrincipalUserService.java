@@ -5,7 +5,10 @@ import com.reelreview.config.oauth.provider.GoogleUserInfo;
 import com.reelreview.config.oauth.provider.NaverUserInfo;
 import com.reelreview.config.oauth.provider.OAuth2UserInfo;
 import com.reelreview.config.jwt.JwtTokenProvider;
+import com.reelreview.domain.ProfileDTO;
+import com.reelreview.domain.user.ResponseDto;
 import com.reelreview.domain.user.UserEntity;
+import com.reelreview.repository.ProfileRepository;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -33,6 +36,9 @@ public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     // 구글로부터 받은 userRequest 데이터에 대한 후처리 진행 함수
     // 함수 종료 시 @AuthenticationPrincipal 어노테이션 생성
@@ -79,7 +85,20 @@ public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
                     .provider(provider)
                     .providerCd(providerCd)
                     .build();
+
             userRepository.save(userEntity);
+
+            // [프로필] ProfileDTO 생성(J)
+            ProfileDTO profileDTO = new ProfileDTO();
+            profileDTO.setUserCd(userEntity);
+
+            // [프로필] 프로필 정보 저장 (J)
+            try {
+                profileRepository.save(profileDTO);
+            } catch (Exception error) {
+                System.out.println(error);
+            }
+
 
         // 기존 사용자일 경우, 회원가입 처리 無
         } else {

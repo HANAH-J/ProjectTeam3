@@ -114,7 +114,7 @@ useEffect(()=>{
   return (
     <Slider {...settings}>
       {upcommingList.map((item, index) => (
-        <div className={styles.Upcomming_mainBox}>
+        <div className={styles.Upcomming_mainBox} key={index}>
           <div className={styles.Upcomming_poster}>
           <div className={styles.Upcomming_content}>
           <span className={styles.Upcomming_number}>{index+1}</span>

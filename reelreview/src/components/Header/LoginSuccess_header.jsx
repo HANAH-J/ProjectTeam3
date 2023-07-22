@@ -45,7 +45,7 @@ export default function LoginSuccess_header({ profileData, userData }) {
           <li className={styles.findMovies}>
             <div className={styles.findWrapper}>
               <form onSubmit={handleSubmit}>
-                <input type="text" name="title" onChange={handleChange} placeholder="영화를 검색해보세요." autocomplete="off" />
+                <input type="text" name="title" onChange={handleChange} placeholder="영화를 검색해보세요." autoComplete="off" />
                 <button type="submit"></button>
               </form>
             </div>

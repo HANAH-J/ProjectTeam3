@@ -16,7 +16,7 @@ export default function MainPage() {
   const [movieList, setMovieList] = useState([]);
   const [name, setName] = useState('');
   const [mainResponse, setMainResponse] = useState('');
-  const [cookies] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(['token']);
   const { user } = useUserStore();
   const [userCd, setUserCd] = useState(null);
   const [userData, setUserData] = useState(null);
