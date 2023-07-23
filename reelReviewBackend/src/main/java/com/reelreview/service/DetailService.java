@@ -10,12 +10,15 @@ import com.reelreview.api.repo.ApiMovieImagesRepo;
 import com.reelreview.api.repo.ApiMovieVideosRepo;
 import com.reelreview.domain.CastDataDTO;
 import com.reelreview.domain.CrewDataDTO;
+import com.reelreview.domain.RatingDataDto;
+import com.reelreview.domain.WantToSeeDataDto;
 import com.reelreview.repository.CastDataRepository;
 import com.reelreview.repository.CrewDataRepository;
+import com.reelreview.repository.RatingDataRepository;
+import com.reelreview.repository.WantToSeeDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Service
@@ -32,7 +35,10 @@ public class DetailService {
     private ApiMovieGenresRepo MGR;
     @Autowired
     private ApiMovieDetailRepo MDR;
-
+    @Autowired
+    private RatingDataRepository RDR;
+    @Autowired
+    private WantToSeeDataRepository WDR;
     public List<MovieImagesDTO> findImagesByMovieCd(Long movieId) {
         List<MovieImagesDTO> m = MIR.findByMovieCd(movieId);
         System.out.println("Service : "+m);
@@ -67,5 +73,39 @@ public class DetailService {
     public List<MovieDetailsDTO> findMoviesBymovieCd(List<Integer> simularMovieCd) {
         List<MovieDetailsDTO> movies = MDR.findByMovieIdIn(simularMovieCd);
         return movies;
+    }
+
+    public int saveRating(double rate, int userCd, int movieId) {
+        RatingDataDto r = new RatingDataDto();
+        int dataSaved = 0;
+        r.setMovieId(movieId);
+        r.setRate(rate);
+        r.setUserCd(userCd);
+        r.setRatingId(userCd,movieId);
+        RatingDataDto a = RDR.save(r);
+        if(a!=null){
+            dataSaved = 1;
+        }
+        return dataSaved;
+    }
+
+    public int saveWantToSee(int userCd, int movieId) {
+        int dataSaved = 0;
+        WantToSeeDataDto m = new WantToSeeDataDto();
+        m.setMovieId(movieId);
+        m.setUserCd(userCd);
+        m.setWantToSeeId(userCd,movieId);
+        WantToSeeDataDto a  = WDR.save(m);
+        if(a!=null){
+            dataSaved = 1;
+        }
+        return dataSaved;
+    }
+
+    public int saveWantToSeeOut(int userCd, int movieId) {
+        int dataSaved = 0;
+        String m = String.valueOf(userCd)+" "+String.valueOf(movieId);
+        WDR.deleteById(m);
+        return dataSaved;
     }
 }

@@ -111,8 +111,6 @@ export default function BoxOffice() {
   
   const onClickDetailPage = (item) =>{
     navigate('details',{state:{item}})
-    console.log(item);
-    
   }
 
   
@@ -128,7 +126,7 @@ export default function BoxOffice() {
           <div className={styles.BoxOffice_bottom}>
             <h3>{item.title}</h3>
           </div>
-          <div className={styles.BoxOffice_bottom}>
+          <div className={styles.BoxOffice_bottoms}>
             <h3>평균 ★ : {item.vote_average}</h3>
             <h3>예매율 : {item.salesShare}% 누적관객 : {item.audiAcc} 만명</h3>
             <h3></h3>

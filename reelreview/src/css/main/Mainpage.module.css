@@ -53,9 +53,22 @@
     flex-direction: column;
     width: 100%;
     height: 300px;
+    
 
 }
-  
+  .BoxOffice_bottom{
+    text-overflow: ellipsis;
+    white-space : nowrap;
+    overflow: hidden;
+    width: 85%;
+  }
+
+  .BoxOffice_bottoms{
+    margin-left: 20px;
+    color: black;
+    font-size: 11px;
+  }
+
   .BoxOffice_box_header h3 {
     margin-left: 20px;
     color: black;
@@ -199,6 +212,17 @@
     padding-left: 20px;
 }
 
+.Upcomming_bottom{
+  text-overflow: ellipsis;
+  white-space : nowrap;
+  overflow: hidden;
+  width: 85%;
+}
+
+.Upcomming_bottoms{
+  color: black;
+  font-size: 11px;
+}
 .Upcomming_number {
     display: flex;
     position: absolute;

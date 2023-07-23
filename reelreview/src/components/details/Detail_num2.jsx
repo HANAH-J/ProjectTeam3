@@ -1,24 +1,122 @@
 import styles from '../../css/details/Detail_num2.module.css';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 import poster from '../../img/Detail/poster.jpg'
 import Charts from './smallComponents/charts';
-import { AiOutlinePlus,AiFillEye } from "react-icons/ai";
+import { AiOutlinePlus,AiFillEye,AiOutlineLine } from "react-icons/ai";
 import { BiSolidPencil,BiDotsHorizontalRounded } from "react-icons/bi";
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function Detailnum2(props){
     const [rate, setRating] = useState(0);
-    const handleRating = (rate) => {
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const movie = props.item;
+    const [wantTo , setWantTo] = useState(false);
+    const [hovered, setHovered] = useState(false);
+    useEffect(()=>{
+        //유저데이터에 rating 이랑 wanttosee랑 comment가 필요
+    });
+
+    // 보고싶어요 클릭시 서버로 보고싶어요 데이터 보내서 정보저장
+    const wantToSee = (wantTo) => () => {
+        setWantTo(true); //유저데이터에 데이터가 넘어오면 필요없는 라인
+        const token = cookies.token;
         setRating(rate);
-        axios.post("http://localhost:8085/details/setRating", rate).then((response)=>{}).catch((error)=>{console.error(error);});
+        console.log(wantTo);
+        if (token) {
+            if(wantTo){
+                const config = {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      withCredentials: true,
+                    },
+                  };
+                setLoggedIn(true);
+                const data = new URLSearchParams();
+                data.append('movieId', movie.movieId);
+                axios.post("http://localhost:8085/details/wantToSee", data,config)
+                    .then((response) => {
+                        console.log(response.data);
+                        setWantTo(true);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching data:', error);
+                    });
+            }else{
+                const config = {
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                      withCredentials: true,
+                    },
+                  };
+                setLoggedIn(true);
+                const data = new URLSearchParams();
+                data.append('movieId', movie.movieId);
+                axios.post("http://localhost:8085/details/wantToSeeOut", data,config)
+                    .then((response) => {
+                        console.log(response.data);
+                        setWantTo(false);
+                    })
+                    .catch((error) => {
+                        console.error('Error fetching data:', error);
+                    });
+            }
+            
+        } else {
+            setLoggedIn(false);
+            console.log('not logged in');
+            console.log('token' + token);
+            alert('로그인을 해주세요.');
+            // 로그인 콘솔 띄우기
+        }
+    }
+
+
+
+
+
+    //레이팅 클릭시 서버로 데이터 보내서 정보 저장
+    const handleRating = (rate) => {
+        const token = cookies.token;
+        setRating(rate);
+        if (token) {
+            const config = {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  withCredentials: true,
+                },
+              };
+            setLoggedIn(true);
+            console.log(token);
+            console.log(rate);
+            const data = new URLSearchParams();
+            // data.append('token', token);
+            data.append('rate', rate);
+            data.append('movieId', movie.movieId);
+            // data.append('config',config)
+            axios.post("http://localhost:8085/details/setRating", data,config)
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                });
+        } else {
+            setLoggedIn(false);
+            console.log('not logged in');
+            console.log('token' + token);
+            alert('로그인을 해주세요.');
+            // 로그인 콘솔 띄우기
+        }
     }
     const tooltipArray = ["0.5","1","1.5","2","2.5","3","3.5","4","4.5","5"];
-    // const onPointerMove = (value) => console.log(value, rate)
+    const onPointerMove = (value) => console.log(value, rate)
+    // userCd
 
-
-
+    //상세보기 영화 내용 요약본 글 줄맞춤
     const addLineBreaks = (text) => {
         const sentences = text.split('.');
         let result = [];
@@ -83,8 +181,7 @@ function Detailnum2(props){
                             <div className={styles.right_top_left}>
                                 <div className={styles.right_top_left_stars}>
                                     <div className={styles.rating_result}>
-                                      <Rating onClick={handleRating} transition size={50} allowFraction tooltipArray={tooltipArray}/>
-                                      {/* onPointerMove={onPointerMove} */}
+                                      <Rating onClick={handleRating} transition size={50} allowFraction tooltipArray={tooltipArray} onPointerMove={onPointerMove}/>
                                       
                                     </div>
                                 </div>
@@ -100,12 +197,34 @@ function Detailnum2(props){
                                 
                             </div>
                             <div className={styles.right_top_right}>
-                                <div className={styles.right_top_right_wantToSee}>
+                                {wantTo?(
+                                    <>
+                                    <div
+              className={`${styles.right_top_right_wantToSee} ${hovered ? styles.wantToSee_icon_hovered : ''}`}
+              onClick={wantToSee(wantTo)}
+              onMouseEnter={() => setHovered(true)} // 마우스가 컴포넌트에 진입 시 hovered 상태로 설정
+              onMouseLeave={() => setHovered(false)} // 마우스가 컴포넌트에서 나갈 시 hovered 상태 해제
+            >
+                                    <div className={styles.wantToSee_icon}>
+                                        <AiOutlineLine size={40} strokeWidth={20}/>
+                                    </div>
+                                    <p>보고싶어요</p>
+                                </div>
+                                    </>
+                                ):(<>
+                                    <div
+              className={`${styles.right_top_right_wantToSee} ${hovered ? styles.wantToSee_icon_hovered : ''}`}
+              onClick={wantToSee(wantTo)}
+              onMouseEnter={() => setHovered(true)} // 마우스가 컴포넌트에 진입 시 hovered 상태로 설정
+              onMouseLeave={() => setHovered(false)} // 마우스가 컴포넌트에서 나갈 시 hovered 상태 해제
+            >
                                     <div className={styles.wantToSee_icon}>
                                         <AiOutlinePlus size={40} strokeWidth={20}/>
                                     </div>
                                     <p>보고싶어요</p>
                                 </div>
+                                   </>
+                                )}
                                 <div className={styles.right_top_right_comment}>
                                     <div className={styles.wantToSee_icon}>
                                         <BiSolidPencil size={40} strokeWidth={0}/>

@@ -123,8 +123,11 @@ useEffect(()=>{
           </div>
           <div className={styles.Upcomming_bottom}>
             <h3>{item.title}</h3>
-            <h3>{item.release_date}일 개봉</h3>
-            <h3>평점 : {item.vote_average}</h3>
+            <div className={styles.Upcomming_bottoms}>
+              <h3>{item.release_date}일 개봉</h3>
+              <h3>평점 : {item.vote_average}</h3>
+            </div>
+            
           </div>
         </div>
       ))}
