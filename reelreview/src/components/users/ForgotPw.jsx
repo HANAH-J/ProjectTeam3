@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from '../../css/users/ForgotPw.module.css';
+import styles from '../../css/users/Password.module.css';
 import Alert from './Alert';
 
 // 임시 비밀번호 발급 모달창
@@ -9,6 +9,7 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
     const [emailError, setEmailError] = useState('');
     const [alertModalState, setAlertModalState] = useState(false);
     const [tempPsaswordResult, setTempPasswordResult] = useState('');
+    const [modalHeight, setModalHeight] = useState('');
 
     // 이메일 유효성 검사 로직
     const validateEmail = (email) => {
@@ -43,6 +44,16 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
         setEmail('');
     }
 
+    // 이메일 에러 메시지 출력 시 모달창 높이 변경
+    useEffect(() => {
+        let errorHeight = 345;
+
+        if (emailError) {
+            errorHeight = 375;
+        }
+        setModalHeight(errorHeight);
+    }, [emailError]);
+
     // 모달창 외부 클릭 시 닫기
     useEffect(() => {
         document.addEventListener('mousedown', clickOutsideHandler);
@@ -52,7 +63,7 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
     });
 
     const clickOutsideHandler = (e) => {
-        const modal = document.querySelector(`.${styles.user_forgotPw_modal}`);
+        const modal = document.querySelector(`.${styles.forgotPw_modal}`);
         if (modal && !modal.contains(e.target)) {
             setForgotPwModalState(false);
         }
@@ -93,7 +104,7 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
     };
 
     return (
-        <div className={styles.user_forgotPw_modal}>
+        <div className={styles.forgotPw_modal} style={{ height: `${modalHeight}px` }}>
             <div className={styles.user_forgotPw_buttonClose} onClick={closeForgotPwModal}></div>
             <div className={styles.user_forgotPw_title}>임시 비밀번호 발급</div>
             <hr className={styles.user_forgotPw_hr}></hr>
@@ -112,13 +123,13 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
                     value={email}
                     onChange={(e) => setEmail(e.target.value)} />
                 {email ? (
-                    <div className={styles.user_forgotPw_buttonX} onClick={handleClearEmail}></div>
+                    <div className={styles.forgotPw_buttonX} onClick={handleClearEmail}></div>
                 ) : (
-                    <div></div>
+                    null
                 )}
                 <br />
                 {emailError && <p className={styles.user_forgotPw_error}>{emailError}</p>}
-                <button type='submit' className={styles.user_forgotPw_btn}>이메일 보내기</button>
+                <button type='submit' className={styles.forgotPw_btn}>이메일 보내기</button>
                 {
                     tempPsaswordResult === false && <Alert resultMessage="임시 비밀번호 발급 이메일을 보냈어요." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState}/>
                 }
