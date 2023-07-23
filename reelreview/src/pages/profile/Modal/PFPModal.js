@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import styles from '../../../css/profile/PFPModal.module.css';
 import styles2 from '../../../css/users/Alert.module.css';
-import { useCookies } from 'react-cookie';
+import ChangePw from '../../../components/users/ChangePw';
 
 function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   console.log('userCd: ' + userCd);
 
   const [inputValue, setInputValue] = useState(''); //변경할 상태메시지
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
-  const [showWithdrawCompleteModal, setShowWithdrawCompleteModal] = useState(false);
   const [showEditTextModal, setShowEditTextModal] = useState(false);
   const [showEditPFPModal, setShowEditPFPModal] = useState(false);
   const [showEditPFBModal, setShowEditPFBModal] = useState(false);
-  
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+
   const closePFPModal = (e) => {
     if (e.target !== e.currentTarget) return;
     /* e.target = 실제 클릭 이벤트가 발생한 요소
@@ -22,12 +23,6 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
        조건문이 false를 반환하며, 조건문 내부의 코드는 실행되지 않음 -> 따라서 모달 내부를 클릭할 때는 모달이 닫히지 않음 */
     console.log('모달닫기');
     setOpenModal(false);
-  };
-  const openWithdrawCompleteModal = () => {
-    setShowWithdrawCompleteModal(true);
-  };
-  const closeWithdrawCompleteModal = () => {
-    setShowWithdrawCompleteModal(false);
   };
 
   const openWithdrawModal = () => { setShowWithdrawModal(true); };
@@ -38,13 +33,20 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   const closeEditPFPModal = () => { setShowEditPFPModal(false); }
   const openEditPFBModal = () => { setShowEditPFBModal(true); }
   const closeEditPFBModal = () => { setShowEditPFBModal(false); }
+  const openChangePasswordModal = () => { setShowChangePasswordModal(true); }
+  const closeChangePasswordModal = () => { setShowChangePasswordModal(false); }
+
+  // 소셜 로그인 확인 알림창
+  const [showProviderAlret, setShowProviderAlret] = useState(false);
+  const openProviderAlert = () => { setShowProviderAlret(true); }
+  const closeProviderAlert = () => { setShowProviderAlret(false); }
+
+  // 회원 탈퇴 모달창
+  const [showWithdrawCompleteModal, setShowWithdrawCompleteModal] = useState(false);
+  const openWithdrawCompleteModal = () => { setShowWithdrawCompleteModal(true); };
+  const closeWithdrawCompleteModal = () => { setShowWithdrawCompleteModal(false); };
 
   const [cookies, setCookies] = useCookies();
-
-
-
-
-
 
   // 로그아웃
   const signOutHandler = () => {
@@ -70,8 +72,25 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
     window.location.href = 'http://localhost:3000';
   }
 
+  // 로그인 상태 확인 : UserController.java - providerCheck()
+  const checkSignProvider = (e) => {
+    e.preventDefault();
+    console.log(userEmail);
 
-
+    axios.post('http://localhost:8085/api/auth/providerCheck', {
+      userEmail: userEmail
+    }).then((response) => {
+      if (response.data === true) {
+        console.log("일반 로그인");
+        openChangePasswordModal();
+      } else {
+        console.log("소셜 로그인");
+        openProviderAlert();
+      }
+    }).catch((error) => {
+      console.log('데이터 전송 실패', error);
+    });
+  };
 
 
 
@@ -79,11 +98,11 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   const handleTextSave = () => {
     let statusToSave = inputValue;
 
-    if(!inputValue) {
+    if (!inputValue) {
       statusToSave = "프로필이 없습니다.";
     }
 
-    const dataToSend = { 
+    const dataToSend = {
       userCd: userCd,
       status: statusToSave
     };
@@ -106,12 +125,12 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
     const fileInput = document.getElementById("pictureForProfile");
     const file = fileInput.files[0];
 
-    const maxFileLimit = 2 * 1024 * 1024; 
-    if(file.size > maxFileLimit) {
-      alert ("프로필 사진의 크기가 2MB를 초과합니다.");
+    const maxFileLimit = 2 * 1024 * 1024;
+    if (file.size > maxFileLimit) {
+      alert("프로필 사진의 크기가 2MB를 초과합니다.");
       return;
     }
-    
+
     const formData = new FormData();
     formData.append("userCd", userCd);
     formData.append("profilePicture", file);
@@ -121,33 +140,33 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
         "Content-Type": "multipart/form-data",
       },
     })
-    .then(response => {
-      setShowEditTextModal(false); //모달닫기
-      setOpenModal(false); //모달닫기
-      window.location.reload(); //새로고침
-      console.log("user PFP updated");
-    })
-    .catch (error => {
-      console.error('Error updating PFP:', error);
-    });
+      .then(response => {
+        setShowEditTextModal(false); //모달닫기
+        setOpenModal(false); //모달닫기
+        window.location.reload(); //새로고침
+        console.log("user PFP updated");
+      })
+      .catch(error => {
+        console.error('Error updating PFP:', error);
+      });
   };
 
   // 프로필 사진 삭제
   const handlePFPDelete = () => {
     axios.put('http://localhost:8085/userProfiles/updateProfileToDefault', {
-      userCd : userCd,
-      imageType : "pfImage",
-      imageValue : "defaultPfImage",
+      userCd: userCd,
+      imageType: "pfImage",
+      imageValue: "defaultPfImage",
     })
-    .then(response => {
-      setShowEditTextModal(false); //모달닫기
-      setOpenModal(false); //모달닫기
-      window.location.reload(); //새로고침
-      console.log("user PFP updated to default image");
-    })
-    .catch(error => {
-      console.error('Error updating PFP:', error);
-    });
+      .then(response => {
+        setShowEditTextModal(false); //모달닫기
+        setOpenModal(false); //모달닫기
+        window.location.reload(); //새로고침
+        console.log("user PFP updated to default image");
+      })
+      .catch(error => {
+        console.error('Error updating PFP:', error);
+      });
   };
 
   // 배경 사진 변경
@@ -156,8 +175,8 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
     const file = fileInput.files[0];
 
     const maxFileLimit = 3 * 1024 * 1024;
-    if(file.size > maxFileLimit) {
-      alert ("배경 사진의 크기가 3MB를 초과합니다.");
+    if (file.size > maxFileLimit) {
+      alert("배경 사진의 크기가 3MB를 초과합니다.");
       return;
     }
 
@@ -170,38 +189,35 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
         "Content-Type": "multipart/form-data",
       },
     })
-    .then(response => {
-      setShowEditTextModal(false); //모달닫기
-      setOpenModal(false); //모달닫기
-      window.location.reload(); //새로고침
-      console.log("user PFB updated");
-    })
-    .catch (error => {
-      console.error('Error updating PFB:', error);
-    });
+      .then(response => {
+        setShowEditTextModal(false); //모달닫기
+        setOpenModal(false); //모달닫기
+        window.location.reload(); //새로고침
+        console.log("user PFB updated");
+      })
+      .catch(error => {
+        console.error('Error updating PFB:', error);
+      });
 
   };
 
   // 배경 사진 삭제
   const handlePFBDelete = () => {
     axios.put('http://localhost:8085/userProfiles/updateProfileToDefault', {
-      userCd : userCd,
-      imageType : "bgImage",
-      imageValue : "defaultBgImage",
+      userCd: userCd,
+      imageType: "bgImage",
+      imageValue: "defaultBgImage",
     })
-    .then(response => {
-      setShowEditTextModal(false); //모달닫기
-      setOpenModal(false); //모달닫기
-      window.location.reload(); //새로고침
-      console.log("user PFB updated to default image");
-    })
-    .catch(error => {
-      console.error('Error updating PFB:', error);
-    });
+      .then(response => {
+        setShowEditTextModal(false); //모달닫기
+        setOpenModal(false); //모달닫기
+        window.location.reload(); //새로고침
+        console.log("user PFB updated to default image");
+      })
+      .catch(error => {
+        console.error('Error updating PFB:', error);
+      });
   };
-
-
-
 
 
 
@@ -218,6 +234,7 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
           <p onClick={openEditPFBModal}>배경 사진 변경</p>
           <p onClick={openEditTextModal}>프로필 문구 변경</p>
           <hr className={styles.PFPModal_HR} />
+          <p onClick={checkSignProvider}>비밀번호 변경</p>
           <p onClick={signOutHandler}>로그아웃</p>
           <p onClick={openWithdrawModal}>탈퇴하기</p>
         </div>
@@ -226,6 +243,63 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
         </div>
 
       </div>
+
+      {showEditPFPModal && (
+        <div className={styles.EditPFPModal}>
+          <h3>프로필 사진 변경(JPG/PNG, 최대 2MB)</h3>
+          <input type="file" id="pictureForProfile" name="pictureForProfile" accept=".jpg, .png" />
+          <br></br>
+          <button onClick={handlePFPSave}>변경</button>
+          <button onClick={closeEditPFPModal}>취소</button>
+          <button onClick={handlePFPDelete}> 삭제 </button>
+        </div>
+      )}
+
+      {showEditPFBModal && (
+        <div className={styles.EditPFBModal}>
+          <h3>배경 사진 변경 (JPG/PNG, 최대 3MB) </h3>
+          <input type="file" id="pictureForBG" name="pictureForBG" accept=".jpg, .png" />
+          <br></br>
+          <button onClick={handlePFBSave}>변경</button>
+          <button onClick={closeEditPFBModal}>취소</button>
+          <button onClick={handlePFBDelete}> 삭제 </button>
+        </div>
+      )}
+
+      {showEditTextModal && (
+        <div className={styles.EditTextModal}>
+          <h3>프로필 문구 변경</h3>
+          <input type="text"
+            id="profileText"
+            placeholder="프로필 문구를 입력해주세요. (미입력시 삭제)"
+            maxLength={100}
+            onChange={(e) => setInputValue(e.target.value)} />
+          <br></br>
+          <button onClick={handleTextSave}>저장</button>
+          <button onClick={closeEditTextModal}>취소</button>
+        </div>
+      )}
+
+      {showChangePasswordModal && (
+        <>
+          <div className={styles2.modalBackground} style={{ backgroundColor: "black" }} />
+          <ChangePw userEmail={userEmail} setShowChangePasswordModal={setShowChangePasswordModal} signOutHandler={signOutHandler} />
+        </>
+      )}
+
+      {showProviderAlret && (
+        <div>
+          <div className={styles2.modalBackground} style={{ backgroundColor: "black" }} />
+          <div className={styles2.user_alert_modal} style={{ height: "130px" }}>
+            <h2 className={styles2.user_alert_h2}>알림</h2>
+            <p className={styles2.user_alert_p}>
+              {`소셜 계정은 릴리뷰 내에서
+                비밀번호 변경이 불가능합니다.`}</p>
+            <hr className={styles2.user_alert_hr} />
+            <button className={styles2.user_alert_btn} onClick={closeProviderAlert}>확인</button>
+          </div>
+        </div>
+      )}
 
       {showWithdrawModal && (
         <div>
@@ -249,41 +323,6 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
         </div>
       )}
 
-      {showEditTextModal && (
-        <div className={styles.EditTextModal}>
-          <h3>프로필 문구 변경</h3>
-          <input type="text"
-            id="profileText"
-            placeholder="프로필 문구를 입력해주세요. (미입력시 삭제)"
-            maxLength={100}
-            onChange={(e) => setInputValue(e.target.value)} />
-          <br></br>
-          <button onClick={handleTextSave}>저장</button>
-          <button onClick={closeEditTextModal}>취소</button>
-        </div>
-      )}
-
-      {showEditPFPModal && (
-        <div className={styles.EditPFPModal}>
-            <h3>프로필 사진 변경(JPG/PNG, 최대 2MB)</h3>
-            <input type="file" id="pictureForProfile" name="pictureForProfile" accept=".jpg, .png" />
-            <br></br>
-            <button onClick={handlePFPSave}>변경</button>
-            <button onClick={closeEditPFPModal}>취소</button>
-            <button onClick={handlePFPDelete}> 삭제 </button>
-        </div>
-      )}
-
-      {showEditPFBModal && (
-        <div className={styles.EditPFBModal}>
-            <h3>배경 사진 변경 (JPG/PNG, 최대 3MB) </h3>
-            <input type="file" id="pictureForBG" name="pictureForBG" accept=".jpg, .png" />
-            <br></br>
-            <button onClick={handlePFBSave}>변경</button>
-            <button onClick={closeEditPFBModal}>취소</button>
-            <button onClick={handlePFBDelete}> 삭제 </button>
-        </div>
-      )}
     </div>
   );
 }

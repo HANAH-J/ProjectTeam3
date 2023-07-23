@@ -3,12 +3,19 @@ import styles from '../../css/users/Terms.module.css';
 import TermsContents1 from './TermsContents1';
 import TermsContents2 from './TermsContents2';
 
-export default function Terms({setTermsModalState, onSubmitHandler}) {
-    
+export default function Terms({ setTermsModalState, onSubmitHandler }) {
+
     const [checkItems, setCheckItems] = useState([]);
     const [submitButtonColor, setSubmitButtonColor] = useState('lightgray');
     const [termsCt1State, setTermsCt1State] = useState(false);
     const [termsCt2State, setTermsCt2State] = useState(false);
+
+    // 약관 동의 필드 검사
+    const isAllTermsAgreed = () => {
+        let result = checkItems.includes('check_1') && checkItems.includes('check_2');
+        console.log('약관 동의 결과 :' + result);
+        return result;
+    };
 
     // '전체 약관 동의' 체크 시 전체 약관 체크 함수
     const allCheckHandler = (isChecked) => {
@@ -33,7 +40,7 @@ export default function Terms({setTermsModalState, onSubmitHandler}) {
 
     // 가입하기 버튼 색상 변경 함수
     const updateSubmitButtonColor = useCallback(() => {
-        if (checkItems.length === 2) {
+        if (isAllTermsAgreed()) {
             setSubmitButtonColor('#ff2f6e'); // 모든 체크박스가 선택된 경우 버튼 색상 변경
         } else {
             setSubmitButtonColor('lightgray');
@@ -59,18 +66,18 @@ export default function Terms({setTermsModalState, onSubmitHandler}) {
     useEffect(() => {
         document.addEventListener('mousedown', clickOutsideHandler);
         return () => {
-          document.removeEventListener('mousedown', clickOutsideHandler);
+            document.removeEventListener('mousedown', clickOutsideHandler);
         };
-      });
+    });
 
-      const clickOutsideHandler = (e) => {
+    const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_terms_modal}`);
         if (modal && !modal.contains(e.target)) {
             setTermsModalState(false);
         }
-      };
+    };
 
-    return(
+    return (
         <div className={styles.user_terms_modal}>
             <div className={styles.user_terms_modal_color}>
                 <span className={styles.user_terms_message}>약관에 동의하시면<br></br>가입이 완료됩니다.</span>
@@ -80,8 +87,8 @@ export default function Terms({setTermsModalState, onSubmitHandler}) {
                 <li className={styles.user_terms_check_all}>
                     <label className={styles.user_terms_all}>
                         <input type='checkbox' id='check_all' className={styles.user_terms_all_check}
-                        onChange={(e) => allCheckHandler(e.target.checked)}
-                        checked={checkItems.length === 2}/>
+                            onChange={(e) => allCheckHandler(e.target.checked)}
+                            checked={checkItems.length === 2} />
                         <label htmlFor='check_all'></label>
                         <span className={styles.user_terms_text}>전체 약관 동의</span>
                     </label>
@@ -90,7 +97,7 @@ export default function Terms({setTermsModalState, onSubmitHandler}) {
                 {/* 서비스 이용약관 체크박스 */}
                 <li className={styles.user_terms_check}>
                     <label className={styles.user_terms_specific}>
-                    <input
+                        <input
                             type='checkbox'
                             id='check_1'
                             className={styles.user_terms_specific_check}
@@ -102,14 +109,14 @@ export default function Terms({setTermsModalState, onSubmitHandler}) {
                         <span className={styles.user_terms_check_detail} onClick={termsCt1OnOffModal}>보기</span>
                         {
                             // 서비스 이용약관 출력
-                            termsCt1State ? <TermsContents1 setTermsCt1State={setTermsCt1State}/> : null
+                            termsCt1State ? <TermsContents1 setTermsCt1State={setTermsCt1State} /> : null
                         }
                     </label>
                 </li>
                 {/* 개인정보 처리방침 체크박스 */}
                 <li className={styles.user_terms_check}>
                     <label className={styles.user_terms_specific}>
-                    <input
+                        <input
                             type='checkbox'
                             id='check_2'
                             className={styles.user_terms_specific_check}
@@ -121,15 +128,24 @@ export default function Terms({setTermsModalState, onSubmitHandler}) {
                         <span className={styles.user_terms_check_detail} onClick={termsCt2OnOffModal}>보기</span>
                         {
                             // 개인정보 처리방침 출력
-                            termsCt2State ? <TermsContents2 setTermsCt2State={setTermsCt2State}/> : null
+                            termsCt2State ? <TermsContents2 setTermsCt2State={setTermsCt2State} /> : null
                         }
                     </label>
                 </li>
             </ul>
             {/* 가입하기 버튼 */}
             <div>
-                <button className={styles.user_terms_btn} style={{ color: submitButtonColor }} onClick={onSubmitHandler}>
-                    가입하기
+                <button
+                    className={styles.user_terms_btn}
+                    style={{ color: submitButtonColor }}
+                    onClick={() => {
+                        if (isAllTermsAgreed()) {
+                            onSubmitHandler();
+                        } else {
+                            // 약관에 동의하지 않은 경우에 대한 처리 (예: 에러 메시지 출력)
+                            console.log("약관에 동의해야 가입이 완료됩니다.");
+                        }
+                    }}>가입하기
                 </button>
             </div>
         </div>

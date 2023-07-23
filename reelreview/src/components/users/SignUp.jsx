@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Terms from './Terms';
 import styles from '../../css/users/Sign.module.css';
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
+import kakao_icon from '../../img/users/kakao_icon.svg';
+import google_icon from '../../img/users/google_icon.svg';
+import facebook_icon from '../../img/users/facebok_icon.png';
 import naver_icon from '../../img/users/naver_icon.png';
-import kakao_icon from '../../img/users/kakao_icon.png';
-import Terms from './Terms';
 
 // 회원가입 모달창
 export default function SignUp({ setSignInModalState, setSignUpModalState }) {
@@ -14,8 +16,13 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [modalHeight, setModalHeight] = useState(500); // 초기 모달창 높이 : 500px
+    const [modalHeight, setModalHeight] = useState('');
     const [termsModalState, setTermsModalState] = useState(false);
+
+    // 이름, 이메일, 비밀번호 입력 필드 검사
+    const isAllFieldsFilled = () => {
+        return name.trim() !== '' && email.trim() !== '' && password.trim() !== '';
+    };
 
     // 이름 유효성 검사 로직
     // 2자 이상 16자 이하, 영어 또는 숫자 또는 한글 (한글 초성 및 모음은 불가)
@@ -108,17 +115,6 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         }
     }, [name, email, password]);
 
-    // ⓧ버튼 클릭 시 작성 내용 비우기
-    const handleClearName = () => {
-        setName('');
-    }
-    const handleClearEmail = () => {
-        setEmail('');
-    }
-    const handleClearPassword = () => {
-        setPassword('');
-    }
-
     // 약관동의 모달창 상태 변경 함수
     const termsOnOffModal = () => {
         setTermsModalState(!termsModalState);
@@ -133,18 +129,18 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
     // 에러 메시지에 따른 모달창 높이 변경
     useEffect(() => {
-        let errorHeight = 510;
+        let errorHeight = 460;
 
         if (nameError && emailError && passwordError) {
-            errorHeight = 610;  // 전체 에러 메시지 출력 시
+            errorHeight = 570;  // 전체 에러 메시지 출력 시
         } else if ((nameError && passwordError) || (emailError && passwordError)) {
-            errorHeight = 580;  // 이름 or 이메일 and 비밀번호 에러 메시지 출력 시
+            errorHeight = 540;  // 이름 or 이메일 and 비밀번호 에러 메시지 출력 시
         } else if (nameError && emailError) {
-            errorHeight = 560;  // 이름 and 이메일 에러 메시지 출력 시
+            errorHeight = 520;  // 이름 and 이메일 에러 메시지 출력 시
         } else if (nameError || emailError) {
-            errorHeight = 535;  // 이름 or 이메일 에러 메시지 출력 시
+            errorHeight = 490;  // 이름 or 이메일 에러 메시지 출력 시
         } else if (passwordError) {
-            errorHeight = 550;  // 비밀번호 에러 메시지 출력 시
+            errorHeight = 510;  // 비밀번호 에러 메시지 출력 시
         }
         setModalHeight(errorHeight);
     }, [nameError, emailError, passwordError]);
@@ -195,9 +191,13 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
     };
 
     // 소셜 회원가입
-    const oAuth2SignUnHandler = (provider) => {
-        if (provider === 'google') {
+    const oAuth2SignUpHandler = (provider) => {
+        if (provider === 'kakao') {
+            window.location.href = 'http://localhost:8085/oauth2/authorization/kakao';
+        } else if (provider === 'google') {
             window.location.href = 'http://localhost:8085/oauth2/authorization/google';
+        } else if (provider === 'facebook') {
+            window.location.href = 'http://localhost:8085/oauth2/authorization/facebook';
         } else if (provider === 'naver') {
             window.location.href = 'http://localhost:8085/oauth2/authorization/naver';
         }
@@ -217,7 +217,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     value={name}
                     onChange={(e) => setName(e.target.value)} />
                 {name ? (
-                    <div className={styles.user_login_buttonX} onClick={handleClearName}></div>
+                    <div className={styles.user_login_buttonX} onClick={() => { setName(''); }}></div>
                 ) : (
                     <div></div>
                 )}
@@ -233,7 +233,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)} />
                 {email ? (
-                    <div className={styles.user_login_buttonX} onClick={handleClearEmail}></div>
+                    <div className={styles.user_login_buttonX} onClick={() => { setEmail(''); }}></div>
                 ) : (
                     <div></div>
                 )}
@@ -248,13 +248,19 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
                 {password ? (
-                    <div className={styles.user_login_buttonX} onClick={handleClearPassword}></div>
+                    <div className={styles.user_login_buttonX} onClick={() => { setPassword(''); }}></div>
                 ) : (
                     <div></div>
                 )}
                 <br />
                 {passwordError && <p className={styles.user_login_error}>{passwordError}</p>}
-                <button id='button' type='button' className={styles.user_login_btn} onClick={termsOnOffModal}>회원가입</button>
+                <button
+                    id='button'
+                    type='button'
+                    className={styles.user_login_btn}
+                    disabled={!isAllFieldsFilled()}
+                    onClick={termsOnOffModal}>회원가입
+                </button>
                 {
                     termsModalState ? <Terms setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler} /> : null
                 }
@@ -269,17 +275,21 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                 </span>
             </div>
             <hr className={styles.user_login_hr_2}></hr>
-            <div>
-                <div className={styles.user_login_naver_2} onClick={() => oAuth2SignUnHandler('google')}>
-                    <img src={naver_icon} className={styles.user_login_naver_logo} alt='naver_logo'></img>
-                    <span className={styles.user_login_logo_btn}>네이버 아이디로 로그인</span>
-                </div>
-                <div className={styles.user_login_kakao} onClick={() => oAuth2SignUnHandler('naver')}>
-                    <img src={kakao_icon} className={styles.user_login_kakao_logo} alt='kakao_logo'></img>
-                    <span className={styles.user_login_logo_btn}>카카오 아이디로 로그인</span>
-                </div>
-            </div>
-            {termsModalState && (<div className={styles.modalBackground_1} style={{ backgroundColor: "black" }}/>)}
+            <ul>
+                <li className={styles.signUp_kakao} onClick={() => oAuth2SignUpHandler('kakao')}>
+                    <img src={kakao_icon} className={styles.logo} alt='kakao_logo'></img>
+                </li>
+                <li className={styles.signUp_google} onClick={() => oAuth2SignUpHandler('google')}>
+                    <img src={google_icon} className={styles.logo} alt='google_logo'></img>
+                </li>
+                <li className={styles.signUp_facebook} onClick={() => oAuth2SignUpHandler('facebook')}>
+                    <img src={facebook_icon} className={styles.logo} alt='naver_logo'></img>
+                </li>
+                <li className={styles.signUp_naver} onClick={() => oAuth2SignUpHandler('naver')}>
+                    <img src={naver_icon} className={styles.logo} alt='naver_logo'></img>
+                </li>
+            </ul>
+            {termsModalState && (<div className={styles.modalBackground_1} style={{ backgroundColor: "black" }} />)}
         </div>
     )
 }

@@ -21,7 +21,7 @@
 
 /* 모달창 : 화면 중앙. 최상단 노출 */
 .user_login_modal {
-  width: 330px;
+  width: 300px;
   padding: 30px;
   z-index: 1000;
   position: fixed;
@@ -52,7 +52,7 @@
   outline: 0;
   border: none;
   border-radius: 5px;
-  width: 330px;
+  width: 300px;
   height: 25px;
   margin-bottom: -15px;
   padding: 10px;
@@ -61,6 +61,15 @@
   background-color: #f5f5f5;
   font-size: 15px;
   cursor: text;
+}
+
+.user_login_input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #f5f5f5 inset ; -webkit-text-fill-color: #000;
+}
+
+.user_login_input:-webkit-autofill, .user_login_input:-webkit-autofill:hover,
+.user_login_input:-webkit-autofill:focus, .user_login_input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .user_login_input::placeholder {
@@ -82,13 +91,13 @@
 .user_login_btn {
   border: none;
   border-radius: 5px;
-  width: 350px;
+  width: 320px;
   height: 45px;
   margin: 15px;
   padding: 10px;
   position: relative;
   left: 50%;
-  margin-left: -175px;
+  margin-left: -160px;
   background-color: #ff2f6e;
   color: #ffffff;
   font-family: 'Noto Sans KR', sans-serif;
@@ -140,49 +149,70 @@
   background: lightgray;
 }
 
-.user_login_naver,
-.user_login_naver_2,
-.user_login_kakao {
-  width: 350px;
-  height: 45px;
+.signIn_kakao, .signUp_kakao,
+.signIn_google, .signUp_google,
+.signIn_facebook, .signUp_facebook,
+.signIn_naver, .signUp_naver {
+  border-radius: 25px;
+  width: 50px;
+  height: 50px;
   position: relative;
-  margin-left: -10px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 0.9em;
+  margin-left: 18px;
   cursor: pointer;
+  list-style: none;
+  float: left;
 }
 
-.user_login_naver {
-  margin-bottom: 10px;
-  background-color: #1fc202;
-  color: #ffffff;
-}
-
-.user_login_naver_2 {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  background-color: #1fc202;
-  color: #ffffff;
-}
-
-.user_login_kakao {
+.signIn_kakao {
   background-color: #fee500;
   color: #181600;
 }
 
-.user_login_naver_logo,
-.user_login_kakao_logo {
+.signUp_kakao {
+  margin-top: 10px;
+  background-color: #fee500;
+  color: #181600;
+}
+
+.signIn_google {
+  border: 1px solid red;
+  background-color: #ffffff;
+}
+
+.signUp_google {
+  margin-top: 10px;
+  border: 1px solid red;
+  background-color: #ffffff;
+}
+
+.signIn_facebook {
+  background-color: #1877f2;
+}
+
+.signUp_facebook {
+  margin-top: 10px;
+  background-color: #1877f2;
+}
+
+.signIn_naver {
+  margin-bottom: 10px;
+  background-color: #1fc202;
+  color: #ffffff;
+}
+
+.signUp_naver {
+  margin-top: 10px;
+  background-color: #1fc202;
+  color: #ffffff;
+}
+
+.logo {
   width: 35px;
   height: 35px;
   position: relative;
-  top: 5px;
-  left: 10px;
-}
-
-.user_login_logo_btn {
-  position: relative;
-  top: -7px;
-  left: 75px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .user_sign_inputError {
