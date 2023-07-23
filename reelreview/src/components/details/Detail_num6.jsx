@@ -7,9 +7,11 @@ import CollectionBoxes from './smallComponents/CollectionBoxes';
 
 import Num6_similar_col from './smallComponents/Num6_similar_col';
 
-function Detailnum6(){
+function Detailnum6(props){
     const [isOver,setIsOver] = useState(false);
-
+    const movieData = props.movieData;
+    const item = props.item;
+    const simularMovieDetails = movieData.simularMovieDetails;
     
     const mouseOver = () => {
         setIsOver(true);
@@ -109,19 +111,15 @@ function Detailnum6(){
             </div>
             <div className={styles.similar}>
                 <div className={styles.similar_row}>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
+                    {simularMovieDetails && (
+                        simularMovieDetails.map((movies,index)=>(
+                            movies.movieId!=item.movieId? 
+                            <Num6_similar_col movies={movies}/>
+                            :<></>
+                        )
+                    ))}
                 </div>
                 <div className={styles.similar_row}>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
-                    <Num6_similar_col/>
                     <Num6_similar_col/>
                 </div>
             </div>

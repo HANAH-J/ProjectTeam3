@@ -177,6 +177,12 @@
     float: left;
     margin-right: 29px;
 }
+.wantToSee_icon {
+    transition: color 0.5s; 
+  }
+.wantToSee_icon_hovered {
+    color: orange; 
+  }
 .right_top_right_wantToSee p{
     margin-left: -5px;
     

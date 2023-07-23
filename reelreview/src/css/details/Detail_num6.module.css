@@ -85,10 +85,13 @@
     width: 100%;
 }
 .similar_col{
+    cursor: pointer;
     width: 200px;
     display: inline-block;
     overflow: hidden;
     margin: 10px;
+    text-overflow: ellipsis;
+    white-space : nowrap;
 }
 .similar_col a{
     text-decoration: none;
