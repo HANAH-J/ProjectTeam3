@@ -100,7 +100,6 @@ function Detailnum6(props){
                     <CollectionBoxes/>
                     <CollectionBoxes/>
                     <CollectionBoxes/>
-
                 </Slider>
             </div>
 
@@ -113,14 +112,12 @@ function Detailnum6(props){
                 <div className={styles.similar_row}>
                     {simularMovieDetails && (
                         simularMovieDetails.map((movies,index)=>(
-                            movies.movieId!=item.movieId? 
+                            index < 12 &&  
+                            movies.movieId!=item.movieId?
                             <Num6_similar_col movies={movies}/>
                             :<></>
                         )
                     ))}
-                </div>
-                <div className={styles.similar_row}>
-                    <Num6_similar_col/>
                 </div>
             </div>
         </div>

@@ -1,7 +1,10 @@
 import styles from '../../css/details/Detail_num4.module.css';
 import CommentsCol from './smallComponents/CommentsCol';
 
-function Detailnum4() {
+function Detailnum4(props) {
+    const movieData = props.movieData;
+    const comments = movieData.comments;
+    console.log(comments);
     return(
         <div className={styles.wrapper}>
             <div className={styles.topHead}>
@@ -12,16 +15,16 @@ function Detailnum4() {
 
             <div className={styles.cont}>
                 <div className={styles.colby}>
-                    <CommentsCol/>
-                    <CommentsCol/>
-                    <CommentsCol/>
-                    <CommentsCol/>
+                    {comments.length>0 && (
+                        comments.map((comment, index) => (
+                            index < 8 && <CommentsCol key={index} comment={comment} />
+                        ))
+
+                    )}
+                    
                 </div>
                 <div>
-                    <CommentsCol/>
-                    <CommentsCol/>
-                    <CommentsCol/>
-                    <CommentsCol/>
+                    
                 </div>
             </div>
         </div>

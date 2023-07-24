@@ -69,7 +69,7 @@ export default function CsHeader() {
   return (
     <div className={styles.CsMain_header}>
       <div className={styles.CsMain_header_logo_wrapper}>
-        <Link to="/mainpage">
+        <Link to="/">
           <div className={styles.CsMain_header_logo} />
         </Link>
       </div>

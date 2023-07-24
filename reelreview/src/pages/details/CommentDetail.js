@@ -6,8 +6,15 @@ import {AiOutlineDown} from "react-icons/ai";
 import {BsThreeDotsVertical} from "react-icons/bs";
 import Footer from "../../components/Footer/Footer";
 import React from "react";
+import { useLocation } from 'react-router-dom';
 
 export default function CommentDetail(){
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const userCd = searchParams.get('userCd');
+    const comment = JSON.parse(searchParams.get('comment'));
+    const userData = JSON.parse(searchParams.get('userData'));
+    console.log(userData,comment,userCd);
     return(
         <div className={styles.movieCollection_Wrapper}>
             <Header/>
@@ -16,13 +23,15 @@ export default function CommentDetail(){
                     <div className={styles.commentTitle}>
                         <div className={styles.cmImgBox}>
                             <div className={styles.cmImg}>
-
+                                {userData.PFImage}
                             </div>
                         </div>
-                        <div className={styles.cmName}>강형구</div>
+                        <div className={styles.cmName}>{userData.userName}</div>
                     </div>
                     <div className={styles.collection_title}>
-                        <h1>미션 임파서블: 데드 레코닝 PART ONE</h1>
+                        <h1>
+                            
+                        </h1>
                         <p>영화 · 2023</p>
                         <div className={styles.commentArea}>오ㅏ 정말 재밌네요 영화관가서 꼭 보시길!!! 너무 너무 재밌게 봣어요 </div>
 

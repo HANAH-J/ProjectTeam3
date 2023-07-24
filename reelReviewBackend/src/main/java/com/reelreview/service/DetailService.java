@@ -8,14 +8,9 @@ import com.reelreview.api.repo.ApiMovieDetailRepo;
 import com.reelreview.api.repo.ApiMovieGenresRepo;
 import com.reelreview.api.repo.ApiMovieImagesRepo;
 import com.reelreview.api.repo.ApiMovieVideosRepo;
-import com.reelreview.domain.CastDataDTO;
-import com.reelreview.domain.CrewDataDTO;
-import com.reelreview.domain.RatingDataDto;
-import com.reelreview.domain.WantToSeeDataDto;
-import com.reelreview.repository.CastDataRepository;
-import com.reelreview.repository.CrewDataRepository;
-import com.reelreview.repository.RatingDataRepository;
-import com.reelreview.repository.WantToSeeDataRepository;
+import com.reelreview.domain.*;
+import com.reelreview.domain.user.UserEntity;
+import com.reelreview.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +34,14 @@ public class DetailService {
     private RatingDataRepository RDR;
     @Autowired
     private WantToSeeDataRepository WDR;
+    @Autowired
+    private CommentDataRepository CDR;
+    @Autowired
+    private UserRepository UR;
+    @Autowired
+    private ProfileRepository PR;
+
+
     public List<MovieImagesDTO> findImagesByMovieCd(Long movieId) {
         List<MovieImagesDTO> m = MIR.findByMovieCd(movieId);
         System.out.println("Service : "+m);
@@ -107,5 +110,35 @@ public class DetailService {
         String m = String.valueOf(userCd)+" "+String.valueOf(movieId);
         WDR.deleteById(m);
         return dataSaved;
+    }
+
+
+    public String saveCommentData(CommentDataDto dto) {
+        CommentDataDto saved = new CommentDataDto();
+        String result = null;
+        saved = CDR.save(dto);
+
+        if(saved!=null){
+            result = "저장완료";
+        }else {
+            result = "저장실패";
+        }
+        return result;
+    }
+
+    public List<CommentDataDto> findCommentsByMovieCd(int movieId) {
+
+        List<CommentDataDto> comments = CDR.findByMovieId(movieId);
+        return comments;
+    }
+
+    public UserEntity findUserByUserCd(int userCd) {
+        UserEntity user = UR.findByUserCd(userCd);
+        return user;
+    }
+
+    public ProfileDTO findProfileByUserCd(int userCd) {
+        ProfileDTO profile = PR.findByUserCd(userCd);
+        return profile;
     }
 }
