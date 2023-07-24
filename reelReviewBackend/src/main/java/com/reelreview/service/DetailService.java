@@ -175,4 +175,13 @@ public class DetailService {
         CcommentDataDto c = CCDR.getById(cCommentId);
         return c;
     }
+
+    public String getWantToSee(int userCd, int movieId) {
+        WantToSeeDataDto w = WDR.findByUserCdAndMovieId(userCd,movieId);
+        if(w!=null){
+            return "want";
+        }else{
+            return "no";
+        }
+    }
 }
