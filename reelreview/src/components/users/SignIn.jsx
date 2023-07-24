@@ -46,7 +46,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     // 비밀번호 에러 메시지 출력 여부
     useEffect(() => {
         if (password && !validatePassword(password)) {
-            setPasswordError('비밀번호는 최소 6자리 이상이어야 합니다.');
+            setPasswordError('비밀번호는 최소 10자리 이상이어야 합니다.');
         } else {
             setPasswordError('');
         }
@@ -172,6 +172,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     id='userEmail'
                     required
                     placeholder='이메일'
+                    autoComplete='off'
                     className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)} />

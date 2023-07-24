@@ -4,6 +4,7 @@ import axios from 'axios';
 import styles from '../../../css/profile/PFPModal.module.css';
 import styles2 from '../../../css/users/Alert.module.css';
 import ChangePw from '../../../components/users/ChangePw';
+import SignOutProfileAlert from "../../../components/users/SignOutProfileAlert";
 
 function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   console.log('userCd: ' + userCd);
@@ -41,6 +42,11 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   const openProviderAlert = () => { setShowProviderAlret(true); }
   const closeProviderAlert = () => { setShowProviderAlret(false); }
 
+  // 로그아웃 확인 알림창
+  const [showSignOutAlert, setShowSignOutAlert] = useState(false);
+  const openSignOutAlert = () => { setShowSignOutAlert(true) };
+  const closeSignOutAlert = () => { setShowSignOutAlert(false) };
+
   // 회원 탈퇴 모달창
   const [showWithdrawCompleteModal, setShowWithdrawCompleteModal] = useState(false);
   const openWithdrawCompleteModal = () => { setShowWithdrawCompleteModal(true); };
@@ -48,7 +54,7 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
 
   const [cookies, setCookies] = useCookies();
 
-  // 로그아웃
+  // 로그아웃 로직
   const signOutHandler = () => {
     setCookies('token', '', { expires: new Date() });
     removeUser();
@@ -230,13 +236,14 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
           <hr className={styles.PFPModal_HR} />
         </div>
         <div className={styles.PFPModal_Content}>
-          <p onClick={openEditPFPModal}>프로필 사진 변경</p>
-          <p onClick={openEditPFBModal}>배경 사진 변경</p>
-          <p onClick={openEditTextModal}>프로필 문구 변경</p>
+          <p className={styles.PFPModal_Content_P} onClick={openEditPFPModal}>프로필 사진 변경</p>
+          <p className={styles.PFPModal_Content_P} onClick={openEditPFBModal}>배경 사진 변경</p>
+          <p className={styles.PFPModal_Content_P} onClick={openEditTextModal}>프로필 문구 변경</p>
           <hr className={styles.PFPModal_HR} />
-          <p onClick={checkSignProvider}>비밀번호 변경</p>
-          <p onClick={signOutHandler}>로그아웃</p>
-          <p onClick={openWithdrawModal}>탈퇴하기</p>
+          <p className={styles.PFPModal_Content_P} onClick={checkSignProvider}>비밀번호 변경</p>
+          <p className={styles.PFPModal_Content_P} onClick={openSignOutAlert}>로그아웃</p>
+          {showSignOutAlert && <SignOutProfileAlert closeSignOutAlert={closeSignOutAlert} signOutHandler={signOutHandler}/>}
+          <p className={styles.PFPModal_Content_P} onClick={openWithdrawModal}>탈퇴하기</p>
         </div>
         <div className={styles.PFPModal_Logo}>
           <p>로고</p>
@@ -290,13 +297,13 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       {showProviderAlret && (
         <div>
           <div className={styles2.modalBackground} style={{ backgroundColor: "black" }} />
-          <div className={styles2.user_alert_modal} style={{ height: "130px" }}>
-            <h2 className={styles2.user_alert_h2}>알림</h2>
-            <p className={styles2.user_alert_p}>
+          <div className={styles2.forgotPw_alert} style={{ height: "130px" }}>
+            <h2 className={styles2.alert_h2}>알림</h2>
+            <p className={styles2.alert_p}>
               {`소셜 계정은 릴리뷰 내에서
                 비밀번호 변경이 불가능합니다.`}</p>
-            <hr className={styles2.user_alert_hr} />
-            <button className={styles2.user_alert_btn} onClick={closeProviderAlert}>확인</button>
+            <hr className={styles2.alert_hr} />
+            <button className={styles2.alert_btn} onClick={closeProviderAlert}>확인</button>
           </div>
         </div>
       )}
@@ -304,12 +311,12 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       {showWithdrawModal && (
         <div>
           <div className={styles2.modalBackground} style={{ backgroundColor: "black" }} />
-          <div className={styles2.user_alert_modal}>
-            <h2 className={styles2.user_alert_h2}>알림</h2>
-            <p className={styles2.user_alert_p}>다시 한번 생각해보세요!</p>
+          <div className={styles2.forgotPw_alert}>
+            <h2 className={styles2.alert_h2}>알림</h2>
+            <p className={styles2.alert_p}>다시 한번 생각해보세요!</p>
             <hr className={styles2.user_alert_hr} />
-            <button className={styles2.user_alert_dualBtn1} onClick={closeWithdrawModal}>취소</button>
-            <button className={styles2.user_alert_dualBtn2} onClick={signOutForeverHandler}>탈퇴하기</button>
+            <button className={styles2.alert_dualBtn1} onClick={closeWithdrawModal}>취소</button>
+            <button className={styles2.alert_dualBtn2} onClick={signOutForeverHandler}>탈퇴하기</button>
           </div>
         </div>
       )}

@@ -10,13 +10,21 @@ import naver_icon from '../../img/users/naver_icon.png';
 
 // 회원가입 모달창
 export default function SignUp({ setSignInModalState, setSignUpModalState }) {
+    
+    // 이름, 이메일, 비밀번호 저장
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    // 이름, 이메일, 비밀번호 에러
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+
+    // 회원가입 모달창 높이
     const [modalHeight, setModalHeight] = useState('');
+
+    // 약관 동의 모달창 상태
     const [termsModalState, setTermsModalState] = useState(false);
 
     // 이름, 이메일, 비밀번호 입력 필드 검사
@@ -213,6 +221,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     id='userName'
                     required
                     placeholder='이름'
+                    autoComplete='off'
                     className={nameError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={name}
                     onChange={(e) => setName(e.target.value)} />
@@ -225,10 +234,11 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                 <br />
                 {nameError && <p className={styles.user_login_error}>{nameError}</p>}
                 <input
-                    type="text"
-                    id="userEmail"
+                    type='text'
+                    id='userEmail'
                     required
-                    placeholder="이메일"
+                    placeholder='이메일'
+                    autoComplete='off'
                     className={emailError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)} />
@@ -240,10 +250,10 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                 <br />
                 {emailError && <p className={styles.user_login_error}>{emailError}</p>}
                 <input
-                    type="password"
-                    id="userPassword"
+                    type='password'
+                    id='userPassword'
                     required
-                    placeholder="비밀번호"
+                    placeholder='비밀번호'
                     className={passwordError ? `${styles.user_login_input} ${styles.user_sign_inputError}` : styles.user_login_input}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />

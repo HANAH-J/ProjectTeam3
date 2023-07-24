@@ -18,4 +18,6 @@ public class CommentDataDto {
     private String commentDate;
     private int commentGood;
     private int cCommentcount;
+    private String userName;
+    private String pFImage;
 }
