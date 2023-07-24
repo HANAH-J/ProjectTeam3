@@ -113,4 +113,8 @@ public class DetailService {
         return RDR.findByUserCd(userCd);
     }
 
+    public List<WantToSeeDataDto> findWantToSeeByUserCd(int userCd) { //(J)
+        return WDR.findByUserCd(userCd);
+    }
+
 }

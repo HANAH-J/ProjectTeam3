@@ -1,12 +1,76 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../../../css/profile/UserScoreCollection.module.css'
 import Header from "../../../components/Header/Header";
 import { Link } from 'react-router-dom';
+import axios from "axios";
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom'; 
 
 
 function UserScoreCollection() {
-  console.log('유저 스코어 컬렉션');
+  const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
+  const navigate = useNavigate();
 
+  const [userData, setUserData] = useState({});
+  const [ratings, setRatings] = useState([]);
+  const [movieDetails, setMovieDetails] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+  const goToMovie = (movieDetails) => {
+    console.log(movieDetails);
+    navigate('/details',{state:{"item":movieDetails}})
+  };
+
+  useEffect(() => {
+    const token = cookies.token;
+
+    if (token) {
+      setLoggedIn(true);
+      fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
+      console.log(token);
+      
+    } else {
+      setLoggedIn(false);
+      console.log('not logged in');
+      console.log('token' + token);
+      //alert('로그인을 해주세요.'); 
+      //navigate('/'); // 토큰이 없을 경우 메인으로 리디렉션
+    }
+  }, [cookies.token]);
+
+  const fetchUserData = (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        withCredentials: true,
+      },
+    };
+
+    axios.get('http://localhost:8085/UserScoreCollection', config)
+      .then(response => {
+
+        const responseData = response.data;
+        //setUserCd(responseData.userDTO.userCd); 
+
+        const userDTO = {
+          userCd: responseData.userDTO.userCd,
+          username: responseData.userDTO.username,
+          userEmail: responseData.userDTO.userEmail,
+          role: responseData.userDTO.role,
+        };
+
+        const ratings = responseData.ratings;
+        const movieDetails = responseData.movieDetailsList;
+
+        setUserData(userDTO);
+        setRatings(ratings);
+        setMovieDetails(movieDetails);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
   
   return (
     <div className={styles.userScoreCollection_Wrapper}>
@@ -16,118 +80,30 @@ function UserScoreCollection() {
         <div className={styles.userScoreCollection_Wrapper_Title}> <h2>평가한 작품들</h2> </div>
       </div>
     
+
       <div className={styles.userScoreCollection_List}>
-        {/* {this.state.movies.map((el) => { state movie map 가지고 와서 배열 길이에 따른 동적 요소 생성 
-                return ( */}
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> 엄청나게엄청나게긴영화제목 </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
 
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-                  <ul className={styles.userScoreCollection_MovieList}>   {/* key={el.title} */}
-                    <li> {/* onClick={() => this.goToContens(el.film_id)} */}
-                      <img className={styles.userScoreCollection_MoviePoster} alt="movie" src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" /> {/* src={el.poster_url} 넣어주기 */}
-                      <h4 className={styles.userScoreCollection_MovieTitle}> Title </h4> {/* {el.title} 들어가야함 */}
-                      <h5 className={styles.userScoreCollection_Rating}>평가함 ★ </h5> {/* {el.rating} 들어가야함 */}
-                    </li>
-                  </ul>
-        {/*
-                 );
-        })} 
-        */}
-
-
-                          {/* 담긴 작품이 없을 때 */}
-
-{/* 
-                  <div className={styles.userScoreCollection_noContent}>
-                    <span className={styles.userScoreCollection_noContent_image}></span>
-                    <div className={styles.userScoreCollection_noContent_text}> 담긴 작품이 없어요. </div>
-                  </div>
-*/}
-
-
+      {ratings.length === 0 ? (
+          <div className={styles.userScoreCollection_noContent}>
+            <span className={styles.userScoreCollection_noContent_image}></span>
+            <div className={styles.userScoreCollection_noContent_text}>담긴 작품이 없어요.</div>
+          </div>
+        ) : (
+          ratings.map((rating, index) => (
+            <ul className={styles.userScoreCollection_MovieList} key={index}>
+              <li>
+                <img
+                  className={styles.userScoreCollection_MoviePoster}
+                  alt="movie"
+                  src={IMG_BASE_URL + movieDetails[index].poster_path}
+                  onClick={() => goToMovie(movieDetails[index])}
+                />
+                <h4 className={styles.userScoreCollection_MovieTitle} onClick={() => goToMovie(movieDetails[index])}>{movieDetails[index].title}</h4>
+                <h5 className={styles.userScoreCollection_Rating} onClick={() => goToMovie(movieDetails[index])}>평가함 ★ {rating.rate}</h5>
+              </li>
+            </ul>
+          ))
+        )}
 
       </div>
         
