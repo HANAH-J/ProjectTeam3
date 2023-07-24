@@ -62,6 +62,7 @@
 
 .userScoreCollection_MovieList .userScoreCollection_MoviePoster {
     width: 140px;
+    height: 200px;
     border-radius: 5px;
     object-fit: cover;
     border: 1px solid #e3e3e3;
@@ -88,6 +89,7 @@
     position: fixed;
     justify-content: center;
     align-items: center;
+    margin-top: 500px;
 }
 
 .userScoreCollection_noContent .userScoreCollection_noContent_image {

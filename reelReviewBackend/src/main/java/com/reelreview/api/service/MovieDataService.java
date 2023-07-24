@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MovieDataService{
@@ -286,4 +287,16 @@ public class MovieDataService{
 
         return inRank;
     }
+
+
+    public MovieDetailsDTO getMovieByMovieId(int movieId) {
+        Optional<MovieDetailsDTO> movieDetailsOptional = movieDetailRepo.findById(movieId);
+
+        if (movieDetailsOptional.isPresent()) {
+            return movieDetailsOptional.get(); // 영화 정보 반환
+        } else {
+            return null;
+        }
+    }
+
 }

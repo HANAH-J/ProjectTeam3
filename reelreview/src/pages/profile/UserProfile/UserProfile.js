@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from '../../../css/profile/UserProfile.module.css'
@@ -14,11 +14,12 @@ import axios from "axios";
 import { useCookies } from 'react-cookie';
 
 function UserProfile() {
-    const guestCd = useParams();
+    //const guestCd = useParams();
+    //const { currentUserCd } = useParams();
+
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
-
-    //const { currentUserCd } = useParams();
+    const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
     const responsive = {    //캐러셀 반응형 코드
         superLargeDesktop: {breakpoint: { max: 4000, min: 3000 }, items: 5},
@@ -27,21 +28,29 @@ function UserProfile() {
         mobile: {breakpoint: { max: 464, min: 0 },items: 1}
       };
 
-      const userScoreCollection = () => { navigate('/UserScoreCollection'); }
       const userMovieToWatch = () => { navigate('/MovieToWatch'); }
       const movieCollection = () => { navigate('/MovieCollection'); }
-      const goToMovie = (e) => { console.log('goToMovies'); }
       const userComment = () => { navigate('/userComment'); }
+      const userScoreCollection = () => { navigate('/UserScoreCollection'); }
+      const goToMain = () => { navigate('/'); }
+
+      const goToMovie = (movieDetails) => {
+        console.log(movieDetails);
+        navigate('/details',{state:{"item":movieDetails}})
+      };
 
       const { user, removeUser } = useUserStore();
       const [loggedIn, setLoggedIn] = useState(false);
 
       const [userData, setUserData] = useState({});
       const [profileData, setProfileData] = useState({});
+      const [ratings, setRatings] = useState([]);
+      const [movieDetails, setMovieDetails] = useState([]);
+
       const [userCd, setUserCd] = useState(null);
       const [profileImage, setProfileImage] = useState(null);
       const [userEmail, setUserEmail] = useState('');
-      
+
       const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
       useEffect(() => {
@@ -82,9 +91,6 @@ function UserProfile() {
               username: responseData.userDTO.username,
               userEmail: responseData.userDTO.userEmail,
               role: responseData.userDTO.role,
-              //provider: responseData.userDTO.provider,
-              //providerCd: responseData.userDTO.providerCd,
-              //createDate: responseData.userDTO.createDate
             };
 
             const profileDTO = {
@@ -93,9 +99,15 @@ function UserProfile() {
               pfImage: responseData.profileDTO.pfImage
             };
 
+            const ratings = responseData.ratings;
+            const movieDetails = responseData.movieDetailsList;
+
             setUserData(userDTO);
             setProfileData(profileDTO);
+            setRatings(ratings);
+            setMovieDetails(movieDetails);
             console.log(userDTO.username + ' is logged in');
+            console.log(movieDetails);
           })
           .catch(error => {
             console.error('Error fetching data:', error);
@@ -109,6 +121,9 @@ function UserProfile() {
         //  alert('프로필을 수정할 수 있는 권한이 없습니다.');
         //}
       }
+
+      const recentRatings = ratings ? ratings.slice(0, 5) : [];
+
 
     return (
 
@@ -158,38 +173,30 @@ function UserProfile() {
                         <div className={styles.bottomHR}> <hr className={styles.userProfile_HR}/> </div>
                     </div>
 
-                <div className={styles.movieList}>
-                    <Carousel responsive={responsive}>
-                        <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
-                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [엄~~~~~~청나게긴영화제목] </h4>
-                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
+                    <div className={styles.movieList}>
+                      {recentRatings && recentRatings.length > 0 ? (
+                        <>
+                          <Carousel responsive={responsive}>
+                            {recentRatings.map((rating, index) => (
+                              
+                              <div key={index} className={styles.card}>
+                                <img className={styles.movieListPoster} src={IMG_BASE_URL+movieDetails[index].poster_path} alt="Movie" onClick={() => goToMovie(movieDetails[index])} />
+                                <h4 onClick={() => goToMovie(movieDetails[index])} className={styles.movieListTitle}>{movieDetails[index].title}</h4>
+                                <h5 onClick={() => goToMovie(movieDetails[index])}>평가함 ★ {rating.rate}</h5>
+                              </div>
+                            ))}
+                          </Carousel>
+                          <div className={styles.movieListMore} onClick={userScoreCollection}> 
+                            <p>더보기</p>
+                          </div>
+                        </>
+                      ) : (
+                        <div style={{ color:'#A0A0A0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                          <p style={{ marginTop: '122px' }}>평가한 영화가 없습니다.</p>
+                          <p style={{ width: '100px', marginBottom: '122px', cursor: 'pointer' }} onClick={goToMain}>평가하러 가기</p>
                         </div>
-                        <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
-                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [영화제목] </h4>
-                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
-                        </div>
-                        <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
-                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [영화제목] </h4>
-                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
-                        </div>
-                        <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
-                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [영화제목] </h4>
-                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
-                        </div>
-                        <div className={styles.card}> 
-                            <img className={styles.movieListPoster} src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000086/86305/86305_1000.jpg" alt="Movie" onClick={goToMovie}/>
-                            <h4 onClick={goToMovie} className={styles.movieListTitle}> [영화제목] </h4>
-                            <h5 onClick={goToMovie}> 평가함 ★ [점수] </h5>
-                        </div>
-                    </Carousel>
-                    <div className={styles.movieListMore} onClick={userScoreCollection}> 
-                        <p>더보기</p>
+                      )}
                     </div>
-                </div>
 
                 <div className={styles.movieToWatch} onClick={userMovieToWatch}>
                         <div className={styles.topHR}> <hr className={styles.userProfile_HR}/> </div>

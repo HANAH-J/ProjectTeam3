@@ -113,6 +113,15 @@ public class DetailService {
         return dataSaved;
     }
 
+    public List<RatingDataDto> findRatingsByUserCd(int userCd) { //(J)
+        return RDR.findByUserCd(userCd);
+    }
+
+    public List<WantToSeeDataDto> findWantToSeeByUserCd(int userCd) { //(J)
+        return WDR.findByUserCd(userCd);
+    }
+
+
 
     public String saveCommentData(CommentDataDto dto) {
         CommentDataDto saved = new CommentDataDto();

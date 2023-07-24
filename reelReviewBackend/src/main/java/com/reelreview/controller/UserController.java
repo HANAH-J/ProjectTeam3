@@ -42,10 +42,10 @@ public class UserController {
         return "";
     }
 
-    // [비밀번호 변경]
+    // [플랫폼 검사]
     @PostMapping("/providerCheck")
-    public boolean providerCheck(@RequestBody UserEntity requestBody) {
-        boolean result = userService.providerCheck(requestBody);
+    public String providerCheck(@RequestBody UserEntity requestBody) {
+        String result = userService.providerCheck(requestBody);
         return result;
     }
 
