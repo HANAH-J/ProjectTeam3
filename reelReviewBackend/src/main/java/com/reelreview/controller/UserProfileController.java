@@ -3,6 +3,7 @@ package com.reelreview.controller;
 import com.reelreview.api.domain.MovieDetailsDTO;
 import com.reelreview.api.service.MovieDataService;
 import com.reelreview.config.jwt.JwtTokenProvider;
+import com.reelreview.domain.CommentDataDto;
 import com.reelreview.domain.ProfileDTO;
 import com.reelreview.domain.RatingDataDto;
 import com.reelreview.domain.WantToSeeDataDto;
@@ -119,6 +120,44 @@ public class UserProfileController {
             movieDetailsList.add(movieDetails);
         }
         responseData.put("movieDetailsList", movieDetailsList);
+
+        return ResponseEntity.ok(responseData);
+    }
+
+    // 유저 커멘트 조회
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/userComment", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> userComment (HttpServletRequest request) {
+        if (!isTokenValid(request)) {
+            return unauthorizedResponse("유효하지 않은 토큰 형식");
+        }
+        UserEntity userEntity = profileService.getCurrentUserDetails();
+        if(userEntity == null) {
+            return unauthorizedResponse("사용자 인증 필요");
+        }
+
+        ProfileDTO profileDTO = profileService.getProfileByUserCd(userEntity);
+        List<CommentDataDto> comments = detailService.findCommentsByUserCd(userEntity.getUserCd());
+        List<RatingDataDto> ratings = detailService.findRatingsByUserCd(userEntity.getUserCd());
+
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("userDTO", userEntity);
+        responseData.put("comments", comments);
+        responseData.put("profileDTO", profileDTO);
+        responseData.put("ratings", ratings);
+
+        List<MovieDetailsDTO> movieDetailsList = new ArrayList<>();
+        for (CommentDataDto userComments : comments) {
+            int movieId = userComments.getMovieId();
+            MovieDetailsDTO movieDetails = movieDataService.getMovieByMovieId(movieId);
+            movieDetailsList.add(movieDetails);
+        }
+        responseData.put("movieDetailsList", movieDetailsList);
+
+        System.out.println("******************************");
+        System.out.println(comments);
+        System.out.println(ratings);
+        System.out.println("******************************");
 
         return ResponseEntity.ok(responseData);
     }

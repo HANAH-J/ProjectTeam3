@@ -40,7 +40,8 @@ public class DetailService {
     private UserRepository UR;
     @Autowired
     private ProfileRepository PR;
-
+    @Autowired
+    private CcommentDataRepository CCDR;
 
     public List<MovieImagesDTO> findImagesByMovieCd(Long movieId) {
         List<MovieImagesDTO> m = MIR.findByMovieCd(movieId);
@@ -120,6 +121,14 @@ public class DetailService {
         return WDR.findByUserCd(userCd);
     }
 
+//    public List<RatingDataDto> findRatingsByMovieId(int movieId) {
+//        return RDR.findByMovieId(movieId);
+//    }
+
+    public List<CommentDataDto> findCommentsByUserCd(int userCd) {
+        return CDR.findByUserCd(userCd);
+    }
+
 
 
     public String saveCommentData(CommentDataDto dto) {
@@ -146,8 +155,32 @@ public class DetailService {
         return user;
     }
 
-    public ProfileDTO findProfileByUserCd(int userCd) {
-        ProfileDTO profile = PR.findByUserCd(userCd);
+    public ProfileDTO findProfileByUser(UserEntity user) {
+        ProfileDTO profile = PR.findByUserCd(user);
         return profile;
+    }
+
+    public CommentDataDto getCommentById(int commentId) {
+        CommentDataDto c = CDR.getById(commentId);
+        return c;
+    }
+
+    public String saveCcommentData(CcommentDataDto dto) {
+        CcommentDataDto c = CCDR.save(dto);
+        if (c!=null){
+            return "저장완료";
+        }else {
+            return "저장실패";
+        }
+    }
+
+    public List<CcommentDataDto> getCcommentByCommentId(int commentId) {
+        List<CcommentDataDto> c = CCDR.findByCommentId(commentId);
+        return c;
+    }
+
+    public CcommentDataDto getCcommentById(int cCommentId) {
+        CcommentDataDto c = CCDR.getById(cCommentId);
+        return c;
     }
 }
