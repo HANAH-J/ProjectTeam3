@@ -108,4 +108,9 @@ public class DetailService {
         WDR.deleteById(m);
         return dataSaved;
     }
+
+    public List<RatingDataDto> findRatingsByUserCd(int userCd) { //(J)
+        return RDR.findByUserCd(userCd);
+    }
+
 }

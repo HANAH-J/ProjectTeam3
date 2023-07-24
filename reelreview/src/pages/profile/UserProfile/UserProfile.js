@@ -14,11 +14,11 @@ import axios from "axios";
 import { useCookies } from 'react-cookie';
 
 function UserProfile() {
-    const guestCd = useParams();
+    //const guestCd = useParams();
+    //const { currentUserCd } = useParams();
+
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
-
-    //const { currentUserCd } = useParams();
 
     const responsive = {    //캐러셀 반응형 코드
         superLargeDesktop: {breakpoint: { max: 4000, min: 3000 }, items: 5},
@@ -38,6 +38,7 @@ function UserProfile() {
 
       const [userData, setUserData] = useState({});
       const [profileData, setProfileData] = useState({});
+      const [ratings, setRatings] = useState([]);
       const [userCd, setUserCd] = useState(null);
       const [profileImage, setProfileImage] = useState(null);
       const [userEmail, setUserEmail] = useState('');
@@ -93,8 +94,11 @@ function UserProfile() {
               pfImage: responseData.profileDTO.pfImage
             };
 
+            const ratings = responseData.ratings;
+
             setUserData(userDTO);
             setProfileData(profileDTO);
+            setRatings(ratings);
             console.log(userDTO.username + ' is logged in');
           })
           .catch(error => {

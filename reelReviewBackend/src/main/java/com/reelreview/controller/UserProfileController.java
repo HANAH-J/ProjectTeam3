@@ -2,7 +2,9 @@ package com.reelreview.controller;
 
 import com.reelreview.config.jwt.JwtTokenProvider;
 import com.reelreview.domain.ProfileDTO;
+import com.reelreview.domain.RatingDataDto;
 import com.reelreview.domain.user.UserEntity;
+import com.reelreview.service.DetailService;
 import com.reelreview.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -25,6 +28,8 @@ public class UserProfileController {
     private ProfileService profileService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private DetailService detailService;
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/userProfiles", method = RequestMethod.GET)
@@ -57,14 +62,16 @@ public class UserProfileController {
 
         ProfileDTO profileDTO = profileService.getProfileByUserCd(userEntity);
 
-//        아직 남은 것 : Rating, WantToSee, Comment 가지고 와서 넣어주기
-//        List<userRatingDTO> userRating = userRatingService.getMovieRatingsByUserCd(userDTO.getUserCd());
-
+        List<RatingDataDto> ratings = detailService.findRatingsByUserCd(userEntity.getUserCd());
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("userDTO", userEntity);
         responseData.put("profileDTO", profileDTO);
+        responseData.put("ratings", ratings);
+        System.out.println("*****************USERPROFILEDATA******************");
         System.out.println(userEntity);
         System.out.println(profileDTO);
+        System.out.println(ratings);
+        System.out.println("*****************USERPROFILEDATA******************");
 
         return ResponseEntity.ok(responseData);
     }
