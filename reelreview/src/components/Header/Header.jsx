@@ -62,8 +62,6 @@ export default function Header() {
             <div className={styles2.navWrapper}>
                 <ul className={styles2.leftNav}>
                     <Link to="/"><img src={reel_review_logo} className={styles2.logoSection}/></Link>
-                    
-
                 </ul>
                 <ul className={styles2.rightNav}>
                     <li className={styles2.findMovies}>

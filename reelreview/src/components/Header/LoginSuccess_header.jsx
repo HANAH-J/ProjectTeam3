@@ -49,7 +49,7 @@ export default function LoginSuccess_header({ profileData, userData }) {
     <nav className={styles.topNav}>
       <div className={styles.navWrapper}>
         <ul className={styles.leftNav}>
-          <Link to="/mainpage">
+          <Link to="/">
             <img src={reel_review_logo} className={styles.logoSection} />
         </Link>
       </ul>
