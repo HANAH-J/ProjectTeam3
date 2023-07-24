@@ -45,7 +45,6 @@ export default function MainPage() {
             };
             const profileDTO = {
               status: responseData.profileDTO.status,
-              bgImage: responseData.profileDTO.bgImage,
               pfImage: responseData.profileDTO.pfImage
             };
             setUserData(userDTO);
@@ -57,14 +56,10 @@ export default function MainPage() {
 
   useEffect(() => {
     const token = cookies.token;
-    if (token) getMain(token);
-    else setMainResponse('');
+    if (cookies.token) {
+      getMain(cookies.token);
+  }
   }, [cookies.token]);
-
-  const handleChange = (event) => {
-    const { value } = event.target;
-    setName(value);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();

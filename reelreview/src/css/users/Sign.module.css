@@ -175,13 +175,13 @@
 }
 
 .signIn_google {
-  border: 1px solid red;
+  border: 1px solid lightgray;
   background-color: #ffffff;
 }
 
 .signUp_google {
   margin-top: 10px;
-  border: 1px solid red;
+  border: 1px solid lightgray;
   background-color: #ffffff;
 }
 

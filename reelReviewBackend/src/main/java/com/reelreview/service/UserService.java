@@ -1,4 +1,5 @@
 package com.reelreview.service;
+
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.config.jwt.JwtTokenProvider;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.sql.Timestamp;
 
 @Service
@@ -49,7 +51,7 @@ public class UserService {
 
         // [회원가입] 이메일 중복 검사
         try {
-            if(userRepository.existsByUserEmail(userEmail)) {
+            if (userRepository.existsByUserEmail(userEmail)) {
                 return ResponseDto.setFail("존재하는 이메일");
             }
         } catch (Exception error) {
@@ -102,12 +104,12 @@ public class UserService {
             userEntity = userRepository.findByUserEmail(userEmail);
 
             // [로그인] 잘못된 이메일
-            if(userEntity == null) {
+            if (userEntity == null) {
                 return ResponseDto.setFail("로그인 실패 : 잘못된 이메일");
             }
 
             // [로그인] 잘못된 비밀번호
-            if(!passwordEncoder.matches(userPassword, userEntity.getUserPassword())) {
+            if (!passwordEncoder.matches(userPassword, userEntity.getUserPassword())) {
                 return ResponseDto.setFail("로그인 실패 : 잘못된 비밀번호");
             }
         } catch (Exception error) {
@@ -125,7 +127,7 @@ public class UserService {
     public boolean emailCheck(EmailCheckDto dto) {
         String userEmail = dto.getUserEmail();
         try {
-            if(userRepository.existsByUserEmail(userEmail)) {
+            if (userRepository.existsByUserEmail(userEmail)) {
                 System.out.println("이메일 중복 : 중복");
                 return false;
             }
@@ -142,15 +144,15 @@ public class UserService {
         String tempPassword = getTempPassword();
         dto.setUserEmail(userEmail);
         dto.setTitle("[릴리뷰] 새로운 비밀번호를 설정해주세요.");
-        dto.setMessage("[" + userEmail + "]" +" 회원님의 임시 비밀번호는 " + tempPassword + " 입니다.");
+        dto.setMessage("[" + userEmail + "]" + " 회원님의 임시 비밀번호는 " + tempPassword + " 입니다.");
         updateUserPassword(tempPassword, userEmail);
         return dto;
     }
 
     // [임시 비밀번호] 10자리 랜덤 난수 생성
-    public String getTempPassword(){
-        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+    public String getTempPassword() {
+        char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
         int idx = 0;
         String tempPassword = "";
         for (int i = 0; i < 10; i++) {
@@ -161,7 +163,7 @@ public class UserService {
     }
 
     // [임시 비밀번호] 임시 비밀번호 저장
-    public void updateUserPassword(String tempPassword, String userEmail){
+    public void updateUserPassword(String tempPassword, String userEmail) {
         String userPassword = passwordEncoder.encode(tempPassword);
         UserEntity userEntity = userRepository.findByUserEmail(userEmail);
         userEntity.setUserPassword(userPassword);
@@ -171,7 +173,7 @@ public class UserService {
     }
 
     // [임시 비밀번호] 임시 비밀번호 메일 발송
-    public void sendMail(MailDto dto){
+    public void sendMail(MailDto dto) {
         System.out.println("임시 비밀번호 발급 완료!");
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(dto.getUserEmail());
@@ -181,15 +183,22 @@ public class UserService {
     }
 
     // [플랫폼 검사]
-    public boolean providerCheck(UserEntity requestBody) {
-        System.out.println("비밀번호 변경 유저 이메일 : " + requestBody.getUserEmail());
+    public String providerCheck(UserEntity requestBody) {
+        System.out.println("유저 이메일 : " + requestBody.getUserEmail());
         UserEntity userEntity = userRepository.findByUserEmail(requestBody.getUserEmail());
-        String result = userEntity.getProvider();
 
-        if(result == null) {
-            return true;
+        if (userEntity == null) {
+            System.out.println("[플랫폼 검사] : 유저 이메일이 존재하지 않습니다.");
+            return "noExistEmail";
+        } else {
+            String result = userEntity.getProvider();
+            if (result == null) {
+                System.out.println("[플랫폼 검사] : 일반 로그인 회원입니다.");
+                return "emailProviderPass";
+            } else {
+                return "existProvider";
+            }
         }
-        return false;
     }
 
     // [비밀번호 변경]

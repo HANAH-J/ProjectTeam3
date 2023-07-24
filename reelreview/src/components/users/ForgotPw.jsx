@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from '../../css/users/Password.module.css';
-import Alert from './Alert';
+import ForgotPwAlert from './ForgotPwAlert';
 
 // 임시 비밀번호 발급 모달창
 export default function ForgotPw({ setSignInModalState, setForgotPwModalState }) {
@@ -85,18 +85,20 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:8085/api/auth/emailCheck', {
+        axios.post('http://localhost:8085/api/auth/providerCheck', {
             userEmail: email,
         }).then((response) => {
-            console.log('임시 비밀번호 결과 : ' + response.data);
-            if (response.data === false) { // 임시 비밀번호 발급
+            // console.log('임시 비밀번호 전송 결과 : ' + response.data);
+            if (response.data === 'emailProviderPass') {    // 임시 비밀번호 발급 가능
                 axios.post('http://localhost:8085/api/auth/resetPw/sendEmail', {
                     userEmail: email,
                 }).then(() => {
-                    setTempPasswordResult(false);
+                    setTempPasswordResult('emailProviderPass');
                 })
-            } else {
-                setTempPasswordResult(true);
+            } else if (response.data === 'noExistEmail') {  // 가입되지 않은 이메일
+                setTempPasswordResult('noExistEmail');
+            } else if (response.data === 'existProvider') { // 소셜 회원가입 유저
+                setTempPasswordResult('existProvider');
             }
         }).catch((error) => {
             console.log('데이터 전송 실패', error);
@@ -131,13 +133,23 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
                 {emailError && <p className={styles.user_forgotPw_error}>{emailError}</p>}
                 <button type='submit' className={styles.forgotPw_btn}>이메일 보내기</button>
                 {
-                    tempPsaswordResult === false && <Alert resultMessage="임시 비밀번호 발급 이메일을 보냈어요." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState}/>
+                    tempPsaswordResult === 'emailProviderPass' && <ForgotPwAlert resultMessage="임시 비밀번호 발급 이메일을 보냈어요." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState} />
                 }
                 {
-                    tempPsaswordResult === true && <Alert resultMessage="가입되지 않은 이메일입니다." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState}/>
+                    tempPsaswordResult === 'noExistEmail' && <ForgotPwAlert resultMessage="가입되지 않은 이메일입니다." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState} />
+                }
+                {
+                    tempPsaswordResult === 'existProvider' && <ForgotPwAlert 
+                    resultMessage={`소셜 계정은 릴리뷰 내에서
+                                    비밀번호 변경이 불가능합니다.`} 
+                    setSignInModalState={setSignInModalState} 
+                    setForgotPwModalState={setForgotPwModalState} 
+                    setAlertModalState={setAlertModalState}
+                    alertHeight={130}/>
                 }
             </form>
-            {(tempPsaswordResult === false || tempPsaswordResult === true) && <div className={styles.modalBackground} style={{ backgroundColor: "black" }} />}
+            {(tempPsaswordResult === 'emailProviderPass' || tempPsaswordResult === 'noExistEmail' || tempPsaswordResult === 'existProvider')
+                && <div className={styles.modalBackground} style={{ backgroundColor: "black" }} />}
         </div>
     )
 }
