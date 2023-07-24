@@ -123,13 +123,13 @@ export default function MainPage() {
 
     <div className={styles.MainPage_box}>
       {cookies.token ? <LoginSuccess_header /> : <Header />}
-      <div className={styles.BoxOffice_box_wrapper}>
+      {/* <div className={styles.BoxOffice_box_wrapper}>
         <div className={styles.BoxOffice_box}>
           <div className={styles.BoxOffice_box_header}>
             <h3>박스오피스 순위</h3>
           </div>
           <div className={styles.BoxOffice_box_info}>
-            {/* <BoxOffice /> */}
+            <BoxOffice /> 
           </div>
         </div>
       </div>
@@ -139,14 +139,14 @@ export default function MainPage() {
             <h3>개봉예정작</h3>
           </div>
           <div className={styles.Upcomming_box_info}>
-            {/* <Upcomming /> */}
+             <Upcomming /> 
           </div>
         </div>
-      </div>
+      </div> */}
       <div className={styles.DirectorMovie_box_wrapper}>
         <div className={styles.DirectorMovie_box}>
           <div className={styles.DirectorMovie_box_header}>
-            <h3>이상용 감독 모음</h3>
+            <h3>감독 작품 검색</h3>
           </div>
           <div className={styles.DirectorMovie_box_info}>
             <form onSubmit={handleSubmit}>
@@ -160,7 +160,7 @@ export default function MainPage() {
       <div className={styles.ActorMovie_box_wrapper}>
         <div className={styles.ActorMovie_box}>
           <div className={styles.ActorMovie_box_header}>
-            <h3>Margot Robbie 모음</h3>
+            <h3>배우 작품 검색</h3>
           </div>
           <div className={styles.ActorMovie_box_info}>
           <form onSubmit={handleSubmit1}>
@@ -174,7 +174,7 @@ export default function MainPage() {
       <div className={styles.Genre_box_wrapper}>
         <div className={styles.Genre_box}>
           <div className={styles.Genre_box_header}>
-            <h3>요즘 핫한 애니메이션</h3>
+            <h3>장르</h3>
           </div>
           <div className={styles.Genre_box_info}>
             <form onSubmit={handleSubmit2}>

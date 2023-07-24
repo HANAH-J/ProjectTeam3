@@ -21,6 +21,7 @@ export default function MainPage() {
   const [userCd, setUserCd] = useState(null);
   const [userData, setUserData] = useState(null);
   const [profileData, setProfileData] = useState(null);
+
   
   // JWT 토큰
   const getMain = async (token) => {
@@ -160,7 +161,7 @@ export default function MainPage() {
       <div className={styles.DirectorMovie_box_wrapper}>
         <div className={styles.DirectorMovie_box}>
           <div className={styles.DirectorMovie_box_header}>
-            <h3>이상용 감독 모음</h3>
+            <h3> a 감독 모음</h3>
           </div>
           <div className={styles.DirectorMovie_box_info}>
             <DirectorMovie movieList={movieList} />
@@ -170,7 +171,7 @@ export default function MainPage() {
       <div className={styles.ActorMovie_box_wrapper}>
         <div className={styles.ActorMovie_box}>
           <div className={styles.ActorMovie_box_header}>
-            <h3>Margot Robbie 모음</h3>
+            <h3>화제의 배우 a 모음</h3>
           </div>
           <div className={styles.ActorMovie_box_info}>
             <ActorMovie movieListActor={movieListActor} />
@@ -180,7 +181,7 @@ export default function MainPage() {
       <div className={styles.Genre_box_wrapper}>
         <div className={styles.Genre_box}>
           <div className={styles.Genre_box_header}>
-            <h3>요즘 핫한 애니메이션</h3>
+            <h3>요즘 핫한 a</h3>
           </div>
           <div className={styles.Genre_box_info}>
             <Genre movieListGenre={movieListGenre} />

@@ -67,7 +67,9 @@ export default function CsBoard_modify() {
                         <div className={styles.CsBoard_modify_form_box}>
                             <div className={styles.CsBoard_modify_form_title}>
                                 <label htmlFor="title">제목</label>
-                                <input type="text" id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                                <input type="text" id="title" name="title" value={title} 
+                                onChange={(e) => setTitle(e.target.value)} 
+                                readOnly/>
                             </div>
                             <div className={styles.CsBoard_modify_form_content}>
                                 <label htmlFor="content">내용</label>
