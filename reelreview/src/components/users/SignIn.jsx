@@ -3,21 +3,25 @@ import { useCookies } from 'react-cookie';
 import { useUserStore } from '../../stores/index.ts';
 import axios from 'axios';
 import ForgotPw from './ForgotPw';
+import OAuth2 from './OAuth2.jsx';
 import styles from '../../css/users/Sign.module.css';
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
-import kakao_icon from '../../img/users/kakao_icon.svg';
-import google_icon from '../../img/users/google_icon.svg';
-import facebook_icon from '../../img/users/facebok_icon.png';
-import naver_icon from '../../img/users/naver_icon.png';
 
 // 로그인 모달창
 export default function SignIn({ setSignInModalState, setSignUpModalState }) {
 
+    // 이메일, 비밀번호 저장
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    // 이메일, 비밀번호 에러
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+
+    // 로그인 모달창 높이
     const [modalHeight, setModalHeight] = useState('');
+
+    // 임시 비밀번호 발급 모달창 상태
     const [forgotPwModalState, setForgotPwModalState] = useState(false);
     const [cookies, setCookies] = useCookies();
     const { user, setUser } = useUserStore();
@@ -149,19 +153,6 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
             })
     };
 
-    // 소셜 로그인
-    const oAuth2SignInHandler = (provider) => {
-        if (provider === 'kakao') {
-            window.location.href = 'http://localhost:8085/oauth2/authorization/kakao';
-        } else if (provider === 'google') {
-            window.location.href = 'http://localhost:8085/oauth2/authorization/google';
-        } else if (provider === 'facebook') {
-            window.location.href = 'http://localhost:8085/oauth2/authorization/facebook';
-        } else if (provider === 'naver') {
-            window.location.href = 'http://localhost:8085/oauth2/authorization/naver';
-        }
-    };
-
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
             <form onSubmit={onSubmitHandler}>
@@ -213,21 +204,8 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     </span>
                 </span>
             </div>
-            <hr className={styles.user_login_hr}></hr>
-            <ul>
-                <li className={styles.signIn_kakao} onClick={() => oAuth2SignInHandler('kakao')}>
-                    <img src={kakao_icon} className={styles.logo} alt='kakao_logo'></img>
-                </li>
-                <li className={styles.signIn_google} onClick={() => oAuth2SignInHandler('google')}>
-                    <img src={google_icon} className={styles.logo} alt='google_logo'></img>
-                </li>
-                <li className={styles.signIn_facebook} onClick={() => oAuth2SignInHandler('facebook')}>
-                    <img src={facebook_icon} className={styles.logo} alt='naver_logo'></img>
-                </li>
-                <li className={styles.signIn_naver} onClick={() => oAuth2SignInHandler('naver')}>
-                    <img src={naver_icon} className={styles.logo} alt='naver_logo'></img>
-                </li>
-            </ul>
+            <hr className={styles.user_login_hr}/>
+            <OAuth2/>
             {forgotPwModalState && <div className={styles.modalBackground_2} style={{ backgroundColor: "black" }} />}
         </div>
     )

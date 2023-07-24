@@ -17,6 +17,18 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
         return result;
     };
 
+    // 가입하기 버튼 클릭 시 동작하는 함수
+    const signUpButtonHandler = (e) => {
+
+        if (isAllTermsAgreed()) {
+            // 약관에 전체 동의한 경우
+            onSubmitHandler(e);
+        } else {
+            // 하나 이상의 약관에 동의하지 않은 경우
+            e.preventDefault();
+        }
+    };
+
     // '전체 약관 동의' 체크 시 전체 약관 체크 함수
     const allCheckHandler = (isChecked) => {
         if (isChecked) {
@@ -135,7 +147,7 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
             </ul>
             {/* 가입하기 버튼 */}
             <div>
-                <button className={styles.user_terms_btn} style={{ color: submitButtonColor }} onClick={onSubmitHandler}>
+                <button className={styles.user_terms_btn} style={{ color: submitButtonColor }} onClick={signUpButtonHandler}>
                     가입하기
                 </button>
             </div>

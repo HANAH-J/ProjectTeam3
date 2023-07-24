@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import ChangePw from '../../../components/users/ChangePw';
+import SignOutAlert from "../../../components/users/SignOutAlert";
 import styles from '../../../css/profile/PFPModal.module.css';
 import styles2 from '../../../css/users/Alert.module.css';
-import ChangePw from '../../../components/users/ChangePw';
-import SignOutProfileAlert from "../../../components/users/SignOutProfileAlert";
 
 function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   console.log('userCd: ' + userCd);
@@ -37,22 +37,20 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   const openChangePasswordModal = () => { setShowChangePasswordModal(true); }
   const closeChangePasswordModal = () => { setShowChangePasswordModal(false); }
 
+  const [cookies, setCookies] = useCookies();
+
   // 소셜 로그인 확인 알림창
   const [showProviderAlret, setShowProviderAlret] = useState(false);
-  const openProviderAlert = () => { setShowProviderAlret(true); }
-  const closeProviderAlert = () => { setShowProviderAlret(false); }
+  const openProviderAlert = () => { setShowProviderAlret(true);};
+  const closeProviderAlert = () => { setShowProviderAlret(false);};
 
   // 로그아웃 확인 알림창
   const [showSignOutAlert, setShowSignOutAlert] = useState(false);
-  const openSignOutAlert = () => { setShowSignOutAlert(true) };
-  const closeSignOutAlert = () => { setShowSignOutAlert(false) };
+  const openSignOutAlert = () => { setShowSignOutAlert(true); };
+  const closeSignOutAlert = () => { setShowSignOutAlert(false); };
 
   // 회원 탈퇴 모달창
   const [showWithdrawCompleteModal, setShowWithdrawCompleteModal] = useState(false);
-  const openWithdrawCompleteModal = () => { setShowWithdrawCompleteModal(true); };
-  const closeWithdrawCompleteModal = () => { setShowWithdrawCompleteModal(false); };
-
-  const [cookies, setCookies] = useCookies();
 
   // 로그아웃 로직
   const signOutHandler = () => {
@@ -65,10 +63,10 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   const signOutForeverHandler = () => {
     axios.post('http://localhost:8085/api/auth/signOutForever', {
       userEmail: userEmail
-    }).then((response) => {
-      setShowWithdrawCompleteModal(true);
+    }).then(() => {
       setCookies('token', '', { expires: new Date() });
       removeUser();
+      setShowWithdrawCompleteModal(true);
     }).catch((error) => {
       console.log('데이터 전송 실패 : ', error);
     })
@@ -242,7 +240,7 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
           <hr className={styles.PFPModal_HR} />
           <p className={styles.PFPModal_Content_P} onClick={checkSignProvider}>비밀번호 변경</p>
           <p className={styles.PFPModal_Content_P} onClick={openSignOutAlert}>로그아웃</p>
-          {showSignOutAlert && <SignOutProfileAlert closeSignOutAlert={closeSignOutAlert} signOutHandler={signOutHandler}/>}
+          {showSignOutAlert && <SignOutAlert closeSignOutAlert={closeSignOutAlert} signOutHandler={signOutHandler}/>}
           <p className={styles.PFPModal_Content_P} onClick={openWithdrawModal}>탈퇴하기</p>
         </div>
         <div className={styles.PFPModal_Logo}>

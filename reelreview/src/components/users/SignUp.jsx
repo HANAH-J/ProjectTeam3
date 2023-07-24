@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Terms from './Terms';
+import OAuth2 from './OAuth2.jsx';
+import ForgotPwAlert from './ForgotPwAlert';
 import styles from '../../css/users/Sign.module.css';
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
-import kakao_icon from '../../img/users/kakao_icon.svg';
-import google_icon from '../../img/users/google_icon.svg';
-import facebook_icon from '../../img/users/facebok_icon.png';
-import naver_icon from '../../img/users/naver_icon.png';
 
 // 회원가입 모달창
 export default function SignUp({ setSignInModalState, setSignUpModalState }) {
@@ -26,6 +24,9 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
     // 약관 동의 모달창 상태
     const [termsModalState, setTermsModalState] = useState(false);
+
+    // 회원가입 완료 알림창
+    const [signUpAlert, setSignUpAlert] = useState(false);
 
     // 이름, 이메일, 비밀번호 입력 필드 검사
     const isAllFieldsFilled = () => {
@@ -193,22 +194,12 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         axios.post('http://localhost:8085/api/auth/signUp', data, config)
             .then(() => {
                 console.log('회원가입 성공');
+                setSignUpModalState(false);
+                // alert('회원가입이 완료 되었습니다.');
+                setSignUpAlert(true);
             }).catch((error) => {
                 console.log('데이터 전송 실패 : ', error);
             })
-    };
-
-    // 소셜 회원가입
-    const oAuth2SignUpHandler = (provider) => {
-        if (provider === 'kakao') {
-            window.location.href = 'http://localhost:8085/oauth2/authorization/kakao';
-        } else if (provider === 'google') {
-            window.location.href = 'http://localhost:8085/oauth2/authorization/google';
-        } else if (provider === 'facebook') {
-            window.location.href = 'http://localhost:8085/oauth2/authorization/facebook';
-        } else if (provider === 'naver') {
-            window.location.href = 'http://localhost:8085/oauth2/authorization/naver';
-        }
     };
 
     return (
@@ -272,7 +263,10 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     onClick={termsOnOffModal}>회원가입
                 </button>
                 {
-                    termsModalState ? <Terms setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler} /> : null
+                    termsModalState ? <Terms setSignUpAlert={setSignUpAlert} setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler} /> : null
+                }
+                {
+                    signUpAlert ? <ForgotPwAlert resultMessage={"회원가입이 완료 되었습니다."} setTermsModalState={setTermsModalState} setSignUpModalState={setSignUpModalState} setSignUpAlert={setSignUpAlert}/> : null
                 }
             </form>
             <div className={styles.user_sign_messageContainer}>
@@ -284,22 +278,10 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     </span>
                 </span>
             </div>
-            <hr className={styles.user_login_hr_2}></hr>
-            <ul>
-                <li className={styles.signUp_kakao} onClick={() => oAuth2SignUpHandler('kakao')}>
-                    <img src={kakao_icon} className={styles.logo} alt='kakao_logo'></img>
-                </li>
-                <li className={styles.signUp_google} onClick={() => oAuth2SignUpHandler('google')}>
-                    <img src={google_icon} className={styles.logo} alt='google_logo'></img>
-                </li>
-                <li className={styles.signUp_facebook} onClick={() => oAuth2SignUpHandler('facebook')}>
-                    <img src={facebook_icon} className={styles.logo} alt='naver_logo'></img>
-                </li>
-                <li className={styles.signUp_naver} onClick={() => oAuth2SignUpHandler('naver')}>
-                    <img src={naver_icon} className={styles.logo} alt='naver_logo'></img>
-                </li>
-            </ul>
+            <hr className={styles.user_login_hr_2}/>
+            <OAuth2 signUpOAuth2={'signUpOAuth2'}/>
             {termsModalState && (<div className={styles.modalBackground_1} style={{ backgroundColor: "black" }} />)}
+            {signUpAlert && (<div className={styles.modalBackground_1} style={{ backgroundColor: "black" }} />)}
         </div>
     )
 }
