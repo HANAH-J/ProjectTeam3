@@ -1,9 +1,8 @@
 import styles from '../../css/details/Detail_num2.module.css';
 import React, { useEffect, useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
-import poster from '../../img/Detail/poster.jpg'
 import Charts from './smallComponents/charts';
-import { AiOutlinePlus,AiFillEye,AiOutlineLine } from "react-icons/ai";
+import { AiOutlinePlus,AiFillEye,AiOutlineLine,AiOutlineClose } from "react-icons/ai";
 import { BiSolidPencil,BiDotsHorizontalRounded } from "react-icons/bi";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -16,6 +15,56 @@ function Detailnum2(props){
     const movie = props.item;
     const [wantTo , setWantTo] = useState(false);
     const [hovered, setHovered] = useState(false);
+    const [showCommentForm, setShowCommentForm] = useState(false);
+    const [commentValue, setCommentValue] = useState('');
+    const showModalHandler = () => {
+        setShowCommentForm(!showCommentForm);
+      };
+      const handleCommentChange = (event) => {
+        setCommentValue(event.target.value);
+      };
+    
+      const handleCommentSubmit = (event) => {
+        event.preventDefault();
+        hideModalHandler();
+      };
+      
+      const hideModalHandler = () => {
+        setShowCommentForm(false);
+      };
+
+      const sendFormData = () => {
+        setShowCommentForm(false);
+        console.log(commentValue);
+        const token = cookies.token;
+        if (token) {
+            const config = {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  withCredentials: true,
+                },
+              };
+            setLoggedIn(true);
+            const data = new URLSearchParams();
+            data.append('commentContent', commentValue);
+            data.append('movieId', movie.movieId);
+            axios.post("http://localhost:8085/details/commentSave", data,config)
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.error('Error fetching data:', error);
+                });
+        } else {
+            setLoggedIn(false);
+            console.log('not logged in');
+            console.log('token' + token);
+            alert('로그인을 해주세요.');
+            // 로그인 콘솔 띄우기
+        }
+      };
+      
+    
     useEffect(()=>{
         //유저데이터에 rating 이랑 wanttosee랑 comment가 필요
     });
@@ -225,12 +274,19 @@ function Detailnum2(props){
                                 </div>
                                    </>
                                 )}
-                                <div className={styles.right_top_right_comment}>
-                                    <div className={styles.wantToSee_icon}>
-                                        <BiSolidPencil size={40} strokeWidth={0}/>
-                                    </div>
-                                    <p>커멘트</p>
-                                </div>
+                                  <div
+                      className={`${styles.right_top_right_comment} ${
+                        hovered ? styles.comment_icon_hovered : ''
+                      }`}
+                      onClick={showModalHandler}
+                      onMouseEnter={() => setHovered(true)}
+                      onMouseLeave={() => setHovered(false)}
+                    >
+                      <div className={styles.wantToSee_icon}>
+                        <BiSolidPencil size={40} strokeWidth={0} />
+                      </div>
+                      <p>커멘트</p>
+                    </div>
                                 <div className={styles.right_top_right_watching}>
                                     <div className={styles.wantToSee_icon}>
                                         <AiFillEye size={40} />
@@ -249,10 +305,37 @@ function Detailnum2(props){
                             <p>{addLineBreaks(props.item.overview)}</p>
                         </div>
                         <div className={styles.right_bottom_ad}></div>
+                        
                     </div>
                     </div>
                 
             </div>
+            {showCommentForm && (
+  <div className={styles.modalWrapper}>
+    <div className={styles.modal}>
+    <div onClick={hideModalHandler} className={styles.closeButton}>
+              <AiOutlineClose/>
+    </div>
+      <div className={styles.modalContent}>
+        <h2>{movie.title}</h2>
+        <form onSubmit={handleCommentSubmit}>
+          <textarea
+            value={commentValue}
+            onChange={handleCommentChange}
+            rows={4}
+            cols={50}
+          />
+          <div className={styles.submitButtonContainer}>
+            
+            <button type="submit" className={styles.submitButton} onClick={sendFormData}>
+              작성하기
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+)}
         </div>
     );
 }
