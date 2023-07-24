@@ -16,12 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.parser.Parser;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -216,6 +214,8 @@ public class DetailController {
 
         LocalDate l = LocalDate.now();
         String now = l.toString();
+        dto.setUserName(userEntity.getUsername());
+        dto.setPFImage(profileService.getProfileByUserCd(userEntity).getPfImage());
         dto.setCommentDate(now);
         dto.setCommentContent(request.getParameter("commentContent"));
         dto.setUserCd(userCd);
@@ -229,13 +229,80 @@ public class DetailController {
 
     @RequestMapping("details/commentGetUser")
     public CommentUserDTO getCommentUser(@RequestParam("userCd") int userCd){
-        UserEntity user = DS.findUserByUserCd(userCd);
-        ProfileDTO profile = DS.findProfileByUserCd(userCd);
 
+        UserEntity user = DS.findUserByUserCd(userCd);
+        System.out.println(user);
+        if(user==null){
+            return null;
+        }
+        ProfileDTO profile = DS.findProfileByUser(user);
+        System.out.println(profile);
         CommentUserDTO cud = new CommentUserDTO();
         cud.setUserName(user.getUsername());
         cud.setPFImage(profile.getPfImage());
 
         return cud;
+    }
+
+    @RequestMapping("comment/commentGoodUp")
+    public void commentGoodUp(@RequestBody Map<String, Integer> requestBody){
+        int commentId = requestBody.get("commentId");
+        CommentDataDto comment = DS.getCommentById(commentId);
+        comment.setCommentGood(comment.getCommentGood()+1);
+        DS.saveCommentData(comment);
+    }
+    @RequestMapping("comment/cCommentGoodUp")
+    public void cCommentGoodUp(@RequestBody Map<String, Integer> requestBody){
+        int cCommentId = requestBody.get("cCommentId");
+        CcommentDataDto cComment = DS.getCcommentById(cCommentId);
+        cComment.setCCommentGood(cComment.getCCommentGood()+1);
+        DS.saveCcommentData(cComment);
+    }
+
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping("details/cCommentSave")
+    public String cCommentSave(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
+        String token = authorizationHeader;
+        int commentId = Integer.parseInt(request.getParameter("commentId"));
+
+        if (token != null && token.startsWith("Bearer ")) { // 토큰 형식 검사
+            token = token.substring(7);
+        } else {
+            String errorResponse = "유효하지 않은 토큰 형식1";
+            return errorResponse;
+        }
+
+        // 토큰 유효성 검사 ... 만료된 토큰이거나, 서명 키가 일치하지 않는 토큰
+        String userEmail = jwtTokenProvider.validate(token);
+        if (userEmail == null) {
+            String errorResponse = "유효하지 않은 토큰 형식2";
+            return errorResponse;
+        }
+
+        UserEntity userEntity = profileService.getCurrentUserDetails();
+
+        if(userEntity == null) {
+            String errorResponse = "유효하지 않은 토큰 형식3";
+            return errorResponse;
+        }
+        int userCd = userEntity.getUserCd();
+
+        ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
+        CcommentDataDto dto = new CcommentDataDto();
+
+        dto.setCCommentContent(request.getParameter("cCommentContent"));
+        dto.setUserCd(userCd);
+        dto.setCommentId(commentId);
+        dto.setPFImage(profile.getPfImage());
+        dto.setUserName(userEntity.getUsername());
+        String result = DS.saveCcommentData(dto);
+
+        return result;
+    }
+    @RequestMapping("details/getCcomment")
+    public List<CcommentDataDto> getCcomment(@RequestParam("commentId") int commentId){
+        List<CcommentDataDto> c = DS.getCcommentByCommentId(commentId);
+        return c;
     }
 }
