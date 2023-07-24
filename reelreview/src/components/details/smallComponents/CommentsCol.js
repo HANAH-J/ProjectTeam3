@@ -12,24 +12,17 @@ function CommentsCol(props) {
     console.log(comment);
     console.log(userCd);
 
-    const [userData,setUserData] = useState([]);
-    useEffect(()=>{
-        axios.get("http://localhost:8085/details/commentGetUser",userCd)
-        .then((response)=>{
-            setUserData(response.data);
-        }).catch((error)=>{
-            console.log(error);
-        });
-    },[]);
+ 
     return(
+        
         <div className={styles.col}>
-
-            <div className={styles.card}>
+            {comment &&(
+                <div className={styles.card}>
                 <div className={styles.cardTop}>
                     <div className={styles.cardTopInner}>
                         <div className={styles.cardTopLeft}>
-                            <img src={userData.PFImage} className={styles.cardImg}/>
-                                <p>{userData.userName}</p>
+                            <img src={comment.pFImage} className={styles.cardImg}/>
+                                <p>{comment.userName}</p>
                         </div>
                         <div className={styles.cardTopRight}>
                             <div className={styles.cardStars}>
@@ -40,7 +33,7 @@ function CommentsCol(props) {
                     </div>
                 </div>
                 <div className={styles.cardMiddle}>
-                    <Link to={`/commentDetail?comment=${JSON.stringify(comment)}&userData=${JSON.stringify(userData)}`}>
+                    <Link to="/commentDetail" state={{"comment":comment}}>  
                         <div className={styles.comment}>
                             <p>
                                 {comment.commentContent}
@@ -55,6 +48,8 @@ function CommentsCol(props) {
                     <p>{comment.cCommentcount}1</p>
                 </div>
             </div>
+            )}
+            
         </div>
     )
 }
