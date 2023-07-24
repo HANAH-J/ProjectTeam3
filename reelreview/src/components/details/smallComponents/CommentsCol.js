@@ -1,11 +1,10 @@
 import styles from '../../../css/details/Detail_num4.module.css';
-import imgs from '../../../img/Detail/people.jpg';
 import { RiStarSFill } from "react-icons/ri";
 import { FaThumbsUp } from "react-icons/fa";
 import { ImBubble } from "react-icons/im";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 
 function CommentsCol(props) {
     const comment = props.comment;
@@ -41,13 +40,13 @@ function CommentsCol(props) {
                     </div>
                 </div>
                 <div className={styles.cardMiddle}>
-                    <a href='./commentDetail'>
+                    <Link to={`/commentDetail?comment=${JSON.stringify(comment)}&userData=${JSON.stringify(userData)}`}>
                         <div className={styles.comment}>
                             <p>
                                 {comment.commentContent}
                             </p>
                         </div>
-                    </a>
+                    </Link>
                 </div>
                 <div className={styles.cardBottom}>
                     <span><FaThumbsUp size={14}/></span>
