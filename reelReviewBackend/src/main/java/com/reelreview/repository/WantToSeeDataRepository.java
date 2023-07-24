@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface WantToSeeDataRepository extends JpaRepository<WantToSeeDataDto,String> {
     List<WantToSeeDataDto> findByUserCd(int userCd);
+
+    WantToSeeDataDto findByUserCdAndMovieId(int userCd, int movieId);
 }

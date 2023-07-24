@@ -66,12 +66,41 @@ function Detailnum2(props){
       
     
     useEffect(()=>{
+      const token = cookies.token;
+      console.log(cookies.token);
+      
+      if(token){
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            withCredentials: true,
+          },
+        };
+        const data = new URLSearchParams();      
+        data.append('movieId', movie.movieId);
+        axios.post("http://localhost:8085/details/getWantToSee", data,config)
+        .then((response)=>{
+          if(response.data=='want'){
+            setWantTo(true);
+          }else{
+            setWantTo(false)
+          }
+        }).catch((error)=>{
+          console.log(error);
+        })
+      }
+      else {
+        setLoggedIn(false);
+        console.log('not logged in');
+        console.log('token' + token);
+        alert('로그인을 해주세요.');
+        // 로그인 콘솔 띄우기
+    }
         //유저데이터에 rating 이랑 wanttosee랑 comment가 필요
     });
 
     // 보고싶어요 클릭시 서버로 보고싶어요 데이터 보내서 정보저장
     const wantToSee = (wantTo) => () => {
-        setWantTo(true); //유저데이터에 데이터가 넘어오면 필요없는 라인
         const token = cookies.token;
         setRating(rate);
         console.log(wantTo);
