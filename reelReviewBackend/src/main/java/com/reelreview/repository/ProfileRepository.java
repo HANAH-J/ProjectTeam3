@@ -16,5 +16,5 @@ import org.springframework.stereotype.Repository;
 public interface ProfileRepository extends JpaRepository<ProfileDTO, Integer> { //제너릭 첫번째는 entity클래스명, 두번째는 entity primary키의 타입
 
     public ProfileDTO findByUserCd(UserEntity userCd);
-
+    ProfileDTO findByUserCd(int userCd);
 }

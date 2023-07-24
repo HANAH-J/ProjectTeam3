@@ -11,7 +11,7 @@ public class WantToSeeDataDto {
     @Id
     private String wantToSeeId;
     private int userCd;
-    private long movieId;
+    private int movieId;
 
     public void setWantToSeeId(int userCd, int movieId) {
         this.wantToSeeId = String.valueOf(userCd)+" "+String.valueOf(movieId);

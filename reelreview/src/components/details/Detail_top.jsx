@@ -19,6 +19,7 @@ function Detailtop(props) {
     width: "100%",
     height: "550px",
     fontFamily: 'Roboto, "Noto Sans KR", sans-serif',
+   
   };
 
   return (

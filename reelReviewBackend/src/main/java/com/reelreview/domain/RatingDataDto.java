@@ -12,9 +12,9 @@ public class RatingDataDto {
     private String ratingId;
     private int userCd;
     private double rate;
-    private long movieId;
+    private int movieId;
 
-    public void setRatingId(int userCd, long movieId){
+    public void setRatingId(int userCd, int movieId){
         this.ratingId = String.valueOf(userCd)+" "+String.valueOf(movieId);
     }
 }
