@@ -138,9 +138,12 @@ public class BoardController {
                              @RequestParam(value = "commentValue",
                                      required = false) String commentValue,
                             @RequestParam(value = "boardcd",
-                                    required = false) Integer boardcd) {
+                                    required = false) Integer boardcd,
+                              @RequestParam(value = "commentWriter",
+                                      required = false) String commentWriter) {
         BoardCommentDTO boardCommentDTO = new BoardCommentDTO();
         boardCommentDTO.setCommentContent(commentValue);
+        boardCommentDTO.setCommentWriter(commentWriter);
 
         boardCommentDTO.setBoardcd(boardcd);
 
@@ -160,6 +163,12 @@ public class BoardController {
         return boardService.getComments(boardCd);
     }
 
+    @GetMapping("/searchBoardWriter")
+    public List<BoardDTO> searchBoardWriter(@RequestParam(value = "writer") String writer) {
+        List<BoardDTO> boardWriter = boardService.findByBoardWriter(writer);
+
+        return boardWriter;
+    }
 
 
 }

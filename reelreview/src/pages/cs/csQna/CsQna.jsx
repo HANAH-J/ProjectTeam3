@@ -6,15 +6,68 @@ import { Link, useNavigate  } from "react-router-dom";
 import CsFooter from '../../../components/Footer/CsFooter';
 import CsHeader from '../../../components/Header/CsHeader';
 import { BiChevronLeft } from "react-icons/bi";
+import { useCookies } from 'react-cookie';
 
 function CsQna() {
 
     const [title, setTitle] = useState('');
+    const [writer, setWriter] = useState('');
     const [content, setContent] = useState('');
     const [file, setFile] = useState(null);
     const [fileName, setFileName] = useState("");
     const navigate = useNavigate();
+    const [loggedInToken, setLoggedInToken] = useState('');
+    const [cookies] = useCookies(['token']);
+    const [userData, setUserData] = useState({});
+    const [userCd, setUserCd] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [profileData, setProfileData] = useState({});
+
+
+      useEffect(() => {
+    // 쿠키에서 토큰 정보 가져오기
+    const token = cookies.token;
+
+    if (token) {
+        setLoggedIn(true);
+        fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
+        console.log(token);
+      } else {
+        setLoggedIn(false);
+      }
+    }, [cookies.token]);
+
+    const fetchUserData = (token) => {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            withCredentials: true,
+          },
+        };
     
+        axios.get('http://localhost:8085/userProfiles', config)
+          .then(response => {
+    
+            const responseData = response.data;
+            setUserCd(responseData.userDTO.userCd); //userCd값 설정 -> Modal에서 사용
+    
+            const userDTO = {
+              userCd: responseData.userDTO.userCd,
+              username: responseData.userDTO.username
+            };
+    
+            const profileDTO = {
+              status: responseData.profileDTO.status
+            };
+    
+            setUserData(userDTO);
+            setProfileData(profileDTO);
+            console.log(userDTO.username + ' is logged in');
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+      }
 
    const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -23,6 +76,7 @@ function CsQna() {
     data.append("title",title);
     data.append("content",content);
     data.append("file",file);
+    data.append("writer",userData.username);
 
     
        axios.post('http://localhost:8085/api/board/writepro', data).then((response) => { alert('작성 완료!!'); navigate('/CsBoard');
@@ -57,6 +111,14 @@ function CsQna() {
                             <div className={styles.CsQna_box_body4_title}>
                             <input type="text" name="title" required value={title} onChange={(e) => setTitle(e.target.value)}/>
                             </div>
+                        </div>
+                        <div className={styles.CsQna_hidden}>
+                            <div>작성자</div>
+                            <div className={styles.CsQna_box_body4_writer}></div>
+                            <input type="text"
+                                    name="writer"
+                                    required value={userData.username}
+                                    onChange={(e) => setWriter(e.target.value)}/>
                         </div>
                         <div className={styles.CsQna_box_body3}>
                             <div>문의 내용</div>

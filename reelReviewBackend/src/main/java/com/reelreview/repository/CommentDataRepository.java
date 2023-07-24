@@ -8,4 +8,6 @@ import java.util.List;
 public interface CommentDataRepository  extends JpaRepository<CommentDataDto,Integer> {
 
     List<CommentDataDto> findByMovieId(Integer movieId);
+
+    List<CommentDataDto> findByUserCd(int movieId);
 }

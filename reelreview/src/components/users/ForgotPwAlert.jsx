@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from '../../css/users/Alert.module.css';
 
 // 임시 비밀번호 발급 여부 알림 모달창
-export default function ForgotPwAlert({resultMessage, setSignInModalState, setAlertModalState, setForgotPwModalState, alertHeight}) {
+export default function ForgotPwAlert({resultMessage, setSignInModalState, setSignUpModalState, signUpAlert, setAlertModalState, setForgotPwModalState, alertHeight}) {
     const allmodalStateHandler = () => {
         setAlertModalState(false);
         setForgotPwModalState(false);
+        signUpAlert(false);
         setSignInModalState(false);
+        setSignUpModalState(false);
+
     }
 
     return (

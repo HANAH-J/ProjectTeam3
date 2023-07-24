@@ -25,6 +25,7 @@
     z-index: 1001;
 }
 
+/* 임시 비밀번호 발급 알림창 - 일반 */
 .forgotPw_alert {
     border-radius: 12px;
     width: 250px;
@@ -41,6 +42,7 @@
     z-index: 1002;
 }
 
+/* 임시 비밀번호 발급 알림창 - 소셜 */
 .forgotPw_alert2 {
     border-radius: 12px;
     width: 250px;
@@ -57,6 +59,41 @@
     z-index: 1002;
 }
 
+/* 로그아웃 확인 알림창 - header */
+.signOut_alert {
+    border-radius: 12px;
+    width: 250px;
+    height: 110px;
+    position: absolute;
+    top: 650%;
+    left: 50%;
+    margin-left: -125px;
+    padding: 15px;
+    background-color: #ffffff;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+    box-shadow: 0 2px 10px 1px #707070;
+    z-index: 1002;
+}
+
+/* 로그아웃 확인 알림창 - profile */
+.signOut_alert2 {
+    border-radius: 12px;
+    width: 250px;
+    height: 110px;
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    margin-left: -125px;
+    padding: 15px;
+    background-color: #ffffff;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+    box-shadow: 0 2px 10px 1px #707070;
+    z-index: 1002;
+}
+
+/* 공통 사용 클래스 */
 .alert_h2 {
     font-size: 17px;
 }
@@ -71,7 +108,13 @@
 }
 
 .alert_hr {
-    border:0;
+    border:1px;
+    height:1px;
+    background-color: lightgray;
+}
+
+hr {
+    border:1px;
     height:1px;
     background-color: lightgray;
 }
@@ -106,38 +149,4 @@
 
 .alert_dualBtn1 {
     border-right: 1px solid lightgray;
-}
-
-/* 로그아웃 확인 알림창 - header */
-.signOut_alert {
-    border-radius: 12px;
-    width: 250px;
-    height: 110px;
-    position: absolute;
-    top: 350px;
-    left: 50%;
-    margin-left: -125px;
-    padding: 15px;
-    background-color: #ffffff;
-    font-family: 'Noto Sans KR', sans-serif;
-    text-align: center;
-    box-shadow: 0 2px 10px 1px #707070;
-    z-index: 1002;
-}
-
-/* 로그아웃 확인 알림창 - profile */
-.signOut_alert2 {
-    border-radius: 12px;
-    width: 250px;
-    height: 110px;
-    position: absolute;
-    top: 150px;
-    left: 50%;
-    margin-left: -125px;
-    padding: 15px;
-    background-color: #ffffff;
-    font-family: 'Noto Sans KR', sans-serif;
-    text-align: center;
-    box-shadow: 0 2px 10px 1px #707070;
-    z-index: 1002;
 }

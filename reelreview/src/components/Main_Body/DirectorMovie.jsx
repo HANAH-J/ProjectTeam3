@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css'; 
-const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;

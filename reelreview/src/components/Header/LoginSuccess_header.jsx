@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from "../../stores/index.ts";
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
-import SignOutHeaderAlert from "../users/SignOutHeaderAlert";
+import SignOutAlert from "../users/SignOutAlert";
 
 export default function LoginSuccess_header({ profileData, userData }) {
   const userCd = userData ? userData.userCd : null;
@@ -73,7 +73,7 @@ export default function LoginSuccess_header({ profileData, userData }) {
             </div>
           </li>
           <li className={styles.nameLi} onClick={openSignOutAlert}> 로그아웃 </li>
-          {showSignOutAlert && <SignOutHeaderAlert closeSignOutAlert={closeSignOutAlert} signOutHandler={signOutHandler}/>}
+          {showSignOutAlert && <SignOutAlert closeSignOutAlert={closeSignOutAlert} signOutHandler={signOutHandler} SignOutHeader={'SignOutHeader'}/>}
           <Link to="/csMain" className={styles.csMainPage} style={{ textDecoration: 'none' }}>
             <li className={styles.nameLi}> 문의하기 </li>
           </Link>
