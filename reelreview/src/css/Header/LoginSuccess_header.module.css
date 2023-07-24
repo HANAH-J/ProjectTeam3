@@ -28,14 +28,13 @@
 }
 
 .topNav .navWrapper .leftNav .logoSection {
-    width: 160px;
+    width: 180px;
     height: 40px;
     font-size: 0;
-    background-image: url("../../img/Header/Reel_Review_logo.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    margin-left: 50px;
+    margin-left: 10px;
     cursor: pointer;
 }
 
@@ -105,6 +104,7 @@
   .nameLi {
     color: black;
     margin-right: 20px;
+    cursor: pointer;
   }
 
   @media (max-width: 770px) {

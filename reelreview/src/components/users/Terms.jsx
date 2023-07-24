@@ -135,17 +135,8 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
             </ul>
             {/* 가입하기 버튼 */}
             <div>
-                <button
-                    className={styles.user_terms_btn}
-                    style={{ color: submitButtonColor }}
-                    onClick={() => {
-                        if (isAllTermsAgreed()) {
-                            onSubmitHandler();
-                        } else {
-                            // 약관에 동의하지 않은 경우에 대한 처리 (예: 에러 메시지 출력)
-                            console.log("약관에 동의해야 가입이 완료됩니다.");
-                        }
-                    }}>가입하기
+                <button className={styles.user_terms_btn} style={{ color: submitButtonColor }} onClick={onSubmitHandler}>
+                    가입하기
                 </button>
             </div>
         </div>

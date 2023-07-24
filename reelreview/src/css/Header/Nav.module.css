@@ -27,13 +27,13 @@
 }
 
 .logoSection {
-    width: 160px;
+    width: 180px;
     height: 40px;
     font-size: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    margin-left: 50px;
+    margin-left: 10px;
     cursor: pointer;
 }
 
