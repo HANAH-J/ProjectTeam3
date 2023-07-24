@@ -6,7 +6,7 @@ import styles from '../../css/main/Mainpage.module.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
+const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -116,7 +116,6 @@ export default function BoxOffice() {
   
   return (
     <Slider {...settings}>
-      
       {boxofficeList.map((item, index) => (
         <div className={styles.BoxOffice_mainBox} key={item.movieId}>
           <div className={styles.BoxOffice_poster} onClick={()=>onClickDetailPage(item)}>

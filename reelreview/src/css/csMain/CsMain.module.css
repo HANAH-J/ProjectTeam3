@@ -308,6 +308,10 @@
   padding: 10px;
 }
 
+.CsQna_hidden {
+  display: none;
+}
+
 .CsQna_box_body5 {
   height: 100px;
   margin-top: 20px;
@@ -499,11 +503,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: normal;
+}
+
+.CsBoard_table_box td a {
+  color: #333;
 }
 
 .CsBoard_table_box a {
   text-decoration: none; 
   color: #333;
+}
+
+.CsBoard_hover a:hover {
+  color: #f82f62 !important;
 }
 
 .CsBoard_line {
@@ -579,25 +592,85 @@ td {
   margin: 5px;
 }
 
+.CsBoard_headerBox {
+  display: flex; /* Add flex to arrange the children horizontally */
+  justify-content: space-between; /* Add space between the children */
+  align-items: center; /* Vertically align the children */
+  width: 100%;
+  height: 50px;
+}
+
+.CsBoard_header2 {
+  width: 50%;
+  height: 50px;
+}
+
+.CsBoard_header3_box {
+  width: 15%;
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center; /* Add align-items center */
+  background-color: #ddd;
+}
+
+.CsBoard_header3_img {
+  background-image: url("../../img/Header/search_icon.svg");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  height: 30px;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+}
+
+.CsBoard_header3_search {
+  height: 30px;
+  display: flex;
+}
+
+.CsBoard_header3_search input {
+  align-items: center;
+  height: 30px;
+  width: 100%;
+  background-color: #ddd; 
+  border: none;
+}
+
+.CsBoard_header3_search input:focus {
+  outline: none;
+} 
+
+
 /* CsBoard_box finish */
 
 /* CsBoardDetail start */
 
 .CsBoardDetail_wrapper {
-  width: 100%;
-  height: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.CsBoardDetail_content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 100px;
 }
 
 .CsBoardDetail_box_wrapper {
-  width: 100%;
-  height: 1000px;
+  flex-grow: 1;
+  display: flex;
 }
 
 .CsBoardDetail_box {
   padding-top: 30px;
   width: 80%;
-  height: 550px;
   margin-left: 10%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
 }
 
 .CsBoardDetail_qnaBox {
@@ -660,11 +733,14 @@ td {
 
 .CsBoardDetail_commentItem {
   width: 100%;
-  height: 50px; /* Set the desired height for each comment box */
   display: flex;
-  align-items: center;
   border-bottom: 1px solid rgba(66, 65, 65, 1);
   padding: 10px;
+  flex-direction: column;
+}
+
+.CsBoardDetail_commentItem_box {
+  margin-top: 20px;
 }
 
 .CsBoardDetail_qnaBox_delete,
@@ -805,9 +881,11 @@ td {
 }
 
 .CsBoardDetail_CsFooter {
-  position: relative;
-  display: flex;
+  margin-top: auto;
+  margin-bottom: 0;
 }
+
+
 
 /* CsBoardDetail finish */
 

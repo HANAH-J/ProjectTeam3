@@ -24,6 +24,7 @@ import CommentDetail from "./pages/details/CommentDetail";
 import MainPage_admin from "./pages/main/MainPage_admin";
 import ModifyBtn from "./components/csBoard/CsBoard_modify";
 import SearchSuccess from "./pages/main/SearchSuccess";
+import SearchSuccessWriter from "./pages/cs/csBoard/SearchSuccessWriter";
 import Imagefileshow from "./components/csBoard/Imagefileshow";
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
         <Route path="/genre" Component={Genre} />
         <Route path="/directorMovie" Component={DirectorMovie} />
         <Route path="/searchSuccess" element={<SearchSuccess/>}/>
+        <Route path="/searchSuccessWriter" element={<SearchSuccessWriter/>}/>
         <Route path='/csBoardDetail/:boardCd' element={<CsBoardDetail/>}/>
         <Route path="/mainPage_loginSuccess" element={<MainPage_loginSuccess/>} />
         <Route path="/userScoreCollection" element={<UserScoreCollection/>} />

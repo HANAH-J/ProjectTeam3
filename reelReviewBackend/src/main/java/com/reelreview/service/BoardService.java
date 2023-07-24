@@ -6,7 +6,6 @@ import com.reelreview.repository.BoardCommentRepository;
 import com.reelreview.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,6 +87,12 @@ public class BoardService {
         // JPA Repository를 사용하여 댓글 데이터를 가져옴
         return boardCommentRepository.findByBoardcd(boardcd);
     }
+
+    public List<BoardDTO> findByBoardWriter(String writer) {
+
+        return boardRepository.findByWriter(writer);
+    }
+
 }
 
 
