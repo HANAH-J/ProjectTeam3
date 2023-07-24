@@ -121,6 +121,14 @@ public class DetailService {
         return WDR.findByUserCd(userCd);
     }
 
+//    public List<RatingDataDto> findRatingsByMovieId(int movieId) {
+//        return RDR.findByMovieId(movieId);
+//    }
+
+    public List<CommentDataDto> findCommentsByUserCd(int userCd) {
+        return CDR.findByUserCd(userCd);
+    }
+
 
 
     public String saveCommentData(CommentDataDto dto) {

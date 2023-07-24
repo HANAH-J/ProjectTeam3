@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../../css/profile/MovieToWatch.module.css'
 import Header from "../../../components/Header/Header";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useCookies } from 'react-cookie';
 
@@ -13,6 +13,12 @@ function MovieToWatch() {
   const [movieDetails, setMovieDetails] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
+
+  const navigate = useNavigate();
+  const goToMovie = (movieDetails) => {
+    console.log(movieDetails);
+    navigate('/details',{state:{"item":movieDetails}})
+  };
   
   useEffect(() => {
     const token = cookies.token;
@@ -83,8 +89,9 @@ function MovieToWatch() {
                   className={styles.movieToWatch_MoviePoster}
                   alt="movie"
                   src={IMG_BASE_URL + movieDetails[index].poster_path}
+                  onClick={() => goToMovie(movieDetails[index])}
                 />
-                <h4 className={styles.movieToWatch_MovieTitle}>{movieDetails[index].title}</h4>
+                <h4 className={styles.movieToWatch_MovieTitle} onClick={() => goToMovie(movieDetails[index])}> {movieDetails[index].title} </h4>
                 <h5 className={styles.movieToWatch_Rating}>평균 ★ {movieDetails[index].vote_average}</h5>
               </li>
             </ul>
