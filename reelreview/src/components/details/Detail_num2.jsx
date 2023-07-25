@@ -93,7 +93,6 @@ function Detailnum2(props){
         setLoggedIn(false);
         console.log('not logged in');
         console.log('token' + token);
-        alert('로그인을 해주세요.');
         // 로그인 콘솔 띄우기
     }
         //유저데이터에 rating 이랑 wanttosee랑 comment가 필요
@@ -147,8 +146,7 @@ function Detailnum2(props){
             setLoggedIn(false);
             console.log('not logged in');
             console.log('token' + token);
-            alert('로그인을 해주세요.');
-            // 로그인 콘솔 띄우기
+            alert("로그인하세요");
         }
     }
 
@@ -186,8 +184,7 @@ function Detailnum2(props){
             setLoggedIn(false);
             console.log('not logged in');
             console.log('token' + token);
-            alert('로그인을 해주세요.');
-            // 로그인 콘솔 띄우기
+            alert('로그인하세요');
         }
     }
     const tooltipArray = ["0.5","1","1.5","2","2.5","3","3.5","4","4.5","5"];
