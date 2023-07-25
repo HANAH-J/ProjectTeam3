@@ -97,13 +97,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 60px;
+  width: 70px;
   height: 25px;
   padding: 2px 3px;
   border-radius: 30px;
   background-color: #ffffff;
   border: 1px solid #e3e3e3;
-  font-size: 14px;
+  font-size: 15px;
   margin-right: 0px;
   margin-left: 400px;
 }
@@ -164,6 +164,7 @@
   text-decoration: none;
   display: inline-block;
   transition: color 0.3s ease;
+  color: #000000;
 }
 
 .userComment_commentContent a:hover {
