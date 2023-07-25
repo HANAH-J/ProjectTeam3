@@ -100,6 +100,7 @@ public class DetailService {
         m.setUserCd(userCd);
         m.setWantToSeeId(userCd,movieId);
         WantToSeeDataDto a  = WDR.save(m);
+        System.out.println(a);
         if(a!=null){
             dataSaved = 1;
         }

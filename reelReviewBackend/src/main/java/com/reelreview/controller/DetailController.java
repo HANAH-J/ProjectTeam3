@@ -293,16 +293,20 @@ public class DetailController {
         }
         int userCd = userEntity.getUserCd();
 
-        ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
+        //ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
         CcommentDataDto dto = new CcommentDataDto();
         CommentDataDto comment = DS.getCommentById(commentId);  //(J)
+        LocalDate l = LocalDate.now();  //(J)
+        String now = l.toString();  //(J)
 
         dto.setCCommentContent(request.getParameter("cCommentContent"));
         dto.setUserCd(userCd);
         dto.setCommentId(commentId);
-        dto.setPFImage(profile.getPfImage());
+        //dto.setPFImage(profile.getPfImage());
         dto.setUserName(userEntity.getUsername());
+        dto.setCCommentDate(now);  //(J)
         comment.setCCommentcount(comment.getCCommentcount()+1); //(J)
+
         CcommentDataDto a = DS.saveCcommentData(dto);
         String result = a.getUserName();
         return result;
