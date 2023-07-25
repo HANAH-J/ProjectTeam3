@@ -14,6 +14,7 @@ import com.reelreview.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -189,5 +190,12 @@ public class DetailService {
         }else{
             return "no";
         }
+    }
+
+    public List<RatingDataDto> findRatingsByMovieCd(int movieId) {
+        List<RatingDataDto> d = RDR.findByMovieId(movieId);
+
+
+        return d;
     }
 }

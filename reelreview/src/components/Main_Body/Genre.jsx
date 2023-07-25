@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
-
+import { useNavigate } from 'react-router-dom';
 
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/w500/";
 
@@ -89,14 +89,18 @@ export default function Genre(props) {
             },
         ],
     };
+    const navigate = useNavigate();
 
+  const onClickDetailPage = (item) =>{
+    navigate('details',{state:{item}})
+  }
     const index = 0;
 
     return (
         <Slider {...settings}>
           {props.movieList.map((item, index) => (
             <div className={styles.Genre_mainBox}>
-              <div className={styles.Genre_poster}>
+              <div className={styles.Genre_poster} onClick={()=>{onClickDetailPage(item)}}>
                 <div className={styles.Genre_content}>
                     <span className={styles.ActorMovie_number}>{index + 1}</span>
                     <img src={IMG_BASE_URL + item.poster_path} alt="poster" />

@@ -95,8 +95,8 @@ export default function Upcomming() {
 
   const navigate = useNavigate();
 
-  const onClickDetailPage = () =>{
-    navigate('Details')
+  const onClickDetailPage = (item) =>{
+    navigate('details',{state:{item}})
   }
   
   
@@ -111,11 +111,13 @@ useEffect(()=>{
   }).catch((error)=>{console.log(error)})
    
 },[]);
+
+  
   return (
     <Slider {...settings}>
       {upcommingList.map((item, index) => (
         <div className={styles.Upcomming_mainBox} key={index}>
-          <div className={styles.Upcomming_poster}>
+          <div className={styles.Upcomming_poster} onClick={()=>{onClickDetailPage(item)}}>
           <div className={styles.Upcomming_content}>
           <span className={styles.Upcomming_number}>{index+1}</span>
             <img src={IMG_BASE_URL + item.poster_path} alt="poster" />

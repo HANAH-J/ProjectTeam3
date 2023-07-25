@@ -61,17 +61,15 @@ public class DetailController {
         List<Integer> simularMovieCd = DS.findMoviesByGenres(genres);
         List<MovieDetailsDTO> simularMovieDetails = DS.findMoviesBymovieCd(simularMovieCd);
         List<CommentDataDto> comments = DS.findCommentsByMovieCd(movieId);
+        List<RatingDataDto> ratings = DS.findRatingsByMovieCd(movieId);
         fulldata.put("movieImages",movieImages);
         fulldata.put("movieCrews",movieCrews);
         fulldata.put("movieCasts",movieCasts);
         fulldata.put("movieVideos",movieVideos);
         fulldata.put("simularMovieDetails",simularMovieDetails);
         fulldata.put("comments",comments);
-        System.out.println(movieCasts);
-        System.out.println(movieCrews);
-        System.out.println(movieImages);
-        System.out.println(movieVideos);
-        System.out.println(simularMovieDetails);
+        fulldata.put("ratings",ratings);
+        System.out.println("=================================================================================================================================="+ratings);
         return fulldata;
     }
 

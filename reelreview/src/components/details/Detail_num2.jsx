@@ -10,6 +10,8 @@ const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function Detailnum2(props){
     const [rate, setRating] = useState(0);
+    const ratingData =props.movieData.ratings;
+    console.log("djafasdkjflaksjdh"+ratingData);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [loggedIn, setLoggedIn] = useState(false);
     const movie = props.item;
@@ -238,7 +240,7 @@ function Detailnum2(props){
                             <span>평균 ★{props.item.vote_average}</span><div className={styles.numPeople}>({props.item.vote_count}명)</div>
                         </div>
                         <div className={styles.leftBottom_chart}>
-                            <Charts></Charts>
+                            <Charts ratingData={ratingData}/>
                         </div>
                         <div className={styles.leftBottom_chartNum}>
                             <p>1</p>
