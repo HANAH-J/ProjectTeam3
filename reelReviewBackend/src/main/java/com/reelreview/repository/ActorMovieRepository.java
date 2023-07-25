@@ -7,5 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ActorMovieRepository extends JpaRepository<ActorMovieDTO , Integer> {
-    List<ActorMovieDTO> findTop20ByActorDownDateOrderByReleaseDateDesc(String downDate);
+
+    List<ActorMovieDTO> findByActorDownDate(String string);
 }

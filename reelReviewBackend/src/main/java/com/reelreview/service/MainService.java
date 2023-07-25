@@ -25,6 +25,7 @@ import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MainService {
@@ -152,7 +153,7 @@ public class MainService {
     private static <E> List<E> getLimitedList(List<E> dataList, int maxSize) {
         int size = dataList.size();
         int fromIndex = Math.max(0, size - maxSize);
-        int toIndex = Math.min(size, maxSize);
+        int toIndex = Math.min(size, fromIndex+maxSize);
         return new ArrayList<>(dataList.subList(fromIndex, toIndex));
     }
     public List<MovieDetailsDTO> getMovieListFromActor(String name) throws ParseException, IOException, InterruptedException {
@@ -265,14 +266,20 @@ public class MainService {
     }
 
     public JSONObject getTodayTypeMovies(LocalDate l) {
-        List<DirectorMovieDTO> d = directorMovieRepo.findTop20ByDirectorDownDateOrderByReleaseDateDesc(l.toString());
-        List<ActorMovieDTO> a = actorMovieRepo.findTop20ByActorDownDateOrderByReleaseDateDesc(l.toString());
+        List<DirectorMovieDTO> d = directorMovieRepo.findByDirectorDownDate(l.toString());
+        List<ActorMovieDTO> a = actorMovieRepo.findByActorDownDate(l.toString());
         Optional<TodayGenreDTO> tgd = todayGenreRepo.findById(l.toString());
         List<MovieDetailsDTO> g = getMovieListFromGenre(tgd.orElseThrow().getGenreName());
         JSONObject j = new JSONObject();
+        d.removeIf(movie -> movie.getRelease_date() == null);
+        g.removeIf(movie -> movie.getRelease_date() == null);
+        a.removeIf(movie -> movie.getRelease_date() == null);
         Collections.sort(d, Comparator.comparing(DirectorMovieDTO::getRelease_date).reversed());
         Collections.sort(g, Comparator.comparing(MovieDetailsDTO::getRelease_date).reversed());
         Collections.sort(a, Comparator.comparing(ActorMovieDTO::getRelease_date).reversed());
+        d = d.stream().limit(20).collect(Collectors.toList());
+        a = a.stream().limit(20).collect(Collectors.toList());
+        g = g.stream().limit(20).collect(Collectors.toList());
         j.put("director",d);
         j.put("actor",a);
         j.put("genre",g);

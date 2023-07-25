@@ -21,7 +21,6 @@ export default function CommentDetail(props){
     const [commentGood,setCommentGood] = useState(comment.commentGood);
     const [loggedIn, setLoggedIn] = useState(false);
     const [cComment,setCcommentData] = useState([]);
-    const [cCommentGood,setCCommentGood] = useState(cComment.cCommentGood);
     const commentGoodOneUp = () => {
         axios
           .post("http://localhost:8085/comment/commentGoodUp", {commentId : commentId})
@@ -33,17 +32,32 @@ export default function CommentDetail(props){
             console.log(error);
           });
       };
-      const cCommentGoodOneUp = (cCommentId) => {
-        console.log(cCommentId);
+
+      const cCommentGoodOneUp = (cComment) => {
         axios
-          .post("http://localhost:8085/comment/cCommentGoodUp", {cCommentId : cCommentId})
+          .post("http://localhost:8085/comment/cCommentGoodUp", { cCommentId: cComment.ccommentId })
           .then((response) => {
-            // 서버로부터 좋아요 갯수를 증가시킨 데이터를 받아와서 comment 상태를 업데이트
-            setCCommentGood(cCommentGood+1);
+            // 서버로부터 좋아요 갯수를 증가시킨 데이터를 받아옴
+            const updatedCommentGood = response.data.ccommentGood; // 서버 응답에 맞게 수정해주세요
+            // 업데이트된 ccommentGood 값을 상태에 반영
+            updateCCommentGood(cComment.ccommentId, updatedCommentGood);
           })
           .catch((error) => {
             console.log(error);
           });
+      };
+      
+      const updateCCommentGood = (ccommentId, updatedCommentGood) => {
+        setCcommentData((prevCComment) => {
+          return prevCComment.map((item) => {
+            if (item.ccommentId === ccommentId) {
+              // 업데이트된 ccommentGood 값으로 새로운 객체를 생성하여 반환합니다.
+              return { ...item, ccommentGood: updatedCommentGood };
+            } else {
+              return item;
+            }
+          });
+        });
       };
     
       // 댓글 영역을 토글하는 함수
@@ -131,7 +145,7 @@ export default function CommentDetail(props){
                             <p>댓글</p><span>{comment.cCommentcount}</span>
                         </div>
                         <div className={styles.col_title_button}>
-                            <div className={styles.col_title_button_like} onClick={commentGoodOneUp}>
+                            <div className={styles.col_title_button_like} onClick={()=>commentGoodOneUp}>
                                 <FaRegThumbsUp className={styles.ThumbsUp}/>
                                 <p>좋아요</p>
                             </div>
@@ -151,10 +165,11 @@ export default function CommentDetail(props){
                 <div className={styles.comments}>
                     <h1>댓글</h1>
                 </div>
-                <div className={styles.commentcommentBox}>
+                
                     {cComment &&(
                         cComment.map((item,index)=>{
                             return(
+                              <div className={styles.commentcommentBox}>
                             <React.Fragment key={index}>
                             <div className={styles.ccImgBox}>
                               <div className={styles.ccimg}></div>
@@ -165,13 +180,13 @@ export default function CommentDetail(props){
                                 <div className={styles.ccDate}>5년 전</div>
                               </div>
                               <div className={styles.ccDetailMiddle}>
-                                {item.cCommentContent}
+                                {item.ccommentContent}
                               </div>
                               <div className={styles.ccDetailBottom}>
-                                <div className={styles.ccBottomLeft}>
+                                <div className={styles.ccBottomLeft} onClick={()=>{cCommentGoodOneUp(item)}}>
                                   <FaRegThumbsUp className={styles.ccLike} />
-                                  {item.cCommentId}
-                                  {cCommentGood}
+                
+                                  {item.ccommentGood}
                                 </div>
                                 <div className={styles.ccBottomRight}>
                                   <BsThreeDotsVertical className={styles.dots} />
@@ -179,11 +194,12 @@ export default function CommentDetail(props){
                               </div>
                             </div>
                           </React.Fragment>
+                          </div>
                         )})
                         
                     )}
                     
-                </div>
+                
             </div>
             <Footer></Footer>
             {isCommentOpen &&(
