@@ -14,72 +14,65 @@ import axios from "axios";
 import { useCookies } from 'react-cookie';
 
 function UserProfile() {
-    //const guestCd = useParams();
-    //const { currentUserCd } = useParams();
-
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
     const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
-    const responsive = {    //캐러셀 반응형 코드
+    const responsive = { //캐러셀 반응형 코드
         superLargeDesktop: {breakpoint: { max: 4000, min: 3000 }, items: 5},
         desktop: {breakpoint: { max: 3000, min: 1024 }, items: 3},
         tablet: {breakpoint: { max: 1024, min: 464 }, items: 2},
         mobile: {breakpoint: { max: 464, min: 0 },items: 1}
-      };
+    };
 
-      const userMovieToWatch = () => { navigate('/MovieToWatch'); }
-      const movieCollection = () => { navigate('/MovieCollection'); }
-      const userComment = () => { navigate('/userComment'); }
-      const userScoreCollection = () => { navigate('/UserScoreCollection'); }
-      const goToMain = () => { navigate('/'); }
+    const userMovieToWatch = () => { navigate('/MovieToWatch'); }
+    const userComment = () => { navigate('/userComment'); }
+    const userScoreCollection = () => { navigate('/UserScoreCollection'); }
+    const goToMain = () => { navigate('/'); }
 
-      const goToMovie = (movieDetails) => {
-        console.log(movieDetails);
-        navigate('/details',{state:{"item":movieDetails}})
-      };
+    const goToMovie = (movieDetails) => {
+      console.log(movieDetails);
+      navigate('/details',{state:{"item":movieDetails}})
+    };
 
-      const { user, removeUser } = useUserStore();
-      const [loggedIn, setLoggedIn] = useState(false);
+    const { user, removeUser } = useUserStore();
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [userData, setUserData] = useState({});
+    const [profileData, setProfileData] = useState({});
+    const [ratings, setRatings] = useState([]);
+    const [movieDetails, setMovieDetails] = useState([]);
+    const [userCd, setUserCd] = useState(null);
+    const [profileImage, setProfileImage] = useState(null);
+    const [userEmail, setUserEmail] = useState('');
+    const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
-      const [userData, setUserData] = useState({});
-      const [profileData, setProfileData] = useState({});
-      const [ratings, setRatings] = useState([]);
-      const [movieDetails, setMovieDetails] = useState([]);
-
-      const [userCd, setUserCd] = useState(null);
-      const [profileImage, setProfileImage] = useState(null);
-      const [userEmail, setUserEmail] = useState('');
-
-      const [cookies, setCookie, removeCookie] = useCookies(['token']);
-
-      useEffect(() => {
-        const token = cookies.token;
+    useEffect(() => {
+      const token = cookies.token;
     
-        if (token) {
-          setLoggedIn(true);
-          fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
-          console.log(token);
+      if (token) {
+        setLoggedIn(true);
+        fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
+        console.log(token);
           
-        } else {
-          setLoggedIn(false);
-          console.log('not logged in');
-          console.log('token' + token);
-          //alert('로그인을 해주세요.'); 
-          //navigate('/'); // 토큰이 없을 경우 메인으로 리디렉션
-        }
-      }, [cookies.token]);
+      } else {
+        setLoggedIn(false);
+        console.log('not logged in');
+        console.log('token' + token);
+        alert('로그인을 해주세요.'); 
+        navigate('/'); // 토큰이 없을 경우 메인으로 리디렉션
+      }
+    }, [cookies.token]);
     
-      const fetchUserData = (token) => {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            withCredentials: true,
-          },
-        };
+    const fetchUserData = (token) => {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          withCredentials: true,
+        },
+      };
     
-        axios.get('http://localhost:8085/userProfiles', config)
-          .then(response => {
+      axios.get('http://localhost:8085/userProfiles', config)
+           .then(response => {
 
             const responseData = response.data;
             setUserCd(responseData.userDTO.userCd); //userCd값 설정 -> Modal에서 사용
@@ -112,24 +105,22 @@ function UserProfile() {
           .catch(error => {
             console.error('Error fetching data:', error);
           });
-      }
+    }
 
-      const openPFPModal = () => { 
-        //if (currentUserCd === userData.userCd) {
-          setOpenModal(true);
-        //} else {
-        //  alert('프로필을 수정할 수 있는 권한이 없습니다.');
-        //}
-      }
+    const openPFPModal = () => { 
+      //if (currentUserCd === userData.userCd) {
+        setOpenModal(true);
+      //} else {
+      //  alert('프로필을 수정할 수 있는 권한이 없습니다.');
+      //}
+    }
 
-      const recentRatings = ratings ? ratings.slice(0, 5) : [];
-
+    const recentRatings = ratings ? ratings.slice(0, 5) : [];
 
     return (
-
     <div className={styles.UserProfile}>
-        <LoginSuccess_header profileData={profileData} userData={userData} />
-        <div className={styles.profileContainer}>
+      <LoginSuccess_header profileData={profileData} userData={userData} />
+      <div className={styles.profileContainer}>
 
             {profileData.bgImage === 'defaultBgImage' ? (
               <div className={styles.profileBg}>
@@ -191,9 +182,9 @@ function UserProfile() {
                           </div>
                         </>
                       ) : (
-                        <div style={{ color:'#A0A0A0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                          <p style={{ marginTop: '122px' }}>평가한 영화가 없습니다.</p>
-                          <p style={{ width: '100px', marginBottom: '122px', cursor: 'pointer' }} onClick={goToMain}>평가하러 가기</p>
+                        <div className={styles.noContent}>
+                          <p className={styles.noMovie}>평가한 영화가 없습니다.</p>
+                          <p className={styles.goRate} onClick={goToMain}>평가하러 가기</p>
                         </div>
                       )}
                     </div>
@@ -206,28 +197,23 @@ function UserProfile() {
                         <div className={styles.bottomHR}> <hr className={styles.userProfile_HR}/> </div>
                 </div>
 
-                <div className={styles.movieCollection} onClick={movieCollection}>
+                {/* <div className={styles.movieCollection} onClick={movieCollection}>
                         <h4>
                         {userData.username} 님의 컬렉션
                         </h4>
                         <div className={styles.bottomHR}> <hr className={styles.userProfile_HR}/> </div>
-                </div>
+                </div> */}
 
                 <div className={styles.userComment} onClick={userComment}>
                         <h4>코멘트</h4>
                 </div>
-
            </div>
         </div>
-
         {openModal === true ? <PFPModal setOpenModal={setOpenModal} userCd={userCd} userEmail={userEmail} removeUser={removeUser}/> : null}
         
-        
     <Footer/>
-        
   </div>
 );
-
 }
 
 export default UserProfile;
