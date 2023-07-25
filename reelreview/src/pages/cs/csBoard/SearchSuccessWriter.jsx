@@ -39,6 +39,7 @@ export default function SearchSuccessWriter() {
             .then((response) => {
                 console.log(response.data);
                 const sortedBoardList = response.data.sort((a, b) => b.boardCd - a.boardCd);
+                setCurrentPage(0);
                 navigate('/searchSuccessWriter', {
                     state: { boardList: response.data, searchedName: boardWriter },
                 });

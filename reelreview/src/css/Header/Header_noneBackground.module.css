@@ -7,7 +7,6 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #ffffff;
 }
 
 .navWrapper {
@@ -24,6 +23,16 @@
 
 .findMovies, .signInBtn, .signUp_li {
     list-style-type: none;
+}
+
+.rightNav .signInBtn {
+    color: rgba(255, 255, 255, 0.7);
+
+}
+
+.rightNav .signUp_li .signUpBtn {
+    color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.7);
 }
 
 .logoSection {
@@ -59,7 +68,7 @@
     background-size: 16px;
     background-image: url("../../img/Header/search_icon.svg");
     background-repeat: no-repeat;
-    background-color: #F5F5F7;
+    border: 1px solid #ddd;
     background-position: 15px 50%;
 }
 
@@ -69,6 +78,10 @@
     border: none;
     background: none;
     margin-left: 30px;
+}
+
+.findWrapper button {
+    display: none;
 }
 
 .findWrapper input:focus {
