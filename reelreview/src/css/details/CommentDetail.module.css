@@ -28,6 +28,7 @@
 .commentDetail_movieDetail {
     /* border: 1px solid blue; */
     text-align: right;
+    cursor: pointer;
 }
 
 
@@ -171,7 +172,6 @@
     width: 32px;
     height: 32px;
     border-radius: 32px;
-    background-color: black;
 }
 .ccDetail{
     width: 100%;
@@ -194,7 +194,7 @@
     float: right;
     color: gray;
     font-size: 12px;
-    margin-right: 20px;
+    margin-right: 35px;
 }
 .ccDetailMiddle{
     width: 100%;

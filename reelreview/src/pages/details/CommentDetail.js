@@ -30,8 +30,6 @@ export default function CommentDetail(props){
     const [cCommentGood,setCCommentGood] = useState(cComment.cCommentGood);
     const [movieDetail, setMovieDetail] = useState([]);
 
-    const [cCommentList, setcCommentList] = useState([]);
-
     // 로그인시 헤더에 필요한 부분
     const [userData, setUserData] = useState(null);
     const [profileData, setProfileData] = useState(null);
@@ -40,14 +38,17 @@ export default function CommentDetail(props){
     // 코멘트 작성 유저 코드 가지고오기
     const commentUserCd = comment ? comment.userCd : null;
     // 이미지를 찾을 수 없을 경우, 기본 프로필 사진 출력
-    const onImageError = () => {
+    const onImageErrorComment = () => {
       const fallbackImageUrl = userPFP;
       const imageElement = document.querySelector(`.${styles.cmImg}`);
       imageElement.src = fallbackImageUrl;
     };
 
-    // 대댓글 작성 유저 코드
-    const cCommentUserCd = cComment ? cComment.userCd : null; //cComment 안불러와져서 오류
+    const onImageErrorCComment = () => {
+      const fallbackImageUrl = userPFP;
+      const imageElement = document.querySelector(`.${styles.ccimg}`);
+      imageElement.src = fallbackImageUrl;
+    };
 
     const goToMovie = (movieDetail) => {
       navigate('/details',{state:{"item":movieDetail}})
@@ -92,11 +93,6 @@ export default function CommentDetail(props){
               console.error('Error fetching data:', error);
           });
   }
-
-
-
-
-
 
     const commentGoodOneUp = () => {
         axios
@@ -155,7 +151,6 @@ export default function CommentDetail(props){
       const hideModalHandler = () => {
         setIsCommentOpen(false);
       };
-
       const sendFormData = () => {
         setShowCommentForm(false);
         console.log(commentValue);
@@ -174,6 +169,7 @@ export default function CommentDetail(props){
             axios.post("http://localhost:8085/details/cCommentSave", data,config)
                 .then((response) => {
                     console.log(response.data);
+                    window.location.reload();
                 })
                 .catch((error) => {
                     console.error('Error fetching data:', error);
@@ -183,15 +179,13 @@ export default function CommentDetail(props){
             console.log('not logged in');
             console.log('token' + token);
             alert('로그인을 해주세요.');
-            // 로그인 콘솔 띄우기
         }
       };
       useEffect(()=>{
         axios.get("http://localhost:8085/details/getCcomment",{params:{commentId:commentId}})
         .then((response)=>{
             setCcommentData(response.data);
-            console.log(cComment);
-            console.log(response.data);
+
         }).catch((error)=>{
             console.log(error);
         });
@@ -206,12 +200,7 @@ export default function CommentDetail(props){
         .catch((error) => {
           console.log(error);
         });
-
     },[]);
-
-    console.log("comment movieId" + comment.movieId);
-    console.log("cCommentList : " + cCommentList.cCommentContent);
-
     return(
         <div className={styles.movieCollection_Wrapper}>
             {cookies.token ? <LoginSuccess_header profileData={profileData} userData={userData} /> : <Header />}
@@ -220,7 +209,7 @@ export default function CommentDetail(props){
                     <div className={styles.commentTitle}>
                         <div className={styles.cmImgBox}>
                             <div>
-                              <img alt="profile" className={styles.cmImg} src={`http://localhost:8085/userProfiles/getProfilePicture?userCd=${commentUserCd}`} onError={onImageError}/>
+                              <img alt="profile" className={styles.cmImg} src={`http://localhost:8085/userProfiles/getProfilePicture?userCd=${commentUserCd}`} onError={onImageErrorComment}/>
                             </div>
                         </div>
                         <div className={styles.cmName}>{comment.userName}</div>
@@ -233,18 +222,17 @@ export default function CommentDetail(props){
                           alt='Movie Poster'
                           onClick={() => goToMovie(movieDetail)}
                         />
-                        <h1>
+                        <h1 onClick={() => goToMovie(movieDetail)}>
                             {movieDetail.title}
                         </h1>
                       </div>
                     <div className={styles.commentArea}>{comment.commentContent}</div>
-
                         <div className={styles.col_title_bot_small}>
                             <p>좋아요</p><span>{commentGood}</span>
                             <p>댓글</p><span>{comment.ccommentcount}</span> {/* cCommentcount로 넣어주면 못불러옴 */}
                         </div>
                         <div className={styles.col_title_button}>
-                            <div className={styles.col_title_button_like} onClick={()=>commentGoodOneUp}>
+                            <div className={styles.col_title_button_like} onClick={commentGoodOneUp}>
                                 <FaRegThumbsUp className={styles.ThumbsUp}/>
                                 <p>좋아요</p>
                             </div>
@@ -260,11 +248,9 @@ export default function CommentDetail(props){
                         </div>
                     </div>
                 </section>
-                
                 <div className={styles.comments}>
                     <h1>댓글</h1>
                 </div>
-                
                     {cComment &&(
                         cComment.map((item,index)=>{
                             return(
@@ -272,13 +258,13 @@ export default function CommentDetail(props){
                             <React.Fragment key={index}>
                             <div className={styles.ccImgBox}>
                               <div>
-                              <img alt="profile" className={styles.ccimg} src={`http://localhost:8085/userProfiles/getProfilePicture?userCd=${cCommentUserCd}`} onError={onImageError}/>
+                                <img alt="profile" className={styles.ccimg} src={`http://localhost:8085/userProfiles/getProfilePicture?userCd=${item.userCd}`} onError={onImageErrorCComment}/>
                               </div>
                             </div>
                             <div className={styles.ccDetail}>
                               <div className={styles.ccDetailTop}>
                                 <div className={styles.ccName}>{item.userName}</div>
-                                <div className={styles.ccDate}>5년 전</div>
+                                <div className={styles.ccDate}>{item.ccommentDate}</div>
                               </div>
                               <div className={styles.ccDetailMiddle}>
                                 {item.ccommentContent}
@@ -296,11 +282,8 @@ export default function CommentDetail(props){
                             </div>
                           </React.Fragment>
                           </div>
-                        )})
-                        
+                        )})  
                     )}
-                    
-                
             </div>
             <Footer></Footer>
             {isCommentOpen &&(
@@ -319,7 +302,6 @@ export default function CommentDetail(props){
                                cols={50}
                              />
                              <div className={styles.submitButtonContainer}>
-                               
                                <button type="submit" className={styles.submitButton} onClick={sendFormData}>
                                  작성하기
                                </button>
