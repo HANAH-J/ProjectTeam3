@@ -169,7 +169,6 @@ export default function CommentDetail(props){
             axios.post("http://localhost:8085/details/cCommentSave", data,config)
                 .then((response) => {
                     console.log(response.data);
-                    window.location.reload();
                 })
                 .catch((error) => {
                     console.error('Error fetching data:', error);
