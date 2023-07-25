@@ -77,7 +77,7 @@ export default function LoginSuccess_header({ profileData, userData }) {
           <Link to="/csMain" className={styles.csMainPage} style={{ textDecoration: 'none' }}>
             <li className={styles.nameLi}> 문의하기 </li>
           </Link>
-          <Link to={{ pathname: '/userProfiles', search: `userCd=${userCd}` }} className={styles.userProfile_box}>
+          <Link to={{ pathname: '/userProfiles' }} className={styles.userProfile_box}>
             <li>
               {profileData && profileData.pfImage !== 'defaultPfImage' ? (
                 <img alt="profile" src={`http://localhost:8085/userProfiles/getProfilePicture?userCd=${userCd}`} className={styles.icon} />
