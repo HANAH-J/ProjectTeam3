@@ -3,10 +3,14 @@ import styles from '../../css/users/Terms.module.css';
 import TermsContents1 from './TermsContents1';
 import TermsContents2 from './TermsContents2';
 
-export default function Terms({ setTermsModalState, onSubmitHandler }) {
+// 약관 동의 모달창
+export default function Terms({ setSignUpAlert, setTermsModalState, onSubmitHandler }) {
 
+    // 약관 동의 체크
     const [checkItems, setCheckItems] = useState([]);
     const [submitButtonColor, setSubmitButtonColor] = useState('lightgray');
+
+    // 약관 모달창
     const [termsCt1State, setTermsCt1State] = useState(false);
     const [termsCt2State, setTermsCt2State] = useState(false);
 
@@ -17,11 +21,12 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
         return result;
     };
 
-    // 가입하기 버튼 클릭 시 동작하는 함수
+    // 약관 체크 검사
     const signUpButtonHandler = (e) => {
 
         if (isAllTermsAgreed()) {
             // 약관에 전체 동의한 경우
+            setSignUpAlert(true);
             onSubmitHandler(e);
         } else {
             // 하나 이상의 약관에 동의하지 않은 경우
@@ -29,7 +34,7 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
         }
     };
 
-    // '전체 약관 동의' 체크 시 전체 약관 체크 함수
+    // '전체 약관 동의' 체크 시 전체 약관 체크
     const allCheckHandler = (isChecked) => {
         if (isChecked) {
             setCheckItems(['check_1', 'check_2']);
@@ -38,7 +43,7 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
         }
     };
 
-    // 선택 체크 함수
+    // 약관 선택 체크 시 선택 약관 체크
     const specificCheckHandler = (event) => {
         const checkboxId = event.target.id;
         const isChecked = event.target.checked;
@@ -50,7 +55,7 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
         }
     };
 
-    // 가입하기 버튼 색상 변경 함수
+    // 가입하기 버튼 색상 변경
     const updateSubmitButtonColor = useCallback(() => {
         if (isAllTermsAgreed()) {
             setSubmitButtonColor('#ff2f6e'); // 모든 체크박스가 선택된 경우 버튼 색상 변경
@@ -64,12 +69,12 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
         updateSubmitButtonColor();
     }, [checkItems, updateSubmitButtonColor]);
 
-    // 서비스 이용약관 모달창 상태 변경 함수
+    // 서비스 이용약관 모달창 상태 변경
     const termsCt1OnOffModal = () => {
         setTermsCt1State(!termsCt1State);
     };
 
-    // 개인정보 처리방침 모달창 상태 변경 함수
+    // 개인정보 처리방침 모달창 상태 변경
     const termsCt2OnOffModal = () => {
         setTermsCt2State(!termsCt2State);
     };
@@ -119,8 +124,7 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
                         <label htmlFor='check_1'></label>
                         <span className={styles.user_terms_text}>서비스 이용약관</span>
                         <span className={styles.user_terms_check_detail} onClick={termsCt1OnOffModal}>보기</span>
-                        {
-                            // 서비스 이용약관 출력
+                        { // 서비스 이용약관 출력
                             termsCt1State ? <TermsContents1 setTermsCt1State={setTermsCt1State} /> : null
                         }
                     </label>
@@ -138,8 +142,7 @@ export default function Terms({ setTermsModalState, onSubmitHandler }) {
                         <label htmlFor='check_2'></label>
                         <span className={styles.user_terms_text}>개인정보 처리방침</span>
                         <span className={styles.user_terms_check_detail} onClick={termsCt2OnOffModal}>보기</span>
-                        {
-                            // 개인정보 처리방침 출력
+                        { // 개인정보 처리방침 출력
                             termsCt2State ? <TermsContents2 setTermsCt2State={setTermsCt2State} /> : null
                         }
                     </label>

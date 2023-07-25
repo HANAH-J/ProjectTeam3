@@ -103,15 +103,16 @@ public class UserService {
         try {
             userEntity = userRepository.findByUserEmail(userEmail);
 
-            // [로그인] 잘못된 이메일
+            // [로그인] 존재하지 않는 이메일
             if (userEntity == null) {
-                return ResponseDto.setFail("로그인 실패 : 잘못된 이메일");
+                return ResponseDto.setFail("noExistEmail");
             }
 
             // [로그인] 잘못된 비밀번호
             if (!passwordEncoder.matches(userPassword, userEntity.getUserPassword())) {
-                return ResponseDto.setFail("로그인 실패 : 잘못된 비밀번호");
+                return ResponseDto.setFail("wrongPassword");
             }
+            
         } catch (Exception error) {
             return ResponseDto.setFail("데이터베이스 에러");
         }
@@ -192,10 +193,12 @@ public class UserService {
             return "noExistEmail";
         } else {
             String result = userEntity.getProvider();
+            System.out.println("플랫폼 검사 결과 : " + result);
             if (result == null) {
                 System.out.println("[플랫폼 검사] : 일반 로그인 회원입니다.");
                 return "emailProviderPass";
             } else {
+                System.out.println("[플랫폼 검사] : 소셜 로그인 회원입니다.");
                 return "existProvider";
             }
         }

@@ -25,6 +25,19 @@
     z-index: 1001;
 }
 
+.modalBackground3 {
+    border-radius: 12px;
+    width: 290px;
+    height: 270px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 30%;
+    box-shadow: 0 2px 10px 1px #707070;
+    z-index: 1001;
+}
+
 /* 임시 비밀번호 발급 알림창 - 일반 */
 .forgotPw_alert {
     border-radius: 12px;
@@ -56,6 +69,21 @@
     font-family: 'Noto Sans KR', sans-serif;
     text-align: center;
     box-shadow: 0 2px 10px 1px #707070;
+    z-index: 1002;
+}
+
+.forgotPw_alert3 {
+    border-radius: 12px;
+    width: 250px;
+    height: 110px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 15px;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
     z-index: 1002;
 }
 

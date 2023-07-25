@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useUserStore } from '../../stores/index.ts';
 import axios from 'axios';
 import ForgotPw from './ForgotPw';
+import ForgotPwAlert from './ForgotPwAlert.jsx';
 import OAuth2 from './OAuth2.jsx';
 import styles from '../../css/users/Sign.module.css';
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
@@ -25,6 +26,10 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     const [forgotPwModalState, setForgotPwModalState] = useState(false);
     const [cookies, setCookies] = useCookies();
     const { user, setUser } = useUserStore();
+
+    // 로그인 실패 알림창
+    const [noExistEmailAlert, setNoExistEmailAlert] = useState(false);
+    const [wrongPasswordAlert, setWrongPasswordAlert] = useState(false);
 
     // 이메일 유효성 검사 로직
     // 이메일 : ex) 'hana@gmail.com' 형식
@@ -111,7 +116,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
 
     const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
-        if (modal && !modal.contains(e.target)) {
+        if (modal && !modal.contains(e.target) && !forgotPwModalState) {
             setSignInModalState(false);
         }
     };
@@ -135,9 +140,14 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
         axios.post('http://localhost:8085/api/auth/signIn', data, config)
             .then((response) => {
                 const responseData = response.data;
-                console.log(responseData);
                 if (!responseData.result) {
-                    console.log('로그인 실패');
+                    if (responseData.message === 'noExistEmail') {
+                        console.log('로그인 실패 : 존재하지 않는 이메일');
+                        setNoExistEmailAlert(true);
+                    } else if (responseData.message === 'wrongPassword') {
+                        console.log('로그인 실패 : 잘못된 비밀번호');
+                        setWrongPasswordAlert(true);
+                    }
                     return;
                 }
                 document.body.style.overflow = "auto";  // 스크롤 재활성화
@@ -168,7 +178,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)} />
                 {email ? (
-                    <div className={styles.user_login_buttonX} onClick={() => {setEmail('');}}></div>
+                    <div className={styles.user_login_buttonX} onClick={() => { setEmail(''); }}></div>
                 ) : (
                     <div></div>
                 )}
@@ -183,13 +193,19 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
                 {password ? (
-                    <div className={styles.user_login_buttonX} onClick={() => {setPassword('');}}></div>
+                    <div className={styles.user_login_buttonX} onClick={() => { setPassword(''); }}></div>
                 ) : (
                     <div></div>
                 )}
                 <br />
                 {passwordError && <p className={styles.user_login_error}>{passwordError}</p>}
                 <button id='button' className={styles.user_login_btn} onClick={onSubmitHandler}>로그인</button>
+                {
+                    noExistEmailAlert ? <ForgotPwAlert resultMessage={'가입되지 않은 이메일입니다.'} setNoExistEmailAlert={setNoExistEmailAlert}/> : null
+                }
+                {
+                    wrongPasswordAlert ? <ForgotPwAlert resultMessage={'비밀번호가 일치하지 않습니다.'} setWrongPasswordAlert={setWrongPasswordAlert}/> : null
+                }
             </form>
             <div className={styles.user_sign_messageContainer}>
                 <span className={styles.user_login_forgotPw} onClick={forgotPwOnOffModal}>비밀번호를 잊어버리셨나요?</span>
@@ -204,9 +220,9 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     </span>
                 </span>
             </div>
-            <hr className={styles.user_login_hr}/>
-            <OAuth2/>
-            {forgotPwModalState && <div className={styles.modalBackground_2} style={{ backgroundColor: "black" }} />}
+            <hr className={styles.user_login_hr} />
+            <OAuth2 />
+            {forgotPwModalState && <div className={styles.modalBackground_2} style={{ backgroundColor: 'black' }} />}
         </div>
     )
 }
