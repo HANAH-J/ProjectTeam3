@@ -11,6 +11,26 @@
   padding-bottom: 30px;
 }
 
+.userComment .userComment_noContent {
+  margin-top: 200px;
+  text-align: center;
+  color: #A0A0A0;
+  font-size: 15px;
+}
+
+.userComment_noContent_image {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(/src/img/profile/noContent.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .userComment_PageHeader {
   height: 80px;
   background-color: #ffffff;
@@ -136,6 +156,18 @@
   -webkit-box-orient: vertical;
   -ms-box-orient: vertical;
   box-orient: vertical;
+  position: relative;
+}
+
+
+.userComment_commentContent a {
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.userComment_commentContent a:hover {
+  color: #FF0558;
 }
 
 .userComment_commentFooter {

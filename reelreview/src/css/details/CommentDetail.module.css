@@ -199,6 +199,7 @@
     text-align: center;
     align-items: center;
     line-height: 43px;
+    cursor: pointer;
     display: inline-block;
 }
 .col_title_button_like p,.col_title_button_comment p,.col_title_button_sns p{
@@ -252,7 +253,7 @@
     height: 40px;
 }
 .comments{
-    margin: 20px auto;
+    margin: 0px auto;
     width: 1320px;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -266,6 +267,7 @@
     width: 1320px;
     display: flex;
     margin: 0 auto;
+    padding: 15px;
 }
 .ccImgBox{
     float: left;
@@ -322,7 +324,7 @@
 .ccBottomLeft{
     margin-left: 9px;
     font-size: 12px;
-
+    cursor: pointer;
     float: left;
 
 }

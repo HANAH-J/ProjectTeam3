@@ -94,7 +94,7 @@ export default function Genre(props) {
 
     return (
         <Slider {...settings}>
-          {props.movieListGenre.map((item, index) => (
+          {props.movieList.map((item, index) => (
             <div className={styles.Genre_mainBox}>
               <div className={styles.Genre_poster}>
                 <div className={styles.Genre_content}>

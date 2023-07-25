@@ -252,11 +252,13 @@ public class DetailController {
         DS.saveCommentData(comment);
     }
     @RequestMapping("comment/cCommentGoodUp")
-    public void cCommentGoodUp(@RequestBody Map<String, Integer> requestBody){
+    public CcommentDataDto cCommentGoodUp(@RequestBody Map<String, Integer> requestBody){
         int cCommentId = requestBody.get("cCommentId");
         CcommentDataDto cComment = DS.getCcommentById(cCommentId);
         cComment.setCCommentGood(cComment.getCCommentGood()+1);
         DS.saveCcommentData(cComment);
+
+        return DS.saveCcommentData(cComment);
     }
 
 
@@ -296,8 +298,8 @@ public class DetailController {
         dto.setCommentId(commentId);
         dto.setPFImage(profile.getPfImage());
         dto.setUserName(userEntity.getUsername());
-        String result = DS.saveCcommentData(dto);
-
+        CcommentDataDto a = DS.saveCcommentData(dto);
+        String result = a.getUserName();
         return result;
     }
     @RequestMapping("details/getCcomment")

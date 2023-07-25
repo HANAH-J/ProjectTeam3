@@ -93,7 +93,7 @@ export default function ActorMovie(props) {
 
     return (
         <Slider {...settings}>
-            {props.movieListActor.map((item, index) => (
+            {props.movieList.map((item, index) => (
                 <div className={styles.ActorMovie_mainBox}>
                     <div className={styles.ActorMovie_poster}>
                         <div className={styles.ActorMovie_content}> 
