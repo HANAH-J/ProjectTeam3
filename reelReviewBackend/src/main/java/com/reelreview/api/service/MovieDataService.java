@@ -241,6 +241,7 @@ public class MovieDataService{
 
             for(int i = 0 ; i < jArray.size() ; i++){
                 MovieUpcommingDTO upcommingDTO = new MovieUpcommingDTO();
+                MovieDetailsDTO detailsDTO = new MovieDetailsDTO();
 
 
                 JSONObject jobj = new JSONObject();
@@ -260,8 +261,20 @@ public class MovieDataService{
 
                 String formattedDate4 = getCurrentDateInStringFormat();
                 upcommingDTO.setUpcommingDownloadDate(formattedDate4);
-
+                //디테일 DTO 에 저장
+                detailsDTO.setMovieId((Integer) jobj.get("id"));
+                detailsDTO.setTagline((String) jobj.get("tagline"));
+                detailsDTO.setRuntime((Long) jobj.get("runtime"));
+                detailsDTO.setTitle((String) jobj.get("title"));
+                detailsDTO.setOverview((String) jobj.get("overview"));
+                detailsDTO.setOriginal_language((String) jobj.get("original_language"));
+                detailsDTO.setOriginal_title((String) jobj.get("original_title"));
+                detailsDTO.setPoster_path((String) jobj.get("poster_path"));
+                detailsDTO.setRelease_date((String) jobj.get("release_date"));
+                detailsDTO.setVote_count((Long) jobj.get("vote_count"));
+                detailsDTO.setVote_average((Double) jobj.get("vote_average"));
                 movieUpcommingRepo.save(upcommingDTO);
+                movieDetailRepo.save(detailsDTO);
             }
 
     }
