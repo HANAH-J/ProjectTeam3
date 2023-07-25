@@ -157,7 +157,7 @@ function CsBoardDetail() {
             <div className={styles.CsBoardDetail_line}></div>
             {boardData && (
               <div className={styles.CsBoardDetail_qnaBox}>
-                <div className={styles.CsBoardDetail_qnaBox_title}>{boardData.writer}</div>
+                <div className={styles.CsBoardDetail_qnaBox_writer}><strong>{boardData.writer}</strong></div>
                 <div className={styles.CsBoardDetail_qnaBox_content}>{boardData.content}</div>
                 <div className={styles.CsBoardDetail_qnaBox_bottom}>
                   <div className={styles.CsBoardDetail_qnaBox_img}>
@@ -182,8 +182,8 @@ function CsBoardDetail() {
               {Array.isArray(commentContent) && commentContent.length > 0 ? (
                 commentContent.map((comment) => (
                   <div key={comment.id} className={styles.CsBoardDetail_commentItem}>
-                    {loggedIn && <div><span>{comment.commentWriter}</span></div>}
-                    <div className={styles.CsBoardDetail_commentItem_box}><strong>{comment.commentContent}</strong></div>
+                    {loggedIn && <div><span><strong>{comment.commentWriter}</strong></span></div>}
+                    <div className={styles.CsBoardDetail_commentItem_box}>{comment.commentContent}</div>
                   </div>
                 ))
               ) : (

@@ -123,7 +123,8 @@ function CsQna() {
                         <div className={styles.CsQna_box_body3}>
                             <div>문의 내용</div>
                             <div className={styles.CsQna_box_body3_info}>
-                            <textarea name="content" cols="80" rows="10" required placeholder="문의 내용을 최대한 자세하게 작성해 주세요. - 부적절한 내용이 포함되어 있는 경우 답변이 어려울 수 있는 점 양해 부탁드립니다 -"
+                            <textarea name="content" cols="60" rows="9" required placeholder="문의 내용을 최대한 자세하게 작성해 주세요. 
+                            - 부적절한 내용이 포함되어 있는 경우 답변이 어려울 수 있는 점 양해 부탁드립니다 -"
                             value={content} onChange={(e) => setContent(e.target.value)}></textarea>
                             </div>
                         </div>
