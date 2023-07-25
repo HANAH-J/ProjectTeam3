@@ -9,7 +9,7 @@ function Detailnum4(props) {
         <div className={styles.wrapper}>
             <div className={styles.topHead}>
                 <div>
-                    <h2>코멘트</h2><h3>3000+</h3>
+                    <h2>코멘트</h2><h3>{comments.length}</h3>
                 </div>
             </div>
 

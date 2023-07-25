@@ -78,8 +78,8 @@
 
 .user_terms_check_all {
     position: relative;
-    top: -17px;
-    left: -40px;
+    top: -14px;
+    left: -38px;
     list-style: none;
 }
 
@@ -194,7 +194,7 @@
     width: 650px;
     height: 800px;
     position: absolute;
-    top: -450px;
+    margin-top: -138%;
     left: 50%;
     margin-left: -325px;
     padding: 15px;
@@ -204,15 +204,19 @@
     overflow-x: hidden;
 }
 
-.user_terms_modal_2::-webkit-scrollbar {
-    width: 10px;
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-.user_terms_modal_2::-webkit-scrollbar-thumb {
-    height: 100px;
-    background-color: #a0a0a0;
+.user_terms_modal_3 {
     border-radius: 12px;
+    width: 650px;
+    height: 800px;
+    position: absolute;
+    margin-top: -147%;
+    left: 50%;
+    margin-left: -325px;
+    padding: 15px;
+    background-color: #ffffff;
+    z-index: 1001;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .user_terms_buttonX {
@@ -235,7 +239,7 @@
 }
 
 .user_terms_contents_hr {
-    border: 1px solid lightgray;
+    border: none;
     width: 665px;
     position: relative;
     top: 20px;

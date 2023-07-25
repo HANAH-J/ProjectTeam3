@@ -6,6 +6,7 @@ import com.reelreview.api.domain.MovieImagesDTO;
 
 import com.reelreview.api.domain.MovieVideosDTO;
 import com.reelreview.api.repo.ApiMovieImagesRepo;
+import com.reelreview.api.service.MovieDataService;
 import com.reelreview.config.jwt.JwtTokenProvider;
 import com.reelreview.domain.*;
 import com.reelreview.domain.user.UserEntity;
@@ -35,6 +36,8 @@ public class DetailController {
     private ProfileService profileService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private MovieDataService movieDataService;
 
     @RequestMapping("api/getMovieImages")
     public List<MovieImagesDTO> getMovieImages(@RequestParam("movieId") int movieId){
@@ -58,17 +61,15 @@ public class DetailController {
         List<Integer> simularMovieCd = DS.findMoviesByGenres(genres);
         List<MovieDetailsDTO> simularMovieDetails = DS.findMoviesBymovieCd(simularMovieCd);
         List<CommentDataDto> comments = DS.findCommentsByMovieCd(movieId);
+        List<RatingDataDto> ratings = DS.findRatingsByMovieCd(movieId);
         fulldata.put("movieImages",movieImages);
         fulldata.put("movieCrews",movieCrews);
         fulldata.put("movieCasts",movieCasts);
         fulldata.put("movieVideos",movieVideos);
         fulldata.put("simularMovieDetails",simularMovieDetails);
         fulldata.put("comments",comments);
-        System.out.println(movieCasts);
-        System.out.println(movieCrews);
-        System.out.println(movieImages);
-        System.out.println(movieVideos);
-        System.out.println(simularMovieDetails);
+        fulldata.put("ratings",ratings);
+        System.out.println("=================================================================================================================================="+ratings);
         return fulldata;
     }
 
@@ -174,6 +175,7 @@ public class DetailController {
         int userCd = userEntity.getUserCd();
         int saved = 0;
         saved = DS.saveWantToSeeOut(userCd,movieId);
+
         if(saved == 1){
             return "저장완료";
         }else{
@@ -290,14 +292,20 @@ public class DetailController {
         }
         int userCd = userEntity.getUserCd();
 
-        ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
+        //ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
         CcommentDataDto dto = new CcommentDataDto();
+        CommentDataDto comment = DS.getCommentById(commentId);  //(J)
+        LocalDate l = LocalDate.now();  //(J)
+        String now = l.toString();  //(J)
 
         dto.setCCommentContent(request.getParameter("cCommentContent"));
         dto.setUserCd(userCd);
         dto.setCommentId(commentId);
-        dto.setPFImage(profile.getPfImage());
+        //dto.setPFImage(profile.getPfImage());
         dto.setUserName(userEntity.getUsername());
+        dto.setCCommentDate(now);  //(J)
+        comment.setCCommentcount(comment.getCCommentcount()+1); //(J)
+
         CcommentDataDto a = DS.saveCcommentData(dto);
         String result = a.getUserName();
         return result;
@@ -305,6 +313,7 @@ public class DetailController {
     @RequestMapping("details/getCcomment")
     public List<CcommentDataDto> getCcomment(@RequestParam("commentId") int commentId){
         List<CcommentDataDto> c = DS.getCcommentByCommentId(commentId);
+        System.out.println(c);
         return c;
     }
 
@@ -337,4 +346,16 @@ public class DetailController {
         String want = DS.getWantToSee(userCd,movieId);
         return want;
     }
+
+    @RequestMapping(value = "/getMovieDetailsForThisComment", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getMovieDetail (@RequestParam("movieId") int movieId) {
+        Map<String, Object> responseData = new HashMap<>();
+        List<MovieDetailsDTO> movieDetailsList = new ArrayList<>();
+        MovieDetailsDTO movieDetails = movieDataService.getMovieByMovieId(movieId);
+        movieDetailsList.add(movieDetails);
+        responseData.put("movieDetailsList", movieDetailsList);
+
+        return ResponseEntity.ok(responseData);
+    }
+
 }

@@ -1,87 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Alert from './Alert';
 import styles from '../../css/users/Password.module.css';
-import ForgotPwAlert from './ForgotPwAlert';
 
-// 임시 비밀번호 발급 모달창
-export default function ForgotPw({ setSignInModalState, setForgotPwModalState }) {
-    const [email, setEmail] = useState('');
-    const [emailError, setEmailError] = useState('');
+// [회원] 임시 비밀번호 발급 모달창
+export default function ForgotPw({ setForgotPwModalState, setSignInModalState }) {
+
+    // 임시 비밀번호 발급 결과 알림창
     const [alertModalState, setAlertModalState] = useState(false);
+
+    // 임시 비밀번호 발급 결과 메세지 저장소
     const [tempPsaswordResult, setTempPasswordResult] = useState('');
-    const [modalHeight, setModalHeight] = useState('');
 
-    // 이메일 유효성 검사 로직
-    const validateEmail = (email) => {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
-
-    // 이메일 에러 메시지 출력 여부
-    useEffect(() => {
-        if (email && !validateEmail(email)) {
-            setEmailError('정확하지 않은 이메일입니다.');
-        } else {
-            setEmailError('');
-        }
-    }, [email]);
-
-    // 이메일 유효성 검사 통과 시 패스 마크 출력
-    useEffect(() => {
-        const inputEmail = document.getElementById('forgotEmail');
-
-        if (inputEmail) {
-            if (validateEmail(email)) {
-                inputEmail.classList.add(styles.user_forgotPw_inputPass);
-            } else {
-                inputEmail.classList.remove(styles.user_forgotPw_inputPass);
-            }
-        }
-
-    }, [email]);
-
-    // ⓧ버튼 클릭 시 작성 내용 비우기
-    const handleClearEmail = () => {
-        setEmail('');
-    }
-
-    // 이메일 에러 메시지 출력 시 모달창 높이 변경
-    useEffect(() => {
-        let errorHeight = 345;
-
-        if (emailError) {
-            errorHeight = 375;
-        }
-        setModalHeight(errorHeight);
-    }, [emailError]);
-
-    // 모달창 외부 클릭 시 닫기
-    useEffect(() => {
-        document.addEventListener('mousedown', clickOutsideHandler);
-        return () => {
-            document.removeEventListener('mousedown', clickOutsideHandler);
-        };
-    });
-
-    const clickOutsideHandler = (e) => {
-        const modal = document.querySelector(`.${styles.forgotPw_modal}`);
-        if (modal && !modal.contains(e.target)) {
-            setForgotPwModalState(false);
-        }
-    };
-
-    // X버튼 클릭 시 닫기
-    const closeForgotPwModal = () => {
-        setForgotPwModalState(false);
-    };
-
-    // '알림' 모달창 배경색 and 스크롤 제어
-    useEffect(() => {
-        if (alertModalState) {
-            document.body.style.overflow = 'hidden';
-        }
-    }, [alertModalState]);
-
-    // 임시 비밀번호 발급 : UserController.java - emailCheck()
+    // 임시 비밀번호 발급 로직
     const onSubmitHandler = (e) => {
         e.preventDefault();
 
@@ -99,14 +30,91 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
             } else if (response.data === 'noExistEmail') {  // 가입되지 않은 이메일
                 setTempPasswordResult('noExistEmail');
                 setAlertModalState(true);
-            } else if (response.data === 'existProvider') { // 소셜 회원가입 유저
+            } else if (response.data === 'existProvider') { // 소셜 로그인 회원
                 setTempPasswordResult('existProvider');
+                setAlertModalState(true);
+            } else if (response.data === 'deletedUser') {   // 탈퇴 회원
+                setTempPasswordResult('deletedUser');
                 setAlertModalState(true);
             }
         }).catch((error) => {
             console.log('데이터 전송 실패', error);
         });
     };
+
+
+
+    // 이메일 입력값
+    const [email, setEmail] = useState('');
+
+    // 이메일 입력값 검사 결과 저장소
+    const isAllFieldsFilled = () => {
+        const isEmailValid = validateEmail(email);
+        return isEmailValid && alertModalState === false;
+    };
+
+    // 이메일 유효성 검사 로직
+    const validateEmail = (email) => { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); };
+
+    // 이메일 에러 메세지 저장소
+    const [emailError, setEmailError] = useState('');
+
+    // 이메일 유효성 검사 및 에러 메세지 출력
+    useEffect(() => {
+        if (email && !validateEmail(email)) { setEmailError('정확하지 않은 이메일입니다.'); }
+        else { setEmailError(''); }
+    }, [email]);
+
+    // 이메일 유효성 검사 통과 시 패스 마크 출력
+    useEffect(() => {
+        const inputEmail = document.getElementById('forgotEmail');
+
+        if (inputEmail) {
+            if (validateEmail(email)) { inputEmail.classList.add(styles.user_forgotPw_inputPass); }
+            else { inputEmail.classList.remove(styles.user_forgotPw_inputPass); }
+        }
+    }, [email]);
+
+    // 임시 비밀번호 발급 모달창 높이
+    const [modalHeight, setModalHeight] = useState('');
+
+    // ⓧ버튼 클릭 시 작성 내용 비우기
+    const handleClearEmail = () => {
+        setEmail('');
+    }
+
+    // ⓧ버튼 클릭 시 닫기
+    const closeForgotPwModal = () => {
+        setForgotPwModalState(false);
+    };
+
+    // 모달창 외부 클릭 시 닫기
+    useEffect(() => {
+        document.addEventListener('mousedown', clickOutsideHandler);
+        return () => { document.removeEventListener('mousedown', clickOutsideHandler); };
+    });
+
+    const clickOutsideHandler = (e) => {
+        const modal = document.querySelector(`.${styles.forgotPw_modal}`);
+        if (modal && !modal.contains(e.target)) { setForgotPwModalState(false); }
+    };
+
+    // 에러 메시지 출력 시 모달창 높이 변경
+    useEffect(() => {
+        let errorHeight = 345;
+
+        if (emailError) { errorHeight = 375; }
+        setModalHeight(errorHeight);
+    }, [emailError]);
+
+    // 알림창 스크롤 제어
+    useEffect(() => {
+        if (alertModalState) {
+            document.body.style.overflow = 'hidden';
+        }
+    }, [alertModalState]);
+
+
 
     return (
         <div className={styles.forgotPw_modal} style={{ height: `${modalHeight}px` }}>
@@ -119,6 +127,8 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
                 <p className={styles.user_forgotPw_p}>입력하신 이메일 주소로 임시 비밀번호를 보낼게요.</p>
             </div>
             <form onSubmit={onSubmitHandler}>
+
+                {/* 이메일 입력 */}
                 <input
                     type='text'
                     id='forgotEmail'
@@ -128,28 +138,44 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
                     className={emailError ? `${styles.user_forgotPw_input} ${styles.user_forgotPw_inputError}` : styles.user_forgotPw_input}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)} />
-                {email ? (
-                    <div className={styles.forgotPw_buttonX} onClick={handleClearEmail}></div>
-                ) : (
-                    null
-                )}
+                {email ? (<div className={styles.forgotPw_buttonX} onClick={handleClearEmail}></div>) : (null)}
                 <br />
                 {emailError && <p className={styles.user_forgotPw_error}>{emailError}</p>}
-                <button className={styles.forgotPw_btn}>이메일 보내기</button>
-                {
-                    (tempPsaswordResult === 'emailProviderPass' && alertModalState === true) && <ForgotPwAlert resultMessage='임시 비밀번호 발급 이메일을 보냈어요.' setAlertModalState={setAlertModalState} />
-                }
-                {
-                    tempPsaswordResult === 'noExistEmail' && <ForgotPwAlert resultMessage='가입되지 않은 이메일입니다.' setAlertModalState={setAlertModalState} setTempPasswordResult={setTempPasswordResult}/>
-                }
-                {
-                    tempPsaswordResult === 'existProvider' && <ForgotPwAlert
+
+                {/* 임시 비밀번호 발급 */}
+                <button className={styles.forgotPw_btn} disabled={!isAllFieldsFilled()}>이메일 보내기</button>
+
+                {/* 임시 비밀번호 발급 완료*/}
+                {(tempPsaswordResult === 'emailProviderPass') &&
+                    <Alert
+                        resultMessage='임시 비밀번호 발급 이메일을 보냈어요.'
+                        setAlertModalState={setAlertModalState}
+                        setTempPasswordResult={setTempPasswordResult} />}
+
+                {/* 실패 : 가입되지 않은 이메일 */}
+                {tempPsaswordResult === 'noExistEmail' &&
+                    <Alert resultMessage='가입되지 않은 이메일입니다.'
+                        setAlertModalState={setAlertModalState}
+                        setTempPasswordResult={setTempPasswordResult} />}
+
+                {/* 실패 : 소셜 로그인 회원 */}
+                {tempPsaswordResult === 'existProvider' &&
+                    <Alert
                         resultMessage={`소셜 계정은 릴리뷰 내에서
                                         비밀번호 변경이 불가능합니다.`}
                         setAlertModalState={setAlertModalState}
-                        alertHeight={130} />
-                }
+                        setTempPasswordResult={setTempPasswordResult}
+                        alertHeight={130} />}
+
+                {/* 실패 : 탈퇴 회원 */}
+                {tempPsaswordResult === 'deletedUser' &&
+                    <Alert
+                        resultMessage='탈퇴된 이메일입니다.'
+                        setAlertModalState={setAlertModalState}
+                        setTempPasswordResult={setTempPasswordResult} />}
             </form>
+
+            {/* 임시 비밀번호 발급 결과 알림창 활성화 시 배경화면 색상 변경 */}
             {(tempPsaswordResult === 'emailProviderPass' || tempPsaswordResult === 'noExistEmail' || tempPsaswordResult === 'existProvider')
                 && <div className={styles.modalBackground} style={{ backgroundColor: 'black' }} />}
         </div>

@@ -73,6 +73,8 @@ function UserComment() {
         setMovieDetails(movieDetails);
         setRatings(ratings);
         setRatingsMapping(ratingsMapping);
+
+        console.log(comments);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -131,7 +133,7 @@ function UserComment() {
                 </ul>
                 <ul className={styles.userComment_commentFooter}>
                   <li className={styles.userComment_commentLikes}>좋아요 {comment.commentGood} </li>
-                  <li className={styles.userComment_commentCmt}>댓글 {comment.cCommentcount} </li>
+                  <li className={styles.userComment_commentCmt}>댓글 {comment.ccommentcount} </li>
                   <li className={styles.userComment_commentCmt}>작성 날짜 {comment.commentDate} </li>
                 </ul>
               </ul>
