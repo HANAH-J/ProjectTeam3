@@ -37,11 +37,11 @@
     cursor: pointer;
 }
 
-.topNav .navWrapper .rightNav {
+.rightNav {
     margin-right: 50px;
 }
 
-.topNav .navWrapper .rightNav .findMovies {
+.findMovies {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,7 +50,7 @@
     margin-right: 25px;
 }
 
-.topNav .navWrapper .rightNav .findMovies .findWrapper {
+.findWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -63,7 +63,7 @@
     background-position: 15px 50%;
 }
 
-.topNav .navWrapper .rightNav .findMovies .findWrapper input {
+.findWrapper input {
     width: 80%;
     height: 25px;
     border: none;
@@ -71,11 +71,11 @@
     margin-left: 30px;
 }
 
-.topNav .navWrapper .rightNav .findMovies .findWrapper input:focus {
+.findWrapper input:focus {
     outline: none;
 }
 
-.topNav .navWrapper .rightNav .askReel {
+.askReel {
     color: #4C4C4C;
     margin-left: 15px;
     background-color: none;
@@ -86,7 +86,7 @@
     font-size: 14px;
 }
 
-.topNav .navWrapper .rightNav .signInBtn {
+.signInBtn {
     color: #4C4C4C;
     margin-right: 40px;
     cursor: pointer;
@@ -95,7 +95,7 @@
     font-weight: bold;
 }
 
-.topNav .navWrapper .rightNav .signUpBtn {
+.signUpBtn {
     line-height: 20px;
     box-sizing: border-box;
     width: auto;
@@ -118,27 +118,27 @@
 }
 
 @media (max-width: 1000px) {
-    .topNav .navWrapper .rightNav .findMovies .findWrapper {
+    .findWrapper {
       display: none !important;
     }
   }
 
   @media (max-width: 940px) {
-    .topNav .navWrapper .rightNav .signInBtn {
+    .signInBtn {
         width: 50px;
       }
 
-      .topNav .navWrapper .rightNav .signUpBtn {
+      .signUpBtn {
         width: 90px;
       }
   }
 
   @media (max-width: 840px) {
-    .topNav .navWrapper .rightNav .signInBtn {
+    .signInBtn {
         display: none;
       }
 
-      .topNav .navWrapper .rightNav .signUpBtn {
+      .signUpBtn {
         display: none;
       }
   }

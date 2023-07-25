@@ -18,6 +18,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
 
@@ -62,7 +64,7 @@ public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
             System.out.println("네이버 로그인 요청");
             oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
-        } else{
+        } else {
             System.out.println("카카오, 구글, 페이스북, 네이버 소셜 로그인만 가능");
         }
 
@@ -99,7 +101,7 @@ public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
             }
 
 
-        // 기존 사용자일 경우, 회원가입 처리 無
+            // 기존 사용자일 경우, 회원가입 처리 無
         } else {
             System.out.println("로그인을 이미 한 적이 있습니다. 당신은 회원가입이 되어 있습니다.");
         }

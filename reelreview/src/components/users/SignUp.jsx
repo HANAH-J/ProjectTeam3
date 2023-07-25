@@ -4,11 +4,12 @@ import Terms from './Terms';
 import OAuth2 from './OAuth2.jsx';
 import ForgotPwAlert from './ForgotPwAlert';
 import styles from '../../css/users/Sign.module.css';
+import styles2 from '../../css/users/Alert.module.css';
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
 
 // 회원가입 모달창
 export default function SignUp({ setSignInModalState, setSignUpModalState }) {
-    
+
     // 이름, 이메일, 비밀번호 저장
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -30,7 +31,11 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
     // 이름, 이메일, 비밀번호 입력 필드 검사
     const isAllFieldsFilled = () => {
-        return name.trim() !== '' && email.trim() !== '' && password.trim() !== '';
+        const isNameValid = validateName(name);
+        const isEmailValid = validateEmail(email);
+        const isPasswordValid = validatePassword(password);
+
+        return (isNameValid && isEmailValid && isPasswordValid) && termsModalState === false;
     };
 
     // 이름 유효성 검사 로직
@@ -129,6 +134,11 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         setTermsModalState(!termsModalState);
     };
 
+    // Terms 모달창이 외부에서 닫힐 때 호출되는 함수
+    const closeTermsModal = () => {
+        setTermsModalState(false);
+    };
+
     // 약관동의 모달창 배경색 and 스크롤 제어
     useEffect(() => {
         if (termsModalState) {
@@ -164,7 +174,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
     const clickOutsideHandler = (e) => {
         const modal = document.querySelector(`.${styles.user_login_modal}`);
-        if (modal && !modal.contains(e.target)) {
+        if (modal && !modal.contains(e.target) && !termsModalState) {
             if (e.target.classList.contains(styles.user_login_signUp)) {
                 setSignUpModalState(false);
                 setSignInModalState(true);
@@ -194,9 +204,9 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         axios.post('http://localhost:8085/api/auth/signUp', data, config)
             .then(() => {
                 console.log('회원가입 성공');
-                setSignUpModalState(false);
-                // alert('회원가입이 완료 되었습니다.');
+                // setSignUpModalState(false);
                 setSignUpAlert(true);
+                // alert('회원가입이 완료 되었습니다.');
             }).catch((error) => {
                 console.log('데이터 전송 실패 : ', error);
             })
@@ -263,10 +273,10 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     onClick={termsOnOffModal}>회원가입
                 </button>
                 {
-                    termsModalState ? <Terms setSignUpAlert={setSignUpAlert} setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler} /> : null
+                    termsModalState ? <Terms closeTermsModal={closeTermsModal} setSignUpAlert={setSignUpAlert} setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler} /> : null
                 }
                 {
-                    signUpAlert ? <ForgotPwAlert resultMessage={"회원가입이 완료 되었습니다."} setTermsModalState={setTermsModalState} setSignUpModalState={setSignUpModalState} setSignUpAlert={setSignUpAlert}/> : null
+                    signUpAlert ? <ForgotPwAlert setSignUpAlert={setSignUpAlert} setSignUpModalState={setSignUpModalState} resultMessage={'회원가입이 완료 되었습니다.'} setTermsModalState={setTermsModalState} /> : null
                 }
             </form>
             <div className={styles.user_sign_messageContainer}>
@@ -278,10 +288,10 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                     </span>
                 </span>
             </div>
-            <hr className={styles.user_login_hr_2}/>
-            <OAuth2 signUpOAuth2={'signUpOAuth2'}/>
-            {termsModalState && (<div className={styles.modalBackground_1} style={{ backgroundColor: "black" }} />)}
-            {signUpAlert && (<div className={styles.modalBackground_1} style={{ backgroundColor: "black" }} />)}
+            <hr className={styles.user_login_hr_2} />
+            <OAuth2 signUpOAuth2={'signUpOAuth2'} />
+            {termsModalState && (<div className={styles.modalBackground_1} style={{ backgroundColor: 'black' }} />)}
+            {signUpAlert && (<div className={styles2.modalBackground3} style={{ backgroundColor: 'black' }} />)}
         </div>
     )
 }

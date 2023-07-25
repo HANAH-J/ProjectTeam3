@@ -94,11 +94,14 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
                     userEmail: email,
                 }).then(() => {
                     setTempPasswordResult('emailProviderPass');
+                    setAlertModalState(true);
                 })
             } else if (response.data === 'noExistEmail') {  // 가입되지 않은 이메일
                 setTempPasswordResult('noExistEmail');
+                setAlertModalState(true);
             } else if (response.data === 'existProvider') { // 소셜 회원가입 유저
                 setTempPasswordResult('existProvider');
+                setAlertModalState(true);
             }
         }).catch((error) => {
             console.log('데이터 전송 실패', error);
@@ -117,10 +120,11 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
             </div>
             <form onSubmit={onSubmitHandler}>
                 <input
-                    type="text"
-                    id="forgotEmail"
+                    type='text'
+                    id='forgotEmail'
                     required
-                    placeholder="이메일"
+                    placeholder='이메일'
+                    autoComplete='off'
                     className={emailError ? `${styles.user_forgotPw_input} ${styles.user_forgotPw_inputError}` : styles.user_forgotPw_input}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)} />
@@ -131,25 +135,23 @@ export default function ForgotPw({ setSignInModalState, setForgotPwModalState })
                 )}
                 <br />
                 {emailError && <p className={styles.user_forgotPw_error}>{emailError}</p>}
-                <button type='submit' className={styles.forgotPw_btn}>이메일 보내기</button>
+                <button className={styles.forgotPw_btn}>이메일 보내기</button>
                 {
-                    tempPsaswordResult === 'emailProviderPass' && <ForgotPwAlert resultMessage="임시 비밀번호 발급 이메일을 보냈어요." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState} />
+                    (tempPsaswordResult === 'emailProviderPass' && alertModalState === true) && <ForgotPwAlert resultMessage='임시 비밀번호 발급 이메일을 보냈어요.' setAlertModalState={setAlertModalState} />
                 }
                 {
-                    tempPsaswordResult === 'noExistEmail' && <ForgotPwAlert resultMessage="가입되지 않은 이메일입니다." setSignInModalState={setSignInModalState} setForgotPwModalState={setForgotPwModalState} setAlertModalState={setAlertModalState} />
+                    tempPsaswordResult === 'noExistEmail' && <ForgotPwAlert resultMessage='가입되지 않은 이메일입니다.' setAlertModalState={setAlertModalState} setTempPasswordResult={setTempPasswordResult}/>
                 }
                 {
-                    tempPsaswordResult === 'existProvider' && <ForgotPwAlert 
-                    resultMessage={`소셜 계정은 릴리뷰 내에서
-                                    비밀번호 변경이 불가능합니다.`} 
-                    setSignInModalState={setSignInModalState} 
-                    setForgotPwModalState={setForgotPwModalState} 
-                    setAlertModalState={setAlertModalState}
-                    alertHeight={130}/>
+                    tempPsaswordResult === 'existProvider' && <ForgotPwAlert
+                        resultMessage={`소셜 계정은 릴리뷰 내에서
+                                        비밀번호 변경이 불가능합니다.`}
+                        setAlertModalState={setAlertModalState}
+                        alertHeight={130} />
                 }
             </form>
             {(tempPsaswordResult === 'emailProviderPass' || tempPsaswordResult === 'noExistEmail' || tempPsaswordResult === 'existProvider')
-                && <div className={styles.modalBackground} style={{ backgroundColor: "black" }} />}
+                && <div className={styles.modalBackground} style={{ backgroundColor: 'black' }} />}
         </div>
     )
 }

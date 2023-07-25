@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import ForgotPwAlert from './ForgotPwAlert';
 import styles from '../../css/users/Password.module.css';
 
 // 비밀번호 변경 모달창
@@ -8,6 +9,7 @@ export default function ChangePw({ userEmail, setShowChangePasswordModal, signOu
     const [passwordError, setPasswordError] = useState('');
     const [modalHeight, setModalHeight] = useState('');
     const [viewPassword, setViewPassword] = useState(false);
+    const [changePasswordAlert, setChangePasswordAlert] = useState(false);
 
     // 비밀번호 유효성 검사 로직
     const validatePassword = (password) => {
@@ -51,7 +53,7 @@ export default function ChangePw({ userEmail, setShowChangePasswordModal, signOu
     });
 
     const clickOutsideHandler = (e) => {
-        const modal = document.querySelector(`.${styles.forgotPw_modal}`);
+        const modal = document.querySelector(`.${styles.changePw_modal}`);
         if (modal && !modal.contains(e.target)) {
             setShowChangePasswordModal(false);
         }
@@ -68,7 +70,7 @@ export default function ChangePw({ userEmail, setShowChangePasswordModal, signOu
         }).then((response) => {
             if (response.data === true) {
                 console.log("비밀번호 변경 성공");
-                signOutHandler();
+                setChangePasswordAlert(true);
             } else {
                 console.log("비밀번호 변경 실패");
             }
@@ -106,6 +108,7 @@ export default function ChangePw({ userEmail, setShowChangePasswordModal, signOu
                 {passwordError && <p className={styles.changePw_error}>{passwordError}</p>}
                 <button type='submit' className={styles.changePw_btn}>확인</button>
             </form>
+            {changePasswordAlert ? <ForgotPwAlert resultMessage={'비밀번호가 변경되었습니다.'} setChangePasswordAlert={setChangePasswordAlert} signOutHandler={signOutHandler}/> : null}
         </div>
     )
 }

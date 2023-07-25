@@ -1,15 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from '../../css/users/Terms.module.css';
 
 // 개인정보 처리방침 모달창
-export default function TermsContens2({setTermsCt2State}) {
+export default function TermsContens2({ setTermsCt2State }) {
+
+    // 모달창 외부 클릭 시 닫기
+    useEffect(() => {
+        document.addEventListener('mousedown', clickOutsideHandler);
+        return () => {
+            document.removeEventListener('mousedown', clickOutsideHandler);
+        };
+    });
+
+    const clickOutsideHandler = (e) => {
+        const modal = document.querySelector(`.${styles.user_terms_modal_2}`);
+        if (modal && !modal.contains(e.target)) {
+            setTermsCt2State(false);
+        }
+    };
 
     // ⓧ버튼 클릭 시 닫기
     const closeTermsContentsModal = () => {
         setTermsCt2State(false);
     };
 
-    return(
+    return (
         <div className={styles.user_terms_modal_2}>
             <div className={styles.user_terms_buttonX} onClick={closeTermsContentsModal}></div>
             <div className={styles.user_terms_title}>개인정보 처리방침</div>
