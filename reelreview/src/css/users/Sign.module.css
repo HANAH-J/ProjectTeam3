@@ -1,5 +1,6 @@
-/* 모달창 활성화 시 배경 */
+/* 모달창 활성화 시 배경 - 약관 동의 */
 .modalBackground_1 {
+  border-radius: 7.7px;
   width: 100%;
   height: 100%;
   position: fixed;
@@ -151,13 +152,12 @@
 
 .signIn_kakao, .signUp_kakao,
 .signIn_google, .signUp_google,
-.signIn_facebook, .signUp_facebook,
 .signIn_naver, .signUp_naver {
   border-radius: 25px;
   width: 50px;
   height: 50px;
   position: relative;
-  margin-left: 18px;
+  margin-left: 36px;
   cursor: pointer;
   list-style: none;
   float: left;
@@ -183,15 +183,6 @@
   margin-top: 10px;
   border: 1px solid lightgray;
   background-color: #ffffff;
-}
-
-.signIn_facebook {
-  background-color: #1877f2;
-}
-
-.signUp_facebook {
-  margin-top: 10px;
-  background-color: #1877f2;
 }
 
 .signIn_naver {
