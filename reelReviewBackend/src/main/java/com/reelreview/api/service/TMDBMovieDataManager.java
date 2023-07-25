@@ -3,11 +3,14 @@ package com.reelreview.api.service;
 import com.reelreview.api.domain.MovieDetailsDTO;
 import com.reelreview.api.domain.MovieGenresDTO;
 import com.reelreview.api.domain.MovieVideosDTO;
+import com.reelreview.domain.ActorMovieDTO;
 import com.reelreview.domain.CastDataDTO;
 import com.reelreview.domain.CrewDataDTO;
+import com.reelreview.domain.DirectorMovieDTO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,4 +151,46 @@ public class TMDBMovieDataManager{
         return crewDataDTOS;
     }
 
+    public ActorMovieDTO movieDetailsToActorMovieDTO(MovieDetailsDTO m,String actorName, int actorCd){
+        ActorMovieDTO a = new ActorMovieDTO();
+
+        a.setActorCd(actorCd);
+        a.setActorName(actorName);
+        LocalDate l = LocalDate.now();
+        a.setActorDownDate(l.toString());
+
+        a.setVote_count(m.getVote_count());
+        a.setVote_average(m.getVote_average());
+        a.setRelease_date(m.getRelease_date());
+        a.setOriginal_language(m.getOriginal_language());
+        a.setOriginal_title(m.getOriginal_title());
+        a.setPoster_path(m.getPoster_path());
+        a.setTitle(m.getTitle());
+        a.setTagline(m.getTagline());
+        a.setRuntime(m.getRuntime());
+        a.setOverview(m.getOverview());
+        a.setMovieId(m.getMovieId());
+        return a;
+    }
+    public DirectorMovieDTO movieDetailsToDirectorMovieDTO(MovieDetailsDTO m,String directorName, int directorCd){
+        DirectorMovieDTO d = new DirectorMovieDTO();
+        d.setDirectorCd(directorCd);
+        d.setDirectorName(directorName);
+        LocalDate l = LocalDate.now();
+        d.setDirectorDownDate(l.toString());
+
+        d.setVote_count(m.getVote_count());
+        d.setVote_average(m.getVote_average());
+        d.setRelease_date(m.getRelease_date());
+        d.setOriginal_language(m.getOriginal_language());
+        d.setOriginal_title(m.getOriginal_title());
+        d.setPoster_path(m.getPoster_path());
+        d.setTitle(m.getTitle());
+        d.setTagline(m.getTagline());
+        d.setRuntime(m.getRuntime());
+        d.setOverview(m.getOverview());
+        d.setMovieId(m.getMovieId());
+
+        return d;
+    }
 }
