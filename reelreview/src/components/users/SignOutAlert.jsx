@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from '../../css/users/Alert.module.css';
 
-// 임시 비밀번호 발급 여부 알림 모달창
-export default function SignOutAlert({ closeSignOutAlert, signOutHandler, SignOutHeader }) {
+// [회원] 로그아웃 확인 알림창
+export default function SignOutAlert({ setShowSignOutAlert, signOutHandler, SignOutHeader }) {
 
     return (
         <div>
@@ -11,7 +11,7 @@ export default function SignOutAlert({ closeSignOutAlert, signOutHandler, SignOu
                 <h2 className={styles.alert_h2}>알림</h2>
                 <p className={styles.alert_p}>로그아웃 하시겠어요?</p>
                 <hr className={styles.alert_hr} />
-                <button className={styles.alert_dualBtn1} onClick={closeSignOutAlert}>취소</button>
+                <button className={styles.alert_dualBtn1} onClick={() => {setShowSignOutAlert(false)}}>취소</button>
                 <button className={styles.alert_dualBtn2} onClick={signOutHandler}>확인</button>
             </div>
         </div>

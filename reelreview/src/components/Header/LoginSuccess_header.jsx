@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import userPFP from '../../img/profile/userProfile/empty_user.svg';
-import styles from '../../css/Header/LoginSuccess_header.module.css';
-import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from "../../stores/index.ts";
-import reel_review_logo from '../../img/users/Reel_Review_logo.png';
+import axios from 'axios';
 import SignOutAlert from "../users/SignOutAlert";
+import userPFP from '../../img/profile/userProfile/empty_user.svg';
+import styles from '../../css/Header/LoginSuccess_header.module.css';
+import reel_review_logo from '../../img/users/Reel_Review_logo.png';
 
 export default function LoginSuccess_header({ profileData, userData }) {
   const userCd = userData ? userData.userCd : null;
@@ -14,16 +14,23 @@ export default function LoginSuccess_header({ profileData, userData }) {
   const [movieList, setMovieList] = useState([]);
   const [name, setName] = useState('');
 
-  // 로그인 JWT 토큰
+  // [회원] 로그인 JWT 토큰
   const [cookies, setCookies] = useCookies();
   const { user, removeUser } = useUserStore();
-  
-  // 로그아웃 확인 알림창
-  const [showSignOutAlert, setShowSignOutAlert] = useState(false);
-  const openSignOutAlert = () => { setShowSignOutAlert(true) };
-  const closeSignOutAlert = () => { setShowSignOutAlert(false) };
 
-  // 로그아웃 로직
+  // [회원] 로그아웃 확인 알림창
+  const [showSignOutAlert, setShowSignOutAlert] = useState(false);
+
+  // [회원] 로그아웃 확인 알림창 스크롤 제어
+  useEffect(() => {
+    if (showSignOutAlert) {
+      document.body.style.overflow = "hidden";  // 스크롤 비활성화
+    } else {
+      document.body.style.overflow = "auto";    // 스크롤 활성화
+    }
+  }, [showSignOutAlert]);
+
+  // [회원] 로그아웃 로직
   const signOutHandler = () => {
     setCookies('token', '', { expires: new Date() });
     removeUser();
@@ -72,8 +79,8 @@ export default function LoginSuccess_header({ profileData, userData }) {
               </form>
             </div>
           </li>
-          <li className={styles.nameLi} onClick={openSignOutAlert}> 로그아웃 </li>
-          {showSignOutAlert && <SignOutAlert closeSignOutAlert={closeSignOutAlert} signOutHandler={signOutHandler} SignOutHeader={'SignOutHeader'}/>}
+          <li className={styles.nameLi} onClick={() => { setShowSignOutAlert(true) }}> 로그아웃 </li>
+          {showSignOutAlert && <SignOutAlert setShowSignOutAlert={setShowSignOutAlert} signOutHandler={signOutHandler} SignOutHeader={'SignOutHeader'} />}
           <Link to="/csMain" className={styles.csMainPage} style={{ textDecoration: 'none' }}>
             <li className={styles.nameLi}> 문의하기 </li>
           </Link>

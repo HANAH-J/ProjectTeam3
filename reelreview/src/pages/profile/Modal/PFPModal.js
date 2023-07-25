@@ -13,7 +13,6 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   const [showEditTextModal, setShowEditTextModal] = useState(false);
   const [showEditPFPModal, setShowEditPFPModal] = useState(false);
   const [showEditPFBModal, setShowEditPFBModal] = useState(false);
-  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
   const closePFPModal = (e) => {
     if (e.target !== e.currentTarget) return;
@@ -25,6 +24,7 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
     setOpenModal(false);
   };
 
+  const [cookies, setCookies] = useCookies();
   const openEditTextModal = () => { setShowEditTextModal(true); }
   const closeEditTextModal = () => { setShowEditTextModal(false); }
   const openEditPFPModal = () => { setShowEditPFPModal(true); }
@@ -34,22 +34,22 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   const openChangePasswordModal = () => { setShowChangePasswordModal(true); }
   const closeChangePasswordModal = () => { setShowChangePasswordModal(false); }
 
-  const [cookies, setCookies] = useCookies();
+  // 비밀번호 변경 모달창
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+
 
   // 소셜 로그인 확인 알림창
   const [showProviderAlret, setShowProviderAlret] = useState(false);
-  const openProviderAlert = () => { setShowProviderAlret(true);};
-  const closeProviderAlert = () => { setShowProviderAlret(false);};
+  const openProviderAlert = () => { setShowProviderAlret(true); };
+  const closeProviderAlert = () => { setShowProviderAlret(false); };
 
   // 로그아웃 확인 알림창
   const [showSignOutAlert, setShowSignOutAlert] = useState(false);
-  const openSignOutAlert = () => { setShowSignOutAlert(true); };
-  const closeSignOutAlert = () => { setShowSignOutAlert(false); };
 
-  // 회원 탈퇴 모달창
+  // 회원탈퇴 모달창
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
 
-  // 회원 탈퇴 완료 모달창
+  // 회원탈퇴 완료 모달창
   const [showWithdrawCompleteModal, setShowWithdrawCompleteModal] = useState(false);
 
   // 로그아웃 로직
@@ -58,6 +58,15 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
     removeUser();
     window.location.href = 'http://localhost:3000';
   }
+
+  // 로그아웃, 회원탈퇴 확인 알림창 스크롤 제어
+  useEffect(() => {
+    if (showSignOutAlert || showWithdrawModal) {
+      document.body.style.overflow = "hidden";  // 스크롤 비활성화
+    } else {
+      document.body.style.overflow = "auto";    // 스크롤 활성화
+    }
+  }, [showSignOutAlert, showWithdrawModal]);
 
   // 회원탈퇴
   const signOutForeverHandler = (e) => {
@@ -95,21 +104,21 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       console.log('데이터 전송 실패', error);
     });
   };
-  
-  // 모달창 외부 클릭 시 닫기
-    useEffect(() => {
-        document.addEventListener('mousedown', clickOutsideHandler);
-        return () => {
-            document.removeEventListener('mousedown', clickOutsideHandler);
-        };
-    });
 
-    const clickOutsideHandler = (e) => {
-      const modal = document.querySelector(`.${styles2.forgotPw_alert}`);
-      if (modal && !modal.contains(e.target) && !showChangePasswordModal) {
-        setShowChangePasswordModal(false);
-      }
+  // 모달창 외부 클릭 시 닫기
+  useEffect(() => {
+    document.addEventListener('mousedown', clickOutsideHandler);
+    return () => {
+      document.removeEventListener('mousedown', clickOutsideHandler);
     };
+  });
+
+  const clickOutsideHandler = (e) => {
+    const modal = document.querySelector(`.${styles2.forgotPw_alert}`);
+    if (modal && !modal.contains(e.target) && !showChangePasswordModal) {
+      setShowChangePasswordModal(false);
+    }
+  };
 
   // 상태 메시지 변경
   const handleTextSave = () => {
@@ -252,9 +261,9 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
           <p className={styles.PFPModal_Content_P} onClick={openEditTextModal}>프로필 문구 변경</p>
           <hr className={styles.PFPModal_HR} />
           <p className={styles.PFPModal_Content_P} onClick={checkSignProvider}>비밀번호 변경</p>
-          <p className={styles.PFPModal_Content_P} onClick={openSignOutAlert}>로그아웃</p>
-          {showSignOutAlert && <SignOutAlert closeSignOutAlert={closeSignOutAlert} signOutHandler={signOutHandler}/>}
-          <p className={styles.PFPModal_Content_P} onClick={() => {setShowWithdrawModal(true)}}>탈퇴하기</p>
+          <p className={styles.PFPModal_Content_P} onClick={() => setShowSignOutAlert(true)}>로그아웃</p>
+          {showSignOutAlert && <SignOutAlert setShowSignOutAlert={setShowSignOutAlert} signOutHandler={signOutHandler} />}
+          <p className={styles.PFPModal_Content_P} onClick={() => { setShowWithdrawModal(true) }}>탈퇴하기</p>
         </div>
         <div className={styles.PFPModal_Logo}>
           <p>로고</p>
@@ -326,7 +335,7 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
             <h2 className={styles2.alert_h2}>알림</h2>
             <p className={styles2.alert_p}>다시 한번 생각해보세요!</p>
             <hr className={styles2.user_alert_hr} />
-            <button className={styles2.alert_dualBtn1} onClick={() => {setShowWithdrawModal(true)}}>취소</button>
+            <button className={styles2.alert_dualBtn1} onClick={() => { setShowWithdrawModal(false) }}>취소</button>
             <button className={styles2.alert_dualBtn2} onClick={signOutForeverHandler}>탈퇴하기</button>
           </div>
         </div>

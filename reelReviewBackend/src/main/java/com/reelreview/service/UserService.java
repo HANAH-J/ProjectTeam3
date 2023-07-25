@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Service
 public class UserService {
@@ -112,7 +113,7 @@ public class UserService {
             if (!passwordEncoder.matches(userPassword, userEntity.getUserPassword())) {
                 return ResponseDto.setFail("wrongPassword");
             }
-            
+
         } catch (Exception error) {
             return ResponseDto.setFail("데이터베이스 에러");
         }
@@ -192,14 +193,22 @@ public class UserService {
             System.out.println("[플랫폼 검사] : 유저 이메일이 존재하지 않습니다.");
             return "noExistEmail";
         } else {
-            String result = userEntity.getProvider();
-            System.out.println("플랫폼 검사 결과 : " + result);
-            if (result == null) {
-                System.out.println("[플랫폼 검사] : 일반 로그인 회원입니다.");
-                return "emailProviderPass";
-            } else {
-                System.out.println("[플랫폼 검사] : 소셜 로그인 회원입니다.");
-                return "existProvider";
+            Date result1 = userEntity.getDeleteDate();
+            String result2 = userEntity.getProvider();
+            System.out.println("회원 탈퇴일 검사 결과 : " + result1);
+            System.out.println("플랫폼 검사 결과 : " + result2);
+
+            if (result1 == null) { // 가입회원
+                if (result2 == null) {
+                    System.out.println("[플랫폼 검사] : 일반 로그인 회원입니다.");
+                    return "emailProviderPass";
+                } else {
+                    System.out.println("[플랫폼 검사] : 소셜 로그인 회원입니다.");
+                    return "existProvider";
+                }
+            } else { // 탈퇴회원
+                System.out.println("[플랫폼 검사] : 탈퇴 회원입니다.");
+                return "deletedUser";
             }
         }
     }
