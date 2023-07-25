@@ -10,6 +10,7 @@ const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function Detailnum2(props){
     const [rate, setRating] = useState(0);
+    const ratingData =props.movieData.ratings;
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [loggedIn, setLoggedIn] = useState(false);
     const movie = props.item;
@@ -78,6 +79,7 @@ function Detailnum2(props){
         };
         const data = new URLSearchParams();      
         data.append('movieId', movie.movieId);
+
         axios.post("http://localhost:8085/details/getWantToSee", data,config)
         .then((response)=>{
           if(response.data=='want'){
@@ -96,59 +98,56 @@ function Detailnum2(props){
         // 로그인 콘솔 띄우기
     }
         //유저데이터에 rating 이랑 wanttosee랑 comment가 필요
-    });
+    },[]);
 
     // 보고싶어요 클릭시 서버로 보고싶어요 데이터 보내서 정보저장
-    const wantToSee = (wantTo) => () => {
-        const token = cookies.token;
-        console.log(wantTo);
-        if (token) {
-            if(wantTo){
-                const config = {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                      withCredentials: true,
-                    },
-                  };
-                setLoggedIn(true);
-                const data = new URLSearchParams();
-                data.append('movieId', movie.movieId);
-                axios.post("http://localhost:8085/details/wantToSee", data,config)
-                    .then((response) => {
-                        console.log(response.data);
-                        setWantTo(true);
-                    })
-                    .catch((error) => {
-                        console.error('Error fetching data:', error);
-                    });
-            }else{
-                const config = {
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                      withCredentials: true,
-                    },
-                  };
-                setLoggedIn(true);
-                const data = new URLSearchParams();
-                data.append('movieId', movie.movieId);
-                axios.post("http://localhost:8085/details/wantToSeeOut", data,config)
-                    .then((response) => {
-                        console.log(response.data);
-                        setWantTo(false);
-                    })
-                    .catch((error) => {
-                        console.error('Error fetching data:', error);
-                    });
-            }
-            
+    const wantToSee = () => {
+      const token = cookies.token;
+      console.log(wantTo);
+    
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            withCredentials: true,
+          },
+        };
+        setLoggedIn(true);
+    
+        if (!wantTo) {
+          // 보고싶어요 등록 처리
+          const data = new URLSearchParams();
+          data.append('movieId', movie.movieId);
+          axios
+            .post("http://localhost:8085/details/wantToSee", data, config)
+            .then((response) => {
+              console.log(response.data);
+              setWantTo(true);
+            })
+            .catch((error) => {
+              console.error('Error fetching data:', error);
+            });
         } else {
-            setLoggedIn(false);
-            console.log('not logged in');
-            console.log('token' + token);
-            alert("로그인하세요");
+          // 보고싶어요 해제 처리
+          const data = new URLSearchParams();
+          data.append('movieId', movie.movieId);
+          axios
+            .post("http://localhost:8085/details/wantToSeeOut", data, config)
+            .then((response) => {
+              console.log(response.data);
+              setWantTo(false);
+            })
+            .catch((error) => {
+              console.error('Error fetching data:', error);
+            });
         }
+      } else {
+        setLoggedIn(false);
+        console.log('not logged in');
+        console.log('token' + token);
+        alert("로그인하세요");
+      }
     }
-
 
 
 
@@ -165,8 +164,7 @@ function Detailnum2(props){
                 },
               };
             setLoggedIn(true);
-            console.log(token);
-            console.log(rate);
+          
             const data = new URLSearchParams();
             // data.append('token', token);
             data.append('rate', rate);
@@ -238,7 +236,7 @@ function Detailnum2(props){
                             <span>평균 ★{props.item.vote_average}</span><div className={styles.numPeople}>({props.item.vote_count}명)</div>
                         </div>
                         <div className={styles.leftBottom_chart}>
-                            <Charts></Charts>
+                            <Charts ratingData={ratingData}/>
                         </div>
                         <div className={styles.leftBottom_chartNum}>
                             <p>1</p>
@@ -275,7 +273,7 @@ function Detailnum2(props){
                                     <>
                                     <div
               className={`${styles.right_top_right_wantToSee} ${hovered ? styles.wantToSee_icon_hovered : ''}`}
-              onClick={wantToSee(wantTo)}
+              onClick={()=>wantToSee(wantTo)}
               onMouseEnter={() => setHovered(true)} // 마우스가 컴포넌트에 진입 시 hovered 상태로 설정
               onMouseLeave={() => setHovered(false)} // 마우스가 컴포넌트에서 나갈 시 hovered 상태 해제
             >

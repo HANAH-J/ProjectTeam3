@@ -3,8 +3,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../../css/main/Mainpage.module.css';
-import { actormovieList } from '../../api/Movies/ActorMovie';
+import { useNavigate } from 'react-router-dom';
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
+
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
@@ -88,14 +89,18 @@ export default function ActorMovie(props) {
             },
         ],
     };
+    const navigate = useNavigate();
 
+  const onClickDetailPage = (item) =>{
+    navigate('details',{state:{item}})
+  }
     const index = 0;
 
     return (
         <Slider {...settings}>
             {props.movieList.map((item, index) => (
                 <div className={styles.ActorMovie_mainBox}>
-                    <div className={styles.ActorMovie_poster}>
+                    <div className={styles.ActorMovie_poster} onClick={()=>{onClickDetailPage(item)}}>
                         <div className={styles.ActorMovie_content}> 
                         <span className={styles.ActorMovie_number}>{index + 1}</span>
                         <img src={IMG_BASE_URL+item.poster_path} alt="poster" />
