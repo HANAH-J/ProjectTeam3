@@ -175,6 +175,7 @@ public class DetailController {
         int userCd = userEntity.getUserCd();
         int saved = 0;
         saved = DS.saveWantToSeeOut(userCd,movieId);
+
         if(saved == 1){
             return "저장완료";
         }else{

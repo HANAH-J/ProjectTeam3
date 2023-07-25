@@ -110,8 +110,13 @@ public class DetailService {
 
     public int saveWantToSeeOut(int userCd, int movieId) {
         int dataSaved = 0;
-        String m = String.valueOf(userCd)+" "+String.valueOf(movieId);
-        WDR.deleteById(m);
+        WantToSeeDataDto d = new WantToSeeDataDto();
+        d.setWantToSeeId(userCd,movieId);
+        d.setUserCd(userCd);
+        d.setMovieId(movieId);
+        WDR.delete(d);
+
+
         return dataSaved;
     }
 
@@ -184,8 +189,13 @@ public class DetailService {
     }
 
     public String getWantToSee(int userCd, int movieId) {
-        WantToSeeDataDto w = WDR.findByUserCdAndMovieId(userCd,movieId);
-        if(w!=null){
+        WantToSeeDataDto w = new WantToSeeDataDto();
+        w.setMovieId(movieId);
+        w.setWantToSeeId(userCd,movieId);
+        w.setUserCd(userCd);
+        WDR.findById(w.getWantToSeeId());
+
+        if(WDR.findById(w.getWantToSeeId()) == null){
             return "want";
         }else{
             return "no";
