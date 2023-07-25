@@ -79,7 +79,7 @@ export default function MainPage() {
     formData.append('name', name1);
 
     // 데이터 전송
-    axios.post("http://localhost:8085/api/directorSearch", formData)
+    axios.post("http://localhost:8085/api/actorSearch", formData)
       .then((response) => {
         // 요청에 대한 성공 처리
         console.log(response.data);
@@ -167,7 +167,7 @@ export default function MainPage() {
               <input type="text" name1='name1' onChange={handleChange1} />
               <button type='submit'>배우</button>
             </form>
-            <ActorMovie movieListActor={movieListActor}/>
+            <ActorMovie movieList={movieListActor}/>
           </div>
         </div>
       </div>
@@ -181,7 +181,7 @@ export default function MainPage() {
               <input type="text" name2='name2' onChange={handleChange2} />
               <button type='submit'>장르</button>
             </form>
-            <Genre movieListGenre={movieListGenre}/>
+            <Genre movieList={movieListGenre}/>
           </div>
         </div>
       </div>
