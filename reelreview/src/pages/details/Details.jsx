@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import Detailtop from "../../components/details/Detail_top";
 import Detailnum2 from "../../components/details/Detail_num2";
 import Header from "../../components/Header/Header";
+import Header_noneBackground from "../../components/Header/Header_noneBackground";
 import styles from '../../css/details/Detail.module.css';
 import Detailnum3 from "../../components/details/Detail_num3";
 import Detailnum4 from "../../components/details/Detail_num4";
@@ -9,6 +10,7 @@ import Detailnum5 from "../../components/details/Detail_num5";
 import Detailnum6 from "../../components/details/Detail_num6";
 import Footer from "../../components/Footer/Footer";
 import LoginSuccess_header from "../../components/Header/LoginSuccess_header";
+import LoginSuccess_header_noneBackground from "../../components/Header/LoginSuccess_header_noneBackground";
 import { useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
 import axios from "axios";
@@ -26,6 +28,58 @@ function Details() {
     const [profileData, setProfileData] = useState(null);
     const [profileImage, setProfileImage] = useState(null);
     const [userEmail, setUserEmail] = useState('');
+
+    const [scrolled, setScrolled] = useState(false);
+
+    const headerStyle = {
+        opacity: scrolled ? 1 : 0, 
+        transition: "opacity 3s ease-in-out",
+      };
+      
+     
+      const header2Style = {
+        opacity: scrolled ? 0 : 1, 
+        transition: "opacity 3s ease-in-out",
+    
+      };
+      
+      const renderHeader = () => {
+        const transitionDuration = 1000; 
+        const transitionStyle = {
+          transition: `opacity ${transitionDuration}ms ease-in-out`,
+        };
+      
+        if (scrolled) {
+            if (loggedIn) {
+              return (
+                <div style={{ ...headerStyle, ...transitionStyle }}>
+                  <LoginSuccess_header profileData={profileData} userData={userData} />
+                </div>
+              );
+            } else {
+              return (
+                <div style={{ ...headerStyle, ...transitionStyle }}>
+                  <Header />
+                </div>
+              );
+            }
+          } else {
+            if (loggedIn) {
+              return (
+                <div style={{ ...header2Style, ...transitionStyle }}>
+                  <LoginSuccess_header_noneBackground profileData={profileData} userData={userData} />
+                </div>
+              );
+            } else {
+              return (
+                <div style={{ ...header2Style, ...transitionStyle }}>
+                  <Header_noneBackground />
+                </div>
+              );
+            }
+          }
+        };
+      
 
     useEffect(() => {
         const token = cookies.token;
@@ -91,23 +145,38 @@ function Details() {
         }).catch((error) => { console.log(error) })
     }, [item.movieId]);
 
+    useEffect(() => {
+        const handleScroll = () => {
+          const scrollY = window.scrollY;
+          const scrollThreshold = 50; // 일정 이상 스크롤이 내려간 경우를 판단하는 값
+          if (scrollY > scrollThreshold) {
+            setScrolled(true);
+          } else {
+            setScrolled(false);
+          }
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+          // 컴포넌트가 언마운트될 때 스크롤 이벤트 리스너 제거
+          window.removeEventListener("scroll", handleScroll);
+        };
+      }, []);
+
     
 
-    return (
-
+      return (
         <div className={styles.Detail_box}>
-            {cookies.token ? <LoginSuccess_header profileData={profileData} userData={userData} /> : <Header />}
-            {movieData ? (<>
-                <Detailtop item={item} movieData={movieData} />
-                <Detailnum2 item={item} movieData={movieData} />
-                <Detailnum3 item={item} movieData={movieData} />
-                <Detailnum4 item={item} movieData={movieData} />
-                <Detailnum5 item={item} movieData={movieData} />
-                <Detailnum6 item={item} movieData={movieData} />
-            </>) : (<></>)}
-            <Footer></Footer>
-        </div>
-
+       {renderHeader()}
+        {movieData ? (<>
+            <Detailtop item={item} movieData={movieData} />
+            <Detailnum2 item={item} movieData={movieData} />
+            <Detailnum3 item={item} movieData={movieData} />
+            <Detailnum4 item={item} movieData={movieData} />
+            <Detailnum5 item={item} movieData={movieData} />
+            <Detailnum6 item={item} movieData={movieData} />
+        </>) : (<></>)}
+        <Footer></Footer>
+    </div>
     );
 }
 

@@ -12,6 +12,7 @@ export default function CsBoard_modify() {
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [writer, setWriter] = useState('');
     const [file, setFile] = useState(null);
 
     useEffect(() => {
@@ -22,9 +23,10 @@ export default function CsBoard_modify() {
         axios
             .get(`http://localhost:8085/api/board/boardList`, { params: { boardCd: boardCd } })
             .then((response) => {
-                const { title, content } = response.data;
+                const { title, content, writer } = response.data;
                 setTitle(title);
                 setContent(content);
+                setWriter(writer);
             })
             .catch((error) => {
                 console.log('데이터 가져오기 실패');
@@ -37,6 +39,7 @@ export default function CsBoard_modify() {
         const data = new FormData();
         data.append('title', title);
         data.append('content', content);
+        data.append('writer', writer);
         data.append('file', file);
 
         axios
@@ -71,6 +74,14 @@ export default function CsBoard_modify() {
                                 onChange={(e) => setTitle(e.target.value)} 
                                 readOnly/>
                             </div>
+                            <div className={styles.CsQna_hidden}>
+                            <div>작성자</div>
+                            <div className={styles.CsQna_box_body4_writer}></div>
+                            <input type="text"
+                                    name="writer"
+                                    required value={writer}
+                                    onChange={(e) => setWriter(e.target.value)}/>
+                        </div>
                             <div className={styles.CsBoard_modify_form_content}>
                                 <label htmlFor="content">내용</label>
                                 <textarea

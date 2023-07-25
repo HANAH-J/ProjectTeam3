@@ -28,11 +28,12 @@ function CsBoard() {
       
         axios.get("http://localhost:8085/api/board/searchBoardWriter", {
             params: {
-              writer: boardWriter // 수정: boardWriter를 writer로 변경
+              writer: boardWriter,
             }
           })
           .then((response) => {
             console.log(response.data);
+            const sortedBoardList = response.data.sort((a, b) => b.boardCd - a.boardCd);
             setBoardList(response.data);
             navigate('/searchSuccessWriter', { state: { boardList: response.data, searchedName: boardWriter } });
           })
@@ -128,7 +129,7 @@ function CsBoard() {
                             </table>
                             <div className={styles.CsBoard_pageBox}>
                                 <button className={styles.CsBoard_page_right} onClick={goToPrevPage} disabled={currentPage === 0}>&lt;&lt; </button>
-                                <span>{currentPage + 1} p </span>
+                                <span>{currentPage + 1} p / {totalPages} p</span>
                                 <button className={styles.CsBoard_page_right} onClick={goToNextPage} disabled={currentPage === totalPages - 1}>&gt;&gt;</button>
                             </div>
                         </div>
