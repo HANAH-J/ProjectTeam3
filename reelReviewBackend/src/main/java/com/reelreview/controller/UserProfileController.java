@@ -154,10 +154,7 @@ public class UserProfileController {
         }
         responseData.put("movieDetailsList", movieDetailsList);
 
-        System.out.println("******************************");
         System.out.println(comments);
-        System.out.println(ratings);
-        System.out.println("******************************");
 
         return ResponseEntity.ok(responseData);
     }

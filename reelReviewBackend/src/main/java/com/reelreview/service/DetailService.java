@@ -100,6 +100,7 @@ public class DetailService {
         m.setUserCd(userCd);
         m.setWantToSeeId(userCd,movieId);
         WantToSeeDataDto a  = WDR.save(m);
+        System.out.println(a);
         if(a!=null){
             dataSaved = 1;
         }
@@ -165,13 +166,10 @@ public class DetailService {
         return c;
     }
 
-    public String saveCcommentData(CcommentDataDto dto) {
+    public CcommentDataDto saveCcommentData(CcommentDataDto dto) {
         CcommentDataDto c = CCDR.save(dto);
-        if (c!=null){
-            return "저장완료";
-        }else {
-            return "저장실패";
-        }
+
+        return c;
     }
 
     public List<CcommentDataDto> getCcommentByCommentId(int commentId) {

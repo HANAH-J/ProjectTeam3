@@ -93,7 +93,6 @@ function Detailnum2(props){
         setLoggedIn(false);
         console.log('not logged in');
         console.log('token' + token);
-        alert('로그인을 해주세요.');
         // 로그인 콘솔 띄우기
     }
         //유저데이터에 rating 이랑 wanttosee랑 comment가 필요
@@ -102,7 +101,6 @@ function Detailnum2(props){
     // 보고싶어요 클릭시 서버로 보고싶어요 데이터 보내서 정보저장
     const wantToSee = (wantTo) => () => {
         const token = cookies.token;
-        setRating(rate);
         console.log(wantTo);
         if (token) {
             if(wantTo){
@@ -147,8 +145,7 @@ function Detailnum2(props){
             setLoggedIn(false);
             console.log('not logged in');
             console.log('token' + token);
-            alert('로그인을 해주세요.');
-            // 로그인 콘솔 띄우기
+            alert("로그인하세요");
         }
     }
 
@@ -186,8 +183,7 @@ function Detailnum2(props){
             setLoggedIn(false);
             console.log('not logged in');
             console.log('token' + token);
-            alert('로그인을 해주세요.');
-            // 로그인 콘솔 띄우기
+            alert('로그인하세요');
         }
     }
     const tooltipArray = ["0.5","1","1.5","2","2.5","3","3.5","4","4.5","5"];
@@ -292,7 +288,7 @@ function Detailnum2(props){
                                 ):(<>
                                     <div
               className={`${styles.right_top_right_wantToSee} ${hovered ? styles.wantToSee_icon_hovered : ''}`}
-              onClick={wantToSee(wantTo)}
+              onClick={()=>wantToSee(wantTo)}
               onMouseEnter={() => setHovered(true)} // 마우스가 컴포넌트에 진입 시 hovered 상태로 설정
               onMouseLeave={() => setHovered(false)} // 마우스가 컴포넌트에서 나갈 시 hovered 상태 해제
             >

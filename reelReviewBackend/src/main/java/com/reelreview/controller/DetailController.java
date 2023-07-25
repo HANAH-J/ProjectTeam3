@@ -6,6 +6,7 @@ import com.reelreview.api.domain.MovieImagesDTO;
 
 import com.reelreview.api.domain.MovieVideosDTO;
 import com.reelreview.api.repo.ApiMovieImagesRepo;
+import com.reelreview.api.service.MovieDataService;
 import com.reelreview.config.jwt.JwtTokenProvider;
 import com.reelreview.domain.*;
 import com.reelreview.domain.user.UserEntity;
@@ -35,6 +36,8 @@ public class DetailController {
     private ProfileService profileService;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private MovieDataService movieDataService;
 
     @RequestMapping("api/getMovieImages")
     public List<MovieImagesDTO> getMovieImages(@RequestParam("movieId") int movieId){
@@ -252,11 +255,13 @@ public class DetailController {
         DS.saveCommentData(comment);
     }
     @RequestMapping("comment/cCommentGoodUp")
-    public void cCommentGoodUp(@RequestBody Map<String, Integer> requestBody){
+    public CcommentDataDto cCommentGoodUp(@RequestBody Map<String, Integer> requestBody){
         int cCommentId = requestBody.get("cCommentId");
         CcommentDataDto cComment = DS.getCcommentById(cCommentId);
         cComment.setCCommentGood(cComment.getCCommentGood()+1);
         DS.saveCcommentData(cComment);
+
+        return DS.saveCcommentData(cComment);
     }
 
 
@@ -288,21 +293,28 @@ public class DetailController {
         }
         int userCd = userEntity.getUserCd();
 
-        ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
+        //ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
         CcommentDataDto dto = new CcommentDataDto();
+        CommentDataDto comment = DS.getCommentById(commentId);  //(J)
+        LocalDate l = LocalDate.now();  //(J)
+        String now = l.toString();  //(J)
 
         dto.setCCommentContent(request.getParameter("cCommentContent"));
         dto.setUserCd(userCd);
         dto.setCommentId(commentId);
-        dto.setPFImage(profile.getPfImage());
+        //dto.setPFImage(profile.getPfImage());
         dto.setUserName(userEntity.getUsername());
-        String result = DS.saveCcommentData(dto);
+        dto.setCCommentDate(now);  //(J)
+        comment.setCCommentcount(comment.getCCommentcount()+1); //(J)
 
+        CcommentDataDto a = DS.saveCcommentData(dto);
+        String result = a.getUserName();
         return result;
     }
     @RequestMapping("details/getCcomment")
     public List<CcommentDataDto> getCcomment(@RequestParam("commentId") int commentId){
         List<CcommentDataDto> c = DS.getCcommentByCommentId(commentId);
+        System.out.println(c);
         return c;
     }
 
@@ -335,4 +347,16 @@ public class DetailController {
         String want = DS.getWantToSee(userCd,movieId);
         return want;
     }
+
+    @RequestMapping(value = "/getMovieDetailsForThisComment", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getMovieDetail (@RequestParam("movieId") int movieId) {
+        Map<String, Object> responseData = new HashMap<>();
+        List<MovieDetailsDTO> movieDetailsList = new ArrayList<>();
+        MovieDetailsDTO movieDetails = movieDataService.getMovieByMovieId(movieId);
+        movieDetailsList.add(movieDetails);
+        responseData.put("movieDetailsList", movieDetailsList);
+
+        return ResponseEntity.ok(responseData);
+    }
+
 }

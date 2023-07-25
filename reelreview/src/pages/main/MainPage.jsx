@@ -21,7 +21,6 @@ export default function MainPage() {
   const [userCd, setUserCd] = useState(null);
   const [userData, setUserData] = useState(null);
   const [profileData, setProfileData] = useState(null);
-
   
   // JWT 토큰
   const getMain = async (token) => {
@@ -60,80 +59,24 @@ export default function MainPage() {
     if (cookies.token) {
       getMain(cookies.token);
   }
+    
   }, [cookies.token]);
+  useEffect(()=>
+  {
+    axios.post("http://localhost:8085/api/directorNactorNgenreSearchByDate")
+    .then((response) => {
+      // 요청에 대한 성공 처리
+      console.log(response.data);
+      setMovieList(response.data);
+    
+    })
+    .catch((error) => {
+      // 요청에 대한 실패 처리
+      console.error(error);
+    });
+  },[])
+    
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // 서버로 보낼 데이터 준비
-    const formData = new FormData();
-    formData.append('name', name);
-    // 데이터 전송
-    axios.post("http://localhost:8085/api/directorSearch", formData)
-      .then((response) => {
-        // 요청에 대한 성공 처리
-        console.log(response.data);
-        setMovieList(response.data);
-        // 받은 데이터에 대한 추가 처리
-      })
-      .catch((error) => {
-        // 요청에 대한 실패 처리
-        console.error(error);
-      });
-  };
-
-  const [movieListActor,setMovieListActor] = useState([]);
-  const [name1, setName1] = useState('');
-
-  const handleChange1 = (event) => {
-    const { value } = event.target;
-    setName1(value);
-  };
-
-  const handleSubmit1 = (event) => {
-    event.preventDefault();
-    // 서버로 보낼 데이터 준비
-    const formData = new FormData();
-    formData.append('name', name1);
-    // 데이터 전송
-    axios.post("http://localhost:8085/api/actorSearch", formData)
-      .then((response) => {
-        // 요청에 대한 성공 처리
-        console.log(response.data);
-        setMovieListActor(response.data);
-        // 받은 데이터에 대한 추가 처리
-      })
-      .catch((error) => {
-        // 요청에 대한 실패 처리
-        console.error(error);
-      });
-  };
-
-  const [movieListGenre,setMovieListGenre] = useState([]);
-  const [name2, setName2] = useState('');
-
-  const handleChange2 = (event) => {
-    const { value } = event.target;
-    setName2(value);
-  };
-
-  const handleSubmit2 = (event) => {
-    event.preventDefault();
-    // 서버로 보낼 데이터 준비
-    const formData = new FormData();
-    formData.append('genre', name2);
-    // 데이터 전송
-    axios.post("http://localhost:8085/api/genreSearch", formData)
-      .then((response) => {
-        // 요청에 대한 성공 처리
-        console.log(response.data);
-        setMovieListGenre(response.data);
-        // 받은 데이터에 대한 추가 처리
-      })
-      .catch((error) => {
-        // 요청에 대한 실패 처리
-        console.error(error);
-      });
-  };
   
   return (
     <div className={styles.MainPage_box}>
@@ -158,37 +101,47 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-      <div className={styles.DirectorMovie_box_wrapper}>
-        <div className={styles.DirectorMovie_box}>
-          <div className={styles.DirectorMovie_box_header}>
-            <h3> a 감독 모음</h3>
-          </div>
-          <div className={styles.DirectorMovie_box_info}>
-            <DirectorMovie movieList={movieList} />
-          </div>
-        </div>
+      {movieList && movieList.director && movieList.director.length > 0 && (
+  <div className={styles.DirectorMovie_box_wrapper}>
+    <div className={styles.DirectorMovie_box}>
+      <div className={styles.DirectorMovie_box_header}>
+        <h3> {movieList.director[0].directorName} 감독 모음</h3>
       </div>
-      <div className={styles.ActorMovie_box_wrapper}>
-        <div className={styles.ActorMovie_box}>
-          <div className={styles.ActorMovie_box_header}>
-            <h3>화제의 배우 a 모음</h3>
-          </div>
-          <div className={styles.ActorMovie_box_info}>
-            <ActorMovie movieListActor={movieListActor} />
-          </div>
-        </div>
+      <div className={styles.DirectorMovie_box_info}>
+        <DirectorMovie movieList={movieList.director} />
       </div>
-      <div className={styles.Genre_box_wrapper}>
-        <div className={styles.Genre_box}>
-          <div className={styles.Genre_box_header}>
-            <h3>요즘 핫한 a</h3>
-          </div>
-          <div className={styles.Genre_box_info}>
-            <Genre movieListGenre={movieListGenre} />
-          </div>
-        </div>
+    </div>
+  </div>
+)}
+
+{movieList && movieList.actor && movieList.actor.length > 0 && (
+  <div className={styles.ActorMovie_box_wrapper}>
+    <div className={styles.ActorMovie_box}>
+      <div className={styles.ActorMovie_box_header}>
+        <h3>화제의 배우 {movieList.actor[0].actorName} 모음</h3>
       </div>
+      <div className={styles.ActorMovie_box_info}>
+        <ActorMovie movieList={movieList.actor} />
+      </div>
+    </div>
+  </div>
+)}
+
+{movieList && movieList.genre && movieList.genre.length > 0 && (
+  <div className={styles.Genre_box_wrapper}>
+    <div className={styles.Genre_box}>
+      <div className={styles.Genre_box_header}>
+        <h3>요즘 핫한 {movieList.todayGenre}</h3>
+      </div>
+      <div className={styles.Genre_box_info}>
+        <Genre movieList={movieList.genre} />
+      </div>
+    </div>
+  </div>
+)}
+      
       <div>
+      
         <Footer />
       </div>
     </div>

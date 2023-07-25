@@ -34,8 +34,6 @@ function UserScoreCollection() {
       setLoggedIn(false);
       console.log('not logged in');
       console.log('token' + token);
-      //alert('로그인을 해주세요.'); 
-      //navigate('/'); // 토큰이 없을 경우 메인으로 리디렉션
     }
   }, [cookies.token]);
 
@@ -51,13 +49,10 @@ function UserScoreCollection() {
       .then(response => {
 
         const responseData = response.data;
-        //setUserCd(responseData.userDTO.userCd); 
 
         const userDTO = {
           userCd: responseData.userDTO.userCd,
           username: responseData.userDTO.username,
-          userEmail: responseData.userDTO.userEmail,
-          role: responseData.userDTO.role,
         };
 
         const ratings = responseData.ratings;
@@ -80,7 +75,6 @@ function UserScoreCollection() {
         <div className={styles.userScoreCollection_Wrapper_Title}> <h2>평가한 작품들</h2> </div>
       </div>
     
-
       <div className={styles.userScoreCollection_List}>
 
       {ratings.length === 0 ? (
