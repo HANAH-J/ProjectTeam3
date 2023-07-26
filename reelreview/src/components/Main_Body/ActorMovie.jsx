@@ -99,7 +99,7 @@ export default function ActorMovie(props) {
     return (
         <Slider {...settings}>
             {props.movieList.map((item, index) => (
-                <div className={styles.ActorMovie_mainBox}>
+                <div key={index} className={styles.ActorMovie_mainBox}>
                     <div className={styles.ActorMovie_poster} onClick={()=>{onClickDetailPage(item)}}>
                         <div className={styles.ActorMovie_content}> 
                         <span className={styles.ActorMovie_number}>{index + 1}</span>
