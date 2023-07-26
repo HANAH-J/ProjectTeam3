@@ -176,6 +176,7 @@
 .right_top_right_wantToSee{
     float: left;
     margin-right: 29px;
+    border: 1px solid red;
 }
 .wantToSee_icon {
     transition: color 0.5s; 

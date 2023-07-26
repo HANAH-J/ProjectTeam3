@@ -11,12 +11,14 @@ import styles from '../../css/main/Mainpage.module.css';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from '../../stores/index.ts';
+import { config } from 'react-transition-group';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function MainPage() {
   const [movieList, setMovieList] = useState([]); 
   const [name, setName] = useState('');
-
+  const navigate = useNavigate();
   const [mainResponse, setMainResponse] = useState('');
   const [cookies] = useCookies(['token']);
   const { user } = useUserStore();
@@ -37,6 +39,19 @@ export default function MainPage() {
     const token = cookies.token;
     if(token) getMain(token);
     else setMainResponse('');
+  
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    axios.get("http://localhost:8085/admin/checkadmin",config).then((response)=>{
+      if(response.data=true){
+
+      }else{
+        navigate('/');
+      }
+    })
   }, [cookies.token]);
 
   const handleChange = (event) => {
