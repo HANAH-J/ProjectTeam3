@@ -28,8 +28,6 @@ function MovieToWatch() {
     if (token) {
       setLoggedIn(true);
       fetchUserData(token);
-      console.log(token);
-      
     } else {
       setLoggedIn(false);
       console.log('not logged in');
@@ -64,8 +62,6 @@ function MovieToWatch() {
 
             setUserData(userDTO);
             setProfileData(profileDTO);
-            console.log(userDTO.username + ' is logged in');
-            console.log(movieDetails);
           })
           .catch(error => {
             console.error('Error fetching data:', error);

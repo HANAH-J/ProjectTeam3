@@ -31,7 +31,6 @@ function UserProfile() {
     const goToMain = () => { navigate('/'); }
 
     const goToMovie = (movieDetails) => {
-      console.log(movieDetails);
       navigate('/details',{state:{"item":movieDetails}})
     };
 
@@ -52,11 +51,8 @@ function UserProfile() {
       if (token) {
         setLoggedIn(true);
         fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
-        console.log(token);
       } else {
         setLoggedIn(false);
-        console.log('not logged in');
-        console.log('token' + token);
         alert('로그인을 해주세요.'); 
         navigate('/'); // 토큰이 없을 경우 메인으로 리디렉션
       }
@@ -99,7 +95,6 @@ function UserProfile() {
             setRatings(ratings);
             setMovieDetails(movieDetails);
             console.log(userDTO.username + ' is logged in');
-            console.log(movieDetails);
           })
           .catch(error => {
             console.error('Error fetching data:', error);
