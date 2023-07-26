@@ -81,7 +81,6 @@
     text-decoration: none;
 }
   
-
 .userProfile_box {
     width: 35px;
     height: 35px;
@@ -102,7 +101,8 @@
   }
 
   .nameLi {
-    color: black;
+    font-size: 14px;
+    color: #4C4C4C;
     margin-right: 20px;
     cursor: pointer;
   }
