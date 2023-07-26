@@ -13,7 +13,9 @@ function Detailnum2(props) {
   const ratingData = props.movieData.ratings;
   console.log(ratingData);
   const sum = ratingData.reduce((total, rateObject) => total + rateObject.rate, 0);
-  const avg = sum / ratingData.length;
+  const avg = ratingData.length === 0 ? 0 : sum / ratingData.length;
+  
+  const avgs = avg.toFixed(1);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const [loggedIn, setLoggedIn] = useState(false);
   const movie = props.item;
@@ -240,7 +242,7 @@ function Detailnum2(props) {
           <div className={styles.leftBottom}>
             <div className={styles.leftBottomTypo}>
               <p>우리 사이트 별점 그래프</p>
-              <span>평균 ★{avg}</span><div className={styles.numPeople}>({ratingData.length}명)</div>
+              <span>평균 ★{avgs}</span><div className={styles.numPeople}>({ratingData.length}명)</div>
             </div>
             <div className={styles.leftBottom_chart}>
               <Charts ratingData={ratingData} />
@@ -261,7 +263,7 @@ function Detailnum2(props) {
               </div>
               <div className={styles.right_top_middle}>
                 <div className={styles.right_top_middle_avg}>
-                  {avg}
+                  {avgs}
                 </div>
                 <div className={styles.right_top_middle_avg_typo}>
                   평균 별점 ({ratingData.length}명)
@@ -298,7 +300,7 @@ function Detailnum2(props) {
                 </>
                 )}
                 <div
-                  className={styles.right_top_right_comment}>
+                  className={styles.right_top_right_comment} onClick={()=>setShowCommentForm(true)}>
                   <div className={styles.wantToSee_icon}>
                     <BiSolidPencil size={40} strokeWidth={0} />
                   </div>

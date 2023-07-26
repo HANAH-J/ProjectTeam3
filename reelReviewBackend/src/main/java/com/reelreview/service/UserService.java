@@ -28,8 +28,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-    @Value("${jwt.refreshToken.expirationInMs}")
-    private long refreshTokenExpirationInMs;
+//    @Value("${jwt.refreshToken.expirationInMs}")
+//    private long refreshTokenExpirationInMs;
     @Autowired
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired

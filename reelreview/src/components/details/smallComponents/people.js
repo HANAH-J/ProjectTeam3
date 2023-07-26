@@ -12,7 +12,7 @@ function MoviePeople(props) {
                 <>
                     {cast && cast.peopleImage ? (
                         <div key={index} className={styles.people1_1}>
-                            <a href='#' className={styles.people_link}>
+                            <div className={styles.people_link}>
                                 {cast.peopleImage && (
                                     <div className={styles.people_img}>
                                         <img src={IMG_BASE_URL + cast.peopleImage} alt='#' className={styles.people_img_img} />
@@ -22,7 +22,7 @@ function MoviePeople(props) {
                                     <h5>{cast.peopleName}</h5>
                                     <p>{cast.character}</p>
                                 </div>
-                            </a>
+                            </div>
                         </div>
                     ) : (
                         <></>

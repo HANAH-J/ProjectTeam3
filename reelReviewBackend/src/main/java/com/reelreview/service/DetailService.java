@@ -14,7 +14,6 @@ import com.reelreview.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,8 +69,8 @@ public class DetailService {
         return m;
     }
 
-    public List<Integer> findMoviesByGenres(List<Integer> genres) {
-        List<Integer> moviecodes = MGR.findByGenreIn(genres);
+    public List<Integer> findMoviesByGenres(Integer genres) {
+        List<Integer> moviecodes = MGR.findMovieCdByGenreId(genres);
         return moviecodes;
     }
 
@@ -174,7 +173,10 @@ public class DetailService {
 
     public CcommentDataDto saveCcommentData(CcommentDataDto dto) {
         CcommentDataDto c = CCDR.save(dto);
-
+        int commentid = dto.getCommentId();
+        CommentDataDto cdto = CDR.getById(commentid);
+        cdto.setCCommentcount(cdto.getCCommentcount()+1);
+        CDR.save(cdto);
         return c;
     }
 

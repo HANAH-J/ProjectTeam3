@@ -14,6 +14,7 @@ public interface ApiMovieGenresRepo extends JpaRepository<MovieGenresDTO,Long> {
     List<MovieGenresDTO> findByGenreName(String genre);
 
     List<MovieGenresDTO> findByMovieCd(Long movieCd);
-    @Query("SELECT m.movieCd FROM MovieGenresDTO m WHERE m.genreId IN :genres")
-    List<Integer> findByGenreIn(@Param("genres") List<Integer> genres);
+
+    @Query("SELECT m.movieCd FROM MovieGenresDTO m WHERE m.genreId = :genres")
+    List<Integer> findMovieCdByGenreId(@Param("genres") Integer genres);
 }
