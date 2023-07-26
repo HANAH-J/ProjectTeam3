@@ -1,9 +1,12 @@
 import styles from '../../css/details/Detail_num4.module.css';
 import CommentsCol from './smallComponents/CommentsCol';
+import { useContext, useState } from 'react';
+
 
 function Detailnum4(props) {
     const movieData = props.movieData;
-    const comments = movieData.comments;
+    const [comments,setComments] = useState(props.comments)
+    
     console.log(comments);
     return(
         <div className={styles.wrapper}>

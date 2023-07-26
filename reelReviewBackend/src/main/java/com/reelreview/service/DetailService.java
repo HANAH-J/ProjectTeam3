@@ -224,4 +224,12 @@ public class DetailService {
 
         return r.getRate();
     }
+
+    public List<RatingDataDto> getRatingDataBymovieId(int movieId) {
+        return RDR.findByMovieId(movieId);
+    }
+
+    public List<CommentDataDto> getCommentbyMovieId(int movieId) {
+        return CDR.findByMovieId(movieId);
+    }
 }
