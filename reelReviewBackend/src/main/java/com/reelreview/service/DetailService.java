@@ -170,6 +170,11 @@ public class DetailService {
         return c;
     }
 
+    public CommentDataDto findCommentByCommentId(int commentId) {
+        CommentDataDto commentInfo = CDR.findCommentByCommentId(commentId);
+        return commentInfo;
+    }
+
     public CcommentDataDto saveCcommentData(CcommentDataDto dto) {
         CcommentDataDto c = CCDR.save(dto);
         int commentid = dto.getCommentId();

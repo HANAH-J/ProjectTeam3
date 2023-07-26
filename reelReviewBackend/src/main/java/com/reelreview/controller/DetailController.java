@@ -221,7 +221,6 @@ public class DetailController {
         LocalDate l = LocalDate.now();
         String now = l.toString();
         dto.setUserName(userEntity.getUsername());
-        dto.setPFImage(profileService.getProfileByUserCd(userEntity).getPfImage());
         dto.setCommentDate(now);
         dto.setCommentContent(request.getParameter("commentContent"));
         dto.setUserCd(userCd);
@@ -364,5 +363,14 @@ public class DetailController {
         RatingDataDto ratingData = DS.getRatingByMovieIdAndUserCd(movieId, userCd);
         return ResponseEntity.ok(ratingData);
     }
+
+    @RequestMapping(value = "/getInfoForThisComment", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getInfoForThisComment(@RequestParam("commentId") int commentId) {
+        Map<String, Object> responseData = new HashMap<>();
+        CommentDataDto commentInfo = DS.findCommentByCommentId(commentId);
+        responseData.put("commentInfo", commentInfo);
+        return ResponseEntity.ok(responseData);
+    }
+
 
 }
