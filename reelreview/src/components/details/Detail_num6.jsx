@@ -80,7 +80,7 @@ function Detailnum6(props){
             },
         ],
       };
-    return(
+      return (
         <div className={styles.wrapper}>
             <div className={styles.topHead}>
                 <div>
@@ -90,19 +90,17 @@ function Detailnum6(props){
             <div className={styles.similar}>
                 <div className={styles.similar_row}>
                     {simularMovieDetails && (
-                        simularMovieDetails.map((movies,index)=>(
-                            index < 12 &&  
-                            movies.movieId!=item.movieId?
-                            <Num6_similar_col movies={movies}/>
-                            :<></>
-                        )
-                    ))}
+                        simularMovieDetails.map((movies, index) => (
+                            index < 12 &&
+                            movies.movieId !== item.movieId ?
+                                <Num6_similar_col movies={movies} />
+                                : <></>
+                        ))
+                    )}
                 </div>
             </div>
         </div>
     );
 }
-
-
 
 export default Detailnum6;

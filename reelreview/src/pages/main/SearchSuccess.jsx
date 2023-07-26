@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import LoginSuccess_header from '../../components/Header/LoginSuccess_header'
 import Footer from '../../components/Footer/Footer'
 import styles from '../../css/main/Mainpage.module.css'
-import Genre from '../../components/Main_Body/Genre';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import Header from "../../components/Header/Header";
