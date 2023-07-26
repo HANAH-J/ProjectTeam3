@@ -226,7 +226,8 @@ public class DetailController {
         dto.setCommentContent(request.getParameter("commentContent"));
         dto.setUserCd(userCd);
         dto.setMovieId(movieId);
-
+        dto.setCCommentcount(0);
+        dto.setCommentGood(0);
 
         String result = DS.saveCommentData(dto);
 
@@ -296,19 +297,15 @@ public class DetailController {
         }
         int userCd = userEntity.getUserCd();
 
-        //ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
         CcommentDataDto dto = new CcommentDataDto();
-        CommentDataDto comment = DS.getCommentById(commentId);  //(J)
         LocalDate l = LocalDate.now();  //(J)
         String now = l.toString();  //(J)
 
         dto.setCCommentContent(request.getParameter("cCommentContent"));
         dto.setUserCd(userCd);
         dto.setCommentId(commentId);
-        //dto.setPFImage(profile.getPfImage());
         dto.setUserName(userEntity.getUsername());
         dto.setCCommentDate(now);  //(J)
-        comment.setCCommentcount(comment.getCCommentcount()+1); //(J)
 
         CcommentDataDto a = DS.saveCcommentData(dto);
         String result = a.getUserName();
