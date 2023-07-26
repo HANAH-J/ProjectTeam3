@@ -202,8 +202,11 @@ public class DetailService {
         WDR.findById(w.getWantToSeeId());
 
         if(WDR.findById(w.getWantToSeeId()) == null){
+            System.out.println("want");
             return "want";
         }else{
+            System.out.println("no");
+
             return "no";
         }
     }
@@ -213,5 +216,12 @@ public class DetailService {
 
 
         return d;
+    }
+
+    public double getRatingData(int userCd, int movieId) {
+        String ratingId = String.valueOf(userCd)+" "+String.valueOf(movieId);
+        RatingDataDto r = RDR.getById(ratingId);
+
+        return r.getRate();
     }
 }
