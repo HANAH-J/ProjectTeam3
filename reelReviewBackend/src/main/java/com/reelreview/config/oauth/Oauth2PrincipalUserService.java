@@ -4,6 +4,7 @@ import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.config.oauth.provider.*;
 import com.reelreview.config.jwt.JwtTokenProvider;
 import com.reelreview.domain.ProfileDTO;
+import com.reelreview.domain.user.ResponseDto;
 import com.reelreview.domain.user.UserEntity;
 import com.reelreview.repository.ProfileRepository;
 import com.reelreview.repository.UserRepository;
@@ -99,7 +100,6 @@ public class Oauth2PrincipalUserService extends DefaultOAuth2UserService {
             } catch (Exception error) {
                 System.out.println(error);
             }
-
 
             // 기존 사용자일 경우, 회원가입 처리 無
         } else {
