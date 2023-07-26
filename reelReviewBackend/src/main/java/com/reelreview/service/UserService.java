@@ -8,6 +8,8 @@ import com.reelreview.domain.user.*;
 import com.reelreview.repository.ProfileRepository;
 import com.reelreview.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -25,6 +28,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+    @Value("${jwt.refreshToken.expirationInMs}")
+    private long refreshTokenExpirationInMs;
     @Autowired
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
@@ -117,13 +122,44 @@ public class UserService {
         } catch (Exception error) {
             return ResponseDto.setFail("데이터베이스 에러");
         }
+
         userEntity.setUserPassword("");
+
         Authentication authentication = new UsernamePasswordAuthenticationToken(new PrincipalDetails(userEntity), null, null);
         String token = jwtTokenProvider.create(authentication);
         int exprTime = 3600000;
         SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
         return ResponseDto.setSuccess("로그인 성공", signInResponseDto);
+
+//        // 엑세스 토큰 생성
+//        Authentication authentication = new UsernamePasswordAuthenticationToken(new PrincipalDetails(userEntity), null, null);
+//        String accessToken = jwtTokenProvider.create(authentication);
+//        int exprTime = 3600000; // 엑세스 토큰 만료 시간 (1시간)
+//        SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
+//        System.out.println("액세스 토큰 생성!" + accessToken);
+
+//        // 리프레시 토큰 생성
+//        String refreshToken = generateRefreshToken();
+//        jwtTokenProvider.saveRefreshToken(String.valueOf(userEntity.getUserCd()), refreshToken);
+//        System.out.println("리프레시 토큰!" + refreshToken);
+//
+//        SignInResponseDto signInResponseDto = new SignInResponseDto(accessToken, exprTime, userEntity);
+
+//        return ResponseDto.setSuccess("로그인 성공", signInResponseDto);
     }
+
+//    // 리프레시 토큰 생성
+//    private String generateRefreshToken() {
+//        char[] charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+//        StringBuilder refreshTokenBuilder = new StringBuilder();
+//
+//        for (int i = 0; i < 32; i++) {
+//            int randomIdx = (int) (Math.random() * charSet.length);
+//            refreshTokenBuilder.append(charSet[randomIdx]);
+//        }
+//        if(refreshTokenBuilder.toString() != null) System.out.println("리프레시 토큰 생성!");
+//        return refreshTokenBuilder.toString();
+//    }
 
     // [이메일 중복 검사]
     public boolean emailCheck(EmailCheckDto dto) {

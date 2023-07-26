@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import OAuth2 from './OAuth2';
 import Terms from './Terms';
-import Alert from './Alert';
 import styles from '../../css/users/Sign.module.css';
-import styles2 from '../../css/users/Alert.module.css';
 import reel_review_logo from '../../img/users/Reel_Review_logo.png';
 
 // [회원] 회원가입 모달창
@@ -15,70 +13,89 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // 이름, 이메일, 비밀번호 입력값 검사 결과 저장소
-    const isAllFieldsFilled = () => {
-        const isNameValid = validateName(name);
-        const isEmailValid = validateEmail(email);
-        const isPasswordValid = validatePassword(password);
-        return (isNameValid && isEmailValid && isPasswordValid) && termsModalState === false;
-    };
-
-    // 이름 유효성 검사 로직 : 2자 이상 16자 이하, 영어 또는 숫자 또는 한글 (한글 초성 및 모음 불가)
-    // 이메일 유효성 검사 로직
-    // 비밀번호 유효성 검사 로직 : 영문, 숫자, 특수문자 중 2개 이상을 조합하여 최소 10자리 이상
-    const validateName = (name) => { return /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/.test(name); };
-    const validateEmail = (email) => { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); };
-    const validatePassword = (password) => { return /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,}$/.test(password); };
+    // 이름, 이메일, 비밀번호 유효성 검사 통과 여부
+    const [isNameValid, setIsNameValid] = useState(false);
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
 
     // 이름, 이메일, 비밀번호 에러 메세지 저장소
     const [nameError, setNameError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-    // 이름, 이메일, 비밀번호 유효성 검사 및 에러 메세지 출력
+    // 각 입력값의 유효성 검사
+    const validateField = (value, validationRegex, errorSetter, errorMessage) => {
+        const isValid = value.trim() === '' || validationRegex.test(value);
+        errorSetter(isValid ? null : errorMessage);
+        return isValid;
+    };
+
+    // 모든 입력값이 유효성 검사를 통과한 경우
+    const isSignUpEnabled = () => {
+        return isNameValid && isEmailValid && isPasswordValid && termsModalState == false;
+    };
+
+    // 이름 : 유효성 검사 통과 여부 및 에러 메세지 출력값 저장
     useEffect(() => {
-        if (name && !validateName(name)) { setNameError('정확하지 않은 이름입니다.'); }
-        else { setNameError(''); }
+        setIsNameValid(validateField(
+            name, /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+            setNameError, '정확하지 않은 이름입니다.'));
     }, [name]);
 
+    // 이메일 : 유효성 검사 통과 여부 및 에러 메세지 출력값 저장
     useEffect(() => {
-        let responseData = true;
-        axios.post('http://localhost:8085/api/auth/emailCheck', { userEmail: email, })
-            .then((response) => {
-                responseData = response.data;
-                if (email && !validateEmail(email)) { setEmailError('정확하지 않은 이메일입니다.'); }
-                else if (responseData === false) { setEmailError('이미 가입된 이메일입니다.'); }
-                else { setEmailError(''); }
-            })
-            .catch(function (error) { console.log('회원가입 실패 : ', error); });
+        // 이메일 유효성 검사 함수
+        const validateEmail = (email) => {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        };
+    
+        // 이메일 유효성 검사 통과 여부
+        const isEmailValid = validateEmail(email);
+    
+        // 유효성 검사를 통과하지 않은 경우 에러 메시지 출력
+        if (email && !isEmailValid) {
+            setEmailError('정확하지 않은 이메일입니다.');
+            setIsEmailValid(false);
+        } else {
+            // 이메일 중복 검사 API 호출
+            axios
+                .post('http://localhost:8085/api/auth/emailCheck', { userEmail: email })
+                .then((response) => {
+                    const responseData = response.data;
+    
+                    // 이미 가입된 이메일인 경우 에러 메시지 출력
+                    if (responseData === false) {
+                        setEmailError('이미 가입된 이메일입니다.');
+                        setIsEmailValid(false);
+                    } else {
+                        // 유효성 검사와 중복 이메일 검사를 모두 통과한 경우 에러 메시지를 비우고 유효성 플래그를 설정
+                        setEmailError('');
+                        setIsEmailValid(isEmailValid);
+                    }
+                })
+                .catch(function (error) { console.log('회원가입 실패 : ', error); });
+        }
     }, [email]);
 
+    // 비밀번호 : 유효성 검사 통과 여부 및 에러 메세지 출력값 저장
     useEffect(() => {
-        if (password && !validatePassword(password)) { setPasswordError('비밀번호는 영문, 숫자, 특수문자 중 2개 이상을 조합하여\n최소 10자리 이상이여야 합니다.'); }
-        else { setPasswordError(''); }
+        setIsPasswordValid(validateField(
+            password, /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,}$/,
+            setPasswordError, '비밀번호는 영문, 숫자, 특수문자 중 2개 이상을 조합하여 최소 10자리 이상이여야 합니다.'));
     }, [password]);
+
+    // 유효성 검사 통과 여부에 따라 클래스 추가 및 제거
+    const toggleInputPassClass = (element, isValid) => {
+        if (element && isValid) { element.classList.add(styles.user_sign_inputPass); }
+        else if (element) { element.classList.remove(styles.user_sign_inputPass); }
+    };
 
     // 이름, 이메일, 비밀번호 유효성 검사 통과 마크
     useEffect(() => {
-        const inputName = document.getElementById('userName');
-        const inputEmail = document.getElementById('userEmail');
-        const inputPassword = document.getElementById('userPassword');
-
-        if (inputName) {
-            if (validateName(name)) { inputName.classList.add(styles.user_sign_inputPass); }
-            else { inputName.classList.remove(styles.user_sign_inputPass); }
-        }
-
-        if (inputEmail) {
-            if (validateEmail(email)) { inputEmail.classList.add(styles.user_sign_inputPass); }
-            else { inputEmail.classList.remove(styles.user_sign_inputPass); }
-        }
-
-        if (inputPassword) {
-            if (validatePassword(password)) { inputPassword.classList.add(styles.user_sign_inputPass); }
-            else { inputPassword.classList.remove(styles.user_sign_inputPass); }
-        }
-    }, [name, email, password]);
+        toggleInputPassClass(document.getElementById('userName'), isNameValid && name);
+        toggleInputPassClass(document.getElementById('userEmail'), isEmailValid && email);
+        toggleInputPassClass(document.getElementById('userPassword'), isPasswordValid && password);
+    }, [isNameValid, isEmailValid, isPasswordValid, name, email, password]);
 
     // 회원가입 로직
     const onSubmitHandler = (e) => {
@@ -88,7 +105,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         const config = { headers: { 'Content-Type': 'application/json' } };
 
         axios.post('http://localhost:8085/api/auth/signUp', data, config)
-            .then(() => { setSignUpAlert(true); })
+            .then(() => { setName(''); setEmail(''); setPassword(''); })
             .catch((error) => { console.log('회원가입 실패 : ', error); })
     };
 
@@ -135,8 +152,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
         if (termsModalState) { document.body.style.overflow = 'hidden'; }
     }, [termsModalState]);
 
-    // 회원가입 완료 알림창
-    const [signUpAlert, setSignUpAlert] = useState(false);
+
 
     return (
         <div className={styles.user_login_modal} style={{ height: `${modalHeight}px` }}>
@@ -187,12 +203,12 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
                 {/* 회원가입 */}
                 <button
                     className={styles.user_login_btn}
+                    disabled={!isSignUpEnabled()}
                     onClick={() => { setTermsModalState(true) }}
-                    disabled={!isAllFieldsFilled()}>
-                    회원가입
+                >회원가입
                 </button>
-                {termsModalState ? <Terms setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler} setSignUpAlert={setSignUpAlert} /> : null}
-                {signUpAlert ? <Alert resultMessage={'회원가입이 완료 되었습니다.'} setSignUpAlert={setSignUpAlert} setTermsModalState={setTermsModalState} setSignUpModalState={setSignUpModalState} /> : null}
+                {termsModalState ? <Terms setSignUpModalState={setSignUpModalState} setTermsModalState={setTermsModalState} onSubmitHandler={onSubmitHandler} /> : null}
+
             </form>
 
             {/* 로그인 */}
@@ -212,7 +228,6 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
 
             {/* 약관 동의 모달창 활성화 시 배경화면 색상 변경 */}
             {termsModalState && (<div className={styles.modalBackground_1} style={{ backgroundColor: 'black' }} />)}
-            {signUpAlert && (<div className={styles2.modalBackground3} style={{ backgroundColor: 'black' }} />)}
         </div>
     )
 }
