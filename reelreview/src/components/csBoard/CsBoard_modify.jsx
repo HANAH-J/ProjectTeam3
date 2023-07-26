@@ -100,7 +100,9 @@ export default function CsBoard_modify() {
                     </div>
                 </form>
             </div>
+            <div className={styles.CsFooter}>
             <CsFooter />
+            </div>
         </div>
     )
 }

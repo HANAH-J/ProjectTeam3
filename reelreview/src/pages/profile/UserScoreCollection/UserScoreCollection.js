@@ -20,7 +20,6 @@ function UserScoreCollection() {
 
   const navigate = useNavigate();
   const goToMovie = (movieDetails) => {
-    console.log(movieDetails);
     navigate('/details',{state:{"item":movieDetails}})
   };
 
@@ -29,13 +28,9 @@ function UserScoreCollection() {
 
     if (token) {
       setLoggedIn(true);
-      fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
-      console.log(token);
-      
+      fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출      
     } else {
       setLoggedIn(false);
-      console.log('not logged in');
-      console.log('token' + token);
     }
   }, [cookies.token]);
 
@@ -66,8 +61,6 @@ function UserScoreCollection() {
 
             setUserData(userDTO);
             setProfileData(profileDTO);
-            console.log(userDTO.username + ' is logged in');
-            console.log(movieDetails);
           })
           .catch(error => {
             console.error('Error fetching data:', error);

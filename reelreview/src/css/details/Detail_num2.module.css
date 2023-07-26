@@ -284,6 +284,7 @@
     resize: vertical;
     padding: 5px;
     border: none;
+    resize: none;
   }
   
   .submitButtonContainer {

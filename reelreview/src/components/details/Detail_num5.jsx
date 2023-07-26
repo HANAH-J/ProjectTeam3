@@ -107,7 +107,7 @@ function Detailnum5(props) {
                 <Slider {...settings}>
                     {images && (
                         images.map((backdropPath, index) => (
-                            <div className={styles.imgBox} key={index}>
+                            <div key={index} className={styles.imgBox} >
                                 <img src={IMG_BASE_URL + backdropPath.backdropPath} onClick={() => handleClickBackdrop(backdropPath)}></img>
                             </div>
                         ))
@@ -126,10 +126,10 @@ function Detailnum5(props) {
                 <Slider {...settings}>
                     {videos && (
                         videos.map((video, index) => (
-                            <div className={styles.movieBox}>
-                                <a href={youtube+video.videoKey}>
+                            <div key={index} className={styles.movieBox}>
+                                <a href={youtube + video.videoKey}>
                                     <div className={styles.thumbNail}>
-                                        <img src={thumbnailBase+video.videoKey+'/maxresdefault.jpg'} alt='#'/>
+                                        <img src={thumbnailBase + video.videoKey + '/maxresdefault.jpg'} alt='#' />
                                         <div className={styles.playBtn}></div>
                                     </div>
                                     <p>{video.videoName}</p>

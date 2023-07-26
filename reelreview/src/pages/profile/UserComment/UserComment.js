@@ -20,7 +20,6 @@ function UserComment() {
   const navigate = useNavigate();
 
   const goToMovie = (movieDetails) => {
-    console.log(movieDetails);
     navigate('/details',{state:{"item":movieDetails}})
   };
 
@@ -30,11 +29,8 @@ function UserComment() {
     if (token) {
       setLoggedIn(true);
       fetchUserData(token); 
-      console.log(token);
     } else {
       setLoggedIn(false);
-      console.log('not logged in');
-      console.log('token' + token);
     }
   }, [cookies.token]);
 
@@ -74,14 +70,11 @@ function UserComment() {
         setRatings(ratings);
         setRatingsMapping(ratingsMapping);
 
-        console.log(comments);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
 
-      console.log(comments);
-      console.log(comments.cCommentcount);
   }
 
     

@@ -29,7 +29,6 @@ export default function CommentDetail(props){
     const [cComment,setCcommentData] = useState([]);
     const [cCommentGood,setCCommentGood] = useState(cComment.cCommentGood);
     const [movieDetail, setMovieDetail] = useState([]);
-    console.log("commentID : " + commentId);
 
     // 로그인시 헤더에 필요한 부분
     const [userData, setUserData] = useState(null);
@@ -100,7 +99,6 @@ export default function CommentDetail(props){
               };
               setUserData(userDTO);
               setProfileData(profileDTO);
-              console.log(userDTO.username + ' is logged in');
           })
           .catch(error => {
               console.error('Error fetching data:', error);
@@ -188,8 +186,6 @@ export default function CommentDetail(props){
                 });
         } else {
             setLoggedIn(false);
-            console.log('not logged in');
-            console.log('token' + token);
             alert('로그인을 해주세요.');
         }
       };

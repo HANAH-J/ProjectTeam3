@@ -36,7 +36,6 @@ public class ProfileService {
 
     public UserEntity getCurrentUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("authentication : " + authentication);
         String userEmail = (String) authentication.getPrincipal();
 
         if (authentication == null) {
