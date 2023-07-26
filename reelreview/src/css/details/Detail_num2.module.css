@@ -176,7 +176,7 @@
 .right_top_right_wantToSee{
     float: left;
     margin-right: 29px;
-    border: 1px solid red;
+
     cursor: pointer;
 }
 .wantToSee_icon {
@@ -195,6 +195,12 @@
     float: left;
     margin-right: 40px;
     cursor: pointer;
+    
+}
+.right_top_right_comment :hover{
+    transition: color 1s;
+    cursor: pointer;
+    color: orange;
 }
 .wantToSee_icon_hovered {
     color: orange; 

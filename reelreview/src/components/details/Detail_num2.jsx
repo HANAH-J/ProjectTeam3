@@ -286,7 +286,7 @@ function Detailnum2(props) {
               </div>
               <div className={styles.right_top_middle}>
                 <div className={styles.right_top_middle_avg}>
-                   {Number.isInteger(avg) ? avg : avg.toFixed(1)}
+                  {avgs}
                 </div>
                 <div className={styles.right_top_middle_avg_typo}>
                   평균 별점 ({ratingData.length}명)
@@ -322,7 +322,8 @@ function Detailnum2(props) {
                   </div>
                 </>
                 )}
-                <div className={styles.right_top_right_comment} onClick={()=>setShowCommentForm(true)} onMouseEnter={()=>setHoverred(true)} onMouseLeave={()=>setHoverred(false)}>
+                <div
+                  className={styles.right_top_right_comment} onClick={()=>setShowCommentForm(true)}>
                   <div className={styles.wantToSee_icon}>
                     <BiSolidPencil size={40} strokeWidth={0} />
                   </div>
