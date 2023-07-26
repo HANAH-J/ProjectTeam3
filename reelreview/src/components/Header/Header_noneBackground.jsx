@@ -23,8 +23,8 @@ export default function Header_noneBackground() {
         event.preventDefault();
         const formData = new FormData();
         formData.append('name', name);
-      
-        axios.post("http://localhost:8085/api/directorSearch", formData)
+    
+        axios.post("http://localhost:8085/api/movieSearch", formData)
           .then((response) => {
             console.log(response.data);
             setMovieList(response.data);

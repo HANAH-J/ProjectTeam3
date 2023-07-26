@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 import styles from '../../css/users/Alert.module.css';
 
 // [회원] 알림창
 export default function Alert({ 
     setNoExistEmailAlert, setWrongPasswordAlert,                    // 로그인
-    setSignUpAlert, setTermsModalState, setSignUpModalState,        // 회원가입
+    signUpAlert, setSignUpAlert, setTermsModalState, setSignUpModalState,        // 회원가입
     setAlertModalState, setTempPasswordResult,                      // 임시 비밀번호 발급
     setChangePasswordAlert, signOutHandler,                         // 비밀번호 변경
     alertHeight, resultMessage }) {
@@ -26,6 +26,11 @@ export default function Alert({
             signOutHandler();
         }
     };
+
+    // 약관동의 모달창 스크롤 제어
+    useEffect(() => {
+        if (signUpAlert) { document.body.style.overflow = 'hidden'; }
+    }, [signUpAlert]);
 
     return (
         <div className={alertHeight === 130 ? styles.forgotPw_alert2 : styles.forgotPw_alert}>

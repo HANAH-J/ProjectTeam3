@@ -295,6 +295,7 @@ public class MovieDataService{
         for(int i = 0 ; i < inRank.size() ; i++) {
             inRank.get(i).setRank(null);
             inRank.get(i).setSalesShare(null);
+            movieDetailRepo.save(inRank.get(i));
         }
 
 

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import TermsContents1 from './TermsContents1';
 import TermsContents2 from './TermsContents2';
+import Alert from './Alert';
 import styles from '../../css/users/Terms.module.css';
+import styles2 from '../../css/users/Alert.module.css';
 
 // [회원] 약관 동의 모달창
-export default function Terms({ setTermsModalState, onSubmitHandler, setSignUpAlert }) {
+export default function Terms({ setSignUpModalState, setTermsModalState, onSubmitHandler }) {
 
     // 약관 동의 입력값
     const [checkItems, setCheckItems] = useState([]);
@@ -66,6 +68,9 @@ export default function Terms({ setTermsModalState, onSubmitHandler, setSignUpAl
     const [termsCt1State, setTermsCt1State] = useState(false);
     const [termsCt2State, setTermsCt2State] = useState(false);
 
+    // 회원가입 완료 알림창
+    const [signUpAlert, setSignUpAlert] = useState(false);
+
     // 모달창 외부 클릭 시 닫기
     useEffect(() => {
         document.addEventListener('mousedown', clickOutsideHandler);
@@ -120,6 +125,7 @@ export default function Terms({ setTermsModalState, onSubmitHandler, setSignUpAl
                         {termsCt1State ? <TermsContents1 setTermsCt1State={setTermsCt1State} /> : null}
                     </label>
                 </li>
+                
                 {/* 개인정보 처리방침 체크박스 */}
                 <li className={styles.user_terms_check}>
                     <label className={styles.user_terms_specific}>
@@ -150,7 +156,11 @@ export default function Terms({ setTermsModalState, onSubmitHandler, setSignUpAl
                     onClick={signUpButtonHandler}>
                     가입하기
                 </button>
+                {signUpAlert ? <Alert signUpAlert={signUpAlert} resultMessage={'회원가입이 완료 되었습니다.'} setSignUpAlert={setSignUpAlert} setTermsModalState={setTermsModalState} setSignUpModalState={setSignUpModalState} /> : null}
             </div>
+            
+            {/* 회원가입 완료 알림창 활성화 시 배경화면 색상 변경 */}
+            {signUpAlert && (<div className={styles2.modalBackground3} style={{ backgroundColor: 'black' }} />)}
         </div>
     )
 }
