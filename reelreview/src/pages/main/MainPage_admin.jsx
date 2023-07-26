@@ -40,18 +40,18 @@ export default function MainPage() {
     if(token) getMain(token);
     else setMainResponse('');
   
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    };
-    axios.get("http://localhost:8085/admin/checkadmin",config).then((response)=>{
-      if(response.data=true){
+    // const config = {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // };
+    // axios.get("http://localhost:8085/admin/checkadmin",config).then((response)=>{
+    //   if(response.data=true){
 
-      }else{
-        navigate('/');
-      }
-    })
+    //   }else{
+    //     navigate('/');
+    //   }
+    // })
   }, [cookies.token]);
 
   const handleChange = (event) => {
