@@ -84,27 +84,6 @@ function Detailnum6(props){
         <div className={styles.wrapper}>
             <div className={styles.topHead}>
                 <div>
-                    <h2>이 작품이 담긴 컬렉션</h2><h3>997</h3>
-                </div>
-            </div>
-            <div className={styles.gallery} onMouseEnter={mouseOver} onMouseLeave={mouseOut}>
-                <Slider {...settings}>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                    <CollectionBoxes/>
-                </Slider>
-            </div>
-
-            <div className={styles.topHead}>
-                <div>
                     <h2>비슷한 작품</h2>
                 </div>
             </div>
