@@ -38,7 +38,7 @@ export default function SignUp({ setSignInModalState, setSignUpModalState }) {
     // 이름 : 유효성 검사 통과 여부 및 에러 메세지 출력값 저장
     useEffect(() => {
         setIsNameValid(validateField(
-            name, /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/,
+            name, /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{1,16}$/,
             setNameError, '정확하지 않은 이름입니다.'));
     }, [name]);
 

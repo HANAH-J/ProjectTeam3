@@ -45,7 +45,7 @@ function CommentsCol(props) {
                     <span><FaThumbsUp size={14}/></span>
                     <p>{comment.commentGood}</p>
                     <span><ImBubble/></span>
-                    <p>{comment.cCommentcount}1</p>
+                    <p>{comment.ccommentcount}</p>
                 </div>
             </div>
             )}
