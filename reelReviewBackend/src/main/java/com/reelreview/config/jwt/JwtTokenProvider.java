@@ -7,6 +7,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 // JWT : 전자 서명이 된 JSON 형태 토큰 (header).(payload).(signature)
 // header: typ(해당 토큰의 타입), alg(토큰 서명을 위해 사용된 해시 알고리즘)
@@ -25,6 +28,16 @@ public class JwtTokenProvider {
 
     @Autowired
     private UserRepository userRepository;
+
+//    private final RedisTemplate<String, String> redisTemplate;
+//
+//    // 생성자를 통해 RedisTemplate 주입
+//    public JwtTokenProvider(RedisTemplate<String, String> redisTemplate) {
+//        this.redisTemplate = redisTemplate;
+//    }
+
+//    @Value("${jwt.refreshToken.expirationInMs}")
+//    private long refreshTokenExpirationInMs;
 
     // JWT 생성 및 검증을 위한 키
     private static final String SECURITY_KEY = "reelreviewsecretkey";
@@ -65,4 +78,27 @@ public class JwtTokenProvider {
         // 복호화된 토큰의 payload에서 제목 수신
         return claims.getSubject();
     }
+
+//    // 리프레시 토큰 저장
+//    public void saveRefreshToken(String userId, String refreshToken) {
+//        String key = getRefreshTokenKey(userId);
+//        redisTemplate.opsForValue().set(key, refreshToken, refreshTokenExpirationInMs, TimeUnit.MILLISECONDS);
+//    }
+//
+//    // 리프레시 토큰 조회
+//    public String getRefreshToken(String userId) {
+//        String key = getRefreshTokenKey(userId);
+//        return redisTemplate.opsForValue().get(key);
+//    }
+//
+//    // 리프레시 토큰 삭제
+//    public void deleteRefreshToken(String userId) {
+//        String key = getRefreshTokenKey(userId);
+//        redisTemplate.delete(key);
+//    }
+//
+//    // 리프레시 토큰을 저장할 Redis 키 생성
+//    private String getRefreshTokenKey(String userId) {
+//        return "refresh_token:" + userId;
+//    }
 }

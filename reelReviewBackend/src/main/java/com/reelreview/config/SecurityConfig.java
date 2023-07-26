@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll().and()
                 // 소셜 로그인 설정
                 .oauth2Login().userInfoEndpoint().userService(oauth2PrincipalUserService).and() // principalUserService 설정
-                .successHandler(oAuth2AuthenticationSuccessHandler)            ;                // 소셜 로그인 성공 핸들러
+                .successHandler(oAuth2AuthenticationSuccessHandler);                            // 소셜 로그인 성공 핸들러
 
         http.
                 addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -9,7 +9,6 @@ export default function Num6_similar_col(props) {
     const onClickDetailPage = (item) =>{
         navigate('',{state:{item}})
       }
-    console.log(movies);
     return (
         <>
         {movies &&(

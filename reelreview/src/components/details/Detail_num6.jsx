@@ -112,7 +112,7 @@ function Detailnum6(props){
                 <div className={styles.similar_row}>
                     {simularMovieDetails && (
                         simularMovieDetails.map((movies,index)=>(
-                            index < 13 &&  
+                            index < 12 &&  
                             movies.movieId!=item.movieId?
                             <Num6_similar_col movies={movies}/>
                             :<></>
