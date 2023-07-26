@@ -1,11 +1,14 @@
 import styles from '../../css/details/Detail_num2.module.css';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Rating } from 'react-simple-star-rating'
 import Charts from './smallComponents/charts';
 import { AiOutlinePlus, AiFillEye, AiOutlineLine, AiOutlineClose } from "react-icons/ai";
 import { BiSolidPencil, BiDotsHorizontalRounded } from "react-icons/bi";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+
+
+
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function Detailnum2(props) {
@@ -62,7 +65,7 @@ function Detailnum2(props) {
   }, []);
 
   const [rate, setRating] = useState(0);
-  const ratingData = props.movieData.ratings;
+  const [ratingData,setRatingData] = useState(props.movieData.ratings);
   console.log(ratingData);
   const sum = ratingData.reduce((total, rateObject) => total + rateObject.rate, 0);
   const avg = ratingData.length === 0 ? 0 : sum / ratingData.length;
@@ -111,6 +114,8 @@ function Detailnum2(props) {
       axios.post("http://localhost:8085/details/commentSave", data, config)
         .then((response) => {
           console.log(response.data);
+// ////////////////////////////////////////////////////////////
+          
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
@@ -199,6 +204,7 @@ function Detailnum2(props) {
       axios.post("http://localhost:8085/details/setRating", data, config)
         .then((response) => {
           console.log(response.data);
+          setRatingData(response.data);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
