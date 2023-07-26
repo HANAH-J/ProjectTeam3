@@ -7,7 +7,6 @@ import CsFooter from '../../components/Footer/CsFooter';
 export default function CsMain(){
 
     return(
-        <div>
         <div className={styles.CsMain_container}>
           <CsHeader/>
           <div className={styles.CsMain_big_logo_container}>
@@ -25,6 +24,5 @@ export default function CsMain(){
           </div>
           <CsFooter/>
         </div>
-      </div>
     )
 }

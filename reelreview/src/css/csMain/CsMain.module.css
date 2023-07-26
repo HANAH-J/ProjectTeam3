@@ -3,7 +3,9 @@
 
 .CsMain_container {
   width: 100%;
-  height: 500px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .CsMain_header {
@@ -74,7 +76,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 480px;
+  flex: 1;
   background-color: rgba(255, 255, 255, 1);
 }
 
@@ -155,7 +157,6 @@
 .CsFaq_box_wrapper {
   width: 100%;
   border-top: 1px solid #ddd;
-  height: 681px;
 }
 
 .CsFaq_box {
@@ -192,7 +193,7 @@
 .CsFaq_box_box_body2 {
   width: 40%;
   height: 500px;
-  margin-top: 50px;
+  margin-top: 100px;
 }
 
 .CsFaq_box_box_body2_header {
@@ -226,8 +227,11 @@
 
 .CsQna_box_wrapper {
   width: 100%;
+}
+
+.CsQna_box2 {
+  width: 100%;
   border-top: 1px solid #ddd;
-  height: 781px;
 }
 
 .CsQna_box_body {
@@ -259,8 +263,8 @@
 
 .CsQna_box_box_body2 {
   width: 40%;
-  height: 400px;
-  margin-top: 10px;
+  height: 500px;
+  margin-top: 40px;
 }
 
 .CsQna_box_box_body2_header {
@@ -360,31 +364,34 @@
 
 /* CsQna finish */
 
-.CsBoard_modify_wrapper {
-  margin-top: 20px;
-  width: 100%;
-  height: 661px;
+.CsBoard_modify_wrapperBox {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow: auto;
 }
 
 .CsBoard_modify_header_wrapper {
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #ddd;
 }
 
 .CsBoard_modify_form {
+  flex: 1;
   width: 80%;
   margin-left: 10%;
   display: flex;
   flex-direction: column;
   height: 600px;
+  margin-top: 100px;
 }
 
 .CsBoard_modify_form_box {
   width: 50%;
-  height: 400px;
+  margin-top: 50px;
 }
 
 .CsBoard_modify_title {
-  margin-bottom: 20px;
+  margin-top: 20px;
   height: 50px;
   width: 100%;
 }
@@ -475,11 +482,14 @@
   cursor: pointer;
   height: 50px;
   border-radius: 10%;
-  margin-top: 50px;
 }
 
 .CsBoard_modify_form button:hover {
   color: #f82f62;
+}
+
+.CsFooter {
+  margin-top: auto;
 }
 
 
