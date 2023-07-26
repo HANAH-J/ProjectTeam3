@@ -31,7 +31,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         // JWT 토큰 수신
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         String token = principalDetails.getJwtToken();
-        System.out.println("소셜 로그인 성공! jwt 토큰 리액트로 전송! : " + token);
+        // System.out.println("소셜 로그인 성공! jwt 토큰 리액트로 전송! : " + token);
 
         // JWT 토큰을 헤더에 포함하여 클라이언트에게 전달
 //        response.setHeader("Authorization", "Bearer " + token);

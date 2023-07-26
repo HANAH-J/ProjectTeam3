@@ -91,6 +91,8 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     if (responseData.message === 'noExistEmail') {
                         // console.log('로그인 실패 : 존재하지 않는 이메일');
                         setNoExistEmailAlert(true);
+                    } else if (responseData.message === 'deletedUser') {
+                        setDeletedUserAlert(true);
                     } else if (responseData.message === 'wrongPassword') {
                         // console.log('로그인 실패 : 잘못된 비밀번호');
                         setWrongPasswordAlert(true);
@@ -133,9 +135,10 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     useEffect(() => {
         let errorHeight = 460;
         // 전체 에러 메시지 출력 시
-        if (emailError && passwordError) { errorHeight = 520; }
+        if (emailError && passwordError) { errorHeight = 535; }
         // 이메일 or 비밀번호 에러 메시지 출력 시
-        else if (emailError || passwordError) { errorHeight = 490; }
+        else if (emailError) { errorHeight = 490; }
+        else if (passwordError) { errorHeight = 505; }
         setModalHeight(errorHeight);
     }, [emailError, passwordError]);
 
@@ -151,6 +154,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
 
     // 로그인 실패 알림창
     const [noExistEmailAlert, setNoExistEmailAlert] = useState(false);
+    const [deletedUserAlert, setDeletedUserAlert] = useState(false);
     const [wrongPasswordAlert, setWrongPasswordAlert] = useState(false);
 
 
@@ -195,6 +199,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                     onClick={onSubmitHandler}>
                     로그인</button>
                 {noExistEmailAlert ? <Alert resultMessage={'가입되지 않은 이메일입니다.'} setNoExistEmailAlert={setNoExistEmailAlert} /> : null}
+                {deletedUserAlert ? <Alert resultMessage={'탈퇴된 회원입니다.'} setDeletedUserAlert={setDeletedUserAlert} /> : null}
                 {wrongPasswordAlert ? <Alert resultMessage={'비밀번호가 일치하지 않습니다.'} setWrongPasswordAlert={setWrongPasswordAlert} /> : null}
             </form>
 

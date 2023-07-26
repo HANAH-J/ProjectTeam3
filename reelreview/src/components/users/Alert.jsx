@@ -3,7 +3,7 @@ import styles from '../../css/users/Alert.module.css';
 
 // [회원] 알림창
 export default function Alert({ 
-    setNoExistEmailAlert, setWrongPasswordAlert,                    // 로그인
+    setNoExistEmailAlert, setDeletedUserAlert, setWrongPasswordAlert,                    // 로그인
     signUpAlert, setSignUpAlert, setTermsModalState, setSignUpModalState,        // 회원가입
     setAlertModalState, setTempPasswordResult,                      // 임시 비밀번호 발급
     setChangePasswordAlert, signOutHandler,                         // 비밀번호 변경
@@ -12,6 +12,8 @@ export default function Alert({
     const confirmHandler = () => {
         if (typeof setNoExistEmailAlert === 'function') {           // 로그인 : 가입되지 않은 이메일
             setNoExistEmailAlert(false);
+        } else if (typeof setDeletedUserAlert === 'function') {     // 로그인 : 탈퇴된 이메일
+            setDeletedUserAlert(false);
         } else if (typeof setWrongPasswordAlert === 'function') {   // 로그인 : 일치하지 않는 비밀번호
             setWrongPasswordAlert(false);
         } else if (typeof setSignUpAlert === 'function') {          // 회원가입 : 회원가입 완료

@@ -105,6 +105,8 @@ export default function ChangePw({ userEmail, setShowChangePasswordModal, signOu
                 {/* 비밀번호 변경 */}
                 <button type='submit' className={styles.changePw_btn}>확인</button>
                 {changePasswordAlert ? <Alert resultMessage={'비밀번호가 변경되었습니다.'} setChangePasswordAlert={setChangePasswordAlert} signOutHandler={signOutHandler} /> : null}
+                {(changePasswordAlert === true)
+                && <div className={styles.modalBackground} style={{ backgroundColor: 'black' }} />}
             </form>
         </div>
     )

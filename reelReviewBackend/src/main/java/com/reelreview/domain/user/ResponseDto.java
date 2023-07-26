@@ -11,12 +11,12 @@ public class ResponseDto<D> {
     private D data;
 
     public static <D> ResponseDto<D> setSuccess(String message, D data) {
-        System.out.println("성공");
+        // System.out.println("성공");
         return ResponseDto.set(true, message, data);
     }
 
     public static <D> ResponseDto<D> setFail(String message) {
-        System.out.println("실패");
+        // System.out.println("실패");
         return ResponseDto.set(false, message, null);
     }
 }

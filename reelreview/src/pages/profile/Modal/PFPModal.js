@@ -85,16 +85,15 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   // 비밀번호 변경 전 로그인 상태 확인 : UserController.java - providerCheck()
   const checkSignProvider = (e) => {
     e.preventDefault();
-    console.log(userEmail);
 
     axios.post('http://localhost:8085/api/auth/providerCheck', {
       userEmail: userEmail
     }).then((response) => {
       if (response.data === 'emailProviderPass') {
-        console.log("일반 로그인");
+        // console.log("일반 로그인");
         openChangePasswordModal();
       } else if (response.data === 'existProvider') {
-        console.log("소셜 로그인");
+        // console.log("소셜 로그인");
         openProviderAlert();
       }
     }).catch((error) => {

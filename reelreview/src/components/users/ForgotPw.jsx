@@ -176,7 +176,7 @@ export default function ForgotPw({ setForgotPwModalState, setSignInModalState })
             </form>
 
             {/* 임시 비밀번호 발급 결과 알림창 활성화 시 배경화면 색상 변경 */}
-            {(tempPsaswordResult === 'emailProviderPass' || tempPsaswordResult === 'noExistEmail' || tempPsaswordResult === 'existProvider')
+            {(tempPsaswordResult === 'emailProviderPass' || tempPsaswordResult === 'noExistEmail' || tempPsaswordResult === 'existProvider' || tempPsaswordResult === 'deletedUser')
                 && <div className={styles.modalBackground} style={{ backgroundColor: 'black' }} />}
         </div>
     )

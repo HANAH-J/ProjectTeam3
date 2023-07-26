@@ -5,8 +5,7 @@ import com.reelreview.config.auth.PrincipalDetails;
 import com.reelreview.config.jwt.JwtTokenProvider;
 import com.reelreview.domain.ProfileDTO;
 import com.reelreview.domain.user.*;
-import com.reelreview.repository.ProfileRepository;
-import com.reelreview.repository.UserRepository;
+import com.reelreview.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +25,20 @@ import java.util.Date;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    // (J)
+    @Autowired
+    private ProfileRepository profileRepository;
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    // 리프레시 토큰
 //    @Value("${jwt.refreshToken.expirationInMs}")
 //    private long refreshTokenExpirationInMs;
+
     @Autowired
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     @Autowired
     private JavaMailSender mailSender;
-    // (J)
-    @Autowired
-    private ProfileRepository profileRepository;
 
     // [회원가입]
     public ResponseDto<?> signUp(SignUpDto dto) {
@@ -116,6 +118,10 @@ public class UserService {
 
             // [로그인] 잘못된 비밀번호
             if (!passwordEncoder.matches(userPassword, userEntity.getUserPassword())) {
+                // [로그인] 탈퇴된 회원
+                if (userEntity.getDeleteDate() != null) {
+                    return ResponseDto.setFail("deletedUser");
+                }
                 return ResponseDto.setFail("wrongPassword");
             }
 
@@ -166,13 +172,13 @@ public class UserService {
         String userEmail = dto.getUserEmail();
         try {
             if (userRepository.existsByUserEmail(userEmail)) {
-                System.out.println("이메일 중복 : 중복");
+                // System.out.println("이메일 중복 : 중복");
                 return false;
             }
         } catch (Exception error) {
             ResponseDto.setFail("데이터베이스 에러");
         }
-        System.out.println("이메일 중복 : 통과");
+        // System.out.println("이메일 중복 : 통과");
         return true;
     }
 
@@ -206,13 +212,13 @@ public class UserService {
         UserEntity userEntity = userRepository.findByUserEmail(userEmail);
         userEntity.setUserPassword(userPassword);
         userRepository.save(userEntity);
-        System.out.println("변경 전 난수 : " + tempPassword);
-        System.out.println("변경 비밀번호 : " + userPassword);
+        // System.out.println("변경 전 난수 : " + tempPassword);
+        // System.out.println("변경 비밀번호 : " + userPassword);
     }
 
     // [임시 비밀번호] 임시 비밀번호 메일 발송
     public void sendMail(MailDto dto) {
-        System.out.println("임시 비밀번호 발급 완료!");
+        // System.out.println("임시 비밀번호 발급 완료!");
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(dto.getUserEmail());
         message.setSubject(dto.getTitle());
@@ -222,28 +228,28 @@ public class UserService {
 
     // [플랫폼 검사]
     public String providerCheck(UserEntity requestBody) {
-        System.out.println("유저 이메일 : " + requestBody.getUserEmail());
+        // System.out.println("유저 이메일 : " + requestBody.getUserEmail());
         UserEntity userEntity = userRepository.findByUserEmail(requestBody.getUserEmail());
 
         if (userEntity == null) {
-            System.out.println("[플랫폼 검사] : 유저 이메일이 존재하지 않습니다.");
+            // System.out.println("[플랫폼 검사] : 유저 이메일이 존재하지 않습니다.");
             return "noExistEmail";
         } else {
             Date result1 = userEntity.getDeleteDate();
             String result2 = userEntity.getProvider();
-            System.out.println("회원 탈퇴일 검사 결과 : " + result1);
-            System.out.println("플랫폼 검사 결과 : " + result2);
+            // System.out.println("회원 탈퇴일 검사 결과 : " + result1);
+            // System.out.println("플랫폼 검사 결과 : " + result2);
 
             if (result1 == null) { // 가입회원
                 if (result2 == null) {
-                    System.out.println("[플랫폼 검사] : 일반 로그인 회원입니다.");
+                    // System.out.println("[플랫폼 검사] : 일반 로그인 회원입니다.");
                     return "emailProviderPass";
                 } else {
-                    System.out.println("[플랫폼 검사] : 소셜 로그인 회원입니다.");
+                    // System.out.println("[플랫폼 검사] : 소셜 로그인 회원입니다.");
                     return "existProvider";
                 }
             } else { // 탈퇴회원
-                System.out.println("[플랫폼 검사] : 탈퇴 회원입니다.");
+                // System.out.println("[플랫폼 검사] : 탈퇴 회원입니다.");
                 return "deletedUser";
             }
         }
@@ -251,14 +257,14 @@ public class UserService {
 
     // [비밀번호 변경]
     public boolean changePassword(UserEntity requestBody) {
-        System.out.println("비밀번호 변경 정보: " + requestBody);
+        // System.out.println("비밀번호 변경 정보: " + requestBody);
         String encodedPassword = passwordEncoder.encode(requestBody.getUserPassword());
         UserEntity userEntity = userRepository.findByUserEmail(requestBody.getUserEmail());
         userEntity.setUserPassword(encodedPassword);
 
         try {
             userRepository.save(userEntity);
-            System.out.println("비밀번호 변경 성공!");
+            // System.out.println("비밀번호 변경 성공!");
             return true;
         } catch (Exception error) {
             return false;
@@ -278,9 +284,9 @@ public class UserService {
             userEntity.setProvider(null);
             userEntity.setProviderCd(null);
             userRepository.save(userEntity);
-            System.out.println("회원탈퇴 완료!");
+            // System.out.println("회원탈퇴 완료!");
         } else {
-            System.out.println("회원을 찾을 수 없습니다!");
+            // System.out.println("회원을 찾을 수 없습니다!");
         }
     }
 
