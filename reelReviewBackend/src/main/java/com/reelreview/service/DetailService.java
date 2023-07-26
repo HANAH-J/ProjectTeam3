@@ -131,7 +131,10 @@ public class DetailService {
         return CDR.findByUserCd(userCd);
     }
 
-    public Double getRatingByMovieIdAndUserCd(int movieId, int userCd) { return RDR.findByMovieIdAndUserCd (movieId, userCd); }
+    public RatingDataDto getRatingByMovieIdAndUserCd(int movieId, int userCd) {
+        RatingDataDto ratingData = RDR.findByMovieIdAndUserCd(movieId, userCd);
+        return ratingData; // RatingDataDto 객체를 반환하도록 수정
+    }
 
     public String saveCommentData(CommentDataDto dto) {
         CommentDataDto saved = new CommentDataDto();

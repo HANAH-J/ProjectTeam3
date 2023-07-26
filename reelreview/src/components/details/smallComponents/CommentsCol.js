@@ -20,31 +20,35 @@ function CommentsCol(props) {
 
     useEffect(() => {
         const fetchRatingData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8085/getRatingDataForThisComment`, {
-                    params: {
-                        movieId: comment.movieId,
-                        userCd: comment.userCd
-                    }
-                });
-                setRating(response.data); 
-                console.log(response.data);
-            } catch (error) {
-                console.error('Error fetching rating data:', error);
+          try {
+            const response = await axios.get(`http://localhost:8085/getRatingDataForThisComment`, {
+              params: {
+                movieId: comment.movieId,
+                userCd: comment.userCd
+              }
+            });
+                  if (Array.isArray(response.data)) {
+              setRating(response.data);
+            } else {
+              setRating([response.data]);
             }
+          } catch (error) {
+            console.error('Error fetching rating data:', error);
+          }
         };
-
-        fetchRatingData(); 
-    }, [comment.movieId, comment.userCd]); 
+      
+        fetchRatingData();
+      }, [comment.movieId, comment.userCd]);
 
     const getRatingForComment = () => {
-        if (rating !== null) {
-          const foundRating = rating.find((rate) => rate.movieId === comment.movieId && rate.userCd === userCd);
-          return foundRating ? foundRating.rate : 'N/A';
+        if (rating !== null && comment && comment.userCd && comment.movieId) {
+          const foundRating = rating.find((rate) => rate.movieId === comment.movieId && rate.userCd === comment.userCd);
+          return foundRating ? foundRating.rate : '평가전';
         } else {
-          return 'N/A';
+          return '평가전';
         }
     };
+
 
 
     return(
