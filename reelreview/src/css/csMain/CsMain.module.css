@@ -286,7 +286,7 @@
 .CsQna_box_body3_info textarea {
   border: 1px solid #ddd;
   border-radius: 2px;
-  resize: vertical;
+  resize: none;
   width: 100%;
   outline: none;
   padding: 10px;

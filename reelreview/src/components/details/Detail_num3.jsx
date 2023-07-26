@@ -32,9 +32,9 @@ function Detailnum3(props){
                 </div>
 
                 <div className={styles.cont}>
-                    <MoviePeople castData={first}></MoviePeople>
-                    <MoviePeople castData={second}></MoviePeople>
-                    <MoviePeople castData={third} ></MoviePeople>
+                    <MoviePeople key="first" castData={first}></MoviePeople>
+                    <MoviePeople key="second" castData={second}></MoviePeople>
+                    <MoviePeople key="third" castData={third} ></MoviePeople>
                 </div>
                 
             </div>

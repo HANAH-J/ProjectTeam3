@@ -151,6 +151,11 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
     const fileInput = document.getElementById("pictureForProfile");
     const file = fileInput.files[0];
 
+    if (!file) {
+      alert("파일을 선택해주세요.");
+      return;
+    }
+
     const maxFileLimit = 2 * 1024 * 1024;
     if (file.size > maxFileLimit) {
       alert("프로필 사진의 크기가 2MB를 초과합니다.");
@@ -199,6 +204,11 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
   const handlePFBSave = () => {
     const fileInput = document.getElementById("pictureForBG");
     const file = fileInput.files[0];
+
+    if (!file) {
+      alert("파일을 선택해주세요.");
+      return;
+    }
 
     const maxFileLimit = 3 * 1024 * 1024;
     if (file.size > maxFileLimit) {

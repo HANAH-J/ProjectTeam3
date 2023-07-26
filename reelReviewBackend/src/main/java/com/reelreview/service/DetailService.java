@@ -170,6 +170,11 @@ public class DetailService {
         return c;
     }
 
+    public CommentDataDto findCommentByCommentId(int commentId) {
+        CommentDataDto commentInfo = CDR.findCommentByCommentId(commentId);
+        return commentInfo;
+    }
+
     public CcommentDataDto saveCcommentData(CcommentDataDto dto) {
         CcommentDataDto c = CCDR.save(dto);
         int commentid = dto.getCommentId();
@@ -218,5 +223,13 @@ public class DetailService {
         RatingDataDto r = RDR.getById(ratingId);
 
         return r.getRate();
+    }
+
+    public List<RatingDataDto> getRatingDataBymovieId(int movieId) {
+        return RDR.findByMovieId(movieId);
+    }
+
+    public List<CommentDataDto> getCommentbyMovieId(int movieId) {
+        return CDR.findByMovieId(movieId);
     }
 }

@@ -79,7 +79,7 @@ public class DetailController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("details/setRating")
-    public String setUserRating(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
+    public List<RatingDataDto> setUserRating(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader;
         double rate = Double.parseDouble(request.getParameter("rate"));
         int movieId = Integer.parseInt(request.getParameter("movieId"));
@@ -89,31 +89,29 @@ public class DetailController {
             token = token.substring(7);
         } else {
             String errorResponse = "유효하지 않은 토큰 형식1";
-            return errorResponse;
+
         }
 
         // 토큰 유효성 검사 ... 만료된 토큰이거나, 서명 키가 일치하지 않는 토큰
         String userEmail = jwtTokenProvider.validate(token);
         if (userEmail == null) {
             String errorResponse = "유효하지 않은 토큰 형식2";
-            return errorResponse;
+
         }
 
         UserEntity userEntity = profileService.getCurrentUserDetails();
 
         if(userEntity == null) {
             String errorResponse = "유효하지 않은 토큰 형식3";
-            return errorResponse;
+
         }
         int userCd = userEntity.getUserCd();
         int saved = 0;
         saved = DS.saveRating(rate,userCd,movieId);
-        if(saved == 1){
-            return "저장완료";
-        }else{
-            String errorResponse = "저장 실패";
-            return errorResponse;
-        }
+        List<RatingDataDto> r = DS.getRatingDataBymovieId(movieId);
+
+
+        return r;
     }
 
 
@@ -190,7 +188,7 @@ public class DetailController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("details/commentSave")
-    public String commentSave(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
+    public List<CommentDataDto> commentSave(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader;
         int movieId = Integer.parseInt(request.getParameter("movieId"));
 
@@ -198,21 +196,21 @@ public class DetailController {
             token = token.substring(7);
         } else {
             String errorResponse = "유효하지 않은 토큰 형식1";
-            return errorResponse;
+
         }
 
         // 토큰 유효성 검사 ... 만료된 토큰이거나, 서명 키가 일치하지 않는 토큰
         String userEmail = jwtTokenProvider.validate(token);
         if (userEmail == null) {
             String errorResponse = "유효하지 않은 토큰 형식2";
-            return errorResponse;
+
         }
 
         UserEntity userEntity = profileService.getCurrentUserDetails();
 
         if(userEntity == null) {
             String errorResponse = "유효하지 않은 토큰 형식3";
-            return errorResponse;
+
         }
         int userCd = userEntity.getUserCd();
 
@@ -221,7 +219,6 @@ public class DetailController {
         LocalDate l = LocalDate.now();
         String now = l.toString();
         dto.setUserName(userEntity.getUsername());
-        dto.setPFImage(profileService.getProfileByUserCd(userEntity).getPfImage());
         dto.setCommentDate(now);
         dto.setCommentContent(request.getParameter("commentContent"));
         dto.setUserCd(userCd);
@@ -229,9 +226,11 @@ public class DetailController {
         dto.setCCommentcount(0);
         dto.setCommentGood(0);
 
-        String result = DS.saveCommentData(dto);
+        DS.saveCommentData(dto);
+        List<CommentDataDto> a = DS.getCommentbyMovieId(movieId);
 
-        return result;
+
+        return a;
     }
 
     @RequestMapping("details/commentGetUser")
@@ -373,5 +372,14 @@ public class DetailController {
         RatingDataDto ratingData = DS.getRatingByMovieIdAndUserCd(movieId, userCd);
         return ResponseEntity.ok(ratingData);
     }
+
+    @RequestMapping(value = "/getInfoForThisComment", method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Object>> getInfoForThisComment(@RequestParam("commentId") int commentId) {
+        Map<String, Object> responseData = new HashMap<>();
+        CommentDataDto commentInfo = DS.findCommentByCommentId(commentId);
+        responseData.put("commentInfo", commentInfo);
+        return ResponseEntity.ok(responseData);
+    }
+
 
 }

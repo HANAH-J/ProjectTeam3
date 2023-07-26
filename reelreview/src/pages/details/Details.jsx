@@ -16,6 +16,7 @@ import { useCookies } from 'react-cookie';
 import axios from "axios";
 
 
+
 function Details() {
     let [movieData, setMovieData] = useState(null);
     const location = useLocation();
@@ -162,21 +163,24 @@ function Details() {
         };
       }, []);
 
-    
 
       return (
+        
         <div className={styles.Detail_box}>
        {renderHeader()}
         {movieData ? (<>
+          
             <Detailtop item={item} movieData={movieData} />
             <Detailnum2 item={item} movieData={movieData} />
             <Detailnum3 item={item} movieData={movieData} />
             <Detailnum4 item={item} movieData={movieData} />
             <Detailnum5 item={item} movieData={movieData} />
             <Detailnum6 item={item} movieData={movieData} />
+   
         </>) : (<></>)}
         <Footer></Footer>
     </div>
+
     );
 }
 

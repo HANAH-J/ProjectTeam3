@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from '../../css/details/Detail_num6.module.css';
 import Slider from "react-slick";
 import 'slick-carousel/slick/slick.css';
@@ -7,12 +8,12 @@ import CollectionBoxes from './smallComponents/CollectionBoxes';
 
 import Num6_similar_col from './smallComponents/Num6_similar_col';
 
-function Detailnum6(props){
-    const [isOver,setIsOver] = useState(false);
+function Detailnum6(props) {
+    const [isOver, setIsOver] = useState(false);
     const movieData = props.movieData;
     const item = props.item;
     const simularMovieDetails = movieData.simularMovieDetails;
-    
+
     const mouseOver = () => {
         setIsOver(true);
     }
@@ -21,24 +22,24 @@ function Detailnum6(props){
     }
 
 
-     function SampleNextArrow(props) {
+    function SampleNextArrow(props) {
         const { className, style, onClick } = props;
         return (
             <div
                 className={className}
-                style={{ ...style, display: isOver? "block" : "none" , borderRadius: "50%", transform: "scale(1.5)", right: '25px',zIndex:"9999",top:"132px"}}
-                onClick={onClick} 
+                style={{ ...style, display: isOver ? "block" : "none", borderRadius: "50%", transform: "scale(1.5)", right: '25px', zIndex: "9999", top: "132px" }}
+                onClick={onClick}
             >
             </div>
         );
     }
-    
+
     function SamplePrevArrow(props) {
         const { className, style, onClick } = props;
         return (
             <div
                 className={className}
-                style={{ ...style, display: isOver ? "block":"none", borderRadius: "50%", transform: "scale(1.5)", left: '25px',zIndex:"9999",top:"132px"}}
+                style={{ ...style, display: isOver ? "block" : "none", borderRadius: "50%", transform: "scale(1.5)", left: '25px', zIndex: "9999", top: "132px" }}
                 onClick={onClick}
             >
             </div>
@@ -46,7 +47,7 @@ function Detailnum6(props){
     }
 
     const settings = {
-        dots : false,
+        dots: false,
         infinite: false,
         speed: 500,
         slidesToShow: 8,
@@ -79,8 +80,8 @@ function Detailnum6(props){
                 },
             },
         ],
-      };
-      return (
+    };
+    return (
         <div className={styles.wrapper}>
             <div className={styles.topHead}>
                 <div>
@@ -92,9 +93,9 @@ function Detailnum6(props){
                     {simularMovieDetails && (
                         simularMovieDetails.map((movies, index) => (
                             index < 12 &&
-                            movies.movieId !== item.movieId ?
-                                <Num6_similar_col movies={movies} />
-                                : <></>
+                                movies.movieId !== item.movieId ?
+                                <Num6_similar_col key={index} movies={movies} />
+                                : <React.Fragment key={index}></React.Fragment>
                         ))
                     )}
                 </div>
