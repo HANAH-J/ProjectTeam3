@@ -49,6 +49,8 @@ public class MainService {
     private ActorMovieRepository actorMovieRepo;
     @Autowired
     private TodayGenreRepository todayGenreRepo;
+    @Autowired
+    private RatingDataRepository ratingDataRepo;
     public List<MovieDetailsDTO> getBoxOfficeToday() {
         List<Integer> ranky = new ArrayList<>();
         for(int i = 1 ; i < 11 ; i++){
@@ -315,6 +317,8 @@ public class MainService {
         List<ActorMovieDTO> a = actorMovieRepo.findByActorDownDate(l.toString());
         Optional<TodayGenreDTO> tgd = todayGenreRepo.findById(l.toString());
         List<MovieDetailsDTO> g = getMovieListFromGenre(tgd.orElseThrow().getGenreName());
+        List<RatingDataDto> ratingList = ratingDataRepo.findAll();
+        int number = ratingList.size();
         JSONObject j = new JSONObject();
         d.removeIf(movie -> movie.getRelease_date() == null);
         g.removeIf(movie -> movie.getRelease_date() == null);
@@ -329,6 +333,7 @@ public class MainService {
         j.put("actor",a);
         j.put("genre",g);
         j.put("todayGenre",tgd.orElseThrow().getGenreName());
+        j.put("number",number);
 
         return j;
     }

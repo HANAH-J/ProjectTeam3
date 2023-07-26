@@ -1,13 +1,14 @@
 import React from 'react'
 import "../../css/Footer/Footer.css";
-
-
-export default function Footer() {
+import { useContext } from 'react';
+import NumberContext from '../../pages/details/NumberContext';
+export default function Footer(props) {
+    const {number} = useContext(NumberContext);
     return (
       <div className='footer-container'>
         <div className="footer-count">
           <span className="footer-span">
-            지금까지 <strong>★ 694,499,906 개의 평가가</strong> 쌓였어요.
+            지금까지 <strong>★ {number} 개의 평가가</strong> 쌓였어요.
           </span>
         </div>
         <div className="footer-info">

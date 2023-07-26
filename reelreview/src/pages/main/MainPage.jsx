@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from "../../components/Header/Header";
 import LoginSuccess_header from "../../components/Header/LoginSuccess_header";
 import Footer from "../../components/Footer/Footer";
@@ -11,6 +11,7 @@ import styles from '../../css/main/Mainpage.module.css';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useUserStore } from '../../stores/index.ts';
+import NumberContext from '../details/NumberContext';
 
 export default function MainPage() {
   const [movieList, setMovieList] = useState([]);
@@ -21,7 +22,8 @@ export default function MainPage() {
   const [userCd, setUserCd] = useState(null);
   const [userData, setUserData] = useState(null);
   const [profileData, setProfileData] = useState(null);
-
+  const {number,setNumber} = useContext(NumberContext);
+  setNumber(movieList.number);
   // JWT 토큰
   const getMain = async (token) => {
     const requestData = {
@@ -138,7 +140,7 @@ export default function MainPage() {
           </div>
         </div>
       )}
-      <Footer />
+      <Footer/>
     </div>
   )
 }

@@ -18,10 +18,10 @@ import UserContext from './UserContext';
 
 
 function Details() {
-    let [movieData, setMovieData] = useState(null);
+    const [movieData, setMovieData] = useState(null);
     const location = useLocation();
     const { item } = location.state;
-
+    const[commentss,setCommentss] = useState();
     const [cookies, setCookie] = useCookies(['token']);
     const [userCd, setUserCd] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
@@ -142,6 +142,7 @@ function Details() {
         console.log(movieId);
         axios.get("http://localhost:8085/api/getMovieFulldata", { params: { movieId: movieId } }).then((response) => {
             setMovieData(response.data);
+            setCommentss(response.data.comments)
             // console.log(movieData);
         }).catch((error) => { console.log(error) })
     }, [item.movieId]);
@@ -162,8 +163,9 @@ function Details() {
           window.removeEventListener("scroll", handleScroll);
         };
       }, []);
-      const[commentss,setCommentss] = useState(null);
-
+      
+      
+      
       return (
       <UserContext.Provider value={{ commentss , setCommentss}}>
         <div className={styles.Detail_box}>
