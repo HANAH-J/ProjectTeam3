@@ -21,8 +21,6 @@ export default function Charts(props) {
     number
   }));
 
-  console.log(result);
-
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart width={150} height={40} data={result}>
