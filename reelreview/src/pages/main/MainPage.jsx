@@ -101,7 +101,7 @@ export default function MainPage() {
           </div>
         </div>
       </div>
-      {movieList && movieList.director && movieList.director.length > 0 && (
+      {movieList.director && movieList.director.length > 0 && (
   <div className={styles.DirectorMovie_box_wrapper}>
     <div className={styles.DirectorMovie_box}>
       <div className={styles.DirectorMovie_box_header}>
@@ -114,7 +114,7 @@ export default function MainPage() {
   </div>
 )}
 
-{movieList && movieList.actor && movieList.actor.length > 0 && (
+{ movieList.actor && movieList.actor.length > 0 && (
   <div className={styles.ActorMovie_box_wrapper}>
     <div className={styles.ActorMovie_box}>
       <div className={styles.ActorMovie_box_header}>
@@ -127,7 +127,7 @@ export default function MainPage() {
   </div>
 )}
 
-{movieList && movieList.genre && movieList.genre.length > 0 && (
+{movieList.genre && movieList.genre.length > 0 && (
   <div className={styles.Genre_box_wrapper}>
     <div className={styles.Genre_box}>
       <div className={styles.Genre_box_header}>
