@@ -19,21 +19,23 @@ export default function Header() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('name', name);
+    
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('name', name);
 
-        axios.post("http://localhost:8085/api/directorSearch", formData)
-            .then((response) => {
-                console.log(response.data);
-                setMovieList(response.data);
-                navigate('/searchSuccess', { state: { movieList: response.data, searchedName: name } });
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
+    axios.post("http://localhost:8085/api/movieSearch", formData)
+      .then((response) => {
+        console.log(response.data);
+        setMovieList(response.data);
+        navigate('/searchSuccess', { state: { movieList: response.data, searchedName: name } });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const handleClick = () => {

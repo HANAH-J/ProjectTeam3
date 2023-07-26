@@ -70,6 +70,7 @@
     background-repeat: no-repeat;
     border: 1px solid #ddd;
     background-position: 15px 50%;
+    
 }
 
 .findWrapper input {
@@ -78,6 +79,7 @@
     border: none;
     background: none;
     margin-left: 30px;
+    color: #ddd;
 }
 
 .findWrapper button {
