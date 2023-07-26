@@ -67,7 +67,7 @@ export default function LoginSuccess_header_noneBackground({ profileData, userDa
           <li className={styles.findMovies}>
             <div className={styles.findWrapper}>
               <form onSubmit={handleSubmit}>
-                <input type="text" name="title" onChange={handleChange} placeholder="영화를 검색해보세요" autoComplete="off" />
+                <input className={styles.findWrapper_input} type="text" name="title" onChange={handleChange} placeholder="영화를 검색해보세요" autoComplete="off" />
                 <button type="submit"></button>
               </form>
             </div>
