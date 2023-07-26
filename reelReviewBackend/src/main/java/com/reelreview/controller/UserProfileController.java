@@ -153,15 +153,8 @@ public class UserProfileController {
             movieDetailsList.add(movieDetails);
         }
         responseData.put("movieDetailsList", movieDetailsList);
-
-        System.out.println(comments);
-
         return ResponseEntity.ok(responseData);
     }
-
-
-
-
 
 
 
@@ -216,6 +209,9 @@ public class UserProfileController {
     public ResponseEntity<?> updateProfileToDefault(@RequestBody Map<String, String> requestData) {
         return profileService.updateUserImageToDefault(requestData);
     }
+
+
+
 
 
     // 토큰 유효성, 형식 검사

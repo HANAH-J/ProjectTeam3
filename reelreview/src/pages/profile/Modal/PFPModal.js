@@ -7,8 +7,6 @@ import styles from '../../../css/profile/PFPModal.module.css';
 import styles2 from '../../../css/users/Alert.module.css';
 
 function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
-  console.log('userCd: ' + userCd);
-
   const [inputValue, setInputValue] = useState(''); //변경할 상태메시지
   const [showEditTextModal, setShowEditTextModal] = useState(false);
   const [showEditPFPModal, setShowEditPFPModal] = useState(false);
@@ -20,7 +18,6 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
        e.currentTarget = 이벤트 핸들러가 바인딩된 요소 (현재의 경우, 모달 자체) 
        모달 내부를 클릭한 경우에는 클릭 이벤트의 target과 currentTarget이 동일하게 모달 요소를 가리키므로
        조건문이 false를 반환하며, 조건문 내부의 코드는 실행되지 않음 -> 따라서 모달 내부를 클릭할 때는 모달이 닫히지 않음 */
-    console.log('모달닫기');
     setOpenModal(false);
   };
 
@@ -135,7 +132,6 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
 
     axios.put('http://localhost:8085/userProfiles/updateUserStatus', dataToSend)
       .then(response => {
-        console.log(dataToSend);
         console.log("user status updated");
         setShowEditTextModal(false); //모달닫기
         setOpenModal(false); //모달닫기
