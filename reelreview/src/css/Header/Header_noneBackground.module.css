@@ -68,10 +68,14 @@
     background-size: 16px;
     background-image: url("../../img/Header/search_icon.svg");
     background-repeat: no-repeat;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.25);
     background-position: 15px 50%;
     
 }
+
+.searchInput::placeholder {
+    color: lightgray; 
+  }
 
 .findWrapper input {
     width: 80%;
@@ -79,7 +83,7 @@
     border: none;
     background: none;
     margin-left: 30px;
-    color: #ddd;
+    color: lightgray; 
 }
 
 .findWrapper button {
@@ -107,7 +111,6 @@
     cursor: pointer;
     letter-spacing: -0.7px;
     font-size: 14px;
-    font-weight: bold;
 }
 
 .signUpBtn {
@@ -119,7 +122,6 @@
     background: transparent;
     color: #353535;
     font-size: 14px;
-    font-weight: bold;
     border: 1px solid rgba(116,116,123,0.5);
     border-radius: 6px;
     margin: 15px 0;

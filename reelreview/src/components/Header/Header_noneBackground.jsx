@@ -67,7 +67,9 @@ export default function Header_noneBackground() {
                     <li className={styles2.findMovies}>
                             <div className={styles2.findWrapper}>
                                 <form onSubmit={handleSubmit}>
-                                    <input type="text" name="movie" onChange={handleChange} placeholder="영화를 검색해보세요" autoComplete="off" />
+                                    <input type="text" name="movie" onChange={handleChange} 
+                                    placeholder="영화를 검색해보세요" autoComplete="off" 
+                                    className={styles2.searchInput}/>
                                     <button type="submit"></button>
                                 </form>
                             </div>

@@ -76,9 +76,10 @@ function CsBoard() {
     };
 
     return (
-        <div>
-            <CsHeader />
+        
+            
             <div className={styles.CsBoard_box_wrapper}>
+                 <CsHeader />
                 {/* 테이블과 페이지네이션 출력 */}
                 <div className={styles.CsBoard_line}>
                     <div className={styles.CsBoard_box}>
@@ -135,9 +136,9 @@ function CsBoard() {
                         </div>
                     </div>
                 </div>
+                <CsFooter />
             </div>
-            <CsFooter />
-        </div>
+       
     );
 }
 
