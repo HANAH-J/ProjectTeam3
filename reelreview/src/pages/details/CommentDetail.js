@@ -21,14 +21,15 @@ export default function CommentDetail(props){
     const location = useLocation();
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const comment = location.state.comment;
-    // const userData = location.state.userData;
     const [isCommentOpen, setIsCommentOpen] = useState(false);
     const commentId = comment.commentId;
     const [commentGood,setCommentGood] = useState(comment.commentGood);
+    const [ccomentCount, setCCommentCount] = useState(comment.ccommentcount);
     const [loggedIn, setLoggedIn] = useState(false);
     const [cComment,setCcommentData] = useState([]);
     const [cCommentGood,setCCommentGood] = useState(cComment.cCommentGood);
     const [movieDetail, setMovieDetail] = useState([]);
+    console.log("commentID : " + commentId);
 
     // 로그인시 헤더에 필요한 부분
     const [userData, setUserData] = useState(null);
@@ -52,6 +53,19 @@ export default function CommentDetail(props){
     const goToMovie = (movieDetail) => {
       navigate('/details',{state:{"item":movieDetail}})
     };
+
+
+    axios.get(`http://localhost:8085/getInfoForThisComment?commentId=${commentId}`)
+      .then(response => {
+        const responseData = response.data;
+        const updatedCommentGood = responseData.commentInfo.commentGood;
+        const updatedcCommentCount = responseData.commentInfo.ccommentcount;
+        setCommentGood(updatedCommentGood);
+        setCCommentCount(updatedcCommentCount);
+      })
+      .catch(error => {
+        console.error('Error fetching comment data:', error);
+      });
 
     useEffect(() => {
       const token = cookies.token;
@@ -227,7 +241,7 @@ export default function CommentDetail(props){
                     <div className={styles.commentArea}>{comment.commentContent}</div>
                         <div className={styles.col_title_bot_small}>
                             <p>좋아요</p><span>{commentGood}</span>
-                            <p>댓글</p><span>{comment.ccommentcount}</span> {/* cCommentcount로 넣어주면 못불러옴 */}
+                            <p>댓글</p><span>{ccomentCount}</span> {/* cCommentcount로 넣어주면 못불러옴 */}
                         </div>
                         <div className={styles.col_title_button}>
                             <div className={styles.col_title_button_like} onClick={commentGoodOneUp}>

@@ -10,4 +10,6 @@ public interface CommentDataRepository  extends JpaRepository<CommentDataDto,Int
     List<CommentDataDto> findByMovieId(Integer movieId);
 
     List<CommentDataDto> findByUserCd(int movieId);
+
+    CommentDataDto findCommentByCommentId(int commentId);
 }
