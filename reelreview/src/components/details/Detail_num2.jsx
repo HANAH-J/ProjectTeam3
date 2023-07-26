@@ -16,6 +16,8 @@ function Detailnum2(props) {
   const avg = ratingData.length === 0 ? 0 : sum / ratingData.length;
   
   const avgs = avg.toFixed(1);
+
+  
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const [loggedIn, setLoggedIn] = useState(false);
   const movie = props.item;
