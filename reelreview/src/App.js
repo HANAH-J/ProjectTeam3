@@ -26,9 +26,12 @@ import ModifyBtn from "./components/csBoard/CsBoard_modify";
 import SearchSuccess from "./pages/main/SearchSuccess";
 import SearchSuccessWriter from "./pages/cs/csBoard/SearchSuccessWriter";
 import Imagefileshow from "./components/csBoard/Imagefileshow";
+import NumberContext from "./pages/details/NumberContext";
+import { useState } from "react";
 function App() {
-
+  const [number,setNumber] = useState(0);
   return (
+    <NumberContext.Provider value={{ number , setNumber}}>
     <div className="App">
       
       <Routes>
@@ -62,6 +65,7 @@ function App() {
       </Routes>
 
     </div>
+    </NumberContext.Provider>
   );
 }
 
