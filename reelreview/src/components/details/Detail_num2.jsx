@@ -9,6 +9,58 @@ import { useCookies } from 'react-cookie';
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function Detailnum2(props) {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = cookies.token;
+
+    if (token) {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          withCredentials: true,
+        },
+      };
+      const data = new URLSearchParams();
+      data.append('movieId', movie.movieId);
+
+      axios
+        .post("http://localhost:8085/details/getWantToSee", data, config)
+        .then((response) => {
+          if (response.data.want == 'want') {
+            setWantTo(true);
+            const prevRating = response.data.rate;
+            console.log(prevRating);
+            if (prevRating) {
+              setRating(prevRating);
+            }
+          } else {
+            setWantTo(false);
+            const prevRating = response.data.rate;
+            console.log(prevRating);
+            if (prevRating) {
+              setRating(prevRating);
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          // 데이터 로딩이 완료되면 loading 상태를 false로 설정
+          setLoading(false);
+        });
+    } else {
+      setLoggedIn(false);
+      console.log('not logged in');
+      console.log('token' + token);
+      // 로그인 콘솔 띄우기
+
+      // 데이터 로딩이 완료되면 loading 상태를 false로 설정
+      setLoading(false);
+    }
+  }, []);
+
   const [rate, setRating] = useState(0);
   const ratingData = props.movieData.ratings;
   console.log(ratingData);
@@ -17,7 +69,7 @@ function Detailnum2(props) {
   
   const avgs = avg.toFixed(1);
 
-  
+
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
   const [loggedIn, setLoggedIn] = useState(false);
   const movie = props.item;
@@ -73,40 +125,6 @@ function Detailnum2(props) {
   };
 
 
-  useEffect(() => {
-    const token = cookies.token;
-    console.log(cookies.token);
-
-    if (token) {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          withCredentials: true,
-        },
-      };
-      const data = new URLSearchParams();
-      data.append('movieId', movie.movieId);
-
-      axios.post("http://localhost:8085/details/getWantToSee", data, config)
-        .then((response) => {
-          if (response.data == 'want') {
-            setWantTo(true);
-          } else {
-            setWantTo(false)
-          }
-        }).catch((error) => {
-          console.log(error);
-        })
-    }
-    else {
-      setLoggedIn(false);
-      console.log('not logged in');
-      console.log('token' + token);
-      // 로그인 콘솔 띄우기
-    }
-    //유저데이터에 rating 이랑 wanttosee랑 comment가 필요
-  }, []);
-
   // 보고싶어요 클릭시 서버로 보고싶어요 데이터 보내서 정보저장
   const wantToSee = () => {
     const token = cookies.token;
@@ -129,6 +147,7 @@ function Detailnum2(props) {
           .post("http://localhost:8085/details/wantToSee", data, config)
           .then((response) => {
             console.log(response.data);
+            
             setWantTo(true);
           })
           .catch((error) => {
@@ -192,7 +211,7 @@ function Detailnum2(props) {
     }
   }
   const tooltipArray = ["0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"];
-  const onPointerMove = (value) => console.log(value, rate)
+  const onPointerMove = (rate) => console.log(rate)
   // userCd
 
   // 상세보기 영화 내용 요약본 글 줄맞춤
@@ -230,7 +249,9 @@ function Detailnum2(props) {
       ));
     }
     };
-
+    if (loading) {
+      return <div>Loading...</div>;
+    }
   return (
 
     <div className={styles.wrapper}>
@@ -257,7 +278,7 @@ function Detailnum2(props) {
               <div className={styles.right_top_left}>
                 <div className={styles.right_top_left_stars}>
                   <div className={styles.rating_result}>
-                    <Rating onClick={handleRating} transition size={50} allowFraction tooltipArray={tooltipArray} onPointerMove={onPointerMove} />
+                    <Rating onClick={handleRating} transition size={50} allowFraction tooltipArray={tooltipArray} onPointerMove={onPointerMove} initialValue={rate} />
 
                   </div>
                 </div>
@@ -301,8 +322,7 @@ function Detailnum2(props) {
                   </div>
                 </>
                 )}
-                <div
-                  className={styles.right_top_right_comment} onClick={()=>setShowCommentForm(true)}>
+                <div className={styles.right_top_right_comment} onClick={()=>setShowCommentForm(true)} onMouseEnter={()=>setHoverred(true)} onMouseLeave={()=>setHoverred(false)}>
                   <div className={styles.wantToSee_icon}>
                     <BiSolidPencil size={40} strokeWidth={0} />
                   </div>

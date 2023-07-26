@@ -315,7 +315,7 @@ public class DetailController {
     }
 
     @RequestMapping("details/getWantToSee")
-    public String getWantToSee(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
+    public JSONObject getWantToSee(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
         int movieId = Integer.parseInt(request.getParameter("movieId"));
         String token = authorizationHeader;
 
@@ -323,25 +323,34 @@ public class DetailController {
             token = token.substring(7);
         } else {
             String errorResponse = "유효하지 않은 토큰 형식1";
-            return errorResponse;
+            System.out.println(errorResponse);
         }
 
         // 토큰 유효성 검사 ... 만료된 토큰이거나, 서명 키가 일치하지 않는 토큰
         String userEmail = jwtTokenProvider.validate(token);
         if (userEmail == null) {
             String errorResponse = "유효하지 않은 토큰 형식2";
-            return errorResponse;
+            System.out.println(errorResponse);
         }
 
         UserEntity userEntity = profileService.getCurrentUserDetails();
 
         if(userEntity == null) {
             String errorResponse = "유효하지 않은 토큰 형식3";
-            return errorResponse;
+            System.out.println(errorResponse);
         }
         int userCd = userEntity.getUserCd();
         String want = DS.getWantToSee(userCd,movieId);
-        return want;
+        int num = 0;
+        if(want.equals("want")){
+            num = 5;
+        }
+        double rate = DS.getRatingData(userCd,movieId);
+        rate = rate+num;
+        JSONObject j = new JSONObject();
+        j.put("want",want);
+        j.put("rate",rate);
+        return j;
     }
 
     @RequestMapping(value = "/getMovieDetailsForThisComment", method = RequestMethod.GET)
