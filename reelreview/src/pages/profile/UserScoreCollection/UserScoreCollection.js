@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../../css/profile/UserScoreCollection.module.css'
 import Header from "../../../components/Header/Header";
+import LoginSuccess_header from "../../../components/Header/LoginSuccess_header";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import { useCookies } from 'react-cookie';
@@ -9,14 +10,15 @@ import { useNavigate } from 'react-router-dom';
 
 function UserScoreCollection() {
   const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
-  const navigate = useNavigate();
-
+  
   const [userData, setUserData] = useState({});
   const [ratings, setRatings] = useState([]);
   const [movieDetails, setMovieDetails] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [profileData, setProfileData] = useState({});
 
+  const navigate = useNavigate();
   const goToMovie = (movieDetails) => {
     console.log(movieDetails);
     navigate('/details',{state:{"item":movieDetails}})
@@ -45,6 +47,32 @@ function UserScoreCollection() {
       },
     };
 
+    axios.get('http://localhost:8085/userProfiles', config)
+           .then(response => {
+            const responseData = response.data;
+
+            const userDTO = {
+              userCd: responseData.userDTO.userCd,
+              username: responseData.userDTO.username,
+              userEmail: responseData.userDTO.userEmail,
+              role: responseData.userDTO.role,
+            };
+
+            const profileDTO = {
+              status: responseData.profileDTO.status,
+              bgImage: responseData.profileDTO.bgImage,
+              pfImage: responseData.profileDTO.pfImage
+            };
+
+            setUserData(userDTO);
+            setProfileData(profileDTO);
+            console.log(userDTO.username + ' is logged in');
+            console.log(movieDetails);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+
     axios.get('http://localhost:8085/UserScoreCollection', config)
       .then(response => {
 
@@ -69,7 +97,11 @@ function UserScoreCollection() {
   
   return (
     <div className={styles.userScoreCollection_Wrapper}>
-      <Header/>
+      {loggedIn ? (
+        <LoginSuccess_header profileData={profileData} userData={userData} />
+      ) : (
+        <Header />
+      )}
       <div className={styles.userScoreCollection_Header}>
         <Link to="/userProfiles"><div className={styles.userScoreCollection_Header_Arrow}></div></Link>
         <div className={styles.userScoreCollection_Wrapper_Title}> <h2>평가한 작품들</h2> </div>
