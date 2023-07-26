@@ -44,10 +44,9 @@ export default function CommentDetail(props){
       imageElement.src = fallbackImageUrl;
     };
 
-    const onImageErrorCComment = () => {
+    const onImageErrorCComment = (event) => {
       const fallbackImageUrl = userPFP;
-      const imageElement = document.querySelector(`.${styles.ccimg}`);
-      imageElement.src = fallbackImageUrl;
+        event.target.src = fallbackImageUrl;
     };
 
     const goToMovie = (movieDetail) => {

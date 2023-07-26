@@ -53,7 +53,6 @@ function UserProfile() {
         setLoggedIn(true);
         fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
         console.log(token);
-          
       } else {
         setLoggedIn(false);
         console.log('not logged in');
@@ -108,11 +107,7 @@ function UserProfile() {
     }
 
     const openPFPModal = () => { 
-      //if (currentUserCd === userData.userCd) {
         setOpenModal(true);
-      //} else {
-      //  alert('프로필을 수정할 수 있는 권한이 없습니다.');
-      //}
     }
 
     const recentRatings = ratings ? ratings.slice(0, 5) : [];
