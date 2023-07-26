@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // '/', '/api/auth' 모듈에 대해서는 모두 허용 : 인증없이 사용가능
                 .authorizeRequests().antMatchers("/**", "/api/auth/**").permitAll()
-                // 나머지 Request에 대해서는 모두 인증된 사용자만 사용가능
+                // 나머지 Request에 대해서는 모두 인증되지 않은 사용자도 사용가능
                 .anyRequest().permitAll().and()
                 // 소셜 로그인 설정
                 .oauth2Login().userInfoEndpoint().userService(oauth2PrincipalUserService).and() // principalUserService 설정
