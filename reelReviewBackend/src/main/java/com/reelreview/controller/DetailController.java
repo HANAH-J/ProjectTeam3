@@ -54,11 +54,8 @@ public class DetailController {
         List<CastDataDTO> movieCasts = DS.findCastDataByMoiveCd(movieCd);
         List<MovieVideosDTO> movieVideos = DS.findVideosByMovieCd(movieCd);
         List<MovieGenresDTO> movieGenres = DS.findGenresByMovieCd(movieCd);
-        List<Integer> genres = new ArrayList<>();
-        for(MovieGenresDTO genre:movieGenres){
-            genres.add(genre.getGenreId());
-        }
-        List<Integer> simularMovieCd = DS.findMoviesByGenres(genres);
+        Integer genre = movieGenres.get(0).getGenreId();
+        List<Integer> simularMovieCd = DS.findMoviesByGenres(genre);
         List<MovieDetailsDTO> simularMovieDetails = DS.findMoviesBymovieCd(simularMovieCd);
         List<CommentDataDto> comments = DS.findCommentsByMovieCd(movieId);
         List<RatingDataDto> ratings = DS.findRatingsByMovieCd(movieId);

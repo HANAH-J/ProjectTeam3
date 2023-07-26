@@ -177,21 +177,29 @@
     float: left;
     margin-right: 29px;
     border: 1px solid red;
+    cursor: pointer;
 }
 .wantToSee_icon {
     transition: color 0.5s; 
   }
 .wantToSee_icon_hovered {
     color: orange; 
+    cursor: pointer;
   }
 .right_top_right_wantToSee p{
     margin-left: -5px;
+    
     
 }
 .right_top_right_comment{
     float: left;
     margin-right: 40px;
+    cursor: pointer;
 }
+.wantToSee_icon_hovered {
+    color: orange; 
+    cursor: pointer;
+  }
 .right_top_right_watching{
     float: left;
     margin-right: 40px;
