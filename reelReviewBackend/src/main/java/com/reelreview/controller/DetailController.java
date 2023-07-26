@@ -46,7 +46,7 @@ public class DetailController {
         return movieImages;
     }
     @RequestMapping("api/getMovieFulldata")
-    public JSONObject getMovieFulldata(@RequestParam("movieId") int movieId){
+    public JSONObject getMovieFulldata(@RequestParam("movieId") int movieId) {
         JSONObject fulldata = new JSONObject();
         Long movieCd = Long.valueOf(movieId);
         List<MovieImagesDTO> movieImages = DS.findImagesByMovieCd(movieCd);
@@ -54,19 +54,26 @@ public class DetailController {
         List<CastDataDTO> movieCasts = DS.findCastDataByMoiveCd(movieCd);
         List<MovieVideosDTO> movieVideos = DS.findVideosByMovieCd(movieCd);
         List<MovieGenresDTO> movieGenres = DS.findGenresByMovieCd(movieCd);
-        Integer genre = movieGenres.get(0).getGenreId();
-        List<Integer> simularMovieCd = DS.findMoviesByGenres(genre);
-        List<MovieDetailsDTO> simularMovieDetails = DS.findMoviesBymovieCd(simularMovieCd);
+
+        if (movieGenres != null && !movieGenres.isEmpty()) {
+            Integer genre = movieGenres.get(0).getGenreId();
+            List<Integer> simularMovieCd = DS.findMoviesByGenres(genre);
+            List<MovieDetailsDTO> simularMovieDetails = DS.findMoviesBymovieCd(simularMovieCd);
+            fulldata.put("simularMovieDetails", simularMovieDetails);
+        }
+
         List<CommentDataDto> comments = DS.findCommentsByMovieCd(movieId);
         List<RatingDataDto> ratings = DS.findRatingsByMovieCd(movieId);
-        fulldata.put("movieImages",movieImages);
-        fulldata.put("movieCrews",movieCrews);
-        fulldata.put("movieCasts",movieCasts);
-        fulldata.put("movieVideos",movieVideos);
-        fulldata.put("simularMovieDetails",simularMovieDetails);
-        fulldata.put("comments",comments);
-        fulldata.put("ratings",ratings);
-        System.out.println("=================================================================================================================================="+ratings);
+
+        fulldata.put("movieImages", movieImages);
+        fulldata.put("movieCrews", movieCrews);
+        fulldata.put("movieCasts", movieCasts);
+        fulldata.put("movieVideos", movieVideos);
+        fulldata.put("comments", comments);
+        fulldata.put("ratings", ratings);
+
+        System.out.println("==================================================================================================================================" + ratings);
+
         return fulldata;
     }
 
@@ -219,7 +226,8 @@ public class DetailController {
         dto.setCommentContent(request.getParameter("commentContent"));
         dto.setUserCd(userCd);
         dto.setMovieId(movieId);
-
+        dto.setCCommentcount(0);
+        dto.setCommentGood(0);
 
         String result = DS.saveCommentData(dto);
 
@@ -289,19 +297,15 @@ public class DetailController {
         }
         int userCd = userEntity.getUserCd();
 
-        //ProfileDTO profile = profileService.getProfileByUserCd(userEntity);
         CcommentDataDto dto = new CcommentDataDto();
-        CommentDataDto comment = DS.getCommentById(commentId);  //(J)
         LocalDate l = LocalDate.now();  //(J)
         String now = l.toString();  //(J)
 
         dto.setCCommentContent(request.getParameter("cCommentContent"));
         dto.setUserCd(userCd);
         dto.setCommentId(commentId);
-        //dto.setPFImage(profile.getPfImage());
         dto.setUserName(userEntity.getUsername());
         dto.setCCommentDate(now);  //(J)
-        comment.setCCommentcount(comment.getCCommentcount()+1); //(J)
 
         CcommentDataDto a = DS.saveCcommentData(dto);
         String result = a.getUserName();
@@ -362,6 +366,12 @@ public class DetailController {
         responseData.put("movieDetailsList", movieDetailsList);
 
         return ResponseEntity.ok(responseData);
+    }
+
+    @RequestMapping(value = "/getRatingDataForThisComment", method = RequestMethod.GET)
+    public ResponseEntity<RatingDataDto> getRatingData(@RequestParam("movieId") int movieId, @RequestParam("userCd") int userCd) {
+        RatingDataDto ratingData = DS.getRatingByMovieIdAndUserCd(movieId, userCd);
+        return ResponseEntity.ok(ratingData);
     }
 
 }

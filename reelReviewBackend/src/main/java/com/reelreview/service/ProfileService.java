@@ -43,15 +43,8 @@ public class ProfileService {
             System.out.println("Authentication is null");
             return null;
         }
-
         UserEntity userEntity = userRepository.findByUserEmail(userEmail);
-        System.out.println("userEntity : " + userEntity);
-
         if (userEntity != null) {
-            System.out.println("userEntity" + userEntity);
-            System.out.println("UserEmail: " + userEntity.getUserEmail());
-            System.out.println("Username: " + userEntity.getUsername());
-            System.out.println("Role: " + userEntity.getRole());
             return userEntity;
         } else {
             System.out.println("UserEntity is null");
@@ -73,7 +66,6 @@ public class ProfileService {
         if(userEntity == null) {
             throw new EntityNotFoundException("User not found with userCd : " + userCd);
         }
-
         ProfileDTO profileDTO = getProfileByUserCd(userEntity);
         if(profileDTO != null) {
             profileDTO.setStatus(newStatus);
@@ -81,7 +73,6 @@ public class ProfileService {
         } else {
             throw new EntityNotFoundException("Profile not found for userCd : " + userCd);
         }
-
     }
 
     public ResponseEntity<?> uploadImage(String fileType, int userCd, MultipartFile image) {
@@ -102,14 +93,11 @@ public class ProfileService {
                 } else { // fileType.equals("background")
                     filePath = setBackgroundPath(userCd, image);
                 }
-
                 UserEntity userEntity = userService.getUserByUserCd(userCd);
                 if (userEntity == null) {
                     return ResponseEntity.notFound().build();
                 }
-
                 ProfileDTO profileDTO = getProfileByUserCd(userEntity);
-
                 if (profileDTO != null) {
                     if (fileType.equals("profile")) {
                         profileDTO.setPfImage(filePath);
@@ -130,7 +118,6 @@ public class ProfileService {
     }
 
     public String setProfilePicturePath(int userCd, MultipartFile profilePicture) throws IOException {
-
         String uploadDir = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\profilePictures\\";
         String fileName = UUID.randomUUID() + "_" + userCd + "_" + profilePicture.getOriginalFilename();
         String filePath = uploadDir + fileName;
@@ -142,7 +129,6 @@ public class ProfileService {
     }
 
     public String setBackgroundPath(int userCd, MultipartFile backgroundImage) throws IOException {
-
         String uploadDir = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\backgroundImage\\";
         String fileName = UUID.randomUUID() + "_" + userCd + "_" + backgroundImage.getOriginalFilename();
         String filePath = uploadDir + fileName;
@@ -156,7 +142,6 @@ public class ProfileService {
     public String getProfilePictureByUserCd(int userCd) {
         UserEntity userEntity = userService.getUserByUserCd(userCd);
         if (userEntity == null) { return "defaultPfImage"; }
-        //userEntity를 통해 profileDTO 조회
         ProfileDTO profileDTO = profileRepository.findByUserCd(userEntity);
         if(profileDTO != null) {
             return profileDTO.getPfImage();
@@ -178,7 +163,6 @@ public class ProfileService {
     }
 
     public ResponseEntity<Resource> getImageResourceResponse(String filePath) {
-
         if (filePath == null) {
             return ResponseEntity.notFound().build();
         }
@@ -230,5 +214,4 @@ public class ProfileService {
             return ResponseEntity.badRequest().body("Invalid image type provided");
         }
     }
-
     }

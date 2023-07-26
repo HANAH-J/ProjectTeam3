@@ -6,6 +6,7 @@ export default function Charts(props) {
   console.log(data);
   
   const rateCountMap = {};
+  
   data.forEach(item => {
     const rate = item.rate.toString(); // 소수점 정밀도 문제를 처리하기 위해 rate를 문자열로 변환합니다
     if (rateCountMap[rate] === undefined) {

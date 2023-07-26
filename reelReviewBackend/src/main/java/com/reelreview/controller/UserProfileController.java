@@ -234,5 +234,4 @@ public class UserProfileController {
         errorResponse.put("error", message);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
-
 }

@@ -4,15 +4,53 @@ import { FaThumbsUp } from "react-icons/fa";
 import { ImBubble } from "react-icons/im";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import userPFP from '../../../img/profile/userProfile/empty_user.svg'
 import { Link } from 'react-router-dom';
 
 function CommentsCol(props) {
     const comment = props.comment;
     const userCd = comment.userCd;
-    console.log(comment);
-    console.log(userCd);
 
- 
+    const [rating, setRating] = useState(null);
+    
+    const onImageError = (event) => {
+        const fallbackImageUrl = userPFP;
+        event.target.src = fallbackImageUrl;
+    };
+
+    useEffect(() => {
+        const fetchRatingData = async () => {
+          try {
+            const response = await axios.get(`http://localhost:8085/getRatingDataForThisComment`, {
+              params: {
+                movieId: comment.movieId,
+                userCd: comment.userCd
+              }
+            });
+                  if (Array.isArray(response.data)) {
+              setRating(response.data);
+            } else {
+              setRating([response.data]);
+            }
+          } catch (error) {
+            console.error('Error fetching rating data:', error);
+          }
+        };
+      
+        fetchRatingData();
+      }, [comment.movieId, comment.userCd]);
+
+    const getRatingForComment = () => {
+        if (rating !== null && comment && comment.userCd && comment.movieId) {
+          const foundRating = rating.find((rate) => rate.movieId === comment.movieId && rate.userCd === comment.userCd);
+          return foundRating ? foundRating.rate : '평가전';
+        } else {
+          return '평가전';
+        }
+    };
+
+
+
     return(
         
         <div className={styles.col}>
@@ -21,13 +59,18 @@ function CommentsCol(props) {
                 <div className={styles.cardTop}>
                     <div className={styles.cardTopInner}>
                         <div className={styles.cardTopLeft}>
-                            <img src={comment.pFImage} className={styles.cardImg}/>
+                        <img
+                            alt="profile"
+                            className={styles.cardImg}
+                            src={`http://localhost:8085/userProfiles/getProfilePicture?userCd=${userCd}`}
+                            onError={onImageError}
+                        />
                                 <p>{comment.userName}</p>
                         </div>
                         <div className={styles.cardTopRight}>
                             <div className={styles.cardStars}>
                                 <RiStarSFill size={20} className={styles.stars}/>
-                                <p>3.5</p>
+                                <p> {getRatingForComment()} </p>
                             </div>
                         </div>
                     </div>
@@ -36,7 +79,7 @@ function CommentsCol(props) {
                     <Link to="/commentDetail" state={{"comment":comment}}>  
                         <div className={styles.comment}>
                             <p>
-                                {comment.commentContent}
+                                {comment.commentContent} {/* cCommentcount로 넣어주면 못불러옴 */}
                             </p>
                         </div>
                     </Link>
