@@ -103,8 +103,10 @@ public class MainService {
         JSONObject jobj2 = (JSONObject) obj2;
         JSONArray jary2 = (JSONArray) jobj2.get("crew");
         List<MovieDetailsDTO> directorSearchDataList = new ArrayList<>();
+        List<Integer> movieIds = new ArrayList<>();
+        ApiDataUnwrap apiDataUnwrap = new ApiDataUnwrap();
 
-
+        TMDBMovieDataManager TDM = new TMDBMovieDataManager();
 
         for(int i = 0 ; i < jary2.size() ; i++){
             JSONObject moviesSearchByDirector = (JSONObject)jary2.get(i);
@@ -116,7 +118,6 @@ public class MainService {
 
             if(!movieDetailRepo.existsById(m.getMovieId())){
                 movieDetailRepo.save(m);
-
             }
             boolean isDuplicate = false;
             for (int j = 0; j < directorSearchDataList.size(); j++) {
@@ -128,9 +129,53 @@ public class MainService {
             if (!isDuplicate) {
                 directorSearchDataList.add(m);
             }
+            movieIds.add(m.getMovieId());
         }
+
+
+        JSONArray fulldata = apiDataUnwrap.searchFromTMDBWithMovieId(movieIds);
+        JSONArray imageData = apiDataUnwrap.searchFromTMDBImagesWithMovieId(movieIds);
+
+        for(Object movie : fulldata){
+            JSONObject joject = (JSONObject)movie;
+            ActorMovieDTO d = TDM.movieDetailsToActorMovieDTO(TDM.JSONObjectToMovieDetailsDTO(joject),name,Integer.valueOf(String.valueOf(personId)));
+            actorMovieRepo.save(d);
+            if(!movieDetailRepo.existsById(((Long)joject.get("id")).intValue())){
+                movieDetailRepo.save(TDM.JSONObjectToMovieDetailsDTO(joject));
+            }
+            List<MovieVideosDTO> videoData = TDM.getVideoData(joject);
+            for (MovieVideosDTO m : videoData){
+                movieVideosRepo.save(m);
+            }
+            // 장르 데이터만 추려서 genreData에 추가하기
+
+            List<MovieGenresDTO> genreDTO = TDM.getGenreData(joject);
+            for(MovieGenresDTO m : genreDTO){
+                movieGenresRepo.save(m);
+            }
+            // 영화 참가 배우데이터만 추려서 DTO 저장
+            List<CastDataDTO> castDataDTOS = TDM.getCastData(joject);
+            for(CastDataDTO m : castDataDTOS){
+                castDataRepo.save(m);
+            }
+            // 영화 참가 관계자 데이터만 추려서 crewData에 추가하기
+            List<CrewDataDTO> crewDataDTOS = TDM.getCrewData(joject);
+            for(CrewDataDTO m : crewDataDTOS){
+                crewDataRepo.save(m);
+            }
+        }
+        for(int i = 0 ; i < imageData.size() ; i++){
+            MovieImagesDTO imagesDTO = new MovieImagesDTO();
+            JSONObject image = (JSONObject)imageData.get(i) ;
+            imagesDTO.setMovieCd(Long.valueOf((Integer)image.get("movieCd")));
+            imagesDTO.setBackdropPath((String) image.get("backdropPath"));
+
+            movieImagesRepo.save(imagesDTO);
+
+        }
+
+
         Collections.sort(directorSearchDataList, Comparator.comparing(MovieDetailsDTO::getRelease_date).reversed());
-        System.out.println(directorSearchDataList);
         return directorSearchDataList;
     }
 
