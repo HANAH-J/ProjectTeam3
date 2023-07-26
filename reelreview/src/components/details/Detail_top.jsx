@@ -35,8 +35,9 @@ function Detailtop(props) {
             </div>
             <div className={styles.openDate_genre_country}>
               <div className={styles.openDate}>{props.item.release_date}</div>
-              <div className={styles.genre}>애니메이션/모험/판타지/SF/로맨스</div> 
-              <div className={styles.country}>미국</div> 
+              <div className={styles.genre}></div> 
+              {/* {props.item.genre.map((genre,index)=>genre.genreName)} */}
+
             </div>
             <div className={styles.playTime_ageRating}>
               <div className={styles.playTime}>{props.item.runtime}분</div>
@@ -44,7 +45,7 @@ function Detailtop(props) {
             </div>
             <div className={styles.boxOfficeData}>
               <div className={styles.boxOfficePercent}>예매 순위 {props.item.rank}위({props.item.salesShare}%)</div>
-              <div className={styles.timeSinceOpen}>개봉 17일째</div>
+
               <div className={styles.totalAudience}>누적 관객 {props.item.audiAcc}만명</div>
             </div>
           </div>
