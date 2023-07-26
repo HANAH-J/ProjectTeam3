@@ -102,8 +102,9 @@ function Detailnum6(props){
                     <CollectionBoxes/>
                 </Slider>
             </div>
-
-            <div className={styles.topHead}>
+            {simularMovieDetails &&(
+                <>
+                <div className={styles.topHead}>
                 <div>
                     <h2>비슷한 작품</h2>
                 </div>
@@ -120,6 +121,10 @@ function Detailnum6(props){
                     ))}
                 </div>
             </div>
+                
+                </>
+            )}
+            
         </div>
     );
 }

@@ -46,7 +46,7 @@ public class DetailController {
         return movieImages;
     }
     @RequestMapping("api/getMovieFulldata")
-    public JSONObject getMovieFulldata(@RequestParam("movieId") int movieId){
+    public JSONObject getMovieFulldata(@RequestParam("movieId") int movieId) {
         JSONObject fulldata = new JSONObject();
         Long movieCd = Long.valueOf(movieId);
         List<MovieImagesDTO> movieImages = DS.findImagesByMovieCd(movieCd);
@@ -54,19 +54,26 @@ public class DetailController {
         List<CastDataDTO> movieCasts = DS.findCastDataByMoiveCd(movieCd);
         List<MovieVideosDTO> movieVideos = DS.findVideosByMovieCd(movieCd);
         List<MovieGenresDTO> movieGenres = DS.findGenresByMovieCd(movieCd);
-        Integer genre = movieGenres.get(0).getGenreId();
-        List<Integer> simularMovieCd = DS.findMoviesByGenres(genre);
-        List<MovieDetailsDTO> simularMovieDetails = DS.findMoviesBymovieCd(simularMovieCd);
+
+        if (movieGenres != null && !movieGenres.isEmpty()) {
+            Integer genre = movieGenres.get(0).getGenreId();
+            List<Integer> simularMovieCd = DS.findMoviesByGenres(genre);
+            List<MovieDetailsDTO> simularMovieDetails = DS.findMoviesBymovieCd(simularMovieCd);
+            fulldata.put("simularMovieDetails", simularMovieDetails);
+        }
+
         List<CommentDataDto> comments = DS.findCommentsByMovieCd(movieId);
         List<RatingDataDto> ratings = DS.findRatingsByMovieCd(movieId);
-        fulldata.put("movieImages",movieImages);
-        fulldata.put("movieCrews",movieCrews);
-        fulldata.put("movieCasts",movieCasts);
-        fulldata.put("movieVideos",movieVideos);
-        fulldata.put("simularMovieDetails",simularMovieDetails);
-        fulldata.put("comments",comments);
-        fulldata.put("ratings",ratings);
-        System.out.println("=================================================================================================================================="+ratings);
+
+        fulldata.put("movieImages", movieImages);
+        fulldata.put("movieCrews", movieCrews);
+        fulldata.put("movieCasts", movieCasts);
+        fulldata.put("movieVideos", movieVideos);
+        fulldata.put("comments", comments);
+        fulldata.put("ratings", ratings);
+
+        System.out.println("==================================================================================================================================" + ratings);
+
         return fulldata;
     }
 
