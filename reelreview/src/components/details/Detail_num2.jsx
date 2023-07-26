@@ -11,6 +11,9 @@ const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 function Detailnum2(props){
     const [rate, setRating] = useState(0);
     const ratingData =props.movieData.ratings;
+    console.log(ratingData);
+    const sum = ratingData.reduce((total, rateObject) => total + rateObject.rate, 0);
+    const avg = sum / ratingData.length;
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const [loggedIn, setLoggedIn] = useState(false);
     const movie = props.item;
@@ -232,18 +235,11 @@ function Detailnum2(props){
                     </div>
                     <div className={styles.leftBottom}>
                         <div className={styles.leftBottomTypo}>
-                            <p>별점 그래프</p>
-                            <span>평균 ★{props.item.vote_average}</span><div className={styles.numPeople}>({props.item.vote_count}명)</div>
+                            <p>우리 사이트 별점 그래프</p>
+                            <span>평균 ★{avg}</span><div className={styles.numPeople}>({ratingData.length}명)</div>
                         </div>
                         <div className={styles.leftBottom_chart}>
                             <Charts ratingData={ratingData}/>
-                        </div>
-                        <div className={styles.leftBottom_chartNum}>
-                            <p>1</p>
-                            <p>2</p>
-                            <p>3</p>    
-                            <p>4</p>
-                            <p>5</p>
                         </div>
                     </div>
                 </div>
