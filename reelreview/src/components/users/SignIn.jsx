@@ -19,48 +19,63 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // 이름, 이메일, 비밀번호 입력값 검사 결과 저장소
-    const isAllFieldsFilled = () => {
-        const isEmailValid = validateEmail(email);
-        const isPasswordValid = validatePassword(password);
-        return (isEmailValid && isPasswordValid) && forgotPwModalState === false;
-    };
-
-    // 이메일 유효성 검사 로직
-    // 비밀번호 유효성 검사 로직
-    const validateEmail = (email) => { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); };
-    const validatePassword = (password) => { return /^(?=.{6,})/.test(password); };
+    // 이메일, 비밀번호 유효성 검사 통과 여부
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
 
     // 이메일, 비밀번호 에러 메세지 저장소
     const [emailError, setEmailError] = useState();
     const [passwordError, setPasswordError] = useState('');
 
-    // 이메일, 비밀번호 유효성 검사 및 에러 메세지 출력
+    // 각 입력값의 유효성 검사
+    const validateField = (value, validationRegex, errorSetter, errorMessage) => {
+        const isValid = value.trim() === '' || validationRegex.test(value);
+        errorSetter(isValid ? null : errorMessage);
+        return isValid;
+    };
+
+    // 모든 입력값이 유효성 검사를 통과한 경우
+    const isSignInEnabled = () => {
+        return isEmailValid && isPasswordValid && !forgotPwModalState;
+    };
+
+    // 로그인 요청 결과를 저장할 변수
+    const [isEmailAvailable, setIsEmailAvailable] = useState(false);
+
+    // 이메일 : 유효성 검사 통과 여부 및 에러 메세지 출력값 저장
     useEffect(() => {
-        if (email && !validateEmail(email)) { setEmailError('정확하지 않은 이메일입니다.'); }
-        else { setEmailError(''); }
+        axios.post('http://localhost:8085/api/auth/emailCheck', { userEmail: email })
+            .then((response) => {
+                setIsEmailValid(validateField(
+                    email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    setEmailError, '정확하지 않은 이메일입니다.'
+                ));
+                setIsEmailAvailable(response.data); // 회원가입 시 이미 사용 중인 이메일인지 저장
+            })
+            .catch((error) => {
+                console.log('로그인 실패 : ', error);
+                setIsEmailValid(false); // 에러 발생 시 유효성 검사를 통과하지 않은 상태로 처리
+            });
     }, [email]);
 
+    // 비밀번호 : 유효성 검사 통과 여부 및 에러 메세지 출력값 저장
     useEffect(() => {
-        if (password && !validatePassword(password)) { setPasswordError('비밀번호는 최소 10자리 이상이어야 합니다.'); }
-        else { setPasswordError(''); }
+        setIsPasswordValid(validateField(
+            password, /^(?!((?:[A-Za-z]+)|(?:[~!@#$%^&*()_+=]+)|(?:[0-9]+))$)[A-Za-z\d~!@#$%^&*()_+=]{10,}$/,
+            setPasswordError, '비밀번호는 영문, 숫자, 특수문자 중 2개 이상을 조합하여 최소 10자리 이상이여야 합니다.'));
     }, [password]);
+
+    // 유효성 검사 통과 여부에 따라 클래스 추가 및 제거
+    const toggleInputPassClass = (element, isValid) => {
+        if (element && isValid) { element.classList.add(styles.user_sign_inputPass); }
+        else if (element) { element.classList.remove(styles.user_sign_inputPass); }
+    };
 
     // 이메일, 비밀번호 유효성 검사 통과 마크
     useEffect(() => {
-        const inputEmail = document.getElementById('userEmail');
-        const inputPassword = document.getElementById('userPassword');
-
-        if (inputEmail) {
-            if (validateEmail(email)) { inputEmail.classList.add(styles.user_sign_inputPass); }
-            else { inputEmail.classList.remove(styles.user_sign_inputPass); }
-        }
-
-        if (inputPassword) {
-            if (validatePassword(password)) { inputPassword.classList.add(styles.user_sign_inputPass); }
-            else { inputPassword.classList.remove(styles.user_sign_inputPass); }
-        }
-    }, [email, password]);
+        toggleInputPassClass(document.getElementById('userEmail'), isEmailValid && email);
+        toggleInputPassClass(document.getElementById('userPassword'), isPasswordValid && password);
+    }, [isEmailValid, isPasswordValid, email, password]);
 
     // 로그인 로직
     const onSubmitHandler = (e) => {
@@ -176,7 +191,7 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                 {/* 로그인 */}
                 <button
                     className={styles.user_login_btn}
-                    disabled={!isAllFieldsFilled()}
+                    disabled={!isSignInEnabled()}
                     onClick={onSubmitHandler}>
                     로그인</button>
                 {noExistEmailAlert ? <Alert resultMessage={'가입되지 않은 이메일입니다.'} setNoExistEmailAlert={setNoExistEmailAlert} /> : null}
