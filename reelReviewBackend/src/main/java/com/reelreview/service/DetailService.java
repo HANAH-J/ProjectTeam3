@@ -132,6 +132,8 @@ public class DetailService {
         return CDR.findByUserCd(userCd);
     }
 
+    public Double getRatingByMovieIdAndUserCd(int movieId, int userCd) { return RDR.findByMovieIdAndUserCd (movieId, userCd); }
+
     public String saveCommentData(CommentDataDto dto) {
         CommentDataDto saved = new CommentDataDto();
         String result = null;
