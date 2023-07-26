@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../../../css/profile/MovieToWatch.module.css'
 import Header from "../../../components/Header/Header";
+import LoginSuccess_header from "../../../components/Header/LoginSuccess_header";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useCookies } from 'react-cookie';
@@ -8,11 +9,12 @@ import { useCookies } from 'react-cookie';
 function MovieToWatch() {
   const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
-  //const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState({});
   const [wantToSee, setWantToSee] = useState([]);
   const [movieDetails, setMovieDetails] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['token']);
+  const [profileData, setProfileData] = useState({});
 
   const navigate = useNavigate();
   const goToMovie = (movieDetails) => {
@@ -25,15 +27,13 @@ function MovieToWatch() {
 
     if (token) {
       setLoggedIn(true);
-      fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
+      fetchUserData(token);
       console.log(token);
       
     } else {
       setLoggedIn(false);
       console.log('not logged in');
       console.log('token' + token);
-      //alert('로그인을 해주세요.'); 
-      //navigate('/'); // 토큰이 없을 경우 메인으로 리디렉션
     }
   }, [cookies.token]);
 
@@ -45,20 +45,39 @@ function MovieToWatch() {
       },
     };
 
+    axios.get('http://localhost:8085/userProfiles', config)
+           .then(response => {
+            const responseData = response.data;
+
+            const userDTO = {
+              userCd: responseData.userDTO.userCd,
+              username: responseData.userDTO.username,
+              userEmail: responseData.userDTO.userEmail,
+              role: responseData.userDTO.role,
+            };
+
+            const profileDTO = {
+              status: responseData.profileDTO.status,
+              bgImage: responseData.profileDTO.bgImage,
+              pfImage: responseData.profileDTO.pfImage
+            };
+
+            setUserData(userDTO);
+            setProfileData(profileDTO);
+            console.log(userDTO.username + ' is logged in');
+            console.log(movieDetails);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+
     axios.get('http://localhost:8085/MovieToWatch', config)
       .then(response => {
         const responseData = response.data;
-        // const userDTO = {
-        //   userCd: responseData.userDTO.userCd,
-        //   username: responseData.userDTO.username,
-        //   userEmail: responseData.userDTO.userEmail,
-        //   role: responseData.userDTO.role,
-        // };
 
         const wantToSee = responseData.wantToSee;
         const movieDetails = responseData.movieDetailsList;
 
-        //setUserData(userDTO);
         setWantToSee(wantToSee);
         setMovieDetails(movieDetails);
       })
@@ -69,7 +88,11 @@ function MovieToWatch() {
   
   return (
     <div className={styles.movieToWatch_Wrapper}>
-      <Header/>
+      {loggedIn ? (
+        <LoginSuccess_header profileData={profileData} userData={userData} />
+      ) : (
+        <Header />
+      )}
       <div className={styles.movieToWatch_Header}>
         <Link to="/userProfiles"><div className={styles.movieToWatch_Header_Arrow}></div></Link>
         <div className={styles.movieToWatch_Wrapper_Title}> <h2>보고싶어요</h2> </div>

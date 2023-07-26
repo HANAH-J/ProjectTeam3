@@ -355,4 +355,10 @@ public class DetailController {
         return ResponseEntity.ok(responseData);
     }
 
+    @RequestMapping(value = "/getRatingDataForThisComment", method = RequestMethod.GET)
+    public ResponseEntity<RatingDataDto> getRatingData(@RequestParam("movieId") int movieId, @RequestParam("userCd") int userCd) {
+        RatingDataDto ratingData = DS.getRatingByMovieIdAndUserCd(movieId, userCd);
+        return ResponseEntity.ok(ratingData);
+    }
+
 }

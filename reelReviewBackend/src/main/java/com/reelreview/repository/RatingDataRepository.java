@@ -9,4 +9,7 @@ public interface RatingDataRepository extends JpaRepository<RatingDataDto,String
     List<RatingDataDto> findByUserCd(int userCd);
 
     List<RatingDataDto> findByMovieId(int movieId);
+
+    RatingDataDto findByMovieIdAndUserCd(int movieId, int userCd);
+
 }

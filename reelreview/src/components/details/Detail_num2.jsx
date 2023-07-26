@@ -263,7 +263,7 @@ function Detailnum2(props) {
               </div>
               <div className={styles.right_top_middle}>
                 <div className={styles.right_top_middle_avg}>
-                  {avgs}
+                   {Number.isInteger(avg) ? avg : avg.toFixed(1)}
                 </div>
                 <div className={styles.right_top_middle_avg_typo}>
                   평균 별점 ({ratingData.length}명)
