@@ -6,14 +6,15 @@ import { AiOutlinePlus, AiFillEye, AiOutlineLine, AiOutlineClose } from "react-i
 import { BiSolidPencil, BiDotsHorizontalRounded } from "react-icons/bi";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-
+import UserContext from '../../pages/details/UserContext';
 
 
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
 
 function Detailnum2(props) {
   const [loading, setLoading] = useState(true);
-
+  const [comment,setComment] = useState([]);
+  const { commentss, setCommentss } = useContext(UserContext);
   useEffect(() => {
     const token = cookies.token;
 
@@ -114,7 +115,7 @@ function Detailnum2(props) {
       axios.post("http://localhost:8085/details/commentSave", data, config)
         .then((response) => {
           console.log(response.data);
-// ////////////////////////////////////////////////////////////
+          setCommentss(response.data);
           
         })
         .catch((error) => {

@@ -232,7 +232,10 @@ public class DetailController {
 
         return a;
     }
-
+    @RequestMapping("details/getComments")
+    public List<CommentDataDto> getCommentMovie(@RequestParam("movieId") int movieId){
+        return DS.getCommentbyMovieId(movieId);
+    }
     @RequestMapping("details/commentGetUser")
     public CommentUserDTO getCommentUser(@RequestParam("userCd") int userCd){
 
@@ -316,6 +319,7 @@ public class DetailController {
         System.out.println(c);
         return c;
     }
+
 
     @RequestMapping("details/getWantToSee")
     public JSONObject getWantToSee(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){

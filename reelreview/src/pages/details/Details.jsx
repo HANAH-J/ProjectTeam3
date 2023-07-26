@@ -14,7 +14,7 @@ import LoginSuccess_header_noneBackground from "../../components/Header/LoginSuc
 import { useEffect, useState } from "react";
 import { useCookies } from 'react-cookie';
 import axios from "axios";
-
+import UserContext from './UserContext';
 
 
 function Details() {
@@ -162,10 +162,10 @@ function Details() {
           window.removeEventListener("scroll", handleScroll);
         };
       }, []);
-
+      const[commentss,setCommentss] = useState(null);
 
       return (
-        
+      <UserContext.Provider value={{ commentss , setCommentss}}>
         <div className={styles.Detail_box}>
        {renderHeader()}
         {movieData ? (<>
@@ -180,7 +180,7 @@ function Details() {
         </>) : (<></>)}
         <Footer></Footer>
     </div>
-
+    </UserContext.Provider>
     );
 }
 
