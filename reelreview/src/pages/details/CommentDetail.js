@@ -70,11 +70,9 @@ export default function CommentDetail(props){
       const token = cookies.token;
       if (token) {
           setLoggedIn(true);
-          fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
-          console.log('상세페이지 토큰' + token);
+          fetchUserData(token); 
       } else {
           setLoggedIn(false);
-          console.log('not logged in');
       }
     }, [cookies.token]);
 

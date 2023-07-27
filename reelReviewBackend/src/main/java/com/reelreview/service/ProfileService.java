@@ -36,13 +36,15 @@ public class ProfileService {
 
     public UserEntity getCurrentUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = (String) authentication.getPrincipal();
 
         if (authentication == null) {
             System.out.println("Authentication is null");
             return null;
         }
+
+        String userEmail = (String) authentication.getPrincipal();
         UserEntity userEntity = userRepository.findByUserEmail(userEmail);
+
         if (userEntity != null) {
             return userEntity;
         } else {
