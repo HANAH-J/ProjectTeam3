@@ -47,7 +47,7 @@ public class JwtTokenProvider {
 
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         String userEmail = principalDetails.getUserEntity().getUserEmail();
-        // System.out.println("토큰 userEntity" + principalDetails.getUserEntity());
+
 
         UserEntity userInfo = userRepository.findByUserEmail(userEmail);
         

@@ -67,10 +67,10 @@ export default function ChangePw({ userEmail, setShowChangePasswordModal, signOu
             userPassword: password
         }).then((response) => {
             if (response.data === true) {
-                // console.log("비밀번호 변경 성공");
+       
                 setChangePasswordAlert(true);
             } else {
-                // console.log("비밀번호 변경 실패");
+
             }
         }).catch((error) => { console.log('데이터 전송 실패', error); });
     };

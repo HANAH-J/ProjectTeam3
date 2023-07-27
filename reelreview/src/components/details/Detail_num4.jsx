@@ -7,8 +7,6 @@ import UserContext from '../../pages/details/UserContext';
 function Detailnum4(props) {
     const movieData = props.movieData;
     const {commentss} = useContext(UserContext);
-   
-    console.log(commentss);
     return(
         <div className={styles.wrapper}>
             <div className={styles.topHead}>

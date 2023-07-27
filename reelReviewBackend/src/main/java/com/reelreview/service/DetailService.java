@@ -45,7 +45,7 @@ public class DetailService {
 
     public List<MovieImagesDTO> findImagesByMovieCd(Long movieId) {
         List<MovieImagesDTO> m = MIR.findByMovieCd(movieId);
-        System.out.println("Service : "+m);
+
         return m;
     }
 
@@ -100,7 +100,7 @@ public class DetailService {
         m.setUserCd(userCd);
         m.setWantToSeeId(userCd,movieId);
         WantToSeeDataDto a  = WDR.save(m);
-        System.out.println(a);
+
         if(a!=null){
             dataSaved = 1;
         }
@@ -202,10 +202,10 @@ public class DetailService {
         WDR.findById(w.getWantToSeeId());
 
         if(WDR.findById(w.getWantToSeeId()) == null){
-            System.out.println("want");
+
             return "want";
         }else{
-            System.out.println("no");
+
 
             return "no";
         }
@@ -231,5 +231,9 @@ public class DetailService {
 
     public List<CommentDataDto> getCommentbyMovieId(int movieId) {
         return CDR.findByMovieId(movieId);
+    }
+
+    public List<RatingDataDto> getfullRating() {
+        return RDR.findAll();
     }
 }

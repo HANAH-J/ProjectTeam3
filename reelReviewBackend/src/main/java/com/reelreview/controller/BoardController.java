@@ -104,7 +104,7 @@ public class BoardController {
 
         boardService.boardDelete(boardCd);
 
-        System.out.println("삭제 완료");
+
 
     }
 
@@ -159,7 +159,7 @@ public class BoardController {
     @GetMapping("/commentList")
     public List<BoardCommentDTO> commentLists(@RequestParam(value = "boardCd",
             required = false) Integer boardCd) {
-        System.out.println(boardService.getComments(boardCd));
+
         return boardService.getComments(boardCd);
     }
 

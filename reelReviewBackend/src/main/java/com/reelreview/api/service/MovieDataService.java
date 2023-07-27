@@ -82,7 +82,6 @@ public class MovieDataService{
             if(name.contains(":")){
                 name = name.substring(0,name.indexOf(":"));
             }
-            System.out.println(name);
 
             String query = URLEncoder.encode(name,"UTF-8");
 

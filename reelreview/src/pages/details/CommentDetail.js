@@ -162,7 +162,7 @@ export default function CommentDetail(props){
       };
       const sendFormData = () => {
         setShowCommentForm(false);
-        console.log(commentValue);
+
         const token = cookies.token;
         if (token) {
             const config = {
@@ -176,8 +176,8 @@ export default function CommentDetail(props){
             data.append('cCommentContent', commentValue);
             data.append('commentId', comment.commentId);
             axios.post("http://localhost:8085/details/cCommentSave", data,config)
-                .then((response) => {
-                    console.log(response.data);
+                .then(() => {
+    
                 })
                 .catch((error) => {
                     console.error('Error fetching data:', error);

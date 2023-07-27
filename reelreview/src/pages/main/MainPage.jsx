@@ -23,7 +23,7 @@ export default function MainPage() {
   const [userData, setUserData] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const {number,setNumber} = useContext(NumberContext);
-  setNumber(movieList.number);
+  
   // JWT 토큰
   const getMain = async (token) => {
     const requestData = {
@@ -51,7 +51,7 @@ export default function MainPage() {
         };
         setUserData(userDTO);
         setProfileData(profileDTO);
-        console.log(userDTO.username + ' is logged in');
+ 
       })
       .catch((error) => '');
   }
@@ -67,9 +67,9 @@ export default function MainPage() {
     axios.post("http://localhost:8085/api/directorNactorNgenreSearchByDate")
       .then((response) => {
         // 요청에 대한 성공 처리
-        console.log(response.data);
+    
         setMovieList(response.data);
-
+        setNumber(response.data.number);
       })
       .catch((error) => {
         // 요청에 대한 실패 처리

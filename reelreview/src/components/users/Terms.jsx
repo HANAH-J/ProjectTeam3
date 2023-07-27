@@ -14,7 +14,7 @@ export default function Terms({ setSignUpModalState, setTermsModalState, onSubmi
     // 약관 동의 입력값 검사 결과 저장소
     const isAllTermsAgreed = () => {
         let result = checkItems.includes('check_1') && checkItems.includes('check_2');
-        // console.log('약관 동의 결과 :' + result);
+
         return result;
     };
 

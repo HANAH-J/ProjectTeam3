@@ -88,13 +88,11 @@ function Details() {
         if (token) {
             setLoggedIn(true);
             fetchUserData(token); // 토큰이 유효하다면 사용자 데이터를 가져오는 함수 호출
-            console.log('상세페이지 토큰' + token);
+
 
         } else {
             setLoggedIn(false);
-            console.log('not logged in');
-            //alert('로그인을 해주세요.'); 
-            //navigate('/'); // 토큰이 없을 경우 메인으로 리디렉션
+
         }
     }, [cookies.token]);
 
@@ -129,21 +127,20 @@ function Details() {
 
                 setUserData(userDTO);
                 setProfileData(profileDTO);
-                console.log(userDTO.username + ' is logged in');
+
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
     }
 
-    // console.log(item);
+
     useEffect(() => {
         const movieId = item.movieId;
-        console.log(movieId);
         axios.get("http://localhost:8085/api/getMovieFulldata", { params: { movieId: movieId } }).then((response) => {
             setMovieData(response.data);
             setCommentss(response.data.comments)
-            // console.log(movieData);
+
         }).catch((error) => { console.log(error) })
     }, [item.movieId]);
 

@@ -8,6 +8,7 @@ export default function Num6_similar_col(props) {
     const navigate = useNavigate();
     const onClickDetailPage = (item) =>{
         navigate('',{state:{item}})
+        window.location.reload();
       }
     return (
         <>

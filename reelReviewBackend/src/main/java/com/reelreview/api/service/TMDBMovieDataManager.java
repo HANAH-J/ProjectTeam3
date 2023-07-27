@@ -67,7 +67,7 @@ public class TMDBMovieDataManager{
         List<MovieVideosDTO> videoDTOS = new ArrayList<>();
 
         JSONObject videos = (JSONObject) movieData.get("videos");
-        System.out.println(videos);
+
         JSONArray videoList = (JSONArray)videos.get("results");
 
         for(Object video : videoList){
@@ -90,7 +90,7 @@ public class TMDBMovieDataManager{
         for(Object genre : genres){
             MovieGenresDTO genreDTO = new MovieGenresDTO();
             JSONObject gen = (JSONObject)genre;
-            System.out.println(gen);
+
             genreDTO.setGenreId( ((Long)gen.get("id")).intValue());
             genreDTO.setMovieCd((Long) movieData.get("id"));
             genreDTO.setGenreName((String) gen.get("name"));

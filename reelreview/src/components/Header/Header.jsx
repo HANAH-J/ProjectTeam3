@@ -27,7 +27,7 @@ export default function Header() {
 
     axios.post("http://localhost:8085/api/movieSearch", formData)
       .then((response) => {
-        console.log(response.data);
+
         setMovieList(response.data);
         navigate('/searchSuccess', { state: { movieList: response.data, searchedName: name } });
       })
