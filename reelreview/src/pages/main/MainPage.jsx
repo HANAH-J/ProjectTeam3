@@ -69,7 +69,7 @@ export default function MainPage() {
         // 요청에 대한 성공 처리
     
         setMovieList(response.data);
-        setNumber(movieList.number);
+        setNumber(response.data.number);
       })
       .catch((error) => {
         // 요청에 대한 실패 처리

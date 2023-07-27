@@ -39,6 +39,7 @@ public class DetailController {
     @Autowired
     private MovieDataService movieDataService;
 
+
     @RequestMapping("api/getMovieImages")
     public List<MovieImagesDTO> getMovieImages(@RequestParam("movieId") int movieId){
         Long movieCd = Long.valueOf(movieId);
@@ -79,7 +80,7 @@ public class DetailController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping("details/setRating")
-    public List<RatingDataDto> setUserRating(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
+    public JSONObject setUserRating(HttpServletRequest request, @RequestHeader("Authorization") String authorizationHeader){
         String token = authorizationHeader;
         double rate = Double.parseDouble(request.getParameter("rate"));
         int movieId = Integer.parseInt(request.getParameter("movieId"));
@@ -108,9 +109,13 @@ public class DetailController {
         int saved = 0;
         saved = DS.saveRating(rate,userCd,movieId);
         List<RatingDataDto> r = DS.getRatingDataBymovieId(movieId);
+        List<RatingDataDto> ratingList = DS.getfullRating();
+        int number = ratingList.size();
 
-
-        return r;
+        JSONObject s = new JSONObject();
+        s.put("ratingData" , r);
+        s.put("number",number);
+        return s;
     }
 
 

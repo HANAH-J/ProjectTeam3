@@ -15,8 +15,11 @@ export default function Charts(props) {
 
   const result = Object.entries(rateCountMap).map(([rate, number]) => ({
     rate: parseFloat(rate),
-    number
+    number,
   }));
+
+  // rate를 기준으로 오름차순 정렬
+  result.sort((a, b) => a.rate - b.rate);
 
   return (
     <ResponsiveContainer width="100%" height="100%">

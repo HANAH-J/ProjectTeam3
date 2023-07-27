@@ -8,8 +8,9 @@ function MoviePeople(props) {
     return (
         <div className={styles.people1}>
             {castData.map((cast, index) => (
-                <div key={index} className={styles.people1_1}>
+                <>
                     {cast && cast.peopleImage ? (
+                        <div key={index} className={styles.people1_1}>
                         <div className={styles.people_link}>
                             {cast.peopleImage && (
                                 <div className={styles.people_img}>
@@ -21,11 +22,12 @@ function MoviePeople(props) {
                                 <p>{cast.character}</p>
                             </div>
                         </div>
+                        </div>
                     ) : (
                         <></>
                     )}
-                </div>
-            ))}
+                
+                </>))}
         </div>
     );
 }

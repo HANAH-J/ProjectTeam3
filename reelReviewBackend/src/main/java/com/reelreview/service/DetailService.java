@@ -232,4 +232,8 @@ public class DetailService {
     public List<CommentDataDto> getCommentbyMovieId(int movieId) {
         return CDR.findByMovieId(movieId);
     }
+
+    public List<RatingDataDto> getfullRating() {
+        return RDR.findAll();
+    }
 }

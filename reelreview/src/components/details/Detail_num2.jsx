@@ -192,8 +192,8 @@ function Detailnum2(props) {
       // data.append('config',config)
       axios.post("http://localhost:8085/details/setRating", data, config)
         .then((response) => {
-          setRatingData(response.data);
-          setNumber(number+1)
+          setRatingData(response.data.ratingData);
+          setNumber(response.data.number);
 
         })
         .catch((error) => {
