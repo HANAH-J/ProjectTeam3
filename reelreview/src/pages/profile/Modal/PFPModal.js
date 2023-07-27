@@ -131,7 +131,6 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
 
     axios.put('http://localhost:8085/userProfiles/updateUserStatus', dataToSend)
       .then(response => {
-        console.log("user status updated");
         setShowEditTextModal(false); //모달닫기
         setOpenModal(false); //모달닫기
         window.location.reload(); //새로고침
@@ -167,10 +166,9 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       },
     })
       .then(response => {
-        setShowEditTextModal(false); //모달닫기
-        setOpenModal(false); //모달닫기
-        window.location.reload(); //새로고침
-        console.log("user PFP updated");
+        setShowEditPFPModal(false); 
+        setOpenModal(false); 
+        window.location.reload();
       })
       .catch(error => {
         console.error('Error updating PFP:', error);
@@ -185,10 +183,10 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       imageValue: "defaultPfImage",
     })
       .then(response => {
-        setShowEditTextModal(false); //모달닫기
-        setOpenModal(false); //모달닫기
-        window.location.reload(); //새로고침
-        console.log("user PFP updated to default image");
+        setShowEditPFPModal(false); 
+        setOpenModal(false); 
+        window.location.reload(); 
+        //console.log("user PFP updated to default image");
       })
       .catch(error => {
         console.error('Error updating PFP:', error);
@@ -221,10 +219,9 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       },
     })
       .then(response => {
-        setShowEditTextModal(false); //모달닫기
-        setOpenModal(false); //모달닫기
-        window.location.reload(); //새로고침
-        console.log("user PFB updated");
+        setShowEditPFBModal(false); 
+        setOpenModal(false); 
+        window.location.reload(); 
       })
       .catch(error => {
         console.error('Error updating PFB:', error);
@@ -240,10 +237,10 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       imageValue: "defaultBgImage",
     })
       .then(response => {
-        setShowEditTextModal(false); //모달닫기
-        setOpenModal(false); //모달닫기
-        window.location.reload(); //새로고침
-        console.log("user PFB updated to default image");
+        setShowEditPFBModal(false); 
+        setOpenModal(false); 
+        window.location.reload(); 
+        //console.log("user PFB updated to default image");
       })
       .catch(error => {
         console.error('Error updating PFB:', error);

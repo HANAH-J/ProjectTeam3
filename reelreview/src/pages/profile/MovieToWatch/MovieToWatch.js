@@ -18,7 +18,6 @@ function MovieToWatch() {
 
   const navigate = useNavigate();
   const goToMovie = (movieDetails) => {
-    console.log(movieDetails);
     navigate('/details',{state:{"item":movieDetails}})
   };
   
@@ -30,8 +29,6 @@ function MovieToWatch() {
       fetchUserData(token);
     } else {
       setLoggedIn(false);
-      console.log('not logged in');
-      console.log('token' + token);
     }
   }, [cookies.token]);
 
