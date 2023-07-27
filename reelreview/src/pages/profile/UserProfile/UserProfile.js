@@ -94,7 +94,6 @@ function UserProfile() {
             setProfileData(profileDTO);
             setRatings(ratings);
             setMovieDetails(movieDetails);
-   
           })
           .catch(error => {
             console.error('Error fetching data:', error);
