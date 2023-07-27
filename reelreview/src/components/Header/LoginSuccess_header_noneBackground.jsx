@@ -20,8 +20,6 @@ export default function LoginSuccess_header_noneBackground({ profileData, userDa
   
   // 로그아웃 확인 알림창
   const [showSignOutAlert, setShowSignOutAlert] = useState(false);
-  const openSignOutAlert = () => { setShowSignOutAlert(true) };
-  const closeSignOutAlert = () => { setShowSignOutAlert(false) };
 
   // 로그아웃 로직
   const signOutHandler = () => {
@@ -72,8 +70,8 @@ export default function LoginSuccess_header_noneBackground({ profileData, userDa
               </form>
             </div>
           </li>
-          <li className={styles.nameLi} onClick={openSignOutAlert}> 로그아웃 </li>
-          {showSignOutAlert && <SignOutAlert closeSignOutAlert={closeSignOutAlert} signOutHandler={signOutHandler} SignOutHeader={'SignOutHeader'}/>}
+          <li className={styles.nameLi} onClick={() => {setShowSignOutAlert(true)}}> 로그아웃 </li>
+          {showSignOutAlert && <SignOutAlert setShowSignOutAlert={setShowSignOutAlert} signOutHandler={signOutHandler} SignOutHeader={'SignOutHeader'}/>}
           <Link to="/csMain" className={styles.csMainPage} style={{ textDecoration: 'none' }}>
             <li className={styles.nameLi}> 문의하기 </li>
           </Link>
