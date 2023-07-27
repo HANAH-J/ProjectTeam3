@@ -19,7 +19,7 @@ export default function Footer(props) {
               </li>
               <br/><br/>
               <li className="footerText">
-                고객센터&nbsp; |&nbsp; cs@reelreview.co.kr, 02-515-9985
+                고객센터&nbsp; |&nbsp; cs@reelreview.co.kr, 031-123-4567
               </li>
               <br/>
               <li className="footerText">
@@ -27,7 +27,7 @@ export default function Footer(props) {
               </li>
               <br/>
               <li className="footerText">
-                주식회사 릴리뷰&nbsp; | &nbsp;서울특별시 서초구 강남대로 343 신덕빌딩 3층
+                주식회사 릴리뷰&nbsp; | &nbsp;경기도 수원시 팔달구 매산로 12-1
               </li>
               <br/><br/>
               <li className="footerText">
@@ -40,9 +40,8 @@ export default function Footer(props) {
             </ul>
           </div>
           <div className="footer-sns">
-            <a href="#" className='facebook_logo'></a>
-            <a href="#" className='insta_logo'></a>
-            <a href="#" className='twitter_logo'></a>
+            <a href="http://github.com/HANAH-J/REEL-REVIEW" target='blank' className='github_logo'></a>
+            <a href="http://project-team-3.notion.site/REEL-REVIEW-eb057e560ac741fdaa5f3767858e8449?pvs=4" target='blank' className='notion_logo'></a> 
           </div>
         </div>
       </div>
