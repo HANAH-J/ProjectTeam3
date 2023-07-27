@@ -68,7 +68,6 @@ public class ApiDataUnwrap {
         if (jArray.size() > 1){
             for(int i=0; i<jArray.size(); i++){
                 JSONObject jsonObj = (JSONObject)jArray.get(i);
-                System.out.println("TMDB 출시일"+jsonObj.get("release_date")+"  KRDB 출시일"+KRDBDate );
                 String TMDBDate = ""+jsonObj.get("release_date");
                 String TMDBDateYear = TMDBDate.substring(0,4);
                 String KRDBDateYear = KRDBDate.substring(0,4);
@@ -78,7 +77,6 @@ public class ApiDataUnwrap {
                 }
                 double similarity = calculateStringSimilarity(KRDBName, TMDBName);
                 int percentage = (int) (similarity * 100);
-                System.out.println(percentage);
 
                 if(jsonObj.get("release_date").equals(KRDBDate)){
                     topTen.add(jsonObj);
@@ -127,7 +125,6 @@ public class ApiDataUnwrap {
             TMDBMovieDataManager tmdbMovieDataManager = new TMDBMovieDataManager();
 
             JSONObject tmdbData = tmdbMovieDataManager.TMDBMovieJsonObjectToNeededDataJsonObject(jsonMain);
-            System.out.println(tmdbData);
             fullData.add(tmdbData);
 
         }

@@ -72,7 +72,7 @@ public class DetailController {
         fulldata.put("comments", comments);
         fulldata.put("ratings", ratings);
 
-        System.out.println("==================================================================================================================================" + ratings);
+
 
         return fulldata;
     }
@@ -83,7 +83,6 @@ public class DetailController {
         String token = authorizationHeader;
         double rate = Double.parseDouble(request.getParameter("rate"));
         int movieId = Integer.parseInt(request.getParameter("movieId"));
-        System.out.println(token);
 
         if (token != null && token.startsWith("Bearer ")) { // 토큰 형식 검사
             token = token.substring(7);
@@ -240,12 +239,12 @@ public class DetailController {
     public CommentUserDTO getCommentUser(@RequestParam("userCd") int userCd){
 
         UserEntity user = DS.findUserByUserCd(userCd);
-        System.out.println(user);
+
         if(user==null){
             return null;
         }
         ProfileDTO profile = DS.findProfileByUser(user);
-        System.out.println(profile);
+
         CommentUserDTO cud = new CommentUserDTO();
         cud.setUserName(user.getUsername());
         cud.setPFImage(profile.getPfImage());
@@ -316,7 +315,7 @@ public class DetailController {
     @RequestMapping("details/getCcomment")
     public List<CcommentDataDto> getCcomment(@RequestParam("commentId") int commentId){
         List<CcommentDataDto> c = DS.getCcommentByCommentId(commentId);
-        System.out.println(c);
+
         return c;
     }
 
@@ -330,21 +329,21 @@ public class DetailController {
             token = token.substring(7);
         } else {
             String errorResponse = "유효하지 않은 토큰 형식1";
-            System.out.println(errorResponse);
+
         }
 
         // 토큰 유효성 검사 ... 만료된 토큰이거나, 서명 키가 일치하지 않는 토큰
         String userEmail = jwtTokenProvider.validate(token);
         if (userEmail == null) {
             String errorResponse = "유효하지 않은 토큰 형식2";
-            System.out.println(errorResponse);
+
         }
 
         UserEntity userEntity = profileService.getCurrentUserDetails();
 
         if(userEntity == null) {
             String errorResponse = "유효하지 않은 토큰 형식3";
-            System.out.println(errorResponse);
+
         }
         int userCd = userEntity.getUserCd();
         String want = DS.getWantToSee(userCd,movieId);

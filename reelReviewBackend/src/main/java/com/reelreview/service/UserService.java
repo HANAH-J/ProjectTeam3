@@ -274,8 +274,6 @@ public class UserService {
     // [회원탈퇴]
     public void updateDeleteDate(String userEmail) {
         UserEntity userEntity = userRepository.findByUserEmail(userEmail);
-        System.out.println(userEmail);
-        System.out.println(userEntity);
         if (userEntity != null) {
             userEntity.setDeleteDate(new Timestamp(System.currentTimeMillis()));    // 회원탈퇴 날짜 저장
             userEntity.setUsername(null);

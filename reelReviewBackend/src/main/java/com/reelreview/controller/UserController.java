@@ -23,7 +23,7 @@ public class UserController {
     @PostMapping("/emailCheck")
     public boolean emailCheck(@RequestBody EmailCheckDto requestBody) {
         boolean result = userService.emailCheck(requestBody);
-        System.out.println(result);
+
         return result;
     }
 
@@ -60,7 +60,7 @@ public class UserController {
     @PostMapping("/signOutForever")
     public String signOutForever(@RequestBody EmailCheckDto requestBody) {
         String userEmail = String.valueOf(requestBody.getUserEmail());
-        // System.out.println("탈퇴 메일 : " + userEmail);
+
         userService.updateDeleteDate(userEmail);
         return "";
     }

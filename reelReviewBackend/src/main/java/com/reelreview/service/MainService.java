@@ -73,7 +73,7 @@ public class MainService {
 
     public List<MovieDetailsDTO> getMovieListFromDirector(String name) throws IOException, InterruptedException, ParseException {
         String query = URLEncoder.encode(name,"UTF-8");
-        System.out.println(query);
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.themoviedb.org/3/search/person?query="+query+"&include_adult=false&language=ko"))
                 .header("accept", "application/json")
@@ -84,7 +84,7 @@ public class MainService {
 
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(response.body());
-        System.out.println(obj);
+
         JSONObject jobj = (JSONObject) obj;
         JSONArray jary = (JSONArray) jobj.get("results");
         //임시로 0번만
@@ -205,7 +205,7 @@ public class MainService {
     }
     public List<MovieDetailsDTO> getMovieListFromActor(String name) throws ParseException, IOException, InterruptedException {
         String query = URLEncoder.encode(name,"UTF-8");
-        System.out.println(query);
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.themoviedb.org/3/search/person?query="+query+"&include_adult=false&language=ko"))
                 .header("accept", "application/json")
@@ -216,7 +216,7 @@ public class MainService {
 
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(response.body());
-        System.out.println(obj);
+
         JSONObject jobj = (JSONObject) obj;
         JSONArray jary = (JSONArray) jobj.get("results");
         //임시로 0번만
@@ -233,7 +233,7 @@ public class MainService {
                 .build();
         HttpResponse<String> response2 = HttpClient.newHttpClient().send(request2, HttpResponse.BodyHandlers.ofString());
         Object obj2 = parser.parse(response2.body());
-        System.out.println(obj2);
+
         JSONObject jobj2 = (JSONObject) obj2;
         JSONArray jary2 = (JSONArray) jobj2.get("cast");
         List<MovieDetailsDTO> actorSearchDataList = new ArrayList<>();

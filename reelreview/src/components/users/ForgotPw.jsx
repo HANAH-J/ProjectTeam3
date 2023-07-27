@@ -19,7 +19,7 @@ export default function ForgotPw({ setForgotPwModalState, setSignInModalState })
         axios.post('http://localhost:8085/api/auth/providerCheck', {
             userEmail: email,
         }).then((response) => {
-            // console.log('임시 비밀번호 전송 결과 : ' + response.data);
+
             if (response.data === 'emailProviderPass') {    // 임시 비밀번호 발급 가능
                 axios.post('http://localhost:8085/api/auth/resetPw/sendEmail', {
                     userEmail: email,

@@ -45,7 +45,7 @@ export default function SearchSuccess() {
                 };
                 setUserData(userDTO);
                 setProfileData(profileDTO);
-                console.log(userDTO.username + ' is logged in');
+
             })
             .catch((error) => '');
     }

@@ -90,10 +90,10 @@ function PFPModal({ setOpenModal, userCd, userEmail, removeUser }) {
       userEmail: userEmail
     }).then((response) => {
       if (response.data === 'emailProviderPass') {
-        // console.log("일반 로그인");
+   
         openChangePasswordModal();
       } else if (response.data === 'existProvider') {
-        // console.log("소셜 로그인");
+
         openProviderAlert();
       }
     }).catch((error) => {

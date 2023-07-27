@@ -7,6 +7,7 @@ import { BiSolidPencil, BiDotsHorizontalRounded } from "react-icons/bi";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import UserContext from '../../pages/details/UserContext';
+import NumberContext from '../../pages/details/NumberContext';
 
 
 const IMG_BASE_URL = "https://image.tmdb.org/t/p/original/";
@@ -34,14 +35,12 @@ function Detailnum2(props) {
           if (response.data.want == 'want') {
             setWantTo(true);
             const prevRating = response.data.rate;
-            console.log(prevRating);
             if (prevRating) {
               setRating(prevRating);
             }
           } else {
             setWantTo(false);
             const prevRating = response.data.rate;
-            console.log(prevRating);
             if (prevRating) {
               setRating(prevRating);
             }
@@ -56,8 +55,6 @@ function Detailnum2(props) {
         });
     } else {
       setLoggedIn(false);
-      console.log('not logged in');
-      console.log('token' + token);
       // 로그인 콘솔 띄우기
 
       // 데이터 로딩이 완료되면 loading 상태를 false로 설정
@@ -67,7 +64,6 @@ function Detailnum2(props) {
 
   const [rate, setRating] = useState(0);
   const [ratingData,setRatingData] = useState(props.movieData.ratings);
-  console.log(ratingData);
   const sum = ratingData.reduce((total, rateObject) => total + rateObject.rate, 0);
   const avg = ratingData.length === 0 ? 0 : sum / ratingData.length;
   
@@ -99,7 +95,7 @@ function Detailnum2(props) {
 
   const sendFormData = () => {
     setShowCommentForm(false);
-    console.log(commentValue);
+
     const token = cookies.token;
     if (token) {
       const config = {
@@ -114,7 +110,6 @@ function Detailnum2(props) {
       data.append('movieId', movie.movieId);
       axios.post("http://localhost:8085/details/commentSave", data, config)
         .then((response) => {
-          console.log(response.data);
           setCommentss(response.data);
           
         })
@@ -123,8 +118,6 @@ function Detailnum2(props) {
         });
     } else {
       setLoggedIn(false);
-      console.log('not logged in');
-      console.log('token' + token);
       alert('로그인을 해주세요.');
       // 로그인 콘솔 띄우기
     }
@@ -134,8 +127,7 @@ function Detailnum2(props) {
   // 보고싶어요 클릭시 서버로 보고싶어요 데이터 보내서 정보저장
   const wantToSee = () => {
     const token = cookies.token;
-    console.log(wantTo);
-
+ 
     if (token) {
       const config = {
         headers: {
@@ -151,9 +143,7 @@ function Detailnum2(props) {
         data.append('movieId', movie.movieId);
         axios
           .post("http://localhost:8085/details/wantToSee", data, config)
-          .then((response) => {
-            console.log(response.data);
-            
+          .then(() => {
             setWantTo(true);
           })
           .catch((error) => {
@@ -165,8 +155,8 @@ function Detailnum2(props) {
         data.append('movieId', movie.movieId);
         axios
           .post("http://localhost:8085/details/wantToSeeOut", data, config)
-          .then((response) => {
-            console.log(response.data);
+          .then(() => {
+
             setWantTo(false);
           })
           .catch((error) => {
@@ -175,15 +165,13 @@ function Detailnum2(props) {
       }
     } else {
       setLoggedIn(false);
-      console.log('not logged in');
-      console.log('token' + token);
       alert("로그인하세요");
     }
   }
 
 
 
-
+  const {number,setNumber} = useContext(NumberContext);
   //레이팅 클릭시 서버로 데이터 보내서 정보 저장
   const handleRating = (rate) => {
     const token = cookies.token;
@@ -204,21 +192,20 @@ function Detailnum2(props) {
       // data.append('config',config)
       axios.post("http://localhost:8085/details/setRating", data, config)
         .then((response) => {
-          console.log(response.data);
           setRatingData(response.data);
+          setNumber(number+1)
+
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
         });
     } else {
       setLoggedIn(false);
-      console.log('not logged in');
-      console.log('token' + token);
       alert('로그인하세요');
     }
   }
   const tooltipArray = ["0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"];
-  const onPointerMove = (rate) => console.log(rate)
+  const onPointerMove = (rate) => {};
   // userCd
 
   // 상세보기 영화 내용 요약본 글 줄맞춤

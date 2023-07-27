@@ -89,12 +89,12 @@ export default function SignIn({ setSignInModalState, setSignUpModalState }) {
                 const responseData = response.data;
                 if (!responseData.result) {
                     if (responseData.message === 'noExistEmail') {
-                        // console.log('로그인 실패 : 존재하지 않는 이메일');
+
                         setNoExistEmailAlert(true);
                     } else if (responseData.message === 'deletedUser') {
                         setDeletedUserAlert(true);
                     } else if (responseData.message === 'wrongPassword') {
-                        // console.log('로그인 실패 : 잘못된 비밀번호');
+
                         setWrongPasswordAlert(true);
                     }
                     return;

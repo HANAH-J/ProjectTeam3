@@ -70,7 +70,7 @@ export default function MainPage() {
     axios.post("http://localhost:8085/api/directorSearch", formData)
       .then((response) => {
         // 요청에 대한 성공 처리
-        console.log(response.data);
+
         setMovieList(response.data);
         // 받은 데이터에 대한 추가 처리
       })
@@ -97,7 +97,7 @@ export default function MainPage() {
     axios.post("http://localhost:8085/api/actorSearch", formData)
       .then((response) => {
         // 요청에 대한 성공 처리
-        console.log(response.data);
+
         setMovieListActor(response.data);
         // 받은 데이터에 대한 추가 처리
       })
@@ -124,7 +124,7 @@ export default function MainPage() {
     axios.post("http://localhost:8085/api/genreSearch", formData)
       .then((response) => {
         // 요청에 대한 성공 처리
-        console.log(response.data);
+
         setMovieListGenre(response.data);
         // 받은 데이터에 대한 추가 처리
       })

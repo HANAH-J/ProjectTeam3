@@ -1,4 +1,4 @@
-import imgs from '../../../img/Detail/poster.jpg';
+
 import styles from '../../../css/details/Detail_num6.module.css';
 
 
@@ -10,16 +10,16 @@ export default function CollectionBoxes(){
             <div className={styles.colImgBox}>
                 <a href='./collection'>
                     <div className={styles.colImg}>
-                        <img src={imgs}></img>
+                        {/* <img src={#}></img> */}
                     </div>
                     <div className={styles.colImg}>
-                        <img src={imgs}></img>
+                        {/* <img src={#}></img> */}
                     </div>
                     <div className={styles.colImg}>
-                        <img src={imgs}></img>
+                        {/* <img src={}></img> */}
                     </div>
                     <div className={styles.colImg}>
-                        <img src={imgs}></img>
+                        {/* <img src={}></img> */}
                     </div>
                 </a>
             </div>

@@ -58,7 +58,7 @@ public class MainController {
     @RequestMapping("api/movieSearch")
     public List<MovieDetailsDTO> search(@RequestParam String name) {
         List<MovieDetailsDTO> searchList = MS.getMovieListFromTitle(name);
-        System.out.println(searchList);
+
         return searchList;
     }
 
